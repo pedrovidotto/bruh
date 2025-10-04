@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentBtn) {
       currentBtn.classList.add("active");
     }
-    // REMOVED: localStorage.setItem("lastActiveDay", dayIndex);
     renderWorkout(dayIndex, workoutData);
   }
 
@@ -220,18 +219,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const listItem = e.target.closest(".list-item");
       if (!listItem) return;
 
-      const { progressId, dayIndex, type, index } = listItem.dataset;
-
-      // Handle Checkbox
-      if (e.target.matches(".checkbox")) {
-        progress[progressId] = e.target.checked;
-        listItem.classList.toggle("completed", e.target.checked);
-        saveProgress();
-        updateDayButtonProgress(workoutData);
-      }
-      
-      // Handle Info Button
+      // Handle Info Button click as an exception
       if (e.target.closest(".info-btn")) {
+        const { dayIndex, type, index } = listItem.dataset;
         const dayData = workoutData[dayIndex];
         let exercise;
         if (type === 'exercise') exercise = dayData.exercises[index];
@@ -241,7 +231,23 @@ document.addEventListener("DOMContentLoaded", () => {
         if (exercise?.instructions) {
           openInfoModal(exercise.name, exercise.instructions);
         }
+        return; // Stop further execution
       }
+
+      // For any other click, toggle the checkbox state
+      const checkbox = listItem.querySelector('.checkbox');
+      const { progressId } = listItem.dataset;
+
+      // If the click was not on the checkbox itself, manually flip its state
+      if (!e.target.matches(".checkbox")) {
+        checkbox.checked = !checkbox.checked;
+      }
+
+      // Apply the new state to progress and UI
+      progress[progressId] = checkbox.checked;
+      listItem.classList.toggle("completed", checkbox.checked);
+      saveProgress();
+      updateDayButtonProgress(workoutData);
     });
 
     resetButton.addEventListener("click", () => openModal(resetModalOverlay));
