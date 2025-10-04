@@ -29,7 +29,6 @@
   </footer>
 </div>
 
-<!-- Info Modal -->
 <div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
     <button id="info-modal-close-btn" aria-label="Close info modal">&times;</button>
@@ -40,7 +39,6 @@
   </div>
 </div>
 
-<!-- Reset Confirmation Modal -->
 <div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
   <div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
     <p id="reset-modal-title">Are you sure you want to reset all your progress for the week?</p>
@@ -50,6 +48,24 @@
     </div>
   </div>
 </div>
+
+<div id="toast-notification" class="toast hidden"></div>
+
+<template id="exercise-template">
+    <li class="list-item">
+        <input type="checkbox" class="checkbox">
+        <div class="exercise-details">
+            <h3></h3>
+            <p></p>
+        </div>
+        <button class="info-btn" aria-label="Open exercise info">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.055.492.11.558.153.119.09.18.232.18.386v.278l-.623.248c-.22.088-.386.178-.482.275a.703.703 0 0 0-.145.292c-.055.119-.083.25-.083.396v.27c0 .15.03.284.083.396.056.119.145.22.258.3.115.08.287.14.51.178l.21.054.352.016.352.016v.248c0 .15-.055.27-.165.352-.11.083-.282.125-.515.125h-.153c-.352 0-.646-.056-.88-.166-.233-.11-.42-.283-.558-.515-.138-.232-.207-.515-.207-.852v-.27c0-.212.046-.41.138-.59.092-.18.24-.343.44-.488l.258-.184c.178-.125.31-.254.396-.396.086-.14.13-.296.13-.468v-.247c0-.14-.046-.26-.138-.36-.092-.1-.233-.16-.42-.19l-.258-.055-.21-.016-.21-.016-.083-.38.45-.083.294-.055c.11-.02.247-.055.405-.11.16-.055.3-.14.41-.258.11-.119.165-.282.165-.488v-.27c0-.352-.083-.646-.25-.88-.166-.233-.42-.42-.75-.558-.33-.138-.75-.207-1.25-.207-.468 0-.88.062-1.24.187-.36.125-.66.305-.91.54l.352.352c.18-.18.4-.315.66-.405.26-.09.53-.135.81-.135.21 0 .385.035.52.105.135.07.24.18.315.315.075.135.11.305.11.515v.27c0 .15-.045.28-.135.39-.09.11-.225.195-.4.255l-.25.085v.01zM7 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+        </button>
+    </li>
+</template>
 
 <script src="script.js"></script>
 </body>
