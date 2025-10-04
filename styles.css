@@ -45,6 +45,7 @@ header h1 {
 #day-selector {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 30px;
@@ -94,6 +95,16 @@ header h1 {
 
 .day-btn.active::before {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+#calorie-counter {
+  background-color: var(--surface-color);
+  color: var(--primary-color);
+  border: 1px dashed var(--border-color);
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 #workout-container {
