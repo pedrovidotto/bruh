@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- WORKOUT DATA ---
+    // All workout information is stored here.
     const workoutData = [
         {
-            day: 1,
-            title: "Chest",
-            duration: "45-55 minutes",
+            day: 1, title: "Chest", duration: "45-55 minutes",
             exercises: [
                 { name: "Incline Dumbbell Press", details: "4 sets of 8-12 reps | 90s rest", instructions: "1. Set bench to a 30-45 degree angle.\n2. Lie back with dumbbells on your thighs, then kick them up to your shoulders.\n3. Press the weights up until your arms are extended, but not locked out.\n4. Lower the dumbbells slowly and controlled back to the sides of your chest." },
                 { name: "Flat Machine Press", details: "3 sets of 10-15 reps | 75s rest", instructions: "1. Adjust the seat so the handles align with your mid-chest.\n2. Press forward, focusing on squeezing your chest muscles together.\n3. Stop just short of locking your elbows.\n4. Return slowly to the starting position, feeling a stretch in your chest." },
@@ -16,9 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardio: { name: "15 minutes of moderate-intensity cardio", instructions: "Choose a machine like the StairMaster or an incline treadmill. Keep a steady pace where you can hold a conversation." }
         },
         {
-            day: 2,
-            title: "Back",
-            duration: "50-60 minutes",
+            day: 2, title: "Back", duration: "50-60 minutes",
             exercises: [
                 { name: "Weighted Pull-ups (or Lat Pulldowns)", details: "4 sets of 8-12 reps | 90s rest", instructions: "1. Grip the bar slightly wider than shoulder-width.\n2. Drive your elbows down and back to pull your chest towards the bar.\n3. Squeeze your back muscles at the top.\n4. Lower yourself slowly and fully extend your arms at the bottom." },
                 { name: "Barbell Row", details: "4 sets of 8-12 reps | 90s rest", instructions: "1. Hinge at your hips, keeping your back straight.\n2. Pull the barbell towards your lower stomach, not your chest.\n3. Squeeze your shoulder blades together at the top.\n4. Lower the bar under control." },
@@ -26,13 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: "Straight-Arm Pulldown", details: "3 sets of 12-15 reps | 60s rest", instructions: "1. Stand facing a high pulley with a straight bar.\n2. Keeping your arms straight, pull the bar down in an arc until it touches your thighs.\n3. Focus on using your lats, not your triceps." },
                 { name: "Hyperextensions", details: "3 sets of 12-15 reps | 60s rest", instructions: "1. Position yourself on a hyperextension bench.\n2. Lower your torso until you feel a stretch in your hamstrings.\n3. Raise back up by squeezing your glutes and lower back." }
             ],
-            abFinisher: null,
-            cardio: null
+            abFinisher: null, cardio: null
         },
         {
-            day: 3,
-            title: "Shoulders",
-            duration: "50-60 minutes",
+            day: 3, title: "Shoulders", duration: "50-60 minutes",
             exercises: [
                 { name: "Seated Dumbbell Press", details: "4 sets of 8-12 reps | 90s rest", instructions: "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height." },
                 { name: "Cable Lateral Raise", details: "4 sets of 12-15 reps | 60s rest", instructions: "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative." },
@@ -44,9 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardio: null
         },
         {
-            day: 4,
-            title: "Quads & Calves",
-            duration: "60-75 minutes",
+            day: 4, title: "Quads & Calves", duration: "60-75 minutes",
             exercises: [
                 { name: "Barbell Back Squats", details: "4 sets of 8-12 reps | 120s rest", instructions: "1. Place the bar on your upper back, not your neck.\n2. Keep your chest up and back straight.\n3. Squat down until your hips are at or below parallel.\n4. Drive up through your heels." },
                 { name: "Leg Press", details: "4 sets of 10-15 reps | 90s rest", instructions: "1. Place your feet shoulder-width apart on the platform.\n2. Lower the weight until your knees are near a 90-degree angle.\n3. Press up, but do not lock your knees." },
@@ -54,13 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: "Leg Extensions", details: "3 sets of 15-20+ reps | 60s rest (Drop set on last set)", instructions: "1. Squeeze your quads hard for 2 seconds at the top of each rep.\n2. Control the weight as you lower it." },
                 { name: "Standing Calf Raises", details: "5 sets of 10-15 reps | 45s rest", instructions: "1. Get a deep stretch at the bottom of the movement.\n2. Press up onto your big toes and pause at the top." }
             ],
-            abFinisher: null,
-            cardio: null
+            abFinisher: null, cardio: null
         },
         {
-            day: 5,
-            title: "Arms (Biceps & Triceps)",
-            duration: "35-45 minutes",
+            day: 5, title: "Arms (Biceps & Triceps)", duration: "35-45 minutes",
             exercises: [
                 { name: "Close-Grip Bench Press", details: "4 sets of 8-12 reps | 90s rest", instructions: "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps." },
                 { name: "Barbell Curls", details: "4 sets of 8-12 reps | 75s rest", instructions: "1. Keep your elbows pinned to your sides.\n2. Curl the weight up without using momentum or swinging your body.\n3. Squeeze your biceps at the top and lower with control." },
@@ -72,9 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardio: { name: "20 minutes of moderate-intensity cardio", instructions: "Choose a machine like the stationary bike or elliptical. This is a great way to improve cardiovascular health without high impact." }
         },
         {
-            day: 6,
-            title: "Hamstrings & Glutes",
-            duration: "55-65 minutes",
+            day: 6, title: "Hamstrings & Glutes", duration: "55-65 minutes",
             exercises: [
                 { name: "Romanian Deadlifts (RDLs)", details: "4 sets of 8-12 reps | 120s rest", instructions: "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start." },
                 { name: "Barbell Hip Thrusts", details: "4 sets of 8-12 reps | 90s rest", instructions: "1. Rest your upper back on a bench.\n2. Drive your hips up powerfully, squeezing your glutes hard at the top.\n3. Keep your chin tucked." },
@@ -82,20 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 { name: "Hip Abduction Machine", details: "4 sets of 15-20+ reps | 60s rest (Double drop set on last set)", instructions: "1. Lean your torso forward to better target the upper glute shelf.\n2. Control the movement, especially on the way back in." },
                 { name: "45-Degree Kickbacks (Cable/Band)", details: "3 sets of 15-20 reps (per leg) | 45s rest", instructions: "1. Kick your leg back and out at a 45-degree angle.\n2. Squeeze your upper glute for a full second at the peak of the movement." }
             ],
-            abFinisher: null,
-            cardio: null
+            abFinisher: null, cardio: null
         },
-        {
-            day: 7,
-            title: "Rest Day",
-            duration: "Focus on recovery",
-            exercises: [],
-            abFinisher: null,
-            cardio: null
-        }
+        { day: 7, title: "Rest Day", duration: "Focus on recovery", exercises: [], abFinisher: null, cardio: null }
     ];
 
-    // DOM Elements
+    // --- DOM ELEMENTS ---
     const daySelector = document.getElementById('day-selector');
     const workoutTitle = document.getElementById('workout-title');
     const workoutDuration = document.getElementById('workout-duration');
@@ -106,14 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalTitle = document.getElementById('modal-title');
     const modalInstructions = document.getElementById('modal-instructions');
     
-    // State
+    // --- STATE MANAGEMENT ---
+    // Load progress from localStorage, or create an empty object if none exists.
     let progress = JSON.parse(localStorage.getItem('broSplitProgressV2')) || {};
 
-    // Functions
+    // Save the current progress object to localStorage.
     function saveProgress() {
         localStorage.setItem('broSplitProgressV2', JSON.stringify(progress));
     }
 
+    // --- CORE LOGIC ---
+
+    // Calculate the weighted progress for a given day (0 to 1).
     function calculateDayProgress(dayIndex) {
         const dayData = workoutData[dayIndex];
         if (dayData.exercises.length === 0) return 0;
@@ -132,50 +116,57 @@ document.addEventListener('DOMContentLoaded', () => {
         const mainWeight = (hasAbs || hasCardio) ? 0.9 : 1.0;
         const extraWeight = (hasAbs && hasCardio) ? 0.05 : 0.1;
 
-        let mainProgress = (completedMainCount / numMainExercises) * mainWeight;
+        // BUG FIX: Prevent division by zero if a day has no main exercises.
+        const mainProgress = numMainExercises > 0 ? (completedMainCount / numMainExercises) * mainWeight : 0;
         
         let extraProgress = 0;
-        if (hasAbs && progress[`day${dayData.day}-ab-finisher-0`]) {
-            extraProgress += extraWeight;
-        }
-        if (hasCardio && progress[`day${dayData.day}-cardio-session-0`]) {
-            extraProgress += extraWeight;
-        }
+        if (hasAbs && progress[`day${dayData.day}-ab-finisher-0`]) extraProgress += extraWeight;
+        if (hasCardio && progress[`day${dayData.day}-cardio-session-0`]) extraProgress += extraWeight;
 
         return mainProgress + extraProgress;
     }
 
+    // Loop through all day buttons and update their progress bars.
     function updateAllProgressBars() {
-        document.querySelectorAll('.day-btn').forEach((btn, index) => {
-            const progressValue = calculateDayProgress(index);
+        document.querySelectorAll('.day-btn').forEach((btn) => {
+            const dayIndex = parseInt(btn.dataset.day, 10);
+            const progressValue = calculateDayProgress(dayIndex);
             const progressBar = btn.querySelector('.progress-bar');
             if (progressBar) {
                 progressBar.style.width = `${progressValue * 100}%`;
             }
         });
     }
+    
+    // --- MODAL LOGIC ---
 
+    // Open the instruction modal with specific content.
     function openModal(title, instructions) {
         modalTitle.textContent = title;
         modalInstructions.textContent = instructions;
         modalOverlay.classList.remove('hidden');
     }
 
+    // Close the instruction modal.
     function closeModal() {
         modalOverlay.classList.add('hidden');
     }
 
+    // --- RENDERING LOGIC ---
+
+    // Render the workout for the selected day.
     function renderWorkout(dayIndex) {
         const dayData = workoutData[dayIndex];
         workoutTitle.textContent = `Day ${dayData.day}: ${dayData.title}`;
         workoutDuration.textContent = `Estimated Duration: ${dayData.duration}`;
         exerciseList.innerHTML = ''; 
 
-        if (dayData.exercises.length === 0) {
+        if (dayData.exercises.length === 0 && !dayData.abFinisher && !dayData.cardio) {
             exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>';
             return;
         }
 
+        // Helper function to create a single list item.
         const createExerciseItem = (exercise, type, index) => {
             const li = document.createElement('li');
             li.className = type;
@@ -193,14 +184,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 li.classList.add('completed');
             }
 
+            // Click exercise item to toggle completion.
             li.addEventListener('click', (e) => {
-                if (e.target.classList.contains('info-btn')) return; // Don't toggle if info button is clicked
+                if (e.target.classList.contains('info-btn')) return;
                 progress[progressId] = !progress[progressId];
                 li.classList.toggle('completed');
                 saveProgress();
                 updateAllProgressBars();
             });
 
+            // Click info button to open modal.
             li.querySelector('.info-btn').addEventListener('click', () => {
                 openModal(exercise.name, exercise.instructions);
             });
@@ -208,11 +201,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return li;
         };
         
-        const mainTitle = document.createElement('h3');
-        mainTitle.className = 'category-title';
-        mainTitle.textContent = 'Main Workout';
-        exerciseList.appendChild(mainTitle);
-        dayData.exercises.forEach((ex, i) => exerciseList.appendChild(createExerciseItem(ex, 'exercise-item', i)));
+        if (dayData.exercises.length > 0) {
+            const mainTitle = document.createElement('h3');
+            mainTitle.className = 'category-title';
+            mainTitle.textContent = 'Main Workout';
+            exerciseList.appendChild(mainTitle);
+            dayData.exercises.forEach((ex, i) => exerciseList.appendChild(createExerciseItem(ex, 'exercise-item', i)));
+        }
 
         if (dayData.abFinisher) {
             const abTitle = document.createElement('h3');
@@ -231,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Set the currently active day button and render its workout.
     function setActiveDay(dayIndex) {
         document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
         const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
@@ -240,7 +236,9 @@ document.addEventListener('DOMContentLoaded', () => {
         renderWorkout(dayIndex);
     }
     
-    // Event Listeners & Initial Setup
+    // --- INITIALIZATION & EVENT LISTENERS ---
+
+    // Create day selector buttons when the page loads.
     workoutData.forEach((day, index) => {
         const btn = document.createElement('button');
         btn.className = 'day-btn';
@@ -251,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         daySelector.appendChild(btn);
     });
 
+    // Add listener for the reset button.
     resetButton.addEventListener('click', () => {
         if (confirm('Are you sure you want to reset all your progress for the week?')) {
             progress = {};
@@ -261,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Add listeners for closing the modal.
     modalCloseBtn.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) {
@@ -268,10 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initialize App
+    // --- APP START ---
     updateAllProgressBars();
-    const today = new Date().getDay(); // Sunday = 0, Monday = 1...
-    // Saturday (6) maps to Day 6 (index 5)
-    const initialDayIndex = today === 0 ? 6 : today - 1; 
+    const today = new Date().getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const initialDayIndex = today === 0 ? 6 : today - 1; // Map to our 0-indexed workoutData array
     setActiveDay(initialDayIndex);
 });
