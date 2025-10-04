@@ -90,7 +90,7 @@ const workoutData = [
   {
     "day": 3,
     "title": "Shoulders",
-    "duration": "50-60 minutes",
+    "duration": "65-75 minutes",
     "exercises": [
       {
         "name": "Seated Dumbbell Press",
@@ -129,7 +129,11 @@ const workoutData = [
       "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs.",
       "calories": 130 // Total
     },
-    "cardio": null
+    "cardio": {
+      "name": "15 minutes of moderate-intensity cardio",
+      "instructions": "Choose a machine like the elliptical or a stationary bike. This helps increase blood flow for recovery without overly taxing the shoulder joints.",
+      "calories": 200 // Total
+    }
   },
   {
     "day": 4,
