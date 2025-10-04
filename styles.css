@@ -5,6 +5,7 @@
   --text-color: #ffffff;
   --text-muted-color: #a0a0a0;
   --border-color: #333333;
+  --success-color: #4caf50;
 }
 
 * {
@@ -57,7 +58,8 @@ header h1 {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s, color 0.3s;
+  transition: all 0.3s;
+  position: relative;
 }
 
 .day-btn:hover {
@@ -69,6 +71,22 @@ header h1 {
   color: #121212;
   border-color: var(--primary-color);
   font-weight: bold;
+}
+
+.day-btn.completed {
+  border-color: var(--success-color);
+}
+
+.day-btn.completed::after {
+  content: "✔";
+  color: var(--success-color);
+  position: absolute;
+  top: -8px;
+  right: -2px;
+  font-size: 1rem;
+  background-color: var(--background-color);
+  border-radius: 50%;
+  padding: 0 4px;
 }
 
 #workout-container {
@@ -87,9 +105,7 @@ header h1 {
   list-style: none;
 }
 
-.exercise-item,
-.ab-finisher,
-.cardio-session {
+.list-item {
   background-color: #2a2a2a;
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -101,16 +117,12 @@ header h1 {
   transition: opacity 0.3s, background-color 0.3s;
 }
 
-.exercise-item.completed,
-.ab-finisher.completed,
-.cardio-session.completed {
+.list-item.completed {
   opacity: 0.5;
   background-color: #222;
 }
 
-.exercise-item.completed .exercise-details,
-.ab-finisher.completed .exercise-details,
-.cardio-session.completed .exercise-details {
+.list-item.completed .exercise-details {
   text-decoration: line-through;
   color: var(--text-muted-color);
 }
@@ -173,6 +185,7 @@ header h1 {
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s;
+  padding: 0;
 }
 
 .info-btn:hover {
@@ -305,4 +318,29 @@ footer {
 }
 #cancel-reset-btn:hover {
   background-color: #555;
+}
+
+/* Toast Notification Styles */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  padding: 15px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.3s, bottom 0.3s;
+  pointer-events: none;
+}
+
+.toast.show {
+  bottom: 40px;
+  opacity: 1;
+}
+.toast.hidden {
+  display: none;
 }
