@@ -1,5 +1,6 @@
 :root {
-  --primary-color: #cccccc;
+  --primary-color: #EE8C46; /* Orange from logo */
+  --destructive-color: #D94C4C; /* Red from logo */
   --background-color: #121212;
   --surface-color: #1e1e1e;
   --text-color: #ffffff;
@@ -19,7 +20,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
   color: var(--text-color);
   line-height: 1.6;
@@ -58,6 +59,26 @@ header h1 {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s, color 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.day-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress, 0%);
+  background-color: rgba(238, 140, 70, 0.25); /* Faded primary color */
+  transition: width 0.4s ease-in-out;
+  z-index: -1;
+}
+
+.day-btn span {
+  position: relative;
+  z-index: 2;
 }
 
 .day-btn:hover {
@@ -69,6 +90,10 @@ header h1 {
   color: #121212;
   border-color: var(--primary-color);
   font-weight: bold;
+}
+
+.day-btn.active::before {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #workout-container {
@@ -99,6 +124,7 @@ header h1 {
   align-items: center;
   gap: 15px;
   transition: opacity 0.3s, background-color 0.3s;
+  cursor: pointer;
 }
 
 .exercise-item.completed,
@@ -119,7 +145,8 @@ header h1 {
   flex-shrink: 0;
   width: 22px;
   height: 22px;
-  cursor: pointer;
+  /* Making checkbox non-clickable directly to give full control to parent */
+  pointer-events: none;
   appearance: none;
   background-color: var(--background-color);
   border: 2px solid var(--border-color);
@@ -195,7 +222,7 @@ footer {
 }
 
 #reset-button {
-  background-color: #ae2d2d;
+  background-color: var(--destructive-color);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -266,7 +293,7 @@ footer {
 
 #info-modal-instructions {
   color: var(--text-color);
-  white-space: pre-wrap;
+  white-space: pre-wrap; /* This ensures \n characters create line breaks */
   max-height: 60vh;
   overflow-y: auto;
 }
@@ -293,7 +320,7 @@ footer {
 }
 
 #confirm-reset-btn {
-  background-color: #ae2d2d;
+  background-color: var(--destructive-color);
   color: #fff;
 }
 #confirm-reset-btn:hover {
