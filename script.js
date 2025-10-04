@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentBtn) {
       currentBtn.classList.add("active");
     }
-    localStorage.setItem("lastActiveDay", dayIndex);
+    // REMOVED: localStorage.setItem("lastActiveDay", dayIndex);
     renderWorkout(dayIndex, workoutData);
   }
 
@@ -211,10 +211,8 @@ document.addEventListener("DOMContentLoaded", () => {
     createDaySelector(workoutData);
 
     // Set initial day
-    const lastDay = localStorage.getItem("lastActiveDay");
-    const today = new Date().getDay(); // Sunday = 0
-    const defaultDay = today === 0 ? 6 : today - 1; // Map to 0-indexed [Mon-Sun]
-    const initialDayIndex = lastDay ? parseInt(lastDay, 10) : defaultDay;
+    const today = new Date().getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const initialDayIndex = today === 0 ? 6 : today - 1; // Map to 0-indexed [Mon-Sun]
     setActiveDay(initialDayIndex, workoutData);
 
     // --- Event Listeners (Delegation) ---
