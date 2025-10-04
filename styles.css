@@ -1,347 +1,247 @@
 :root {
-  --primary-color: #f75c2e; /* A vibrant orange from the logo */
-  --background-color: #1a1a1a; /* Dark background from the logo */
-  --surface-color: #2a2a2a; /* Slightly lighter surface for cards/modals */
-  --text-color: #ffffff;
-  --text-muted-color: #cccccc; /* Adjusted for better contrast on new backgrounds */
-  --border-color: #4a4a4a; /* Darker border for depth */
-  --success-color: #4caf50; /* Kept green for completion feedback */
-  --danger-color: #d13030; /* A darker red for danger/reset actions */
+    --primary-color: #cccccc;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-color: #ffffff;
+    --text-muted-color: #a0a0a0;
+    --border-color: #333333;
+    --progress-bar-color: #444;
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* These settings are for the CodePen environment to simulate the app */
-html {
-  background-color: var(--background-color);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
-  color: var(--text-color);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding-top: env(safe-area-inset-top);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
-/* End of simulation settings */
 
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
 }
 
 header h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-color);
 }
 
 #day-selector {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
 }
 
 .day-btn {
-  background-color: var(--surface-color);
-  color: var(--text-muted-color);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-  position: relative;
+    background-color: var(--surface-color);
+    color: var(--text-muted-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+    position: relative; /* For progress bar positioning */
+    overflow: hidden; /* Hide overflowing progress bar */
 }
 
 .day-btn:hover {
-  background-color: #383838; /* Slightly lighter on hover */
+    background-color: #2f2f2f;
 }
 
 .day-btn.active {
-  background-color: var(--primary-color);
-  color: var(--text-color); /* Changed text to white for better contrast on orange */
-  border-color: var(--primary-color);
-  font-weight: bold;
+    background-color: var(--primary-color);
+    color: #121212;
+    border-color: var(--primary-color);
+    font-weight: bold;
 }
 
-.day-btn.completed {
-  border-color: var(--success-color);
+.btn-text {
+    position: relative;
+    z-index: 2; /* Keep text above the progress bar */
 }
 
-.day-btn.completed::after {
-  content: "✔";
-  color: var(--success-color);
-  position: absolute;
-  top: -8px;
-  right: -2px;
-  font-size: 1rem;
-  background-color: var(--background-color);
-  border-radius: 50%;
-  padding: 0 4px;
+.progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: var(--progress-bar-color);
+    width: 0%; /* Initial width */
+    z-index: 1;
+    transition: width 0.5s ease-in-out;
 }
 
-#workout-container {
-  background-color: var(--surface-color);
-  border-radius: 12px;
-  padding: 25px;
-  border: 1px solid var(--border-color);
+.day-btn.active .progress-bar {
+    background-color: #ffffff;
+    opacity: 0.3;
 }
+
 
 #workout-header {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 #exercise-list {
-  list-style: none;
+    list-style: none;
 }
 
-.list-item {
-  background-color: #333333; /* Darker variant of surface for list items */
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  margin-bottom: 15px;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  transition: opacity 0.3s, background-color 0.3s;
+.exercise-item, .ab-finisher, .cardio-session {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: opacity 0.3s;
+    cursor: pointer; /* Change cursor to indicate it's clickable */
 }
 
-.list-item.completed {
-  opacity: 0.6; /* Slightly less opaque to show completion */
-  background-color: #2b2b2b; /* Slightly darker on completed */
+.exercise-item.completed, .ab-finisher.completed, .cardio-session.completed {
+    opacity: 0.4;
 }
 
-.list-item.completed .exercise-details {
-  text-decoration: line-through;
-  color: var(--text-muted-color);
-}
-
-.checkbox {
-  flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  appearance: none;
-  background-color: var(--background-color);
-  border: 2px solid var(--border-color);
-  border-radius: 5px;
-  position: relative;
-  transition: all 0.2s ease;
-}
-
-.checkbox:checked {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.checkbox:checked::after {
-  content: "✔";
-  position: absolute;
-  color: var(--text-color); /* White checkmark for better visibility */
-  font-weight: bold;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 16px;
+.exercise-item.completed .exercise-details, .ab-finisher.completed .exercise-details, .cardio-session.completed .exercise-details {
+    text-decoration: line-through;
+    color: var(--text-muted-color);
 }
 
 .exercise-details {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .exercise-details h3 {
-  font-size: 1.1rem;
-  margin-bottom: 5px;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
 }
 
 .exercise-details p {
-  color: var(--text-muted-color);
-  font-size: 0.9rem;
+    color: var(--text-muted-color);
+    font-size: 0.9rem;
 }
 
 .info-btn {
-  flex-shrink: 0;
-  background-color: var(--border-color); /* Using border color for consistency */
-  color: var(--text-muted-color);
-  border: 1px solid var(--border-color);
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s;
-  padding: 0;
+    flex-shrink: 0;
+    background-color: #333;
+    color: #ccc;
+    border: 1px solid #555;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .info-btn:hover {
-  background-color: #5a5a5a; /* Slightly lighter on hover */
+    background-color: #444;
 }
 
 .category-title {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  padding-bottom: 5px;
-  border-bottom: 2px solid var(--primary-color);
-  color: var(--primary-color);
-  font-size: 1.2rem;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    font-size: 1.2rem;
 }
 
 footer {
-  text-align: center;
-  margin-top: 40px;
-  padding-bottom: env(safe-area-inset-bottom);
+    text-align: center;
+    margin-top: 40px;
 }
 
 #reset-button {
-  background-color: var(--danger-color); /* Using the new danger color */
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 25px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    background-color: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 #reset-button:hover {
-  background-color: #f75c2e; /* Matching hover to the primary action color */
+    background-color: #e74c3c;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  opacity: 1;
-  transition: opacity 0.3s ease-in-out;
-  padding: 15px;
+/* Modal Styles */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.modal {
-  background-color: var(--surface-color);
-  padding: 30px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  max-width: 500px;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  transform: scale(1);
-  transition: transform 0.3s ease-in-out;
+#modal {
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
 }
 
-.modal-overlay.hidden {
-  opacity: 0;
-  pointer-events: none;
+#modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
-.modal-overlay.hidden .modal {
-  transform: scale(0.95);
+#modal-overlay.hidden #modal {
+    transform: scale(0.95);
 }
 
-#info-modal-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: var(--text-muted-color);
-  font-size: 2rem;
-  cursor: pointer;
-  line-height: 1;
+
+#modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--text-muted-color);
+    font-size: 2rem;
+    cursor: pointer;
 }
 
-#info-modal-title {
-  margin-bottom: 15px;
-  color: var(--primary-color);
+#modal-title {
+    margin-bottom: 15px;
+    color: var(--primary-color);
 }
 
-#info-modal-instructions {
-  color: var(--text-color);
-  white-space: pre-wrap;
-  max-height: 60vh;
-  overflow-y: auto;
+#modal-instructions {
+    color: var(--text-color);
+    white-space: pre-wrap;
 }
 
-#reset-modal p {
-  text-align: center;
-  font-size: 1.1rem;
-  margin-bottom: 25px;
-}
 
-.modal-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.modal-btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#confirm-reset-btn {
-  background-color: var(--danger-color);
-  color: #fff;
-}
-#confirm-reset-btn:hover {
-  background-color: var(--primary-color); /* Hover to primary brand color */
-}
-#cancel-reset-btn {
-  background-color: #4a4a4a; /* Darker neutral color */
-  color: #fff;
-}
-#cancel-reset-btn:hover {
-  background-color: #6a6a6a; /* Lighter neutral on hover */
-}
-
-/* Toast Notification Styles */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--primary-color);
-  color: var(--background-color); /* Changed toast text to background color for contrast */
-  padding: 15px 25px;
-  border-radius: 8px;
-  font-weight: bold;
-  z-index: 2000;
-  opacity: 0;
-  transition: opacity 0.3s, bottom 0.3s;
-  pointer-events: none;
-}
-
-.toast.show {
-  bottom: 40px;
-  opacity: 1;
-}
-.toast.hidden {
-  display: none;
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
 }
