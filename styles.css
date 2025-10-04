@@ -1,11 +1,12 @@
 :root {
-  --primary-color: #cccccc;
-  --background-color: #121212;
-  --surface-color: #1e1e1e;
+  --primary-color: #f75c2e; /* A vibrant orange from the logo */
+  --background-color: #1a1a1a; /* Dark background from the logo */
+  --surface-color: #2a2a2a; /* Slightly lighter surface for cards/modals */
   --text-color: #ffffff;
-  --text-muted-color: #a0a0a0;
-  --border-color: #333333;
-  --success-color: #4caf50;
+  --text-muted-color: #cccccc; /* Adjusted for better contrast on new backgrounds */
+  --border-color: #4a4a4a; /* Darker border for depth */
+  --success-color: #4caf50; /* Kept green for completion feedback */
+  --danger-color: #d13030; /* A darker red for danger/reset actions */
 }
 
 * {
@@ -63,12 +64,12 @@ header h1 {
 }
 
 .day-btn:hover {
-  background-color: #2f2f2f;
+  background-color: #383838; /* Slightly lighter on hover */
 }
 
 .day-btn.active {
   background-color: var(--primary-color);
-  color: #121212;
+  color: var(--text-color); /* Changed text to white for better contrast on orange */
   border-color: var(--primary-color);
   font-weight: bold;
 }
@@ -106,7 +107,7 @@ header h1 {
 }
 
 .list-item {
-  background-color: #2a2a2a;
+  background-color: #333333; /* Darker variant of surface for list items */
   border: 1px solid var(--border-color);
   border-radius: 8px;
   margin-bottom: 15px;
@@ -118,8 +119,8 @@ header h1 {
 }
 
 .list-item.completed {
-  opacity: 0.5;
-  background-color: #222;
+  opacity: 0.6; /* Slightly less opaque to show completion */
+  background-color: #2b2b2b; /* Slightly darker on completed */
 }
 
 .list-item.completed .exercise-details {
@@ -148,7 +149,7 @@ header h1 {
 .checkbox:checked::after {
   content: "✔";
   position: absolute;
-  color: black;
+  color: var(--text-color); /* White checkmark for better visibility */
   font-weight: bold;
   top: 50%;
   left: 50%;
@@ -172,9 +173,9 @@ header h1 {
 
 .info-btn {
   flex-shrink: 0;
-  background-color: #333;
-  color: #ccc;
-  border: 1px solid #555;
+  background-color: var(--border-color); /* Using border color for consistency */
+  color: var(--text-muted-color);
+  border: 1px solid var(--border-color);
   border-radius: 50%;
   width: 28px;
   height: 28px;
@@ -189,7 +190,7 @@ header h1 {
 }
 
 .info-btn:hover {
-  background-color: #444;
+  background-color: #5a5a5a; /* Slightly lighter on hover */
 }
 
 .category-title {
@@ -208,7 +209,7 @@ footer {
 }
 
 #reset-button {
-  background-color: #ae2d2d;
+  background-color: var(--danger-color); /* Using the new danger color */
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -219,7 +220,7 @@ footer {
 }
 
 #reset-button:hover {
-  background-color: #c94040;
+  background-color: #f75c2e; /* Matching hover to the primary action color */
 }
 
 .modal-overlay {
@@ -306,18 +307,18 @@ footer {
 }
 
 #confirm-reset-btn {
-  background-color: #ae2d2d;
+  background-color: var(--danger-color);
   color: #fff;
 }
 #confirm-reset-btn:hover {
-  background-color: #c94040;
+  background-color: var(--primary-color); /* Hover to primary brand color */
 }
 #cancel-reset-btn {
-  background-color: #444;
+  background-color: #4a4a4a; /* Darker neutral color */
   color: #fff;
 }
 #cancel-reset-btn:hover {
-  background-color: #555;
+  background-color: #6a6a6a; /* Lighter neutral on hover */
 }
 
 /* Toast Notification Styles */
@@ -327,7 +328,7 @@ footer {
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--primary-color);
-  color: var(--background-color);
+  color: var(--background-color); /* Changed toast text to background color for contrast */
   padding: 15px 25px;
   border-radius: 8px;
   font-weight: bold;
