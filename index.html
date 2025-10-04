@@ -1,44 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your 6-Day Bro Split</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>6-Day Bro Split Routine</title>
+  <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
+<div class="container">
+  <header>
+    <h1><img src="bruh.svg" alt="Bro Split Logo" style="height:60px;"></h1>
+    <nav id="day-selector"></nav>
+  </header>
 
-    <div class="container">
-        <header>
-            <h1>6-Day Bro Split Routine</h1>
-            <nav id="day-selector">
-                </nav>
-        </header>
-
-        <main id="workout-container">
-            <div id="workout-header">
-                <h2 id="workout-title"></h2>
-                <p id="workout-duration"></p>
-            </div>
-            <ul id="exercise-list">
-                </ul>
-        </main>
-        
-        <footer>
-            <button id="reset-button">Reset Weekly Progress</button>
-        </footer>
+  <main id="workout-container">
+    <div id="workout-header">
+      <h2 id="workout-title"></h2>
+      <p id="workout-duration"></p>
     </div>
+    <ul id="exercise-list"></ul>
+  </main>
 
-    <div id="modal-overlay" class="hidden">
-        <div id="modal">
-            <button id="modal-close-btn">&times;</button>
-            <h2 id="modal-title">Exercise Title</h2>
-            <div id="modal-instructions">
-                <p>Instructions will go here.</p>
-            </div>
-        </div>
+  <footer>
+    <button id="reset-button">Reset Weekly Progress</button>
+  </footer>
+</div>
+
+<!-- Info Modal -->
+<div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+    <button id="info-modal-close-btn" aria-label="Close info modal">&times;</button>
+    <h2 id="info-modal-title">Exercise Title</h2>
+    <div id="info-modal-instructions">
+      <p>Instructions will go here.</p>
     </div>
+  </div>
+</div>
 
-    <script src="script.js"></script>
+<!-- Reset Confirmation Modal -->
+<div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
+  <div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
+    <p id="reset-modal-title">Are you sure you want to reset all your progress for the week?</p>
+    <div class="modal-buttons">
+      <button id="confirm-reset-btn" class="modal-btn">Yes, Reset</button>
+      <button id="cancel-reset-btn" class="modal-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

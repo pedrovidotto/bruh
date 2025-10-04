@@ -1,12 +1,10 @@
 :root {
-  --primary-color: #f75c2e; /* A vibrant orange from the logo */
-  --background-color: #1a1a1a; /* Dark background from the logo */
-  --surface-color: #2a2a2a; /* Slightly lighter surface for cards/modals */
+  --primary-color: #cccccc;
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
   --text-color: #ffffff;
-  --text-muted-color: #cccccc; /* Adjusted for better contrast on new backgrounds */
-  --border-color: #4a4a4a; /* Darker border for depth */
-  --success-color: #4caf50; /* Kept green for completion feedback */
-  --danger-color: #d13030; /* A darker red for danger/reset actions */
+  --text-muted-color: #a0a0a0;
+  --border-color: #333333;
 }
 
 * {
@@ -59,35 +57,18 @@ header h1 {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 1rem;
-  transition: all 0.3s;
-  position: relative;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .day-btn:hover {
-  background-color: #383838; /* Slightly lighter on hover */
+  background-color: #2f2f2f;
 }
 
 .day-btn.active {
   background-color: var(--primary-color);
-  color: var(--text-color); /* Changed text to white for better contrast on orange */
+  color: #121212;
   border-color: var(--primary-color);
   font-weight: bold;
-}
-
-.day-btn.completed {
-  border-color: var(--success-color);
-}
-
-.day-btn.completed::after {
-  content: "✔";
-  color: var(--success-color);
-  position: absolute;
-  top: -8px;
-  right: -2px;
-  font-size: 1rem;
-  background-color: var(--background-color);
-  border-radius: 50%;
-  padding: 0 4px;
 }
 
 #workout-container {
@@ -106,8 +87,10 @@ header h1 {
   list-style: none;
 }
 
-.list-item {
-  background-color: #333333; /* Darker variant of surface for list items */
+.exercise-item,
+.ab-finisher,
+.cardio-session {
+  background-color: #2a2a2a;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   margin-bottom: 15px;
@@ -118,12 +101,16 @@ header h1 {
   transition: opacity 0.3s, background-color 0.3s;
 }
 
-.list-item.completed {
-  opacity: 0.6; /* Slightly less opaque to show completion */
-  background-color: #2b2b2b; /* Slightly darker on completed */
+.exercise-item.completed,
+.ab-finisher.completed,
+.cardio-session.completed {
+  opacity: 0.5;
+  background-color: #222;
 }
 
-.list-item.completed .exercise-details {
+.exercise-item.completed .exercise-details,
+.ab-finisher.completed .exercise-details,
+.cardio-session.completed .exercise-details {
   text-decoration: line-through;
   color: var(--text-muted-color);
 }
@@ -149,7 +136,7 @@ header h1 {
 .checkbox:checked::after {
   content: "✔";
   position: absolute;
-  color: var(--text-color); /* White checkmark for better visibility */
+  color: black;
   font-weight: bold;
   top: 50%;
   left: 50%;
@@ -173,9 +160,9 @@ header h1 {
 
 .info-btn {
   flex-shrink: 0;
-  background-color: var(--border-color); /* Using border color for consistency */
-  color: var(--text-muted-color);
-  border: 1px solid var(--border-color);
+  background-color: #333;
+  color: #ccc;
+  border: 1px solid #555;
   border-radius: 50%;
   width: 28px;
   height: 28px;
@@ -186,11 +173,10 @@ header h1 {
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s;
-  padding: 0;
 }
 
 .info-btn:hover {
-  background-color: #5a5a5a; /* Slightly lighter on hover */
+  background-color: #444;
 }
 
 .category-title {
@@ -209,7 +195,7 @@ footer {
 }
 
 #reset-button {
-  background-color: var(--danger-color); /* Using the new danger color */
+  background-color: #ae2d2d;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -220,7 +206,7 @@ footer {
 }
 
 #reset-button:hover {
-  background-color: #f75c2e; /* Matching hover to the primary action color */
+  background-color: #c94040;
 }
 
 .modal-overlay {
@@ -307,41 +293,16 @@ footer {
 }
 
 #confirm-reset-btn {
-  background-color: var(--danger-color);
+  background-color: #ae2d2d;
   color: #fff;
 }
 #confirm-reset-btn:hover {
-  background-color: var(--primary-color); /* Hover to primary brand color */
+  background-color: #c94040;
 }
 #cancel-reset-btn {
-  background-color: #4a4a4a; /* Darker neutral color */
+  background-color: #444;
   color: #fff;
 }
 #cancel-reset-btn:hover {
-  background-color: #6a6a6a; /* Lighter neutral on hover */
-}
-
-/* Toast Notification Styles */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--primary-color);
-  color: var(--background-color); /* Changed toast text to background color for contrast */
-  padding: 15px 25px;
-  border-radius: 8px;
-  font-weight: bold;
-  z-index: 2000;
-  opacity: 0;
-  transition: opacity 0.3s, bottom 0.3s;
-  pointer-events: none;
-}
-
-.toast.show {
-  bottom: 40px;
-  opacity: 1;
-}
-.toast.hidden {
-  display: none;
+  background-color: #555;
 }
