@@ -97,8 +97,6 @@ const dailyCaloriesEl = document.getElementById("daily-calories");
 const weeklyCaloriesContainer = document.getElementById("weekly-calories-container");
 const enableNotificationsBtn = document.getElementById("enable-notifications-btn");
 const timerDisplay = document.getElementById('timer-display');
-const setCompleteSound = document.getElementById('set-complete-sound');
-const exerciseCompleteSound = document.getElementById('exercise-complete-sound');
 
 // Modal Elements
 const infoModalOverlay = document.getElementById("info-modal-overlay");
@@ -127,12 +125,7 @@ const motivationalMessages = [
     "One step closer to your goals. Great job!",
 ];
 
-// --- Timer, Sound, and Haptic Functions ---
-function playSound(soundElement) {
-    soundElement.currentTime = 0;
-    soundElement.play().catch(e => console.error("Error playing sound:", e));
-}
-
+// --- Timer, and Haptic Functions ---
 function triggerHapticFeedback() {
     if ('vibrate' in navigator) {
         navigator.vibrate(50);
@@ -163,7 +156,6 @@ function startOnScreenTimer(durationSeconds) {
     updateTimer();
     activeTimer = setInterval(updateTimer, 1000);
 }
-
 
 // --- Notification Functions ---
 async function requestNotificationPermission() {
@@ -302,12 +294,10 @@ function handleSeriesUpdate(progressId, totalSets, direction) {
                 const title = "Exercise Complete! 🔥";
                 const body = nextExercise ? `Next up: ${nextExercise}` : "You've finished the workout!";
                 scheduleNotification(title, body, restTime);
-                playSound(exerciseCompleteSound);
             } else if (!isNowLastSet) {
                 const title = "Rest Over! 💪";
                 const body = `Time for set ${progress[progressId] + 1} of ${totalSets}.`;
                 scheduleNotification(title, body, restTime);
-                playSound(setCompleteSound);
             }
         }
     } else {
@@ -444,6 +434,11 @@ function init() {
         progress = {};
         saveProgress();
         const activeDayIndex = document.querySelector(".day-btn.active")?.dataset.day || 0;
+        // ADDED: Hide timer on reset
+        if(activeTimer) {
+            clearInterval(activeTimer);
+            timerDisplay.classList.add('hidden');
+        }
         renderWorkout(parseInt(activeDayIndex, 10));
         closeResetModal();
     });
