@@ -95,6 +95,7 @@ const exerciseList = document.getElementById("exercise-list");
 const resetButton = document.getElementById("reset-button");
 const dailyCaloriesEl = document.getElementById("daily-calories");
 const weeklyCaloriesContainer = document.getElementById("weekly-calories-container");
+const enableNotificationsBtn = document.getElementById("enable-notifications-btn");
 
 // Modal Elements
 const infoModalOverlay = document.getElementById("info-modal-overlay");
@@ -114,42 +115,89 @@ const completionMessage = document.getElementById("completion-message");
 let progress = {};
 let longPressTimer;
 const LONG_PRESS_DURATION = 500; // ms
+let notificationsEnabled = false;
 
 const motivationalMessages = [
-    "Crushed it! See you for the next one.",
-    "Be proud of your hard work today.",
-    "That's how it's done! Rest up.",
-    "Awesome session! Your future self thanks you.",
+    "Crushed it! See you for the next one.", "Be proud of your hard work today.",
+    "That's how it's done! Rest up.", "Awesome session! Your future self thanks you.",
     "One step closer to your goals. Great job!",
 ];
 
-// --- Core Functions ---
+// --- Notification Functions ---
+
+async function requestNotificationPermission() {
+    if (!('Notification' in window)) {
+        alert('This browser does not support desktop notification');
+        return;
+    }
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+        notificationsEnabled = true;
+        enableNotificationsBtn.textContent = 'Timers Enabled ✅';
+        enableNotificationsBtn.classList.add('activated');
+        enableNotificationsBtn.disabled = true;
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    }
+}
+
+function scheduleNotification(title, body, delaySeconds) {
+    if (!notificationsEnabled || delaySeconds <= 0) return;
+    
+    setTimeout(() => {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification(title, {
+                    body: body,
+                    icon: 'icon-192.png',
+                    badge: 'icon-192.png'
+                });
+            });
+        } else {
+            new Notification(title, { body: body, icon: 'icon-192.png' });
+        }
+    }, delaySeconds * 1000);
+}
+
+// --- Core & Helper Functions ---
 
 function loadProgress() {
     try {
         const savedProgress = localStorage.getItem("broSplitProgress");
         progress = savedProgress ? JSON.parse(savedProgress) : {};
-    } catch (e) {
-        console.error("Could not load progress from localStorage:", e);
-        progress = {};
-    }
+    } catch (e) { console.error("Could not load progress from localStorage:", e); progress = {}; }
 }
-
 function saveProgress() {
     try {
         localStorage.setItem("broSplitProgress", JSON.stringify(progress));
         updateCalorieCounters();
         updateProgressBars();
-    } catch (e) {
-        console.error("Could not save progress to localStorage:", e);
-    }
+    } catch (e) { console.error("Could not save progress to localStorage:", e); }
 }
 
-/**
- * Parses the number of sets from an exercise detail string.
- * @param {string} details - The string like "4 sets of 8-12 reps".
- * @returns {number} The number of sets, or 1 if not found.
- */
+function parseRestTime(details) {
+    if (!details) return 0;
+    const match = details.match(/\|\s*(\d+)s\s*rest/);
+    return match ? parseInt(match[1], 10) : 0;
+}
+
+function findNextExercise(currentProgressId) {
+    const [day, type, indexStr] = currentProgressId.replace('day', '').split('-');
+    const dayData = workoutData.find(d => d.day == day);
+    const index = parseInt(indexStr, 10);
+    
+    if (type === 'exercise' && index < dayData.exercises.length - 1) {
+        return dayData.exercises[index + 1].name;
+    } else if (type === 'exercise' && dayData.abFinisher) {
+        return dayData.abFinisher.name;
+    } else if ((type === 'exercise' || type === 'ab') && dayData.cardio) {
+        return dayData.cardio.name;
+    }
+    return null; // It was the last exercise of the day
+}
+
 function parseSets(details) {
     if (!details) return 1;
     const match = details.match(/^(\d+)\s+sets/);
@@ -157,40 +205,29 @@ function parseSets(details) {
 }
 
 // --- UI Update Functions ---
-
 function updateCardVisuals(card, progressId, totalSets) {
     const completedSets = progress[progressId] || 0;
     const percentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
-    
     card.style.setProperty('--series-progress', `${percentage}%`);
     card.classList.toggle('fully-completed', completedSets >= totalSets);
 }
 
 function updateCalorieCounters() {
-    let weeklyTotal = 0;
-    let dailyTotal = 0;
+    let weeklyTotal = 0; let dailyTotal = 0;
     const activeDayIndex = parseInt(document.querySelector('.day-btn.active')?.dataset.day || '0', 10);
-    const activeDayData = workoutData[activeDayIndex];
-
     workoutData.forEach((dayData, dayIndex) => {
-        const allExercises = [
-            ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-item-${i}` })),
+        const allExercises = [ ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-item-${i}` })),
             ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-finisher-0` }] : []),
-            ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-session-0` }] : [])
-        ];
-        
+            ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-session-0` }] : []) ];
         allExercises.forEach(ex => {
             const completedSets = progress[ex.id] || 0;
             if (completedSets > 0) {
                 const caloriesBurned = completedSets * (ex.calories || 0);
                 weeklyTotal += caloriesBurned;
-                if (dayIndex === activeDayIndex) {
-                    dailyTotal += caloriesBurned;
-                }
+                if (dayIndex === activeDayIndex) { dailyTotal += caloriesBurned; }
             }
         });
     });
-
     weeklyCaloriesContainer.textContent = `🔥 Weekly Total: ${weeklyTotal} kcal`;
     dailyCaloriesEl.textContent = `🔥 Daily: ${dailyTotal} kcal`;
 }
@@ -198,222 +235,130 @@ function updateCalorieCounters() {
 function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
         const dayData = workoutData[index];
-        const allExercises = [ ...dayData.exercises, dayData.abFinisher, dayData.cardio ].filter(Boolean);
-        if (allExercises.length === 0) {
-            btn.style.setProperty('--progress', '0%');
-            return;
-        }
-
-        let totalSets = 0;
-        let completedSets = 0;
-        
-        dayData.exercises.forEach((ex, i) => {
-            const id = `day${dayData.day}-exercise-item-${i}`;
-            totalSets += parseSets(ex.details);
-            completedSets += progress[id] || 0;
-        });
-
-        if (dayData.abFinisher) {
-            const id = `day${dayData.day}-ab-finisher-0`;
-            totalSets += parseSets(dayData.abFinisher.details);
-            completedSets += progress[id] || 0;
-        }
-        if (dayData.cardio) {
-            const id = `day${dayData.day}-cardio-session-0`;
-            totalSets += parseSets(dayData.cardio.details);
-            completedSets += progress[id] || 0;
-        }
-        
+        if (dayData.exercises.length === 0) { btn.style.setProperty('--progress', '0%'); return; }
+        let totalSets = 0, completedSets = 0;
+        dayData.exercises.forEach((ex, i) => { const id = `day${dayData.day}-exercise-item-${i}`; totalSets += parseSets(ex.details); completedSets += progress[id] || 0; });
+        if (dayData.abFinisher) { const id = `day${dayData.day}-ab-finisher-0`; totalSets += parseSets(dayData.abFinisher.details); completedSets += progress[id] || 0; }
+        if (dayData.cardio) { const id = `day${dayData.day}-cardio-session-0`; totalSets += parseSets(dayData.cardio.details); completedSets += progress[id] || 0; }
         const progressPercentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
         btn.style.setProperty('--progress', `${progressPercentage}%`);
     });
 }
 
 // --- Event Handlers & Interaction ---
-
 function handleSeriesUpdate(progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
     const wasCompleted = currentCompleted >= totalSets;
 
     if (direction === 'increment') {
         progress[progressId] = Math.min(totalSets, currentCompleted + 1);
-    } else {
+        
+        const card = document.querySelector(`[data-progress-id="${progressId}"]`);
+        if (card) {
+            const exerciseDetails = card.querySelector('p').textContent;
+            const restTime = parseRestTime(exerciseDetails);
+            const isNowLastSet = progress[progressId] === totalSets;
+
+            if (isNowLastSet && !wasCompleted) {
+                const nextExercise = findNextExercise(progressId);
+                const title = "Exercise Complete! 🔥";
+                const body = nextExercise ? `Next up: ${nextExercise}` : "You've finished the workout!";
+                scheduleNotification(title, body, restTime);
+            } else if (!isNowLastSet) {
+                const title = "Rest Over! 💪";
+                const body = `Time for set ${progress[progressId] + 1} of ${totalSets}.`;
+                scheduleNotification(title, body, restTime);
+            }
+        }
+    } else { // 'decrement'
         progress[progressId] = Math.max(0, currentCompleted - 1);
     }
     
     saveProgress();
     
-    const card = document.querySelector(`[data-progress-id="${progressId}"]`);
-    if (card) {
-        updateCardVisuals(card, progressId, totalSets);
+    const cardToUpdate = document.querySelector(`[data-progress-id="${progressId}"]`);
+    if (cardToUpdate) {
+        updateCardVisuals(cardToUpdate, progressId, totalSets);
         const isNowCompleted = (progress[progressId] || 0) >= totalSets;
         if (!wasCompleted && isNowCompleted) {
-            animateAndMoveToEnd(card);
+            animateAndMoveToEnd(cardToUpdate);
             checkDayCompletion();
         }
     }
 }
 
 function animateAndMoveToEnd(card) {
-    card.classList.add('reordering');
-    card.dataset.moved = 'true';
-    
-    setTimeout(() => {
-        exerciseList.appendChild(card);
-        card.classList.remove('reordering');
-    }, 500);
+    card.classList.add('reordering'); card.dataset.moved = 'true';
+    setTimeout(() => { exerciseList.appendChild(card); card.classList.remove('reordering'); }, 500);
 }
 
 // --- Completion Celebration ---
-
 function triggerConfetti() {
     for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
+        const confetti = document.createElement('div'); confetti.className = 'confetti';
         confetti.style.left = `${Math.random() * 100}vw`;
         confetti.style.animation = `fall ${1 + Math.random() * 2}s linear ${Math.random() * 2}s forwards`;
         confetti.style.backgroundColor = `hsl(${Math.random() * 60 + 15}, 85%, 60%)`;
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 4000);
     }
-    const keyframes = `
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(${Math.random() * 720}deg);
-                opacity: 0;
-            }
-        }`;
+    const keyframes = `@keyframes fall { to { transform: translateY(100vh) rotate(${Math.random() * 720}deg); opacity: 0; } }`;
     const styleSheet = document.styleSheets[0];
-    try {
-        styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
-    } catch(e) {/* Ignore errors in case of duplicate keyframe names */}
+    try { styleSheet.insertRule(keyframes, styleSheet.cssRules.length); } catch(e) {/* ignore */}
 }
 
 function checkDayCompletion() {
     const activeDayIndex = parseInt(document.querySelector('.day-btn.active').dataset.day, 10);
     const dayData = workoutData[activeDayIndex];
-
-    const allItems = [
-        ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-item-${i}` })),
+    const allItems = [ ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-item-${i}` })),
         ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-finisher-0` }] : []),
-        ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-session-0` }] : [])
-    ];
-    
+        ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-session-0` }] : []) ];
     if (allItems.length === 0) return;
-
-    const isDayComplete = allItems.every(item => {
-        const totalSets = parseSets(item.details);
-        const completedSets = progress[item.id] || 0;
-        return completedSets >= totalSets;
-    });
-
+    const isDayComplete = allItems.every(item => { const totalSets = parseSets(item.details); const completedSets = progress[item.id] || 0; return completedSets >= totalSets; });
     if (isDayComplete) {
-        const isWeekComplete = activeDayIndex === 5; // Day 6 is the last workout day
+        const isWeekComplete = activeDayIndex === 5;
         completionTitle.textContent = isWeekComplete ? "🎉 Week Complete! 🎉" : "💪 Day Complete! 💪";
-        completionMessage.textContent = isWeekComplete
-            ? "Incredible work! Your progress will now reset for a fresh start."
-            : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-        
-        completionOverlay.classList.remove('hidden');
-        triggerConfetti();
-
-        if (isWeekComplete) {
-            setTimeout(() => {
-                progress = {};
-                localStorage.removeItem("broSplitProgress");
-                location.reload();
-            }, 5000);
-        } else {
-            setTimeout(() => completionOverlay.classList.add('hidden'), 4000);
-        }
+        completionMessage.textContent = isWeekComplete ? "Incredible work! Your progress will now reset for a fresh start." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+        completionOverlay.classList.remove('hidden'); triggerConfetti();
+        if (isWeekComplete) { setTimeout(() => { progress = {}; localStorage.removeItem("broSplitProgress"); location.reload(); }, 5000);
+        } else { setTimeout(() => completionOverlay.classList.add('hidden'), 4000); }
     }
 }
 
-
 // --- DOM Rendering ---
-
 function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
     workoutTitle.textContent = `Day ${dayData.day}: ${dayData.title}`;
     workoutDuration.textContent = `Estimated Duration: ${dayData.duration}`;
     exerciseList.innerHTML = "";
-    
-    if (dayData.exercises.length === 0) {
-        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>';
-        updateCalorieCounters();
-        return;
-    }
-
+    if (dayData.exercises.length === 0) { exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>'; updateCalorieCounters(); return; }
     const createExerciseItem = (exercise, type, index) => {
-        const li = document.createElement("li");
-        li.className = type;
-        const progressId = `day${dayData.day}-${type}-${index}`;
-        const totalSets = parseSets(exercise.details);
-        li.dataset.progressId = progressId;
-        li.dataset.totalSets = totalSets;
-
-        li.innerHTML = `
-            <div class="exercise-details">
-                <h3>${exercise.name}</h3>
-                <p>${exercise.details}</p>
-            </div>
-            <button class="info-btn" aria-label="Open exercise info for ${exercise.name}">i</button>
-        `;
-        
-        // --- Event Listeners for the card ---
+        const li = document.createElement("li"); li.className = type;
+        const progressId = `day${dayData.day}-${type}-${index}`; const totalSets = parseSets(exercise.details);
+        li.dataset.progressId = progressId; li.dataset.totalSets = totalSets;
+        li.innerHTML = `<div class="exercise-details"><h3>${exercise.name}</h3><p>${exercise.details}</p></div><button class="info-btn" aria-label="Open exercise info for ${exercise.name}">i</button>`;
         li.addEventListener('click', () => handleSeriesUpdate(progressId, totalSets, 'increment'));
-        li.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            handleSeriesUpdate(progressId, totalSets, 'decrement');
-        });
-        li.addEventListener('touchstart', () => {
-            longPressTimer = setTimeout(() => handleSeriesUpdate(progressId, totalSets, 'decrement'), LONG_PRESS_DURATION);
-        }, { passive: true });
+        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(progressId, totalSets, 'decrement'); });
+        li.addEventListener('touchstart', () => { longPressTimer = setTimeout(() => handleSeriesUpdate(progressId, totalSets, 'decrement'), LONG_PRESS_DURATION); }, { passive: true });
         li.addEventListener('touchend', () => clearTimeout(longPressTimer));
         li.addEventListener('touchmove', () => clearTimeout(longPressTimer));
-
-        li.querySelector(".info-btn").addEventListener("click", (e) => {
-            e.stopPropagation();
-            openInfoModal(exercise.name, exercise.instructions);
-        });
-
-        updateCardVisuals(li, progressId, totalSets);
-        return li;
+        li.querySelector(".info-btn").addEventListener("click", (e) => { e.stopPropagation(); openInfoModal(exercise.name, exercise.instructions); });
+        updateCardVisuals(li, progressId, totalSets); return li;
     };
-    
     const renderSection = (title, items, type) => {
         if (!items || (Array.isArray(items) && items.length === 0)) return [];
-        const sectionTitle = document.createElement("h3");
-        sectionTitle.className = "category-title";
-        sectionTitle.textContent = title;
-        
-        const elements = Array.isArray(items)
-            ? items.map((item, i) => createExerciseItem(item, `${type}-item`, i))
-            : [createExerciseItem(items, `${type}-session`, 0)];
-            
-        // Sort items to move completed ones to the bottom on initial render
-        elements.sort((a, b) => {
-            const completedA = a.classList.contains('fully-completed');
-            const completedB = b.classList.contains('fully-completed');
-            return completedA - completedB;
-        });
-
+        const sectionTitle = document.createElement("h3"); sectionTitle.className = "category-title"; sectionTitle.textContent = title;
+        const elements = Array.isArray(items) ? items.map((item, i) => createExerciseItem(item, `${type}-item`, i)) : [createExerciseItem(items, `${type}-session`, 0)];
+        elements.sort((a, b) => { const completedA = a.classList.contains('fully-completed'); const completedB = b.classList.contains('fully-completed'); return completedA - completedB; });
         return [sectionTitle, ...elements];
     };
-    
     exerciseList.append(...renderSection("Main Workout", dayData.exercises, 'exercise'));
     exerciseList.append(...renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher'));
     exerciseList.append(...renderSection("Post-Workout Cardio", dayData.cardio, 'cardio'));
-
     updateCalorieCounters();
 }
 
-function setActiveDay(dayIndex) {
-    document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
-    const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
-    if (currentBtn) currentBtn.classList.add("active");
-    renderWorkout(dayIndex);
-}
+function setActiveDay(dayIndex) { document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active")); const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`); if (currentBtn) currentBtn.classList.add("active"); renderWorkout(dayIndex); }
 
 // --- Modal Functions ---
 function openInfoModal(title, instructions) { infoModalOverlay.classList.remove("hidden"); infoModalOverlay.setAttribute('aria-hidden', 'false'); infoModalTitle.textContent = title; infoModalInstructions.textContent = instructions; }
@@ -424,6 +369,18 @@ function closeResetModal() { resetModalOverlay.classList.add("hidden"); resetMod
 // --- App Initialization ---
 function init() {
     loadProgress();
+
+    if ('Notification' in window && Notification.permission === 'granted') {
+        notificationsEnabled = true;
+        enableNotificationsBtn.textContent = 'Timers Enabled ✅';
+        enableNotificationsBtn.classList.add('activated');
+        enableNotificationsBtn.disabled = true;
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    }
+
+    enableNotificationsBtn.addEventListener('click', requestNotificationPermission);
     
     workoutData.forEach((day, index) => {
         const btn = document.createElement("button");
@@ -438,7 +395,6 @@ function init() {
 
     updateProgressBars();
 
-    // Reset Modal Logic
     resetButton.addEventListener("click", openResetModal);
     confirmResetBtn.addEventListener("click", () => {
         progress = {};
@@ -449,12 +405,10 @@ function init() {
     });
     cancelResetBtn.addEventListener("click", closeResetModal);
 
-    // Info Modal Listeners
     infoModalCloseBtn.addEventListener("click", closeInfoModal);
     infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
     resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
 
-    // Set initial day
     const today = new Date().getDay(); // Sunday = 0
     const initialDayIndex = today === 0 ? 6 : today - 1; // Map to 0-indexed week (Mon-Sun)
     setActiveDay(initialDayIndex);
