@@ -1,561 +1,272 @@
-// Workout data (kept externally in this file for easy editing)
-const workoutData = [
-  {
-    "day": 1,
-    "title": "Chest",
-    "duration": "45-55 minutes",
-    "exercises": [
-      {
-        "name": "Incline Dumbbell Press",
-        "details": "4 sets of 8-12 reps | 90s rest",
-        "instructions": "1. Set bench to a 30-45 degree angle.\n2. Lie back with dumbbells on your thighs, then kick them up to your shoulders.\n3. Press the weights up until your arms are extended, but not locked out.\n4. Lower the dumbbells slowly and controlled back to the sides of your chest.",
-        "calories": 50 // Per Set
-      },
-      {
-        "name": "Flat Machine Press",
-        "details": "3 sets of 10-15 reps | 75s rest",
-        "instructions": "1. Adjust the seat so the handles align with your mid-chest.\n2. Press forward, focusing on squeezing your chest muscles together.\n3. Stop just short of locking your elbows.\n4. Return slowly to the starting position, feeling a stretch in your chest.",
-        "calories": 55 // Per Set
-      },
-      {
-        "name": "Weighted Dips (Chest Focus)",
-        "details": "3 sets to Failure | 75s rest",
-        "instructions": "1. Use parallel bars and add weight if possible.\n2. Lean your torso forward significantly as you perform the movement.\n3. Lower yourself until your shoulders are slightly below your elbows.\n4. Press back up, focusing on your chest.",
-        "calories": 60 // Per Set
-      },
-      {
-        "name": "Pec-Deck Machine",
-        "details": "3 sets of 12-15+ reps | 60s rest (Drop set on last set)",
-        "instructions": "1. Adjust the seat so your shoulders are level with the handles.\n2. Press the pads together in a controlled arc, squeezing your chest at the peak.\n3. Slowly return to the starting position, allowing a good stretch.",
-        "calories": 30 // Per Set
-      },
-      {
-        "name": "Cable Crossover (Low to High)",
-        "details": "3 sets of 12-15 reps | 60s rest",
-        "instructions": "1. Set pulleys to the lowest position.\n2. Grab the handles, step forward, and stand with a slight bend in your torso.\n3. Bring your hands up and together in an arc, squeezing your upper chest at the top.",
-        "calories": 30 // Per Set
-      }
-    ],
-    "abFinisher": {
-      "name": "Cable Crunches",
-      "details": "3 sets of 15-20 reps | 45s rest",
-      "instructions": "1. Kneel facing a high pulley with a rope attachment.\n2. Hold the rope by your head and crunch down, bringing your ribs toward your pelvis.\n3. Focus on contracting your abs, not pulling with your arms.",
-      "calories": 110 // Total
-    },
-    "cardio": {
-      "name": "15 minutes of moderate-intensity cardio",
-      "instructions": "Choose a machine like the StairMaster or an incline treadmill. Keep a steady pace where you can hold a conversation.",
-      "calories": 200 // Total
-    }
-  },
-  {
-    "day": 2,
-    "title": "Back",
-    "duration": "50-60 minutes",
-    "exercises": [
-      {
-        "name": "Weighted Pull-ups (or Lat Pulldowns)",
-        "details": "4 sets of 8-12 reps | 90s rest",
-        "instructions": "1. Grip the bar slightly wider than shoulder-width.\n2. Drive your elbows down and back to pull your chest towards the bar.\n3. Squeeze your back muscles at the top.\n4. Lower yourself slowly and fully extend your arms at the bottom.",
-        "calories": 60 // Per Set
-      },
-      {
-        "name": "Barbell Row",
-        "details": "4 sets of 8-12 reps | 90s rest",
-        "instructions": "1. Hinge at your hips, keeping your back straight.\n2. Pull the barbell towards your lower stomach, not your chest.\n3. Squeeze your shoulder blades together at the top.\n4. Lower the bar under control.",
-        "calories": 60 // Per Set
-      },
-      {
-        "name": "Chest-Supported T-Bar Row",
-        "details": "3 sets of 10-15 reps | 75s rest",
-        "instructions": "1. Lie face down on the pad.\n2. Pull the handles, focusing on retracting your shoulder blades and driving your elbows back.\n3. Squeeze hard at the peak of the contraction.",
-        "calories": 60 // Per Set
-      },
-      {
-        "name": "Straight-Arm Pulldown",
-        "details": "3 sets of 12-15 reps | 60s rest",
-        "instructions": "1. Stand facing a high pulley with a straight bar.\n2. Keeping your arms straight, pull the bar down in an arc until it touches your thighs.\n3. Focus on using your lats, not your triceps.",
-        "calories": 35 // Per Set
-      },
-      {
-        "name": "Hyperextensions",
-        "details": "3 sets of 12-15 reps | 60s rest",
-        "instructions": "1. Position yourself on a hyperextension bench.\n2. Lower your torso until you feel a stretch in your hamstrings.\n3. Raise back up by squeezing your glutes and lower back.",
-        "calories": 30 // Per Set
-      }
-    ],
-    "abFinisher": null,
-    "cardio": null
-  },
-  {
-    "day": 3,
-    "title": "Shoulders",
-    "duration": "65-75 minutes",
-    "exercises": [
-      {
-        "name": "Seated Dumbbell Press",
-        "details": "4 sets of 8-12 reps | 90s rest",
-        "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height.",
-        "calories": 45 // Per Set
-      },
-      {
-        "name": "Cable Lateral Raise",
-        "details": "4 sets of 12-15 reps | 60s rest",
-        "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative.",
-        "calories": 25 // Per Set
-      },
-      {
-        "name": "Reverse Pec-Deck",
-        "details": "4 sets of 15-20 reps | 60s rest",
-        "instructions": "1. Sit facing the machine with your chest against the pad.\n2. Drive your arms back and out in a wide arc, squeezing your rear delts.",
-        "calories": 25 // Per Set
-      },
-      {
-        "name": "Barbell Front Raise",
-        "details": "3 sets of 10-15 reps | 75s rest",
-        "instructions": "1. Hold a barbell with an overhand grip.\n2. Raise the bar to shoulder level, keeping your arms straight.\n3. Lower with control. Avoid using momentum.",
-        "calories": 35 // Per Set
-      },
-      {
-        "name": "Heavy Dumbbell Shrugs",
-        "details": "4 sets of 10-15 reps | 60s rest",
-        "instructions": "1. Hold heavy dumbbells at your sides.\n2. Elevate your shoulders straight up towards your ears.\n3. Squeeze for 2 seconds at the top.",
-        "calories": 20 // Per Set
-      }
-    ],
-    "abFinisher": {
-      "name": "Decline Reverse Crunches",
-      "details": "3 sets of 12-15 reps | 60s rest",
-      "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs.",
-      "calories": 130 // Total
-    },
-    "cardio": {
-      "name": "15 minutes of moderate-intensity cardio",
-      "instructions": "Choose a machine like the elliptical or a stationary bike. This helps increase blood flow for recovery without overly taxing the shoulder joints.",
-      "calories": 200 // Total
-    }
-  },
-  {
-    "day": 4,
-    "title": "Quads & Calves",
-    "duration": "60-75 minutes",
-    "exercises": [
-      {
-        "name": "Barbell Back Squats",
-        "details": "4 sets of 8-12 reps | 120s rest",
-        "instructions": "1. Place the bar on your upper back, not your neck.\n2. Keep your chest up and back straight.\n3. Squat down until your hips are at or below parallel.\n4. Drive up through your heels.",
-        "calories": 68 // Per Set
-      },
-      {
-        "name": "Leg Press",
-        "details": "4 sets of 10-15 reps | 90s rest",
-        "instructions": "1. Place your feet shoulder-width apart on the platform.\n2. Lower the weight until your knees are near a 90-degree angle.\n3. Press up, but do not lock your knees.",
-        "calories": 55 // Per Set
-      },
-      {
-        "name": "Bulgarian Split Squats",
-        "details": "3 sets of 10-12 reps (per leg) | 75s rest",
-        "instructions": "1. Place the top of your rear foot on a bench.\n2. Lower your back knee towards the floor, keeping your front knee aligned with your foot.\n3. Drive up through your front heel.",
-        "calories": 60 // Per Set
-      },
-      {
-        "name": "Leg Extensions",
-        "details": "3 sets of 15-20+ reps | 60s rest (Drop set on last set)",
-        "instructions": "1. Squeeze your quads hard for 2 seconds at the top of each rep.\n2. Control the weight as you lower it.",
-        "calories": 35 // Per Set
-      },
-      {
-        "name": "Standing Calf Raises",
-        "details": "5 sets of 10-15 reps | 45s rest",
-        "instructions": "1. Get a deep stretch at the bottom of the movement.\n2. Press up onto your big toes and pause at the top.",
-        "calories": 20 // Per Set
-      }
-    ],
-    "abFinisher": null,
-    "cardio": null
-  },
-  {
-    "day": 5,
-    "title": "Arms (Biceps & Triceps)",
-    "duration": "35-45 minutes",
-    "exercises": [
-      {
-        "name": "Close-Grip Bench Press",
-        "details": "4 sets of 8-12 reps | 90s rest",
-        "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps.",
-        "calories": 40 // Per Set
-      },
-      {
-        "name": "Barbell Curls",
-        "details": "4 sets of 8-12 reps | 75s rest",
-        "instructions": "1. Keep your elbows pinned to your sides.\n2. Curl the weight up without using momentum or swinging your body.\n3. Squeeze your biceps at the top and lower with control.",
-        "calories": 35 // Per Set
-      },
-      {
-        "name": "Overhead Rope Extension",
-        "details": "3 sets of 10-15 reps | 60s rest",
-        "instructions": "1. Use a high cable pulley with a rope attachment.\n2. Extend your arms fully overhead, feeling a stretch in your triceps.\n3. Spread the rope apart at the top.",
-        "calories": 35 // Per Set
-      },
-      {
-        "name": "Incline Dumbbell Curls",
-        "details": "3 sets of 10-15 reps | 60s rest",
-        "instructions": "1. Sit back on an incline bench.\n2. Let your arms hang straight down to stretch the biceps.\n3. Curl the dumbbells up, rotating your palms to face you.",
-        "calories": 35 // Per Set
-      },
-      {
-        "name": "Superset: Rope Pushdowns & Cable Hammer Curls",
-        "details": "3 sets of 12-15 reps each | 60s rest after superset",
-        "instructions": "Pushdowns: Keep elbows pinned and spread the rope at the bottom.\nHammer Curls: Use a rope on a low pulley, keeping a neutral (hammer) grip.",
-        "calories": 60 // Per Set
-      }
-    ],
-    "abFinisher": {
-      "name": "Landmine Twists",
-      "details": "3 sets of 10-12 reps (per side) | 60s rest",
-      "instructions": "1. Place one end of a barbell in a landmine attachment or corner.\n2. Hold the other end with both hands and rotate from your core, pivoting your feet.",
-      "calories": 130 // Total
-    },
-    "cardio": {
-      "name": "20 minutes of moderate-intensity cardio",
-      "instructions": "Choose a machine like the stationary bike or elliptical. This is a great way to improve cardiovascular health without high impact.",
-      "calories": 275 // Total
-    }
-  },
-  {
-    "day": 6,
-    "title": "Hamstrings & Glutes",
-    "duration": "55-65 minutes",
-    "exercises": [
-      {
-        "name": "Romanian Deadlifts (RDLs)",
-        "details": "4 sets of 8-12 reps | 120s rest",
-        "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start.",
-        "calories": 65 // Per Set
-      },
-      {
-        "name": "Barbell Hip Thrusts",
-        "details": "4 sets of 8-12 reps | 90s rest",
-        "instructions": "1. Rest your upper back on a bench.\n2. Drive your hips up powerfully, squeezing your glutes hard at the top.\n3. Keep your chin tucked.",
-        "calories": 50 // Per Set
-      },
-      {
-        "name": "Seated or Lying Leg Curls",
-        "details": "4 sets of 12-15 reps | 75s rest (Drop set on last set)",
-        "instructions": "1. Point your toes to better engage the hamstrings.\n2. Squeeze at the peak of the curl and control the negative.",
-        "calories": 35 // Per Set
-      },
-      {
-        "name": "Hip Abduction Machine",
-        "details": "4 sets of 15-20+ reps | 60s rest (Double drop set on last set)",
-        "instructions": "1. Lean your torso forward to better target the upper glute shelf.\n2. Control the movement, especially on the way back in.",
-        "calories": 25 // Per Set
-      },
-      {
-        "name": "45-Degree Kickbacks (Cable/Band)",
-        "details": "3 sets of 15-20 reps (per leg) | 45s rest",
-        "instructions": "1. Kick your leg back and out at a 45-degree angle.\n2. Squeeze your upper glute for a full second at the peak of the movement.",
-        "calories": 30 // Per Set
-      }
-    ],
-    "abFinisher": null,
-    "cardio": null
-  },
-  {
-    "day": 7,
-    "title": "Rest Day",
-    "duration": "Focus on recovery",
-    "exercises": [],
-    "abFinisher": null,
-    "cardio": null
-  }
-];
+document.addEventListener('DOMContentLoaded', () => {
 
-// DOM Elements
-const daySelector = document.getElementById("day-selector");
-const workoutTitle = document.getElementById("workout-title");
-const workoutDuration = document.getElementById("workout-duration");
-const exerciseList = document.getElementById("exercise-list");
-const resetButton = document.getElementById("reset-button");
+    const frasesMotivacionais = [
+        "A jornada de mil quilômetros começa com um único passo. Você já está no caminho.", "Não se compare com os outros. Compare-se com a pessoa que você era ontem.", "A consistência transforma o esforço em resultado.", "Acredite no seu potencial. Você é mais forte do que imagina.", "Cada gota de suor é um degrau a mais na escada do seu objetivo.", "Feito é melhor que perfeito. Apenas comece.", "A dor que você sente hoje é a força que você sentirá amanhã.", "Sua mente desistirá cem vezes antes do seu corpo.", "A motivação te faz começar. O hábito te faz continuar.", "Um pequeno progresso a cada dia resulta em grandes resultados.", "O corpo alcança o que a mente acredita.", "Não diminua o objetivo. Aumente o esforço.", "Você não encontrará a força de vontade, você precisa criá-la.", "Se você quer algo que nunca teve, precisa fazer algo que nunca fez.", "O segredo do sucesso é a constância no propósito."
+    ];
 
-// Info Modal Elements
-const infoModalOverlay = document.getElementById("info-modal-overlay");
-const infoModalCloseBtn = document.getElementById("info-modal-close-btn");
-const infoModalTitle = document.getElementById("info-modal-title");
-const infoModalInstructions = document.getElementById("info-modal-instructions");
+    const mensagensDeConclusao = [
+        "Mandou bem hoje! O descanso é parte do processo. Volte com tudo no próximo treino!",
+        "Treino concluído com sucesso! Cada dia é um tijolo na construção do seu objetivo. Nos vemos no próximo!",
+        "Parabéns pelo esforço! A consistência é a chave. Descanse e prepare-se para superar seus limites da próxima vez!",
+        "Excelente! Mais um passo dado. O trabalho de hoje garante os resultados de amanhã. Até o próximo treino!",
+        "Missão cumprida! Sinta orgulho do seu progresso. Estamos te esperando para o próximo desafio!"
+    ];
 
-// Reset Modal Elements
-const resetModalOverlay = document.getElementById("reset-modal-overlay");
-const confirmResetBtn = document.getElementById("confirm-reset-btn");
-const cancelResetBtn = document.getElementById("cancel-reset-btn");
-
-// State
-let progress = {};
-
-// Functions
-function loadProgress() {
-  try {
-    const savedProgress = localStorage.getItem("broSplitProgress");
-    progress = savedProgress ? JSON.parse(savedProgress) : {};
-  } catch (e) {
-    console.error("Could not load progress from localStorage:", e);
-    progress = {};
-  }
-}
-
-function saveProgress() {
-  try {
-    localStorage.setItem("broSplitProgress", JSON.stringify(progress));
-    updateProgressBars();
-    updateWeeklyCalories();
-  } catch (e) {
-    console.error("Could not save progress to localStorage:", e);
-  }
-}
-
-function openInfoModal(title, instructions) {
-  infoModalTitle.textContent = title;
-  infoModalInstructions.textContent = instructions;
-  infoModalOverlay.classList.remove("hidden");
-  infoModalOverlay.setAttribute('aria-hidden', 'false');
-}
-
-function closeInfoModal() {
-  infoModalOverlay.classList.add("hidden");
-  infoModalOverlay.setAttribute('aria-hidden', 'true');
-}
-
-function openResetModal() {
-  resetModalOverlay.classList.remove("hidden");
-  resetModalOverlay.setAttribute('aria-hidden', 'false');
-}
-
-function closeResetModal() {
-  resetModalOverlay.classList.add("hidden");
-  resetModalOverlay.setAttribute('aria-hidden', 'true');
-}
-
-function calculateDayProgress(dayIndex) {
-    const dayData = workoutData[dayIndex];
-    const numMain = dayData.exercises.length;
-    if (numMain === 0) return 0; // Rest Day
-
-    const numExtras = (dayData.abFinisher ? 1 : 0) + (dayData.cardio ? 1 : 0);
-
-    let completedMain = 0;
-    for (let i = 0; i < numMain; i++) {
-        if (progress[`day${dayData.day}-exercise-item-${i}`]) {
-            completedMain++;
+    const dadosTreino = [
+        {
+            dia: "Push", iconEmoji: "💪", exercicios: [
+                { nome: "Supino na Máquina", series: 3, reps: "10-12 reps", gifUrl: "gifs/supino-maquina.gif", instrucoes: "1. Posição: Sente-se com as costas bem apoiadas e ajuste o banco para que os pegadores fiquem na altura do meio do seu peito.\n2. Execução: Empurre os pegadores para a frente de forma controlada, sem travar os cotovelos. Retorne lentamente, sentindo o peitoral alongar.\n3. Dica: Mantenha os ombros para trás durante todo o movimento." },
+                { nome: "Desenvolvimento na Máquina", series: 3, reps: "10-12 reps", gifUrl: "gifs/desenvolvimento-maquina.gif", instrucoes: "1. Posição: Sente-se com as costas apoiadas e segure os pegadores na altura dos ombros, com as palmas das mãos para frente.\n2. Execução: Empurre para cima até os braços estarem quase estendidos. Desça de forma controlada até a posição inicial.\n3. Dica: Mantenha o abdômen contraído para não arquear as costas." },
+                { nome: "Elevação Lateral com Halteres", series: 3, reps: "12-15 reps", gifUrl: "gifs/elevacao-lateral.gif", instrucoes: "1. Posição: Em pé, com os pés na largura dos ombros e halteres ao lado do corpo.\n2. Execução: Com os cotovelos levemente dobrados, levante os braços para os lados até a altura dos ombros. Desça ainda mais lentamente.\n3. Dica: Evite usar o impulso do corpo. O movimento deve ser focado nos ombros." },
+                { nome: "Tríceps na Polia (Barra)", series: 4, reps: "12-15 reps", gifUrl: "gifs/triceps-polia.gif", instrucoes: "1. Posição: Fique de pé em frente à polia alta. Mantenha os cotovelos 'colados' na lateral do seu corpo.\n2. Execução: Empurre a barra para baixo até estender completamente os braços. Faça uma pequena pausa e retorne de forma controlada.\n3. Dica: Apenas o antebraço se move; o resto do braço fica parado." }
+            ]
+        },
+        {
+            dia: "Pull", iconEmoji: "🏋️", exercicios: [
+                { nome: "Puxada Frontal (Pulldown)", series: 3, reps: "10-12 reps", gifUrl: "gifs/puxada-frontal.gif", instrucoes: "1. Posição: Sente-se e ajuste o apoio dos joelhos. Segure a barra com uma pegada mais aberta que os ombros.\n2. Execução: Incline o tronco levemente para trás e puxe a barra em direção à parte de cima do peito. Volte de forma controlada, alongando bem as costas.\n3. Dica: Puxe com os cotovelos, imaginando que suas mãos são apenas ganchos." },
+                { nome: "Remada na Máquina", series: 3, reps: "10-12 reps", gifUrl: "gifs/remada-maquina.gif", instrucoes: "1. Posição: Sente-se com o peito bem apoiado na máquina.\n2. Execução: Puxe os pegadores em direção ao abdômen. No final do movimento, junte as escápulas (omoplatas) com força.\n3. Dica: Mantenha as costas retas e não dê solavancos." },
+                { nome: "Crucifixo Invertido na Máquina", series: 3, reps: "15 reps", gifUrl: "gifs/crucifixo-invertido-maquina.gif", instrucoes: "1. Posição: Sente-se virado para a máquina, com o peito apoiado.\n2. Execução: Com os braços quase retos, abra-os em um grande arco para trás, contraindo a parte de trás dos ombros.\n3. Dica: O movimento deve ser controlado, sem impulso." },
+                { nome: "Rosca Direta com Halteres", series: 4, reps: "10-12 reps", gifUrl: "gifs/rosca-direta.gif", instrucoes: "1. Posição: Em pé, com os halteres ao lado do corpo e palmas para frente.\n2. Execução: Mantendo os cotovelos parados ao lado do corpo, levante um halter de cada vez em direção ao ombro. Desça lentamente.\n3. Dica: Não balance o corpo para ajudar a levantar o peso." }
+            ]
+        },
+        {
+            dia: "Legs", iconEmoji: "🦵", exercicios: [
+                { nome: "Leg Press", series: 3, reps: "10-12 reps", gifUrl: "gifs/leg-press.gif", instrucoes: "1. Posição: Sente-se com costas e quadril totalmente apoiados. Pés na plataforma, na largura dos ombros.\n2. Execução: Desça o peso de forma controlada até os joelhos formarem 90 graus. Empurre de volta sem travar os joelhos no final.\n3. Dica: A força deve vir dos calcanhares, não da ponta dos pés." },
+                { nome: "Cadeira Extensora", series: 3, reps: "12-15 reps", gifUrl: "gifs/cadeira-extensora.gif", instrucoes: "1. Posição: Sente-se com as costas bem apoiadas.\n2. Execução: Estenda as pernas e segure a contração máxima por 1 a 2 segundos no topo.\n3. Dica: A qualidade da contração no topo é mais importante que a quantidade de peso." },
+                { nome: "Cadeira Flexora", series: 3, reps: "12-15 reps", gifUrl: "gifs/cadeira-flexora.gif", instrucoes: "1. Posição: Ajuste a máquina para que o apoio fique acima dos tornozelos.\n2. Execução: Puxe os calcanhares em direção aos glúteos de forma controlada. Sinta a contração na parte de trás da coxa.\n3. Dica: Faça a fase de volta (negativa) de forma lenta." },
+                { nome: "Elevação Pélvica", series: 3, reps: "15 reps", gifUrl: "gifs/elevacao-pelvica.gif", instrucoes: "1. Posição: Deite-se com as costas apoiadas em um banco e os pés no chão.\n2. Execução: Eleve o quadril até o corpo ficar reto, contraindo os glúteos com força no topo. Segure por 2 segundos e desça.\n3. Dica: Mantenha o queixo levemente para baixo." },
+                { nome: "Panturrilha em Pé", series: 4, reps: "15-20 reps", gifUrl: "gifs/panturrilha-pe.gif", instrucoes: "1. Posição: Em um degrau ou na máquina, com os calcanhares para fora.\n2. Execução: Alongue o máximo na descida. Suba até a ponta do pé e segure a contração por 2 segundos no topo.\n3. Dica: Não faça o movimento 'saltitando'. Amplitude é a chave." }
+            ]
+        },
+        {
+            dia: "Upper", iconEmoji: "💪", exercicios: [
+                { nome: "Remada Curvada com Halteres", series: 3, reps: "10-12 reps", gifUrl: "gifs/remada-curvada.gif", instrucoes: "1. Posição: Incline o tronco para a frente, mantendo as costas retas. Segure os halteres com os braços estendidos.\n2. Execução: Puxe os halteres em direção ao seu quadril, mantendo os cotovelos próximos ao corpo.\n3. Dica: Imagine que está guardando os halteres nos bolsos da calça." },
+                { nome: "Supino Inclinado com Halteres", series: 3, reps: "10-12 reps", gifUrl: "gifs/supino-inclinado.gif", instrucoes: "1. Posição: Deite-se em um banco inclinado (30-45 graus) com os halteres na altura do peito.\n2. Execução: Empurre os pesos para cima até os braços estarem quase estendidos. Desça lentamente até sentir o peito alongar.\n3. Dica: Não bata um halter no outro no topo do movimento." },
+                { nome: "Elevação Frontal com Halteres", series: 3, reps: "12-15 reps", gifUrl: "gifs/elevacao-frontal.gif", instrucoes: "1. Posição: Em pé, segurando os halteres à frente do corpo.\n2. Execução: Eleve um halter de cada vez à sua frente, até a altura dos ombros, mantendo o braço reto. Desça devagar.\n3. Dica: Evite balançar o corpo para levantar o peso." },
+                { nome: "Rosca Martelo", series: 4, reps: "10-12 reps", gifUrl: "gifs/rosca-martelo.gif", instrucoes: "1. Posição: Segure os halteres com as palmas das mãos viradas uma para a outra (pegada de martelo).\n2. Execução: Levante os halteres, alternadamente ou juntos, sem girar os punhos.\n3. Dica: Mantenha os cotovelos parados ao lado do corpo." }
+            ]
+        },
+        {
+            dia: "Lower", iconEmoji: "🦵", exercicios: [
+                { nome: "Agachamento Goblet", series: 3, reps: "10-12 reps", gifUrl: "gifs/agachamento-goblet.gif", instrucoes: "1. Posição: Segure um halter na vertical, colado ao peito. Pés um pouco mais afastados que os ombros.\n2. Execução: Agache como se fosse sentar em uma cadeira, mantendo as costas retas e o peito para cima. Empurre o chão com os calcanhares para subir.\n3. Dica: A profundidade é importante, mas não sacrifique a boa forma." },
+                { nome: "Afundo (Lunge)", series: 3, reps: "12-15 reps por perna", gifUrl: "gifs/afundo.gif", instrucoes: "1. Posição: Em pé, segurando halteres (opcional).\n2. Execução: Dê um passo grande para a frente e flexione ambos os joelhos a 90 graus. O joelho de trás deve quase tocar o chão. Volte à posição inicial.\n3. Dica: Mantenha o tronco reto e o abdômen firme para ter equilíbrio." },
+                { nome: "Stiff com Halteres", series: 3, reps: "15 reps", gifUrl: "gifs/stiff-halteres.gif", instrucoes: "1. Posição: Em pé, com halteres à frente das coxas.\n2. Execução: Mantendo as pernas quase retas, desça o tronco com as costas retas, como se fosse 'varrer' o chão com os pesos. Sinta alongar a parte de trás da coxa.\n3. Dica: Não precisa descer até o chão. Vá até o seu limite de flexibilidade." },
+                { nome: "Panturrilha Sentado", series: 4, reps: "15-20 reps", gifUrl: "gifs/panturrilha-sentado.gif", instrucoes: "1. Posição: Sentado na máquina, com o apoio sobre os joelhos.\n2. Execução: Alongue o máximo na descida e eleve os calcanhares o máximo possível. Segure a contração por 2 segundos no topo.\n3. Dica: Este exercício trabalha uma parte diferente da panturrilha. Faça devagar." }
+            ]
         }
-    }
+    ];
 
-    let completedExtras = 0;
-    if (dayData.abFinisher && progress[`day${dayData.day}-ab-finisher-0`]) {
-        completedExtras++;
-    }
-    if (dayData.cardio && progress[`day${dayData.day}-cardio-session-0`]) {
-        completedExtras++;
-    }
+    const elementos = {
+        seletorDias: document.getElementById('seletor-dias'),
+        headerTitle: document.getElementById('header-title'),
+        listaExercicios: document.getElementById('lista-exercicios'),
+        progressBar: document.getElementById('progress-bar'),
+        quoteText: document.getElementById('quote-text'),
+        botaoResetar: document.getElementById('botao-resetar'),
+        modal: {
+            overlay: document.getElementById('modal-info-overlay'),
+            fecharBtn: document.getElementById('modal-info-fechar-btn'),
+            titulo: document.getElementById('modal-info-titulo'),
+            gif: document.getElementById('modal-info-gif'),
+            instrucoes: document.getElementById('modal-info-instrucoes')
+        },
+        completion: {
+            overlay: document.getElementById('completion-overlay'),
+            text: document.getElementById('completion-text'),
+            closeBtn: document.getElementById('completion-close-btn')
+        }
+    };
+    
+    let progresso = {};
+    let diaAtivoIndex = 0;
 
-    if (numExtras === 0) {
-        return numMain > 0 ? completedMain / numMain : 0;
-    } else {
-        const mainProgress = (completedMain / numMain) * 0.9;
-        const extraProgress = (completedExtras / numExtras) * 0.1;
-        return mainProgress + extraProgress;
-    }
-}
-
-function updateProgressBars() {
-    document.querySelectorAll(".day-btn").forEach((btn, index) => {
-        const progressPercentage = calculateDayProgress(index) * 100;
-        btn.style.setProperty('--progress', `${progressPercentage}%`);
-    });
-}
-
-/**
- * Parses the number of sets from an exercise detail string.
- * @param {string} details - The string like "4 sets of 8-12 reps".
- * @returns {number} The number of sets, or 1 if not found.
- */
-function parseSets(details) {
-    const match = details.match(/^(\d+)\s+sets/);
-    return match ? parseInt(match[1], 10) : 1;
-}
-
-function updateWeeklyCalories() {
-    let totalCalories = 0;
-    workoutData.forEach((dayData) => {
-        // Main exercises (calories per set)
-        dayData.exercises.forEach((ex, exIndex) => {
-            if (progress[`day${dayData.day}-exercise-item-${exIndex}`]) {
-                const sets = parseSets(ex.details);
-                totalCalories += (ex.calories || 0) * sets;
+    const carregarProgresso = () => { progresso = JSON.parse(localStorage.getItem('GoFitnessAppProgress')) || {}; };
+    const salvarProgresso = () => { localStorage.setItem('GoFitnessAppProgress', JSON.stringify(progresso)); };
+    
+    const verificarConclusaoSemanal = () => {
+        for (let i = 0; i < dadosTreino.length; i++) {
+            const diaData = dadosTreino[i];
+            for (let j = 0; j < diaData.exercicios.length; j++) {
+                const ex = diaData.exercicios[j];
+                const id = `dia${i}-ex${j}`;
+                const seriesFeitas = progresso[id] || 0;
+                if (seriesFeitas < ex.series) {
+                    return false;
+                }
             }
-        });
-        // Ab finisher (total calories)
-        if (dayData.abFinisher && progress[`day${dayData.day}-ab-finisher-0`]) {
-            totalCalories += dayData.abFinisher.calories || 0;
         }
-        // Cardio (total calories)
-        if (dayData.cardio && progress[`day${dayData.day}-cardio-session-0`]) {
-            totalCalories += dayData.cardio.calories || 0;
-        }
-    });
-    const calorieCounter = document.getElementById("calorie-counter");
-    if (calorieCounter) {
-        calorieCounter.textContent = `🔥 Weekly Total: ${totalCalories} kcal`;
-    }
-}
-
-
-function renderWorkout(dayIndex) {
-  const dayData = workoutData[dayIndex];
-  workoutTitle.textContent = `Day ${dayData.day}: ${dayData.title}`;
-  workoutDuration.textContent = `Estimated Duration: ${dayData.duration}`;
-  exerciseList.innerHTML = "";
-
-  if (dayData.exercises.length === 0) {
-    exerciseList.innerHTML =
-      '<li class="exercise-item" style="justify-content:center; cursor: default;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>';
-    return;
-  }
-
-  const createExerciseItem = (exercise, type, index) => {
-    const li = document.createElement("li");
-    li.className = type;
-    const progressId = `day${dayData.day}-${type}-${index}`;
-
-    li.innerHTML = `
-            <input type="checkbox" class="checkbox" id="${progressId}">
-            <div class="exercise-details">
-                <h3>${exercise.name}</h3>
-                <p>${exercise.details}</p>
-            </div>
-            <button class="info-btn" aria-label="Open exercise info">i</button>
-        `;
-
-    const checkbox = li.querySelector(".checkbox");
-    checkbox.checked = progress[progressId] || false;
-     if (checkbox.checked) {
-      li.classList.add("completed");
-    }
-
-    const handleChange = () => {
-        progress[progressId] = checkbox.checked;
-        li.classList.toggle("completed", checkbox.checked);
-        saveProgress();
+        return true;
     };
 
-    li.addEventListener('click', (e) => {
-        if (e.target.closest('.info-btn')) {
-            return;
+    const atualizarProgressoGeral = () => {
+        const exerciciosDoDia = dadosTreino[diaAtivoIndex].exercicios;
+        if (!exerciciosDoDia) return;
+
+        const totalExercicios = exerciciosDoDia.length;
+        let concluidos = 0;
+        exerciciosDoDia.forEach((ex, exIndex) => {
+            const id = `dia${diaAtivoIndex}-ex${exIndex}`;
+            const seriesFeitas = progresso[id] || 0;
+            if (seriesFeitas >= ex.series) {
+                concluidos++;
+            }
+        });
+        const porcentagem = totalExercicios > 0 ? (concluidos / totalExercicios) * 100 : 0;
+        elementos.progressBar.style.width = `${porcentagem}%`;
+
+        if (porcentagem === 100 && elementos.completion.overlay.classList.contains('hidden')) {
+            setTimeout(() => {
+                if (verificarConclusaoSemanal()) {
+                    elementos.completion.text.textContent = "PARABÉNS! Você completou todos os treinos da semana! O ciclo será reiniciado em 5 segundos.";
+                    elementos.completion.overlay.classList.remove('hidden');
+                    confetti({ particleCount: 300, spread: 180, startVelocity: 40, origin: { y: 0.6 }, zIndex: 2000 });
+                    setTimeout(() => {
+                        progresso = {};
+                        salvarProgresso();
+                        location.reload();
+                    }, 5000);
+                } else {
+                    const mensagem = mensagensDeConclusao[Math.floor(Math.random() * mensagensDeConclusao.length)];
+                    elementos.completion.text.textContent = mensagem;
+                    elementos.completion.overlay.classList.remove('hidden');
+                    confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 }, zIndex: 2000 });
+                }
+            }, 500);
         }
-        checkbox.checked = !checkbox.checked;
-        handleChange();
-    });
+    };
 
-    li.querySelector(".info-btn").addEventListener("click", (e) => {
-      e.stopPropagation();
-      openInfoModal(exercise.name, exercise.instructions);
-    });
+    const atualizarVisualCard = (card, id, ex) => {
+        const seriesFeitas = progresso[id] || 0;
+        const porcentagem = (seriesFeitas / ex.series) * 100;
+        card.querySelector('.exercicio-progress-fill').style.width = `${porcentagem}%`;
+        card.classList.toggle('finalizado', seriesFeitas >= ex.series);
+    };
 
-    return li;
-  };
+    const handleClickCard = (e) => {
+        const card = e.currentTarget;
+        const id = card.dataset.id;
+        const exIndex = parseInt(card.dataset.exIndex, 10);
+        const ex = dadosTreino[diaAtivoIndex].exercicios[exIndex];
 
-  const mainTitle = document.createElement("h3");
-  mainTitle.className = "category-title";
-  mainTitle.textContent = "Main Workout";
-  exerciseList.appendChild(mainTitle);
-  dayData.exercises.forEach((ex, i) =>
-    exerciseList.appendChild(createExerciseItem(ex, "exercise-item", i))
-  );
+        if (card.classList.contains('finalizado')) return;
 
-  if (dayData.abFinisher) {
-    const abTitle = document.createElement("h3");
-    abTitle.className = "category-title";
-    abTitle.textContent = "Ab Finisher";
-    exerciseList.appendChild(abTitle);
-    exerciseList.appendChild(
-      createExerciseItem(dayData.abFinisher, "ab-finisher", 0)
-    );
-  }
+        let seriesFeitas = progresso[id] || 0;
+        seriesFeitas++;
+        progresso[id] = seriesFeitas;
 
-  if (dayData.cardio) {
-    const cardioTitle = document.createElement("h3");
-    cardioTitle.className = "category-title";
-    cardioTitle.textContent = "Post-Workout Cardio";
-    exerciseList.appendChild(cardioTitle);
-    exerciseList.appendChild(
-      createExerciseItem(dayData.cardio, "cardio-session", 0)
-    );
-  }
-}
+        atualizarVisualCard(card, id, ex);
+        salvarProgresso();
+        
+        if (seriesFeitas >= ex.series) {
+            atualizarProgressoGeral();
+            card.classList.add('movendo');
+            setTimeout(() => {
+                elementos.listaExercicios.appendChild(card);
+                card.classList.remove('movendo');
+            }, 400);
+        }
+    };
 
-function setActiveDay(dayIndex) {
-  document
-    .querySelectorAll(".day-btn")
-    .forEach((btn) => btn.classList.remove("active"));
-  const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
-  if (currentBtn) {
-    currentBtn.classList.add("active");
-  }
-  renderWorkout(dayIndex);
-}
+    const handleRightClickCard = (e) => {
+        e.preventDefault();
+        const card = e.currentTarget;
+        const id = card.dataset.id;
+        const exIndex = parseInt(card.dataset.exIndex, 10);
+        const ex = dadosTreino[diaAtivoIndex].exercicios[exIndex];
 
-// App Initialization
-function init() {
-  loadProgress();
+        let seriesFeitas = progresso[id] || 0;
+        if (seriesFeitas > 0) {
+            seriesFeitas--;
+            progresso[id] = seriesFeitas;
+        }
 
-  // Create Day Buttons
-  workoutData.forEach((day, index) => {
-    const btn = document.createElement("button");
-    btn.className = "day-btn";
-    const textSpan = document.createElement("span");
-    textSpan.textContent = day.title === "Rest Day" ? "Rest" : `Day ${day.day}`;
-    btn.appendChild(textSpan);
-    btn.dataset.day = index;
-    btn.addEventListener("click", () => setActiveDay(index));
-    daySelector.appendChild(btn);
-  });
-  
-  // Create and append Calorie Counter
-  const calorieCounter = document.createElement("div");
-  calorieCounter.id = "calorie-counter";
-  daySelector.appendChild(calorieCounter);
+        atualizarVisualCard(card, id, ex);
+        salvarProgresso();
+        atualizarProgressoGeral();
+    };
 
-  updateProgressBars();
-  updateWeeklyCalories();
+    const renderizarTreino = (index) => {
+        diaAtivoIndex = index;
+        const diaData = dadosTreino[index];
+        elementos.headerTitle.textContent = `Treino de Hoje: ${diaData.dia}`;
+        elementos.listaExercicios.innerHTML = '';
+        elementos.completion.overlay.classList.add('hidden');
 
-  resetButton.addEventListener("click", openResetModal);
+        if (!diaData.exercicios) return;
 
-  confirmResetBtn.addEventListener("click", () => {
-    progress = {};
-    saveProgress();
-    const activeDayIndex =
-      document.querySelector(".day-btn.active")?.dataset.day || 0;
-    renderWorkout(parseInt(activeDayIndex, 10));
-    closeResetModal();
-  });
+        const exerciciosOrdenados = [], exerciciosFinalizados = [];
+        diaData.exercicios.forEach((ex, exIndex) => {
+            const id = `dia${index}-ex${exIndex}`;
+            const li = document.createElement('li');
+            li.className = 'exercicio-item';
+            li.dataset.id = id;
+            li.dataset.exIndex = exIndex;
+            
+            li.innerHTML = `
+                <div class="exercicio-progress-fill"></div>
+                <div class="exercicio-icon">${diaData.iconEmoji}</div>
+                <div class="detalhes-exercicio">
+                    <h3>${ex.nome}</h3>
+                    <p>${ex.series} séries de ${ex.reps}</p>
+                </div>
+                <button class="btn-info">i</button>
+            `;
+            
+            atualizarVisualCard(li, id, ex);
+            li.addEventListener('click', handleClickCard);
+            li.addEventListener('contextmenu', handleRightClickCard);
+            li.querySelector('.btn-info').addEventListener('click', (e) => {
+                e.stopPropagation();
+                elementos.modal.titulo.textContent = ex.nome;
+                elementos.modal.gif.src = ex.gifUrl;
+                elementos.modal.instrucoes.textContent = ex.instrucoes;
+                elementos.modal.overlay.classList.remove('hidden');
+            });
 
-  cancelResetBtn.addEventListener("click", closeResetModal);
+            if (li.classList.contains('finalizado')) {
+                exerciciosFinalizados.push(li);
+            } else {
+                exerciciosOrdenados.push(li);
+            }
+        });
 
-  infoModalCloseBtn.addEventListener("click", closeInfoModal);
-  infoModalOverlay.addEventListener("click", (e) => {
-    if (e.target === infoModalOverlay) {
-      closeInfoModal();
-    }
-  });
-  resetModalOverlay.addEventListener("click", (e) => {
-    if (e.target === resetModalOverlay) {
-      closeResetModal();
-    }
-  });
+        exerciciosOrdenados.forEach(li => elementos.listaExercicios.appendChild(li));
+        exerciciosFinalizados.forEach(li => elementos.listaExercicios.appendChild(li));
+        atualizarProgressoGeral();
+    };
+    
+    const init = () => {
+        carregarProgresso();
+        elementos.quoteText.textContent = frasesMotivacionais[Math.floor(Math.random() * frasesMotivacionais.length)];
 
-  // Set initial day
-  const today = new Date().getDay(); // Sunday = 0, Monday = 1...
-  const initialDayIndex = today === 0 ? 6 : today - 1; // Map to our 0-indexed array
-  setActiveDay(initialDayIndex);
-}
+        dadosTreino.forEach((dia, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-dia';
+            btn.textContent = dia.dia;
+            btn.dataset.index = index;
+            elementos.seletorDias.appendChild(btn);
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.btn-dia').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderizarTreino(index);
+            });
+        });
 
-init();
+        elementos.modal.fecharBtn.addEventListener('click', () => elementos.modal.overlay.classList.add('hidden'));
+        elementos.completion.closeBtn.addEventListener('click', () => elementos.completion.overlay.classList.add('hidden'));
+        
+        elementos.botaoResetar.addEventListener('click', () => {
+            if (confirm('Tem certeza que quer apagar todo o progresso da semana?')) {
+                progresso = {};
+                salvarProgresso();
+                location.reload();
+            }
+        });
+        
+        let hoje = new Date().getDay() - 1;
+        if(hoje < 0 || hoje > 4) hoje = 0;
+        document.querySelectorAll('.btn-dia')[hoje].click();
+    };
+
+    init();
+});
