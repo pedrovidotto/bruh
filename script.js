@@ -1,4 +1,5 @@
-// Workout data with added calories per series/activity
+// Replace the old workoutData constant with this new, updated version.
+
 const workoutData = [
   {
     "day": 1,
@@ -28,22 +29,9 @@ const workoutData = [
     "abFinisher": null,
     "cardio": null
   },
+  // --- DAY 3: QUADS & CALVES (MOVED FROM DAY 4) ---
   {
     "day": 3,
-    "title": "Shoulders",
-    "duration": "50-60 minutes",
-    "exercises": [
-        { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height.", "calories": 11 },
-        { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative.", "calories": 7 },
-        { "name": "Reverse Pec-Deck", "details": "4 sets of 15-20 reps | 60s rest", "instructions": "1. Sit facing the machine with your chest against the pad.\n2. Drive your arms back and out in a wide arc, squeezing your rear delts.", "calories": 7 },
-        { "name": "Barbell Front Raise", "details": "3 sets of 10-15 reps | 75s rest", "instructions": "1. Hold a barbell with an overhand grip.\n2. Raise the bar to shoulder level, keeping your arms straight.\n3. Lower with control. Avoid using momentum.", "calories": 9 },
-        { "name": "Heavy Dumbbell Shrugs", "details": "4 sets of 10-15 reps | 60s rest", "instructions": "1. Hold heavy dumbbells at your sides.\n2. Elevate your shoulders straight up towards your ears.\n3. Squeeze for 2 seconds at the top.", "calories": 6 }
-    ],
-    "abFinisher": { "name": "Decline Reverse Crunches", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs.", "calories": 35 },
-    "cardio": null
-  },
-  {
-    "day": 4,
     "title": "Quads & Calves",
     "duration": "60-75 minutes",
     "exercises": [
@@ -54,6 +42,23 @@ const workoutData = [
         { "name": "Standing Calf Raises", "details": "5 sets of 10-15 reps | 45s rest", "instructions": "1. Get a deep stretch at the bottom of the movement.\n2. Press up onto your big toes and pause at the top.", "calories": 5 }
     ],
     "abFinisher": null,
+    "cardio": null
+  },
+  // --- DAY 4: SHOULDERS & CHEST (MODIFIED) ---
+  {
+    "day": 4,
+    "title": "Shoulders & Chest",
+    "duration": "60-70 minutes",
+    "exercises": [
+        { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height.", "calories": 11 },
+        { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative.", "calories": 7 },
+        { "name": "Reverse Pec-Deck", "details": "4 sets of 15-20 reps | 60s rest", "instructions": "1. Sit facing the machine with your chest against the pad.\n2. Drive your arms back and out in a wide arc, squeezing your rear delts.", "calories": 7 },
+        // ADDED: Secondary chest press for frequency
+        { "name": "Flat Dumbbell Press", "details": "3 sets of 8-12 reps | 75s rest", "instructions": "1. Lie flat on the bench.\n2. Press the dumbbells up until your arms are extended but not locked.\n3. Lower slowly, feeling a stretch in your chest.", "calories": 11 },
+        // ADDED: Secondary chest fly for frequency
+        { "name": "Cable Flys", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Set pulleys to chest height.\n2. Step forward and bring the handles together in a wide arc.\n3. Squeeze your chest hard at the peak of the movement.", "calories": 8 }
+    ],
+    "abFinisher": { "name": "Decline Reverse Crunches", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs.", "calories": 35 },
     "cardio": null
   },
   {
