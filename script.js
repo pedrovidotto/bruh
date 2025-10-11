@@ -276,31 +276,31 @@ function updateProgressBars() {
 }
 
 // --- Event Handlers & Interaction ---
-function handleSeriesUpdate(progressId, totalSets, direction) {
+// MODIFIED: Now accepts the card element directly
+function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
     const wasCompleted = currentCompleted >= totalSets;
 
     if (direction === 'increment') {
         progress[progressId] = Math.min(totalSets, currentCompleted + 1);
         triggerHapticFeedback();
-        const card = document.querySelector(`[data-progress-id="${progressId}"]`);
-        if (card) {
-            const exerciseDetails = card.querySelector('p').textContent;
-            const restTime = parseRestTime(exerciseDetails);
-            const isNowLastSet = progress[progressId] === totalSets;
-            startOnScreenTimer(restTime);
-            if (isNowLastSet && !wasCompleted) {
-                const nextExercise = findNextExercise(progressId);
-                const title = "Exercise Complete! 🔥";
-                const body = nextExercise ? `Next up: ${nextExercise}` : "You've finished the workout!";
-                scheduleNotification(title, body, restTime);
-            } else if (!isNowLastSet) {
-                const title = "Rest Over! 💪";
-                const body = `Time for set ${progress[progressId] + 1} of ${totalSets}.`;
-                scheduleNotification(title, body, restTime);
-            }
+        
+        const exerciseDetails = card.querySelector('p').textContent;
+        const restTime = parseRestTime(exerciseDetails);
+        const isNowLastSet = progress[progressId] === totalSets;
+        startOnScreenTimer(restTime);
+
+        if (isNowLastSet && !wasCompleted) {
+            const nextExercise = findNextExercise(progressId);
+            const title = "Exercise Complete! 🔥";
+            const body = nextExercise ? `Next up: ${nextExercise}` : "You've finished the workout!";
+            scheduleNotification(title, body, restTime);
+        } else if (!isNowLastSet) {
+            const title = "Rest Over! 💪";
+            const body = `Time for set ${progress[progressId] + 1} of ${totalSets}.`;
+            scheduleNotification(title, body, restTime);
         }
-    } else {
+    } else { // 'decrement'
         progress[progressId] = Math.max(0, currentCompleted - 1);
         if (activeTimer) {
             clearInterval(activeTimer);
@@ -310,14 +310,12 @@ function handleSeriesUpdate(progressId, totalSets, direction) {
     
     saveProgress();
     
-    const cardToUpdate = document.querySelector(`[data-progress-id="${progressId}"]`);
-    if (cardToUpdate) {
-        updateCardVisuals(cardToUpdate, progressId, totalSets);
-        const isNowCompleted = (progress[progressId] || 0) >= totalSets;
-        if (!wasCompleted && isNowCompleted) {
-            animateAndMoveToEnd(cardToUpdate);
-            checkDayCompletion();
-        }
+    // Now we use the card element that was passed in directly
+    updateCardVisuals(card, progressId, totalSets);
+    const isNowCompleted = (progress[progressId] || 0) >= totalSets;
+    if (!wasCompleted && isNowCompleted) {
+        animateAndMoveToEnd(card);
+        checkDayCompletion();
     }
 }
 
@@ -366,19 +364,29 @@ function renderWorkout(dayIndex) {
     workoutDuration.textContent = `Estimated Duration: ${dayData.duration}`;
     exerciseList.innerHTML = "";
     if (dayData.exercises.length === 0) { exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>'; updateCalorieCounters(); return; }
+    
+    // MODIFIED: createExerciseItem now passes the element to the handler
     const createExerciseItem = (exercise, type, index) => {
-        const li = document.createElement("li"); li.className = type;
-        const progressId = `day${dayData.day}-${type}-${index}`; const totalSets = parseSets(exercise.details);
-        li.dataset.progressId = progressId; li.dataset.totalSets = totalSets;
+        const li = document.createElement("li");
+        li.className = type;
+        const progressId = `day${dayData.day}-${type}-${index}`;
+        const totalSets = parseSets(exercise.details);
+        li.dataset.progressId = progressId;
+        li.dataset.totalSets = totalSets;
         li.innerHTML = `<div class="exercise-details"><h3>${exercise.name}</h3><p>${exercise.details}</p></div><button class="info-btn" aria-label="Open exercise info for ${exercise.name}">i</button>`;
-        li.addEventListener('click', () => handleSeriesUpdate(progressId, totalSets, 'increment'));
-        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(progressId, totalSets, 'decrement'); });
-        li.addEventListener('touchstart', () => { longPressTimer = setTimeout(() => handleSeriesUpdate(progressId, totalSets, 'decrement'), LONG_PRESS_DURATION); }, { passive: true });
+        
+        // Pass the element 'li' directly into the handler
+        li.addEventListener('click', () => handleSeriesUpdate(li, progressId, totalSets, 'increment'));
+        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(li, progressId, totalSets, 'decrement'); });
+        li.addEventListener('touchstart', (e) => { longPressTimer = setTimeout(() => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'), LONG_PRESS_DURATION); }, { passive: true });
         li.addEventListener('touchend', () => clearTimeout(longPressTimer));
         li.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+        
         li.querySelector(".info-btn").addEventListener("click", (e) => { e.stopPropagation(); openInfoModal(exercise.name, exercise.instructions); });
-        updateCardVisuals(li, progressId, totalSets); return li;
+        updateCardVisuals(li, progressId, totalSets);
+        return li;
     };
+
     const renderSection = (title, items, type) => {
         if (!items || (Array.isArray(items) && items.length === 0)) return [];
         const sectionTitle = document.createElement("h3"); sectionTitle.className = "category-title"; sectionTitle.textContent = title;
@@ -434,7 +442,6 @@ function init() {
         progress = {};
         saveProgress();
         const activeDayIndex = document.querySelector(".day-btn.active")?.dataset.day || 0;
-        // ADDED: Hide timer on reset
         if(activeTimer) {
             clearInterval(activeTimer);
             timerDisplay.classList.add('hidden');
