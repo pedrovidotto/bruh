@@ -1,132 +1,408 @@
 :root {
-  --cor-fundo: #1A202C;
-  --cor-superficie: #2D3748;
-  --cor-primaria: #FBBF24;
-  --cor-sucesso: #48BB78;
-  --cor-texto-principal: #F7FAFC;
-  --cor-texto-secundario: #A0AEC0;
-  --cor-borda: #4A5568;
+  --primary-color: #EE8C46; /* Orange from logo */
+  --destructive-color: #D94C4C; /* Red from logo */
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-color: #ffffff;
+  --text-muted-color: #a0a0a0;
+  --border-color: #333333;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* These settings are for the CodePen environment to simulate the app */
+html {
+  background-color: var(--background-color);
+}
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--cor-fundo);
-  color: var(--cor-texto-principal);
-  font-size: 18px;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  color: var(--text-color);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: env(safe-area-inset-top);
+}
+/* End of simulation settings */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.container { max-width: 600px; margin: auto; padding: 20px; }
-header { text-align: center; margin-bottom: 2rem; }
-header h1 { margin-bottom: 0.5rem; }
-#app-logo { max-height: 55px; width: auto; }
-#header-title {
-  font-size: 1.5rem; font-weight: 600;
-  color: var(--cor-texto-secundario); margin-bottom: 1.5rem;
-}
-
-#quote-card {
-  background-color: var(--cor-superficie);
-  border-left: 5px solid var(--cor-primaria);
-  border-radius: 8px; padding: 1.25rem;
-  margin-bottom: 2rem; text-align: center;
-}
-#quote-text {
-  font-style: italic;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--cor-texto-secundario);
-}
-
-#seletor-dias { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-.btn-dia {
-  background-color: var(--cor-superficie); color: var(--cor-texto-principal);
-  border: 1px solid var(--cor-borda); border-radius: 8px; padding: 12px 24px;
-  cursor: pointer; font-size: 1.1rem; font-weight: 600; transition: all 0.2s ease-in-out;
-}
-.btn-dia:hover { background-color: #4A5568; }
-.btn-dia.active { background-color: var(--cor-primaria); color: var(--cor-fundo); border-color: var(--cor-primaria); }
-
-#cabecalho-treino h2 { text-align: center; margin-bottom: 1rem; font-size: 1.5rem; color: var(--cor-texto-secundario); }
-.progress-container {
-  width: 100%; height: 8px; background-color: var(--cor-superficie);
-  border-radius: 10px; overflow: hidden; margin-bottom: 1rem;
-}
-.progress-bar { width: 0%; height: 100%; background-color: var(--cor-sucesso); transition: width 0.5s; }
-
-#lista-exercicios { list-style: none; padding: 0; margin-top: 2rem; }
-.exercicio-item {
-  background-color: var(--cor-superficie); border: 1px solid var(--cor-borda);
-  border-radius: 12px; margin-bottom: 1rem; padding: 1.25rem;
-  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
-  gap: 1rem; cursor: pointer; position: relative; overflow: hidden;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.exercicio-progress-fill {
-  position: absolute; top: 0; left: 0; height: 100%; width: 0%;
-  background-color: rgba(72, 187, 120, 0.2);
-  z-index: 1; transition: width 0.4s ease-in-out;
-}
-.exercicio-icon, .detalhes-exercicio, .btn-info { position: relative; z-index: 2; user-select: none; }
-.exercicio-item.finalizado { opacity: 0.6; border-left: 4px solid var(--cor-sucesso); cursor: default; }
-.exercicio-item.movendo { opacity: 0; transform: scale(0.95); }
-.exercicio-icon { font-size: 2.5rem; }
-.detalhes-exercicio h3 { font-size: 1.3rem; font-weight: 600; margin: 0 0 5px 0; }
-.detalhes-exercicio p { margin: 0; color: var(--cor-texto-secundario); font-size: 1rem; }
-.btn-info {
-  background: none; border: none; color: var(--cor-texto-secundario);
-  font-size: 2rem; font-weight: bold; cursor: pointer; padding: 10px;
-}
-
-footer { text-align: center; margin-top: 3rem; padding-bottom: 2rem; }
-#botao-resetar {
-  background-color: #A0AEC0; color: var(--cor-fundo); border: none;
-  border-radius: 8px; padding: 12px 25px; font-size: 1rem; font-weight: 600;
-  cursor: pointer; transition: background-color 0.2s;
-}
-#botao-resetar:hover { background-color: #718096; }
-
-/* Overlays e Modais */
-.overlay, .modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 1000; transition: opacity 0.3s;
-}
-.modal, .completion-card {
-  background: var(--cor-superficie); padding: 30px; border-radius: 10px;
-  max-width: 500px; width: 95%; position: relative; border: 1px solid var(--cor-borda);
+header h1 {
   text-align: center;
-}
-#modal-info-fechar-btn, #completion-close-btn {
-  background: var(--cor-borda); color: var(--cor-texto-principal);
-  border-radius: 8px; border: none; cursor: pointer; font-weight: 600;
-  transition: background-color 0.2s;
-}
-#modal-info-fechar-btn {
-  position: absolute; top: 10px; right: 15px;
-  font-size: 2.5rem; background: none; padding: 0;
-}
-#completion-close-btn {
-  padding: 12px 30px; font-size: 1rem; margin-top: 2rem;
-}
-#completion-close-btn:hover { background-color: #4A5568; }
-
-.modal-info-conteudo { text-align: center; }
-#modal-info-gif { max-width: 80%; border-radius: 8px; margin: 20px 0; border: 1px solid var(--cor-borda); }
-#modal-info-instrucoes {
-    font-size: 1.1rem; line-height: 1.7; color: var(--cor-texto-secundario);
-    white-space: pre-line;
-    text-align: left;
+  margin-bottom: 20px;
+  color: var(--text-color);
 }
 
-#completion-text {
-    font-size: 1.75rem; 
-    font-weight: 700;
-    line-height: 1.4;
-    color: var(--cor-primaria);
+#weekly-calories-container {
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
 }
 
-.hidden { display: none; }
+#day-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.day-btn {
+  background-color: var(--surface-color);
+  color: var(--text-muted-color);
+  border: 1px solid var(--border-color);
+  border-radius: 17px;
+  padding: 8px 17px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.day-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress, 0%);
+  background-color: rgba(238, 140, 70, 0.25); /* Faded primary color */
+  transition: width 0.4s ease-in-out;
+  z-index: -1;
+}
+
+.day-btn span {
+  position: relative;
+  z-index: 2;
+}
+
+.day-btn:hover {
+  background-color: #2f2f2f;
+}
+
+.day-btn.active {
+  background-color: var(--primary-color);
+  color: #121212;
+  border-color: var(--primary-color);
+  font-weight: bold;
+}
+
+.day-btn.active::before {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#workout-container {
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid var(--border-color);
+}
+
+#workout-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#workout-info-flex {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#daily-calories {
+    color: var(--text-muted-color);
+}
+
+#exercise-list {
+  list-style: none;
+}
+
+.exercise-item,
+.ab-finisher,
+.cardio-session {
+  background-color: #2a2a2a;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Standard syntax */
+}
+
+/* Progress bar for each card */
+.exercise-item::before,
+.ab-finisher::before,
+.cardio-session::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--series-progress, 0%);
+  background-color: rgba(238, 140, 70, 0.25);
+  transition: width 0.4s ease-in-out, background-color 0.4s;
+  z-index: -1;
+}
+
+.exercise-item.fully-completed::before,
+.ab-finisher.fully-completed::before,
+.cardio-session.fully-completed::before {
+    background-color: rgba(238, 140, 70, 0.4);
+}
+
+.exercise-item.fully-completed .exercise-details h3,
+.ab-finisher.fully-completed .exercise-details h3,
+.cardio-session.fully-completed .exercise-details h3 {
+    text-decoration: line-through;
+    color: var(--text-muted-color);
+}
+
+/* Animation for when card moves to the bottom */
+.exercise-item.reordering,
+.ab-finisher.reordering,
+.cardio-session.reordering {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.exercise-details {
+  flex-grow: 1;
+  pointer-events: none; /* Makes text non-interactive for easier card clicks */
+}
+
+.exercise-details h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  transition: color 0.3s, text-decoration 0.3s;
+}
+
+.exercise-details p {
+  color: var(--text-muted-color);
+  font-size: 0.9rem;
+}
+
+.info-btn {
+  flex-shrink: 0;
+  background-color: #333;
+  color: #ccc;
+  border: 1px solid #555;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  z-index: 5; /* Ensure it's above the progress bar */
+}
+
+.info-btn:hover {
+  background-color: #444;
+}
+
+.category-title {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#reset-button {
+  background-color: var(--destructive-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#reset-button:hover {
+  background-color: #c94040;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  padding: 15px;
+}
+
+.modal {
+  background-color: var(--surface-color);
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transform: scale(1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-overlay.hidden .modal {
+  transform: scale(0.95);
+}
+
+#info-modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: var(--text-muted-color);
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+#info-modal-title {
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+#info-modal-instructions {
+  color: var(--text-color);
+  white-space: pre-wrap; /* This ensures \n characters create line breaks */
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#reset-modal p {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.modal-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#confirm-reset-btn {
+  background-color: var(--destructive-color);
+  color: #fff;
+}
+#confirm-reset-btn:hover {
+  background-color: #c94040;
+}
+#cancel-reset-btn {
+  background-color: #444;
+  color: #fff;
+}
+#cancel-reset-btn:hover {
+  background-color: #555;
+}
+
+/* Completion Overlay */
+#completion-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 1;
+    transition: opacity 0.4s ease-in-out;
+}
+
+#completion-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#completion-card {
+    background-color: var(--surface-color);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--primary-color);
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#completion-overlay:not(.hidden) #completion-card {
+    transform: scale(1);
+}
+
+#completion-title {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* Confetti styles */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary-color);
+    opacity: 0.9;
+    z-index: 2001;
+    pointer-events: none;
+    border-radius: 2px;
+}
