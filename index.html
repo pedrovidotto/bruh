@@ -39,6 +39,8 @@
   </footer>
 </div>
 
+<div id="timer-display" class="hidden">00:00</div>
+
 <div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
     <button id="info-modal-close-btn" aria-label="Close info modal">&times;</button>
@@ -65,6 +67,9 @@
         <p id="completion-message"></p>
     </div>
 </div>
+
+<audio id="set-complete-sound" src="set-complete.mp3" preload="auto"></audio>
+<audio id="exercise-complete-sound" src="exercise-complete.mp3" preload="auto"></audio>
 
 <script src="script.js"></script>
 </body>
