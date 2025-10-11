@@ -1,5 +1,4 @@
-// Replace the old workoutData constant with this new, updated version.
-
+// Workout data with added calories per series/activity
 const workoutData = [
   {
     "day": 1,
@@ -29,7 +28,6 @@ const workoutData = [
     "abFinisher": null,
     "cardio": null
   },
-  // --- DAY 3: QUADS & CALVES (MOVED FROM DAY 4) ---
   {
     "day": 3,
     "title": "Quads & Calves",
@@ -44,7 +42,6 @@ const workoutData = [
     "abFinisher": null,
     "cardio": null
   },
-  // --- DAY 4: SHOULDERS & CHEST (MODIFIED) ---
   {
     "day": 4,
     "title": "Shoulders & Chest",
@@ -53,9 +50,7 @@ const workoutData = [
         { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height.", "calories": 11 },
         { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative.", "calories": 7 },
         { "name": "Reverse Pec-Deck", "details": "4 sets of 15-20 reps | 60s rest", "instructions": "1. Sit facing the machine with your chest against the pad.\n2. Drive your arms back and out in a wide arc, squeezing your rear delts.", "calories": 7 },
-        // ADDED: Secondary chest press for frequency
         { "name": "Flat Dumbbell Press", "details": "3 sets of 8-12 reps | 75s rest", "instructions": "1. Lie flat on the bench.\n2. Press the dumbbells up until your arms are extended but not locked.\n3. Lower slowly, feeling a stretch in your chest.", "calories": 11 },
-        // ADDED: Secondary chest fly for frequency
         { "name": "Cable Flys", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Set pulleys to chest height.\n2. Step forward and bring the handles together in a wide arc.\n3. Squeeze your chest hard at the peak of the movement.", "calories": 8 }
     ],
     "abFinisher": { "name": "Decline Reverse Crunches", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs.", "calories": 35 },
@@ -101,6 +96,9 @@ const resetButton = document.getElementById("reset-button");
 const dailyCaloriesEl = document.getElementById("daily-calories");
 const weeklyCaloriesContainer = document.getElementById("weekly-calories-container");
 const enableNotificationsBtn = document.getElementById("enable-notifications-btn");
+const timerDisplay = document.getElementById('timer-display');
+const setCompleteSound = document.getElementById('set-complete-sound');
+const exerciseCompleteSound = document.getElementById('exercise-complete-sound');
 
 // Modal Elements
 const infoModalOverlay = document.getElementById("info-modal-overlay");
@@ -121,6 +119,7 @@ let progress = {};
 let longPressTimer;
 const LONG_PRESS_DURATION = 500; // ms
 let notificationsEnabled = false;
+let activeTimer = null;
 
 const motivationalMessages = [
     "Crushed it! See you for the next one.", "Be proud of your hard work today.",
@@ -128,8 +127,45 @@ const motivationalMessages = [
     "One step closer to your goals. Great job!",
 ];
 
-// --- Notification Functions ---
+// --- Timer, Sound, and Haptic Functions ---
+function playSound(soundElement) {
+    soundElement.currentTime = 0;
+    soundElement.play().catch(e => console.error("Error playing sound:", e));
+}
 
+function triggerHapticFeedback() {
+    if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+    }
+}
+
+function startOnScreenTimer(durationSeconds) {
+    if (activeTimer) {
+        clearInterval(activeTimer);
+    }
+    if (durationSeconds <= 0) {
+        timerDisplay.classList.add('hidden');
+        return;
+    }
+    let timeLeft = durationSeconds;
+    timerDisplay.classList.remove('hidden');
+    const updateTimer = () => {
+        const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        const seconds = (timeLeft % 60).toString().padStart(2, '0');
+        timerDisplay.textContent = `${minutes}:${seconds}`;
+        if (timeLeft <= 0) {
+            clearInterval(activeTimer);
+            timerDisplay.classList.add('hidden');
+        } else {
+            timeLeft--;
+        }
+    };
+    updateTimer();
+    activeTimer = setInterval(updateTimer, 1000);
+}
+
+
+// --- Notification Functions ---
 async function requestNotificationPermission() {
     if (!('Notification' in window)) {
         alert('This browser does not support desktop notification');
@@ -141,7 +177,6 @@ async function requestNotificationPermission() {
         enableNotificationsBtn.textContent = 'Timers Enabled ✅';
         enableNotificationsBtn.classList.add('activated');
         enableNotificationsBtn.disabled = true;
-        // Register service worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
@@ -150,7 +185,6 @@ async function requestNotificationPermission() {
 
 function scheduleNotification(title, body, delaySeconds) {
     if (!notificationsEnabled || delaySeconds <= 0) return;
-    
     setTimeout(() => {
         if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
             navigator.serviceWorker.ready.then(registration => {
@@ -167,13 +201,13 @@ function scheduleNotification(title, body, delaySeconds) {
 }
 
 // --- Core & Helper Functions ---
-
 function loadProgress() {
     try {
         const savedProgress = localStorage.getItem("broSplitProgress");
         progress = savedProgress ? JSON.parse(savedProgress) : {};
     } catch (e) { console.error("Could not load progress from localStorage:", e); progress = {}; }
 }
+
 function saveProgress() {
     try {
         localStorage.setItem("broSplitProgress", JSON.stringify(progress));
@@ -192,7 +226,6 @@ function findNextExercise(currentProgressId) {
     const [day, type, indexStr] = currentProgressId.replace('day', '').split('-');
     const dayData = workoutData.find(d => d.day == day);
     const index = parseInt(indexStr, 10);
-    
     if (type === 'exercise' && index < dayData.exercises.length - 1) {
         return dayData.exercises[index + 1].name;
     } else if (type === 'exercise' && dayData.abFinisher) {
@@ -200,7 +233,7 @@ function findNextExercise(currentProgressId) {
     } else if ((type === 'exercise' || type === 'ab') && dayData.cardio) {
         return dayData.cardio.name;
     }
-    return null; // It was the last exercise of the day
+    return null;
 }
 
 function parseSets(details) {
@@ -257,26 +290,32 @@ function handleSeriesUpdate(progressId, totalSets, direction) {
 
     if (direction === 'increment') {
         progress[progressId] = Math.min(totalSets, currentCompleted + 1);
-        
+        triggerHapticFeedback();
         const card = document.querySelector(`[data-progress-id="${progressId}"]`);
         if (card) {
             const exerciseDetails = card.querySelector('p').textContent;
             const restTime = parseRestTime(exerciseDetails);
             const isNowLastSet = progress[progressId] === totalSets;
-
+            startOnScreenTimer(restTime);
             if (isNowLastSet && !wasCompleted) {
                 const nextExercise = findNextExercise(progressId);
                 const title = "Exercise Complete! 🔥";
                 const body = nextExercise ? `Next up: ${nextExercise}` : "You've finished the workout!";
                 scheduleNotification(title, body, restTime);
+                playSound(exerciseCompleteSound);
             } else if (!isNowLastSet) {
                 const title = "Rest Over! 💪";
                 const body = `Time for set ${progress[progressId] + 1} of ${totalSets}.`;
                 scheduleNotification(title, body, restTime);
+                playSound(setCompleteSound);
             }
         }
-    } else { // 'decrement'
+    } else {
         progress[progressId] = Math.max(0, currentCompleted - 1);
+        if (activeTimer) {
+            clearInterval(activeTimer);
+            timerDisplay.classList.add('hidden');
+        }
     }
     
     saveProgress();
