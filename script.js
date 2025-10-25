@@ -44,7 +44,7 @@ const workoutData = [
   },
   {
     "day": 4,
-    "title": "Chest & Shoulders",
+    "title": "Shoulders & Chest",
     "duration": "60-70 minutes",
     "exercises": [
         { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height." },
@@ -58,7 +58,7 @@ const workoutData = [
   },
   {
     "day": 5,
-    "title": "Biceps & Triceps",
+    "title": "Arms (Biceps & Triceps)",
     "duration": "35-45 minutes",
     "exercises": [
         { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps." },
@@ -72,7 +72,7 @@ const workoutData = [
   },
   {
     "day": 6,
-    "title": "Glutes & Hamstrings",
+    "title": "Hamstrings & Glutes",
     "duration": "55-65 minutes",
     "exercises": [
         { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start." },
@@ -755,16 +755,21 @@ function init() {
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') { checkTimerOnFocus(); }
     });
+
+    // --- MODIFIED BLOCK ---
+    const dayLabels = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     workoutData.forEach((day, index) => {
         const btn = document.createElement("button");
         btn.className = "day-btn";
         const textSpan = document.createElement("span");
-        textSpan.textContent = day.title === "Rest Day" ? "Rest" : `Day ${day.day}`;
+        textSpan.textContent = dayLabels[index]; // Use labels array
         btn.appendChild(textSpan);
         btn.dataset.day = index;
         btn.addEventListener("click", () => setActiveDay(index));
         daySelector.appendChild(btn);
     });
+    // --- END MODIFIED BLOCK ---
+
     resetButton.addEventListener("click", openResetModal);
     confirmResetBtn.addEventListener("click", () => {
         progress = {};
@@ -792,8 +797,11 @@ function init() {
     infoModalCloseBtn.addEventListener("click", closeInfoModal);
     infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
     resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
+    
+    // This logic correctly maps Sunday (0) to index 6 (Rest Day / SUN)
+    // and Monday (1) to index 0 (Day 1 / MON)
     const today = new Date().getDay();
-    const initialDayIndex = today === 0 ? 6 : today - 1; // Sunday is 0 -> index 6 (Rest Day)
+    const initialDayIndex = today === 0 ? 6 : today - 1; 
     setActiveDay(initialDayIndex); // This call includes the first render
     checkTimerOnFocus();
 }
