@@ -95,10 +95,11 @@ header {
 
 #day-selector {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between; /* MODIFIED: Spreads buttons */
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 32px; /* MODIFIED: Was 40px */
+  margin-top: 32px; /* ADDED: Space above day selector */
+  margin-bottom: 0; /* MODIFIED: No space needed before main */
 }
 
 /* 4. BUTTONS */
@@ -107,8 +108,8 @@ header {
   background-color: transparent;
   color: var(--text-color-muted);
   border: 1px solid var(--border-color-muted);
-  border-radius: 16px;
-  padding: 6px 14px;
+  border-radius: 50%; /* MODIFIED: Makes buttons circular */
+  padding: 6px 0; /* MODIFIED: Adjusted padding */
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
@@ -116,9 +117,17 @@ header {
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  position: relative; /* Keep for ::before if needed later, but bar is removed */
+  position: relative; 
   overflow: hidden;
   z-index: 1;
+  
+  /* --- ADDED for circular buttons --- */
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* --- END ADDED --- */
 }
 
 .day-btn:hover {
@@ -169,7 +178,9 @@ header {
 }
 
 /* 5. WORKOUT MODULE */
-#workout-container { }
+#workout-container {
+  margin-top: 40px; /* ADDED: Space after header */
+} 
 
 #workout-header {
   text-align: left;
@@ -373,11 +384,12 @@ header {
 
 /* 6. FOOTER */
 footer {
-  text-align: left;
+  text-align: center; /* MODIFIED: Was left, centers reset button */
   margin-top: 64px; /* More space above footer */
   padding-bottom: env(safe-area-inset-bottom);
 }
 .footer-label {
+  /* This class is no longer used in index.html */
   font-size: 0.8rem;
   font-weight: 400;
   color: var(--text-color-muted);
@@ -441,10 +453,23 @@ footer {
 
 /* 9. ON-SCREEN TIMER */
 #timer-display {
-  position: fixed; bottom: 20px; left: 24px; transform: translateX(0);
-  background-color: var(--text-color); color: var(--background-color);
-  padding: 8px 20px; border-radius: 20px; font-size: 1.25rem; font-weight: 500;
-  z-index: 999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  opacity: 1; transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  position: fixed;
+  bottom: 20px;
+  left: 50%; /* MODIFIED: Center horizontally */
+  transform: translateX(-50%); /* MODIFIED: Center horizontally */
+  background-color: var(--text-color);
+  color: var(--background-color);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 2.25rem; /* MODIFIED: Bigger font */
+  font-weight: 300; /* MODIFIED: Light weight */
+  z-index: 999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  opacity: 1;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
-#timer-display.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+#timer-display.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px); /* MODIFIED: Combine transforms */
+  pointer-events: none;
+}
