@@ -104,7 +104,8 @@ header {
 
 /* 4. BUTTONS */
 
-.btn-secondary, .day-btn {
+/* --- MODIFIED: This rule is now ONLY for .day-btn --- */
+.day-btn {
   background-color: transparent;
   color: var(--text-color-muted);
   border: 1px solid var(--border-color-muted);
@@ -130,10 +131,32 @@ header {
   /* --- END ADDED --- */
 }
 
-.day-btn:hover {
+/* --- NEW: Style for .btn-secondary (reset button) --- */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-color-muted);
+  border: 1px solid var(--border-color-muted);
+  border-radius: 16px; /* Regular rounded corners */
+  padding: 8px 18px; /* Regular padding */
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400; /* Regular */
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  position: relative; 
+  overflow: hidden;
+  z-index: 1;
+}
+
+.day-btn:hover,
+.btn-secondary:hover {
   color: var(--text-color);
   border-color: var(--border-color);
 }
+/* --- END NEW BLOCK --- */
+
 
 .day-btn.active {
   color: var(--background-color);
