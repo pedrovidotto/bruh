@@ -95,7 +95,6 @@ const exerciseList = document.getElementById("exercise-list");
 const resetButton = document.getElementById("reset-button");
 const dailyCaloriesEl = document.getElementById("daily-calories");
 const weeklyCaloriesContainer = document.getElementById("weekly-calories-container");
-const enableNotificationsBtn = document.getElementById("enable-notifications-btn");
 const timerDisplay = document.getElementById('timer-display');
 
 // Modal Elements
@@ -116,8 +115,8 @@ const completionMessage = document.getElementById("completion-message");
 let progress = {};
 let longPressTimer;
 const LONG_PRESS_DURATION = 500; // ms
-let notificationsEnabled = false;
 let activeTimer = null;
+let restPeriodEndTime = null; // Stores the timestamp when the timer should end
 
 const motivationalMessages = [
     "Crushed it! See you for the next one.", "Be proud of your hard work today.",
@@ -136,19 +135,33 @@ function startOnScreenTimer(durationSeconds) {
     if (activeTimer) {
         clearInterval(activeTimer);
     }
+
+    // NEW: Save the exact end time to localStorage
+    // This allows the timer to be restored even if the page is fully reloaded
+    restPeriodEndTime = Date.now() + (durationSeconds * 1000);
+    localStorage.setItem('restPeriodEndTime', restPeriodEndTime);
+
     if (durationSeconds <= 0) {
         timerDisplay.classList.add('hidden');
+        localStorage.removeItem('restPeriodEndTime');
+        restPeriodEndTime = null;
         return;
     }
+
     let timeLeft = durationSeconds;
     timerDisplay.classList.remove('hidden');
+
     const updateTimer = () => {
         const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         const seconds = (timeLeft % 60).toString().padStart(2, '0');
         timerDisplay.textContent = `${minutes}:${seconds}`;
+
         if (timeLeft <= 0) {
             clearInterval(activeTimer);
+            activeTimer = null;
             timerDisplay.classList.add('hidden');
+            localStorage.removeItem('restPeriodEndTime');
+            restPeriodEndTime = null;
         } else {
             timeLeft--;
         }
@@ -157,39 +170,23 @@ function startOnScreenTimer(durationSeconds) {
     activeTimer = setInterval(updateTimer, 1000);
 }
 
-// --- Notification Functions ---
-async function requestNotificationPermission() {
-    if (!('Notification' in window)) {
-        alert('This browser does not support desktop notification');
-        return;
-    }
-    const permission = await Notification.requestPermission();
-    if (permission === 'granted') {
-        notificationsEnabled = true;
-        enableNotificationsBtn.textContent = 'Timers Enabled ✅';
-        enableNotificationsBtn.classList.add('activated');
-        enableNotificationsBtn.disabled = true;
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    }
-}
+// NEW: Function to check and resume timer when app becomes visible
+function checkTimerOnFocus() {
+    // Check if we were in the middle of a rest period
+    const endTime = restPeriodEndTime || localStorage.getItem('restPeriodEndTime');
+    if (!endTime) return;
 
-function scheduleNotification(title, body, delaySeconds) {
-    if (!notificationsEnabled || delaySeconds <= 0) return;
-    setTimeout(() => {
-        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-            navigator.serviceWorker.ready.then(registration => {
-                registration.showNotification(title, {
-                    body: body,
-                    icon: 'icon-192.png',
-                    badge: 'icon-192.png'
-                });
-            });
-        } else {
-            new Notification(title, { body: body, icon: 'icon-192.png' });
-        }
-    }, delaySeconds * 1000);
+    const remainingTime = Math.round((endTime - Date.now()) / 1000);
+
+    if (remainingTime > 0) {
+        // Resume the timer with the correct time left
+        startOnScreenTimer(remainingTime);
+    } else {
+        // Timer finished while we were away
+        timerDisplay.classList.add('hidden');
+        localStorage.removeItem('restPeriodEndTime');
+        restPeriodEndTime = null;
+    }
 }
 
 // --- Core & Helper Functions ---
@@ -295,11 +292,9 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
 
     if (direction === 'increment') {
         
-        // --- NEW: Jump-to-top logic ---
-        if (currentCompleted === 0) { // This is the first set being logged
+        if (currentCompleted === 0) {
             let currentElement = card;
             let precedingTitle = null;
-            // Find the H3 title for this card's section
             while (currentElement.previousElementSibling) {
                 currentElement = currentElement.previousElementSibling;
                 if (currentElement.tagName === 'H3') {
@@ -307,36 +302,25 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
                     break;
                 }
             }
-            // If we found its title AND the card is not already the first item
             if (precedingTitle && precedingTitle.nextElementSibling !== card) {
-                precedingTitle.after(card); // Move the card to be right after its title
+                precedingTitle.after(card);
             }
         }
-        // --- End of new logic ---
 
         progress[progressId] = Math.min(totalSets, currentCompleted + 1);
         triggerHapticFeedback();
         
         const exerciseDetails = card.querySelector('p').textContent;
         const restTime = parseRestTime(exerciseDetails);
-        const isNowLastSet = progress[progressId] === totalSets;
         startOnScreenTimer(restTime);
 
-        if (isNowLastSet && !wasCompleted) {
-            const nextExercise = findNextExercise(progressId);
-            const title = "Exercise Complete! 🔥";
-            const body = nextExercise ? `Next up: ${nextExercise}` : "You've finished the workout!";
-            scheduleNotification(title, body, restTime);
-        } else if (!isNowLastSet) {
-            const title = "Rest Over! 💪";
-            const body = `Time for set ${progress[progressId] + 1} of ${totalSets}.`;
-            scheduleNotification(title, body, restTime);
-        }
     } else { // 'decrement'
         progress[progressId] = Math.max(0, currentCompleted - 1);
         if (activeTimer) {
             clearInterval(activeTimer);
             timerDisplay.classList.add('hidden');
+            localStorage.removeItem('restPeriodEndTime');
+            restPeriodEndTime = null;
         }
     }
     
@@ -385,7 +369,7 @@ function checkDayCompletion() {
         completionTitle.textContent = isWeekComplete ? "🎉 Week Complete! 🎉" : "💪 Day Complete! 💪";
         completionMessage.textContent = isWeekComplete ? "Incredible work! Your progress will now reset for a fresh start." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
         completionOverlay.classList.remove('hidden'); triggerConfetti();
-        if (isWeekComplete) { setTimeout(() => { progress = {}; localStorage.removeItem("broSplitProgress"); location.reload(); }, 5000);
+        if (isWeekComplete) { setTimeout(() => { progress = {}; localStorage.removeItem("broSplitProgress"); localStorage.removeItem('restPeriodEndTime'); location.reload(); }, 5000);
         } else { setTimeout(() => completionOverlay.classList.add('hidden'), 4000); }
     }
 }
@@ -461,6 +445,9 @@ function setActiveDay(dayIndex) {
         timerDisplay.classList.add('hidden');
         activeTimer = null;
     }
+    // Clear the end time from storage when switching days
+    localStorage.removeItem('restPeriodEndTime');
+    restPeriodEndTime = null;
     
     renderWorkout(dayIndex); 
 }
@@ -475,17 +462,14 @@ function closeResetModal() { resetModalOverlay.classList.add("hidden"); resetMod
 function init() {
     loadProgress();
 
-    if ('Notification' in window && Notification.permission === 'granted') {
-        notificationsEnabled = true;
-        enableNotificationsBtn.textContent = 'Timers Enabled ✅';
-        enableNotificationsBtn.classList.add('activated');
-        enableNotificationsBtn.disabled = true;
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+    // NEW: Listen for when the user brings the app back into focus
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            checkTimerOnFocus();
         }
-    }
+    });
 
-    enableNotificationsBtn.addEventListener('click', requestNotificationPermission);
+    // We no longer need to ask for notification permission
     
     workoutData.forEach((day, index) => {
         const btn = document.createElement("button");
@@ -510,6 +494,9 @@ function init() {
             clearInterval(activeTimer);
             timerDisplay.classList.add('hidden');
         }
+        // Also clear any saved timer from storage
+        localStorage.removeItem('restPeriodEndTime');
+        restPeriodEndTime = null;
         
         renderWorkout(parseInt(activeDayIndex, 10));
         closeResetModal();
@@ -523,6 +510,9 @@ function init() {
     const today = new Date().getDay(); // Sunday = 0
     const initialDayIndex = today === 0 ? 6 : today - 1; // Map to 0-indexed week (Mon-Sun)
     setActiveDay(initialDayIndex);
+
+    // NEW: Check the timer on initial load, just in case the page was reloaded
+    checkTimerOnFocus();
 }
 
 init();
