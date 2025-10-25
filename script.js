@@ -1,44 +1,44 @@
-// Workout data (assuming this is the same as before)
+// Workout data (REMOVED 'calories' property)
 const workoutData = [
   {
     "day": 1,
     "title": "Chest",
     "duration": "45-55 minutes",
     "exercises": [
-      { "name": "Incline Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Set bench to a 30-45 degree angle.\n2. Lie back with dumbbells on your thighs, then kick them up to your shoulders.\n3. Press the weights up until your arms are extended, but not locked out.\n4. Lower the dumbbells slowly and controlled back to the sides of your chest.", "calories": 12 },
-      { "name": "Flat Machine Press", "details": "3 sets of 10-15 reps | 75s rest", "instructions": "1. Adjust the seat so the handles align with your mid-chest.\n2. Press forward, focusing on squeezing your chest muscles together.\n3. Stop just short of locking your elbows.\n4. Return slowly to the starting position, feeling a stretch in your chest.", "calories": 10 },
-      { "name": "Weighted Dips (Chest Focus)", "details": "3 sets to Failure | 75s rest", "instructions": "1. Use parallel bars and add weight if possible.\n2. Lean your torso forward significantly as you perform the movement.\n3. Lower yourself until your shoulders are slightly below your elbows.\n4. Press back up, focusing on your chest.", "calories": 15 },
-      { "name": "Pec-Deck Machine", "details": "3 sets of 12-15+ reps | 60s rest (Drop set on last set)", "instructions": "1. Adjust the seat so your shoulders are level with the handles.\n2. Press the pads together in a controlled arc, squeezing your chest at the peak.\n3. Slowly return to the starting position, allowing a good stretch.", "calories": 8 },
-      { "name": "Cable Crossover (Low to High)", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Set pulleys to the lowest position.\n2. Grab the handles, step forward, and stand with a slight bend in your torso.\n3. Bring your hands up and together in an arc, squeezing your upper chest at the top.", "calories": 8 }
+      { "name": "Incline Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Set bench to a 30-45 degree angle.\n2. Lie back with dumbbells on your thighs, then kick them up to your shoulders.\n3. Press the weights up until your arms are extended, but not locked out.\n4. Lower the dumbbells slowly and controlled back to the sides of your chest." },
+      { "name": "Flat Machine Press", "details": "3 sets of 10-15 reps | 75s rest", "instructions": "1. Adjust the seat so the handles align with your mid-chest.\n2. Press forward, focusing on squeezing your chest muscles together.\n3. Stop just short of locking your elbows.\n4. Return slowly to the starting position, feeling a stretch in your chest." },
+      { "name": "Weighted Dips (Chest Focus)", "details": "3 sets to Failure | 75s rest", "instructions": "1. Use parallel bars and add weight if possible.\n2. Lean your torso forward significantly as you perform the movement.\n3. Lower yourself until your shoulders are slightly below your elbows.\n4. Press back up, focusing on your chest." },
+      { "name": "Pec-Deck Machine", "details": "3 sets of 12-15+ reps | 60s rest (Drop set on last set)", "instructions": "1. Adjust the seat so your shoulders are level with the handles.\n2. Press the pads together in a controlled arc, squeezing your chest at the peak.\n3. Slowly return to the starting position, allowing a good stretch." },
+      { "name": "Cable Crossover (Low to High)", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Set pulleys to the lowest position.\n2. Grab the handles, step forward, and stand with a slight bend in your torso.\n3. Bring your hands up and together in an arc, squeezing your upper chest at the top." }
     ],
-    "abFinisher": { "name": "Cable Crunches", "details": "3 sets of 15-20 reps | 45s rest", "instructions": "1. Kneel facing a high pulley with a rope attachment.\n2. Hold the rope by your head and crunch down, bringing your ribs toward your pelvis.\n3. Focus on contracting your abs, not pulling with your arms.", "calories": 30 },
-    "cardio": { "name": "15 minutes of moderate-intensity cardio", "details": "1 set of 15 minutes", "instructions": "Choose a machine like the StairMaster or an incline treadmill. Keep a steady pace where you can hold a conversation.", "calories": 180 }
+    "abFinisher": { "name": "Cable Crunches", "details": "3 sets of 15-20 reps | 45s rest", "instructions": "1. Kneel facing a high pulley with a rope attachment.\n2. Hold the rope by your head and crunch down, bringing your ribs toward your pelvis.\n3. Focus on contracting your abs, not pulling with your arms." },
+    "cardio": { "name": "15 minutes of moderate-intensity cardio", "details": "1 set of 15 minutes", "instructions": "Choose a machine like the StairMaster or an incline treadmill. Keep a steady pace where you can hold a conversation." }
   },
-  {
+   {
     "day": 2,
     "title": "Back",
     "duration": "50-60 minutes",
     "exercises": [
-        { "name": "Weighted Pull-ups (or Lat Pulldowns)", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar slightly wider than shoulder-width.\n2. Drive your elbows down and back to pull your chest towards the bar.\n3. Squeeze your back muscles at the top.\n4. Lower yourself slowly and fully extend your arms at the bottom.", "calories": 15 },
-        { "name": "Barbell Row", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Hinge at your hips, keeping your back straight.\n2. Pull the barbell towards your lower stomach, not your chest.\n3. Squeeze your shoulder blades together at the top.\n4. Lower the bar under control.", "calories": 18 },
-        { "name": "Chest-Supported T-Bar Row", "details": "3 sets of 10-15 reps | 75s rest", "instructions": "1. Lie face down on the pad.\n2. Pull the handles, focusing on retracting your shoulder blades and driving your elbows back.\n3. Squeeze hard at the peak of the contraction.", "calories": 14 },
-        { "name": "Straight-Arm Pulldown", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Stand facing a high pulley with a straight bar.\n2. Keeping your arms straight, pull the bar down in an arc until it touches your thighs.\n3. Focus on using your lats, not your triceps.", "calories": 9 },
-        { "name": "Hyperextensions", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Position yourself on a hyperextension bench.\n2. Lower your torso until you feel a stretch in your hamstrings.\n3. Raise back up by squeezing your glutes and lower back.", "calories": 8 }
+        { "name": "Weighted Pull-ups (or Lat Pulldowns)", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar slightly wider than shoulder-width.\n2. Drive your elbows down and back to pull your chest towards the bar.\n3. Squeeze your back muscles at the top.\n4. Lower yourself slowly and fully extend your arms at the bottom." },
+        { "name": "Barbell Row", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Hinge at your hips, keeping your back straight.\n2. Pull the barbell towards your lower stomach, not your chest.\n3. Squeeze your shoulder blades together at the top.\n4. Lower the bar under control." },
+        { "name": "Chest-Supported T-Bar Row", "details": "3 sets of 10-15 reps | 75s rest", "instructions": "1. Lie face down on the pad.\n2. Pull the handles, focusing on retracting your shoulder blades and driving your elbows back.\n3. Squeeze hard at the peak of the contraction." },
+        { "name": "Straight-Arm Pulldown", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Stand facing a high pulley with a straight bar.\n2. Keeping your arms straight, pull the bar down in an arc until it touches your thighs.\n3. Focus on using your lats, not your triceps." },
+        { "name": "Hyperextensions", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Position yourself on a hyperextension bench.\n2. Lower your torso until you feel a stretch in your hamstrings.\n3. Raise back up by squeezing your glutes and lower back." }
     ],
     "abFinisher": null,
     "cardio": null
   },
-    // ... (rest of workoutData remains the same) ...
+    // ... (rest of workoutData, make sure 'calories' is removed from all) ...
      {
     "day": 3,
     "title": "Quads & Calves",
     "duration": "60-75 minutes",
     "exercises": [
-        { "name": "Barbell Back Squats", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Place the bar on your upper back, not your neck.\n2. Keep your chest up and back straight.\n3. Squat down until your hips are at or below parallel.\n4. Drive up through your heels.", "calories": 25 },
-        { "name": "Leg Press", "details": "4 sets of 10-15 reps | 90s rest", "instructions": "1. Place your feet shoulder-width apart on the platform.\n2. Lower the weight until your knees are near a 90-degree angle.\n3. Press up, but do not lock your knees.", "calories": 20 },
-        { "name": "Bulgarian Split Squats", "details": "3 sets of 10-12 reps (per leg) | 75s rest", "instructions": "1. Place the top of your rear foot on a bench.\n2. Lower your back knee towards the floor, keeping your front knee aligned with your foot.\n3. Drive up through your front heel.", "calories": 18 },
-        { "name": "Leg Extensions", "details": "3 sets of 15-20+ reps | 60s rest (Drop set on last set)", "instructions": "1. Squeeze your quads hard for 2 seconds at the top of each rep.\n2. Control the weight as you lower it.", "calories": 10 },
-        { "name": "Standing Calf Raises", "details": "5 sets of 10-15 reps | 45s rest", "instructions": "1. Get a deep stretch at the bottom of the movement.\n2. Press up onto your big toes and pause at the top.", "calories": 5 }
+        { "name": "Barbell Back Squats", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Place the bar on your upper back, not your neck.\n2. Keep your chest up and back straight.\n3. Squat down until your hips are at or below parallel.\n4. Drive up through your heels." },
+        { "name": "Leg Press", "details": "4 sets of 10-15 reps | 90s rest", "instructions": "1. Place your feet shoulder-width apart on the platform.\n2. Lower the weight until your knees are near a 90-degree angle.\n3. Press up, but do not lock your knees." },
+        { "name": "Bulgarian Split Squats", "details": "3 sets of 10-12 reps (per leg) | 75s rest", "instructions": "1. Place the top of your rear foot on a bench.\n2. Lower your back knee towards the floor, keeping your front knee aligned with your foot.\n3. Drive up through your front heel." },
+        { "name": "Leg Extensions", "details": "3 sets of 15-20+ reps | 60s rest (Drop set on last set)", "instructions": "1. Squeeze your quads hard for 2 seconds at the top of each rep.\n2. Control the weight as you lower it." },
+        { "name": "Standing Calf Raises", "details": "5 sets of 10-15 reps | 45s rest", "instructions": "1. Get a deep stretch at the bottom of the movement.\n2. Press up onto your big toes and pause at the top." }
     ],
     "abFinisher": null,
     "cardio": null
@@ -48,13 +48,13 @@ const workoutData = [
     "title": "Shoulders & Chest",
     "duration": "60-70 minutes",
     "exercises": [
-        { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height.", "calories": 11 },
-        { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative.", "calories": 7 },
-        { "name": "Reverse Pec-Deck", "details": "4 sets of 15-20 reps | 60s rest", "instructions": "1. Sit facing the machine with your chest against the pad.\n2. Drive your arms back and out in a wide arc, squeezing your rear delts.", "calories": 7 },
-        { "name": "Flat Dumbbell Press", "details": "3 sets of 8-12 reps | 75s rest", "instructions": "1. Lie flat on the bench.\n2. Press the dumbbells up until your arms are extended but not locked.\n3. Lower slowly, feeling a stretch in your chest.", "calories": 11 },
-        { "name": "Cable Flys", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Set pulleys to chest height.\n2. Step forward and bring the handles together in a wide arc.\n3. Squeeze your chest hard at the peak of the movement.", "calories": 8 }
+        { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height." },
+        { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative." },
+        { "name": "Reverse Pec-Deck", "details": "4 sets of 15-20 reps | 60s rest", "instructions": "1. Sit facing the machine with your chest against the pad.\n2. Drive your arms back and out in a wide arc, squeezing your rear delts." },
+        { "name": "Flat Dumbbell Press", "details": "3 sets of 8-12 reps | 75s rest", "instructions": "1. Lie flat on the bench.\n2. Press the dumbbells up until your arms are extended but not locked.\n3. Lower slowly, feeling a stretch in your chest." },
+        { "name": "Cable Flys", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Set pulleys to chest height.\n2. Step forward and bring the handles together in a wide arc.\n3. Squeeze your chest hard at the peak of the movement." }
     ],
-    "abFinisher": { "name": "Decline Reverse Crunches", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs.", "calories": 35 },
+    "abFinisher": { "name": "Decline Reverse Crunches", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs." },
     "cardio": null
   },
   {
@@ -62,32 +62,31 @@ const workoutData = [
     "title": "Arms (Biceps & Triceps)",
     "duration": "35-45 minutes",
     "exercises": [
-        { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps.", "calories": 10 },
-        { "name": "Barbell Curls", "details": "4 sets of 8-12 reps | 75s rest", "instructions": "1. Keep your elbows pinned to your sides.\n2. Curl the weight up without using momentum or swinging your body.\n3. Squeeze your biceps at the top and lower with control.", "calories": 9 },
-        { "name": "Overhead Rope Extension", "details": "3 sets of 10-15 reps | 60s rest", "instructions": "1. Use a high cable pulley with a rope attachment.\n2. Extend your arms fully overhead, feeling a stretch in your triceps.\n3. Spread the rope apart at the top.", "calories": 8 },
-        { "name": "Incline Dumbbell Curls", "details": "3 sets of 10-15 reps | 60s rest", "instructions": "1. Sit back on an incline bench.\n2. Let your arms hang straight down to stretch the biceps.\n3. Curl the dumbbells up, rotating your palms to face you.", "calories": 8 },
-        { "name": "Superset: Rope Pushdowns & Cable Hammer Curls", "details": "3 sets of 12-15 reps each | 60s rest after superset", "instructions": "Pushdowns: Keep elbows pinned and spread the rope at the bottom.\nHammer Curls: Use a rope on a low pulley, keeping a neutral (hammer) grip.", "calories": 15 }
+        { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps." },
+        { "name": "Barbell Curls", "details": "4 sets of 8-12 reps | 75s rest", "instructions": "1. Keep your elbows pinned to your sides.\n2. Curl the weight up without using momentum or swinging your body.\n3. Squeeze your biceps at the top and lower with control." },
+        { "name": "Overhead Rope Extension", "details": "3 sets of 10-15 reps | 60s rest", "instructions": "1. Use a high cable pulley with a rope attachment.\n2. Extend your arms fully overhead, feeling a stretch in your triceps.\n3. Spread the rope apart at the top." },
+        { "name": "Incline Dumbbell Curls", "details": "3 sets of 10-15 reps | 60s rest", "instructions": "1. Sit back on an incline bench.\n2. Let your arms hang straight down to stretch the biceps.\n3. Curl the dumbbells up, rotating your palms to face you." },
+        { "name": "Superset: Rope Pushdowns & Cable Hammer Curls", "details": "3 sets of 12-15 reps each | 60s rest after superset", "instructions": "Pushdowns: Keep elbows pinned and spread the rope at the bottom.\nHammer Curls: Use a rope on a low pulley, keeping a neutral (hammer) grip." }
     ],
-    "abFinisher": { "name": "Landmine Twists", "details": "3 sets of 10-12 reps (per side) | 60s rest", "instructions": "1. Place one end of a barbell in a landmine attachment or corner.\n2. Hold the other end with both hands and rotate from your core, pivoting your feet.", "calories": 40 },
-    "cardio": { "name": "20 minutes of moderate-intensity cardio", "details": "1 set of 20 minutes", "instructions": "Choose a machine like the stationary bike or elliptical. This is a great way to improve cardiovascular health without high impact.", "calories": 220 }
+    "abFinisher": { "name": "Landmine Twists", "details": "3 sets of 10-12 reps (per side) | 60s rest", "instructions": "1. Place one end of a barbell in a landmine attachment or corner.\n2. Hold the other end with both hands and rotate from your core, pivoting your feet." },
+    "cardio": { "name": "20 minutes of moderate-intensity cardio", "details": "1 set of 20 minutes", "instructions": "Choose a machine like the stationary bike or elliptical. This is a great way to improve cardiovascular health without high impact." }
   },
   {
     "day": 6,
     "title": "Hamstrings & Glutes",
     "duration": "55-65 minutes",
     "exercises": [
-        { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start.", "calories": 22 },
-        { "name": "Barbell Hip Thrusts", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Rest your upper back on a bench.\n2. Drive your hips up powerfully, squeezing your glutes hard at the top.\n3. Keep your chin tucked.", "calories": 16 },
-        { "name": "Seated or Lying Leg Curls", "details": "4 sets of 12-15 reps | 75s rest (Drop set on last set)", "instructions": "1. Point your toes to better engage the hamstrings.\n2. Squeeze at the peak of the curl and control the negative.", "calories": 9 },
-        { "name": "Hip Abduction Machine", "details": "4 sets of 15-20+ reps | 60s rest (Double drop set on last set)", "instructions": "1. Lean your torso forward to better target the upper glute shelf.\n2. Control the movement, especially on the way back in.", "calories": 7 },
-        { "name": "45-Degree Kickbacks (Cable/Band)", "details": "3 sets of 15-20 reps (per leg) | 45s rest", "instructions": "1. Kick your leg back and out at a 45-degree angle.\n2. Squeeze your upper glute for a full second at the peak of the movement.", "calories": 8 }
+        { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start." },
+        { "name": "Barbell Hip Thrusts", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Rest your upper back on a bench.\n2. Drive your hips up powerfully, squeezing your glutes hard at the top.\n3. Keep your chin tucked." },
+        { "name": "Seated or Lying Leg Curls", "details": "4 sets of 12-15 reps | 75s rest (Drop set on last set)", "instructions": "1. Point your toes to better engage the hamstrings.\n2. Squeeze at the peak of the curl and control the negative." },
+        { "name": "Hip Abduction Machine", "details": "4 sets of 15-20+ reps | 60s rest (Double drop set on last set)", "instructions": "1. Lean your torso forward to better target the upper glute shelf.\n2. Control the movement, especially on the way back in." },
+        { "name": "45-Degree Kickbacks (Cable/Band)", "details": "3 sets of 15-20 reps (per leg) | 45s rest", "instructions": "1. Kick your leg back and out at a 45-degree angle.\n2. Squeeze your upper glute for a full second at the peak of the movement." }
     ],
     "abFinisher": null,
     "cardio": null
   },
   { "day": 7, "title": "Rest Day", "duration": "Focus on recovery", "exercises": [], "abFinisher": null, "cardio": null }
 ];
-
 
 // DOM Elements
 const daySelector = document.getElementById("day-selector");
@@ -97,11 +96,8 @@ const exerciseList = document.getElementById("exercise-list"); // Active list
 const completedList = document.getElementById("completed-list"); // Completed list
 const completedTitle = document.getElementById("completed-title"); // Title for completed section
 const resetButton = document.getElementById("reset-button");
-const dailyCaloriesEl = document.getElementById("daily-calories");
-const weeklyCaloriesContainer = document.getElementById("weekly-calories-container");
+// REMOVED: dailyCaloriesEl, weeklyCaloriesContainer
 const timerDisplay = document.getElementById('timer-display');
-
-// Modal Elements (assuming these IDs exist in your HTML)
 const infoModalOverlay = document.getElementById("info-modal-overlay");
 const infoModalCloseBtn = document.getElementById("info-modal-close-btn");
 const infoModalTitle = document.getElementById("info-modal-title");
@@ -109,32 +105,28 @@ const infoModalInstructions = document.getElementById("info-modal-instructions")
 const resetModalOverlay = document.getElementById("reset-modal-overlay");
 const confirmResetBtn = document.getElementById("confirm-reset-btn");
 const cancelResetBtn = document.getElementById("cancel-reset-btn");
-
-// Completion Overlay Elements (assuming these IDs exist)
 const completionOverlay = document.getElementById("completion-overlay");
-const completionTitle = document.getElementById("completion-title");
+const completionTitleEl = document.getElementById("completion-title"); // Renamed for clarity
 const completionMessage = document.getElementById("completion-message");
 
 // State
 let progress = {};
 let longPressTimer;
-const LONG_PRESS_DURATION = 500; // ms
+const LONG_PRESS_DURATION = 500;
 let activeTimer = null;
 let restPeriodEndTime = null;
 
 const motivationalMessages = [
-    "TASK COMPLETE. AWAITING NEXT INPUT.",
-    "PROCESSING... POSITIVE RESULTS. REST.",
-    "EXECUTION SUCCESSFUL. RECOVER.",
-    "SESSION LOGGED. SYSTEM OPTIMIZED.",
+    "TASK COMPLETE. AWAITING NEXT INPUT.", "PROCESSING... POSITIVE RESULTS. REST.",
+    "EXECUTION SUCCESSFUL. RECOVER.", "SESSION LOGGED. SYSTEM OPTIMIZED.",
     "GOALS PROGRESSED. CONTINUE.",
 ];
 
-// --- Timer, and Haptic Functions ---
-function triggerHapticFeedback() {
-    if ('vibrate' in navigator) { navigator.vibrate(50); }
-}
-
+// --- Timer, Haptic Functions --- (Keep as is)
+function triggerHapticFeedback() { if ('vibrate' in navigator) { navigator.vibrate(50); } }
+function startOnScreenTimer(durationSeconds) { /* ... same as before ... */ }
+function checkTimerOnFocus() { /* ... same as before ... */ }
+// --- Timer, Haptic Functions ---
 function startOnScreenTimer(durationSeconds) {
     if (activeTimer) { clearInterval(activeTimer); }
     restPeriodEndTime = Date.now() + (durationSeconds * 1000);
@@ -176,6 +168,7 @@ function checkTimerOnFocus() {
     }
 }
 
+
 // --- Core & Helper Functions ---
 function loadProgress() {
     try {
@@ -187,12 +180,14 @@ function loadProgress() {
 function saveProgress() {
     try {
         localStorage.setItem("workoutSysProgress", JSON.stringify(progress));
-        updateCalorieCounters();
-        updateProgressBars();
-        updateCompletedSectionVisibility(); // Check visibility after saving
+        // REMOVED: updateCalorieCounters();
+        updateProgressBars(); // Still useful for day buttons
+        updateCompletedSectionVisibility();
     } catch (e) { console.error("Could not save progress:", e); }
 }
 
+function parseRestTime(details) { /* ... same as before ... */ }
+function parseSets(details) { /* ... same as before ... */ }
 function parseRestTime(details) {
     if (!details) return 0;
     const match = details.match(/\|\s*(\d+)s\s*rest/);
@@ -200,47 +195,41 @@ function parseRestTime(details) {
 }
 
 function parseSets(details) {
-    if (!details) return 1;
-    const match = details.match(/^(\d+)\s+sets/);
-    return match ? parseInt(match[1], 10) : 1;
+    if (!details) return 1; // Default to 1 set if parsing fails
+    // Handle "X sets to Failure" -> treat as X sets
+    let match = details.match(/^(\d+)\s+sets to Failure/i);
+    if (match) return parseInt(match[1], 10);
+     // Handle "X sets of ..."
+    match = details.match(/^(\d+)\s+sets/);
+    if (match) return parseInt(match[1], 10);
+    // Handle "1 set of X minutes" (for cardio)
+    match = details.match(/^1\s+set of \d+\s+minutes/i);
+     if (match) return 1;
+
+    console.warn("Could not parse sets from details:", details, "Defaulting to 1");
+    return 1; // Fallback
 }
+
 
 // --- UI Update Functions ---
 function updateCardVisuals(card, progressId, totalSets) {
     const completedSets = progress[progressId] || 0;
-    const percentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
-    card.style.setProperty('--series-progress', `${percentage}%`);
+    // REMOVED: Progress bar style update
+
+    // UPDATE Set Counter
+    const setCounter = card.querySelector('.set-counter');
+    if (setCounter) {
+        setCounter.textContent = `${completedSets}/${totalSets}`;
+        setCounter.classList.toggle('sets-complete', completedSets >= totalSets);
+    }
+
     // Keep class for logic if needed, but styling primarily relies on list placement
     card.classList.toggle('fully-completed', completedSets >= totalSets);
 }
 
-function updateCalorieCounters() {
-    let weeklyTotal = 0;
-    const activeDayBtn = document.querySelector('.day-btn.active');
-    if (!activeDayBtn) return;
-    const activeDayIndex = parseInt(activeDayBtn.dataset.day, 10);
-    const activeDayData = workoutData[activeDayIndex];
-    if (!activeDayData) return;
-    let dailyTotal = 0;
-    workoutData.forEach((dayData) => {
-        const allExercises = [
-            ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-${i}` })),
-            ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
-            ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
-        ];
-        allExercises.forEach(ex => {
-            const completedSets = progress[ex.id] || 0;
-            if (completedSets > 0) {
-                const caloriesBurned = completedSets * (ex.calories || 0);
-                weeklyTotal += caloriesBurned;
-                if (dayData.day === activeDayData.day) { dailyTotal += caloriesBurned; }
-            }
-        });
-    });
-    weeklyCaloriesContainer.textContent = `// WEEKLY: ${weeklyTotal} KCAL`;
-    dailyCaloriesEl.textContent = `// DAILY: ${dailyTotal} KCAL`;
-}
+// REMOVED: updateCalorieCounters()
 
+function updateProgressBars() { /* ... same as before, useful for day buttons ... */ }
 function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
         const dayData = workoutData[index];
@@ -254,11 +243,15 @@ function updateProgressBars() {
     });
 }
 
-// Shows/hides the completed section title
+
 function updateCompletedSectionVisibility() {
     completedTitle.classList.toggle('hidden', completedList.children.length === 0);
 }
 
+// --- Event Handlers & Interaction --- (Logic largely same, calls updated functions)
+function handleSeriesUpdate(card, progressId, totalSets, direction) { /* ... same core logic ... */ }
+function animateAndMoveToCompleted(card) { /* ... same as before ... */ }
+function moveFromCompletedToActive(card) { /* ... same corrected logic ... */ }
 // --- Event Handlers & Interaction ---
 function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
@@ -267,27 +260,27 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
     let newCompletedCount;
     if (direction === 'increment') {
         newCompletedCount = Math.min(totalSets, currentCompleted + 1);
-        if (newCompletedCount > currentCompleted) { // Only trigger feedback/timer if count actually increased
+        if (newCompletedCount > currentCompleted) {
              triggerHapticFeedback();
-             const exerciseDetails = card.querySelector('p').textContent;
-             const restTime = parseRestTime(exerciseDetails);
+             const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
+             const restTime = parseRestTime(exerciseDetailsText);
              startOnScreenTimer(restTime);
         }
     } else { // 'decrement'
         newCompletedCount = Math.max(0, currentCompleted - 1);
-        if (activeTimer && newCompletedCount < currentCompleted) { // Stop timer only if count decreased
+        if (activeTimer && newCompletedCount < currentCompleted) {
             clearInterval(activeTimer);
             timerDisplay.classList.add('hidden');
             localStorage.removeItem('restPeriodEndTime');
             restPeriodEndTime = null;
         }
     }
-    
-    progress[progressId] = newCompletedCount; // Update progress state
-    saveProgress(); // Save and update UI elements dependent on progress
+
+    progress[progressId] = newCompletedCount;
+    saveProgress(); // Calls updateCompletedSectionVisibility indirectly
 
     const isNowFullyCompleted = newCompletedCount >= totalSets;
-    updateCardVisuals(card, progressId, totalSets); // Update visual progress bar immediately
+    updateCardVisuals(card, progressId, totalSets); // Update set counter immediately
 
     // Move between lists ONLY if completion status flipped
     if (!wasFullyCompleted && isNowFullyCompleted) {
@@ -298,50 +291,47 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
     }
 }
 
-
-// Moves item to completed list with animation
 function animateAndMoveToCompleted(card) {
     card.classList.add('reordering');
-    // Remove listeners before moving
-    removeCardListeners(card);
+    removeCardListeners(card); // Remove listeners before moving
     setTimeout(() => {
         completedList.appendChild(card);
         card.classList.remove('reordering');
-        // Add back listeners appropriate for completed items (if any, maybe just info btn?)
         addCardListeners(card, true); // Add listeners for completed state
         updateCompletedSectionVisibility();
     }, 300);
 }
 
-// Moves item from completed back to its correct section in active list
 function moveFromCompletedToActive(card) {
-     // Remove listeners before moving
-    removeCardListeners(card);
+    removeCardListeners(card); // Remove listeners before moving
 
-    // Determine where to insert based on its original type/order if possible
-    // Simpler: Find the FIRST item in the completed list and insert BEFORE it in the active list,
-    // or append if active list is empty or has no suitable spot.
-    // This maintains *some* order without complex section logic.
-     let inserted = false;
-     // Try to insert before the first completed item currently in the active list
-     const firstCompletedInActive = exerciseList.querySelector('.fully-completed');
-     if (firstCompletedInActive) {
-         exerciseList.insertBefore(card, firstCompletedInActive);
-         inserted = true;
-     }
+    // Find the H3 title element this card belongs under in the active list
+    const cardTypeClass = card.classList.contains('exercise-item') ? 'exercise-item'
+                        : card.classList.contains('ab-finisher') ? 'ab-finisher'
+                        : 'cardio-session';
+    let targetTitleElement = null;
+    const titles = exerciseList.querySelectorAll('.category-title');
+    if (cardTypeClass === 'exercise-item' && titles[0]) targetTitleElement = titles[0];
+    else if (cardTypeClass === 'ab-finisher' && titles[1]) targetTitleElement = titles[1];
+     else if (cardTypeClass === 'cardio-session' && titles[2]) targetTitleElement = titles[2];
 
-     // Fallback: Append to the end of the active list
-     if (!inserted) {
+
+    if (targetTitleElement) {
+         // Insert the card *after* its corresponding title
+        targetTitleElement.parentNode.insertBefore(card, targetTitleElement.nextSibling);
+    } else {
+        // Fallback: append to the end if title isn't found (shouldn't happen)
         exerciseList.appendChild(card);
-     }
+        console.warn("Could not find correct section title, appending card to end.");
+    }
 
-    // Add back listeners for active state
-    addCardListeners(card, false);
+    addCardListeners(card, false); // Add back listeners for active state
     updateCompletedSectionVisibility();
 }
 
 
-// --- Completion Celebration ---
+// --- Completion Celebration --- (Keep as is)
+function checkDayCompletion() { /* ... same as before ... */ }
 function checkDayCompletion() {
     const activeDayBtn = document.querySelector('.day-btn.active');
     if (!activeDayBtn) return;
@@ -363,7 +353,7 @@ function checkDayCompletion() {
 
     if (isDayComplete) {
         const isWeekComplete = activeDayIndex === 5; // Day 6 is index 5
-        completionTitle.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE";
+        completionTitleEl.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE"; // Use updated ID
         completionMessage.textContent = isWeekComplete ? "SYSTEM RESET IN 5S... PREPARE FOR NEXT CYCLE." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
         completionOverlay.classList.remove('hidden');
         if (isWeekComplete) {
@@ -377,118 +367,115 @@ function checkDayCompletion() {
     }
 }
 
+
 // --- DOM Rendering & Listener Management ---
 
-// NEW: Central function to add listeners
+// Central function to add listeners (Modified for completed state interaction)
 function addCardListeners(card, isCompleted) {
     const progressId = card.dataset.progressId;
     const totalSets = parseInt(card.dataset.totalSets, 10);
 
-    // Click/Tap to Increment (only if not completed)
+    // Click/Tap to Increment (only if NOT completed)
     if (!isCompleted) {
          const clickHandler = (e) => {
-            // Prevent increment if info button was the target
             if (e.target.closest('.info-btn')) return;
-             // Check if the item is still in the active list before handling
-             if (card.parentElement === exerciseList) {
+            if (card.parentElement === exerciseList) { // Check it's in the active list
                 handleSeriesUpdate(card, progressId, totalSets, 'increment');
             }
         };
         card.addEventListener('click', clickHandler);
-        card._clickHandler = clickHandler; // Store reference for removal
+        card._clickHandler = clickHandler;
     }
 
-
-    // Context Menu / Long Press to Decrement (always add, logic inside handles state)
+    // Context Menu / Long Press to Decrement (ALWAYS add)
     const contextHandler = (e) => {
         e.preventDefault();
+        // Allow decrement even if completed (moves it back)
         handleSeriesUpdate(card, progressId, totalSets, 'decrement');
     };
     card.addEventListener('contextmenu', contextHandler);
-    card._contextHandler = contextHandler; // Store reference
+    card._contextHandler = contextHandler;
 
     let longPressTimeoutId = null;
     const touchStartHandler = (e) => {
         if (e.target.closest('.info-btn')) return;
-        // Clear any existing timer
         if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
         longPressTimeoutId = setTimeout(() => {
-            e.preventDefault(); // Prevent click/scroll after long press detected
+            e.preventDefault();
             handleSeriesUpdate(card, progressId, totalSets, 'decrement');
-            longPressTimeoutId = null; // Reset timer ID
+            longPressTimeoutId = null;
         }, LONG_PRESS_DURATION);
     };
-     const touchEndHandler = () => {
+     const clearLongPress = () => {
         if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
         longPressTimeoutId = null;
     };
-     const touchMoveHandler = () => { // Cancel on scroll
-        if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
-         longPressTimeoutId = null;
-    };
 
     card.addEventListener('touchstart', touchStartHandler, { passive: false });
-    card.addEventListener('touchend', touchEndHandler);
-    card.addEventListener('touchcancel', touchEndHandler); // Also cancel on touchcancel
-    card.addEventListener('touchmove', touchMoveHandler);
+    card.addEventListener('touchend', clearLongPress);
+    card.addEventListener('touchcancel', clearLongPress);
+    card.addEventListener('touchmove', clearLongPress); // Cancel on scroll
 
-    // Store references for removal
     card._touchStartHandler = touchStartHandler;
-    card._touchEndHandler = touchEndHandler;
-    card._touchMoveHandler = touchMoveHandler;
-
+    card._touchEndHandler = clearLongPress; // Use the clearer function
+    card._touchMoveHandler = clearLongPress;
 
     // Info Button Listener (always add)
     const infoBtn = card.querySelector(".info-btn");
     if (infoBtn) {
         const infoClickHandler = (e) => {
-            e.stopPropagation(); // Prevent LI click handler
+            e.stopPropagation();
             const exerciseName = card.querySelector('h3').textContent;
-            // Find exercise data again (needed if instructions aren't stored on element)
+            // Simplified data fetching - assumes workoutData is accessible
             const dayNum = parseInt(progressId.match(/day(\d+)/)[1], 10);
             const type = progressId.match(/-([a-z]+)-/)[1];
             const index = parseInt(progressId.match(/-(\d+)$/)[1], 10);
             const dayData = workoutData.find(d => d.day === dayNum);
             let exerciseData;
-            if (type === 'exercise') exerciseData = dayData.exercises[index];
-            else if (type === 'ab') exerciseData = dayData.abFinisher;
-            else if (type === 'cardio') exerciseData = dayData.cardio;
-
+            if (dayData) {
+                 if (type === 'exercise') exerciseData = dayData.exercises[index];
+                 else if (type === 'ab') exerciseData = dayData.abFinisher;
+                 else if (type === 'cardio') exerciseData = dayData.cardio;
+            }
             if (exerciseData) {
                 openInfoModal(exerciseData.name, exerciseData.instructions);
+            } else {
+                 console.error("Could not find exercise data for modal:", progressId);
             }
         };
+        // Remove existing listener before adding, prevents duplicates
+        if (infoBtn._infoClickHandler) {
+            infoBtn.removeEventListener('click', infoBtn._infoClickHandler);
+        }
         infoBtn.addEventListener('click', infoClickHandler);
-        infoBtn._infoClickHandler = infoClickHandler; // Store reference
+        infoBtn._infoClickHandler = infoClickHandler;
     }
 }
 
 
-// NEW: Central function to remove listeners
+// Central function to remove listeners
 function removeCardListeners(card) {
     if (card._clickHandler) card.removeEventListener('click', card._clickHandler);
     if (card._contextHandler) card.removeEventListener('contextmenu', card._contextHandler);
     if (card._touchStartHandler) card.removeEventListener('touchstart', card._touchStartHandler);
-    if (card._touchEndHandler) card.removeEventListener('touchend', card._touchEndHandler);
-    if (card._touchCancelHandler) card.removeEventListener('touchcancel', card._touchCancelHandler); // Ensure cancellation handler removed
+    if (card._touchEndHandler) {
+         card.removeEventListener('touchend', card._touchEndHandler);
+         card.removeEventListener('touchcancel', card._touchEndHandler); // Use same handler
+    }
     if (card._touchMoveHandler) card.removeEventListener('touchmove', card._touchMoveHandler);
-
 
     const infoBtn = card.querySelector(".info-btn");
     if (infoBtn && infoBtn._infoClickHandler) {
         infoBtn.removeEventListener('click', infoBtn._infoClickHandler);
     }
     // Clear stored references
-    card._clickHandler = null;
-    card._contextHandler = null;
-    card._touchStartHandler = null;
-    card._touchEndHandler = null;
-    card._touchCancelHandler = null;
-    card._touchMoveHandler = null;
-     if (infoBtn) infoBtn._infoClickHandler = null;
+    card._clickHandler = null; card._contextHandler = null;
+    card._touchStartHandler = null; card._touchEndHandler = null; card._touchMoveHandler = null;
+    if (infoBtn) infoBtn._infoClickHandler = null;
 }
 
 
+// Creates the exercise item LI element
 const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
     const li = document.createElement("li");
     li.className = cssClass;
@@ -496,11 +483,14 @@ const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
     const totalSets = parseSets(exercise.details);
     li.dataset.progressId = progressId;
     li.dataset.totalSets = totalSets;
+
+    // ADDED: Set counter span
     li.innerHTML = `
         <div class="exercise-details">
             <h3>${exercise.name}</h3>
             <p>${exercise.details}</p>
         </div>
+        <span class="set-counter">0/${totalSets}</span>
         <button class="info-btn" aria-label="Open exercise info for ${exercise.name}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
@@ -509,45 +499,65 @@ const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
             </svg>
         </button>`;
 
-    // Determine initial state and add appropriate listeners
+    // Determine initial state
     const completedSets = progress[progressId] || 0;
     const isInitiallyCompleted = completedSets >= totalSets;
-    addCardListeners(li, isInitiallyCompleted); // Add listeners based on initial state
 
-    updateCardVisuals(li, progressId, totalSets); // Set initial progress bar
+    // Add listeners based on initial state
+    addCardListeners(li, isInitiallyCompleted);
+
+    // Set initial visual state (set counter text and class)
+    updateCardVisuals(li, progressId, totalSets);
+
     return li;
 };
 
 
-// Appends titles to active list, appends items to correct lists
+// Renders a section (title + items) into the correct lists
 const renderSection = (title, items, cssClass, idType, dayNum) => {
     if (!items || (Array.isArray(items) && items.length === 0)) return;
 
-    // Create and append the category title to the active list
-    const sectionTitle = document.createElement("h3");
-    sectionTitle.className = "category-title";
-    sectionTitle.textContent = title;
-    exerciseList.appendChild(sectionTitle);
+    // Create and append the category title *only if there are active items* in this section
+    const activeItems = (Array.isArray(items) ? items : [items]).filter((item, i) => {
+        const progressId = `day${dayNum}-${idType}-${i}`;
+        const totalSets = parseSets(item.details);
+        const completedSets = progress[progressId] || 0;
+        return completedSets < totalSets;
+    });
 
-    // Create all element nodes first
+    let sectionTitleElement = null;
+    if (activeItems.length > 0) {
+        sectionTitleElement = document.createElement("h3");
+        sectionTitleElement.className = "category-title";
+        sectionTitleElement.textContent = title;
+        exerciseList.appendChild(sectionTitleElement);
+    }
+
+    // Create all element nodes
     const elements = (Array.isArray(items)
         ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i, dayNum))
         : [createExerciseItem(items, cssClass, idType, 0, dayNum)]);
 
-    // Append elements to the correct list based on initial state
+    // Append elements to the correct list
     elements.forEach(el => {
         const progressId = el.dataset.progressId;
         const totalSets = parseInt(el.dataset.totalSets, 10);
         const completedSets = progress[progressId] || 0;
         if (completedSets >= totalSets) {
-            completedList.appendChild(el);
+            completedList.appendChild(el); // Move completed to bottom list
         } else {
-            exerciseList.appendChild(el); // Append active items after their title
+             // Append active items *after* their section title (if it exists)
+             if (sectionTitleElement) {
+                exerciseList.insertBefore(el, sectionTitleElement.nextSibling); // Appends right after title
+             } else {
+                 exerciseList.appendChild(el); // Fallback if no title was added (e.g., all items completed initially)
+             }
         }
     });
 };
 
 
+// Main function to render the workout for a given day
 function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
     if (!dayData) { console.error("No data for day index:", dayIndex); return; }
@@ -557,21 +567,21 @@ function renderWorkout(dayIndex) {
     exerciseList.innerHTML = ""; // Clear active list
     completedList.innerHTML = ""; // Clear completed list
 
-    if (dayData.exercises.length === 0) {
+    if (dayData.day === 7 || dayData.exercises.length === 0) { // Check for day 7 specifically
         workoutTitle.textContent = "7. Rest Day";
-        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON NUTRITION, HYDRATION, AND SLEEP TO MAXIMIZE GROWTH.</p></div></li>';
-        // No exercises to render
+        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON NUTRITION, HYDRATION, AND SLEEP.</p></div></li>';
     } else {
         renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
         renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
         renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio', dayData.day);
     }
 
-    updateCalorieCounters();
-    updateCompletedSectionVisibility(); // Update visibility after potential rendering
+    // REMOVED: updateCalorieCounters();
+    updateCompletedSectionVisibility(); // Update visibility after rendering all sections
 }
 
 
+function setActiveDay(dayIndex) { /* ... same as before ... */ }
 function setActiveDay(dayIndex) {
     document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
     const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
@@ -586,8 +596,11 @@ function setActiveDay(dayIndex) {
     renderWorkout(dayIndex); // This now correctly clears both lists before rendering
 }
 
-// --- Modal Functions ---
-// (Keep modal functions as they were)
+// --- Modal Functions --- (Keep as is)
+function openInfoModal(title, instructions) { /* ... same ... */ }
+function closeInfoModal() { /* ... same ... */ }
+function openResetModal() { /* ... same ... */ }
+function closeResetModal() { /* ... same ... */ }
 function openInfoModal(title, instructions) {
     infoModalOverlay.classList.remove("hidden");
     infoModalOverlay.setAttribute('aria-hidden', 'false');
@@ -609,6 +622,7 @@ function closeResetModal() {
     resetModalOverlay.classList.add("hidden");
     resetModalOverlay.setAttribute('aria-hidden', 'true');
 }
+
 
 // --- App Initialization ---
 function init() {
@@ -645,7 +659,7 @@ function init() {
     infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
     resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
     const today = new Date().getDay();
-    const initialDayIndex = today === 0 ? 6 : today - 1;
+    const initialDayIndex = today === 0 ? 6 : today - 1; // Sunday is 0 -> index 6 (Rest Day)
     setActiveDay(initialDayIndex); // This call includes the first render
     checkTimerOnFocus();
 }
