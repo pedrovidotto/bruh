@@ -75,8 +75,8 @@ h1, h2, h3 {
 }
 
 .logo-svg {
-  width: 128px;
-  height: 128px;
+  width: 256px;
+  height: 256px;
   filter: invert(0);
   transition: filter 0.3s ease;
 }
