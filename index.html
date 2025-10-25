@@ -3,21 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>6-Day Bro Split Routine</title>
+  <title>WORKOUT.SYS</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivio:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
 </head>
 <body>
+
 <div class="container">
+  
   <header>
-    <h1><img src="bruh.svg" alt="Bro Split Logo" style="height:60px;"></h1>
+    <h1 class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"></path>
+        <path d="M12 12l4 4"></path>
+        <path d="M12 8v4"></path>
+      </svg>
+      WORKOUT.SYS
+    </h1>
     <div id="header-controls">
-        <div id="weekly-calories-container"></div>
+      <div id="weekly-calories-container" class="data-readout">
+        // WEEKLY: 0 KCAL
+      </div>
     </div>
     <nav id="day-selector"></nav>
   </header>
@@ -26,15 +40,18 @@
     <div id="workout-header">
       <h2 id="workout-title"></h2>
       <div id="workout-info-flex">
-        <p id="workout-duration"></p>
-        <p id="daily-calories"></p>
+        <p id="workout-duration" class="data-readout"></p>
+        <p id="daily-calories" class="data-readout"></p>
       </div>
     </div>
-    <ul id="exercise-list"></ul>
+    <div class="divider"></div>
+    <ul id="exercise-list">
+      </ul>
   </main>
 
   <footer>
-    <button id="reset-button">Reset Weekly Progress</button>
+    <p class="footer-label">// SYSTEM</p>
+    <button id="reset-button" class="btn-secondary">PURGE WEEKLY PROGRESS</button>
   </footer>
 </div>
 
@@ -42,8 +59,13 @@
 
 <div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
-    <button id="info-modal-close-btn" aria-label="Close info modal">&times;</button>
-    <h2 id="info-modal-title">Exercise Title</h2>
+    <div class="modal-header">
+      <h2 id="info-modal-title">Exercise Title</h2>
+      <button id="info-modal-close-btn" class="btn-icon" aria-label="Close info modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="divider"></div>
     <div id="info-modal-instructions">
       <p>Instructions will go here.</p>
     </div>
@@ -52,18 +74,22 @@
 
 <div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
   <div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
-    <p id="reset-modal-title">Are you sure you want to reset all your progress for the week?</p>
+    <div class="modal-header">
+      <h2 id="reset-modal-title">CONFIRM ACTION</h2>
+    </div>
+    <div class="divider"></div>
+    <p class="modal-body-text">Purge all weekly progress data? This action is irreversible.</p>
     <div class="modal-buttons">
-      <button id="confirm-reset-btn" class="modal-btn">Yes, Reset</button>
-      <button id="cancel-reset-btn" class="modal-btn">Cancel</button>
+      <button id="confirm-reset-btn" class="btn-primary">CONFIRM PURGE</button>
+      <button id="cancel-reset-btn" class="btn-secondary">CANCEL</button>
     </div>
   </div>
 </div>
 
 <div id="completion-overlay" class="hidden">
     <div id="completion-card">
-        <h2 id="completion-title"></h2>
-        <p id="completion-message"></p>
+        <h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2>
+        <p id="completion-message">Processing...</p>
     </div>
 </div>
 
