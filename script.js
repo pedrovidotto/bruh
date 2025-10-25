@@ -150,6 +150,15 @@ function startOnScreenTimer(durationSeconds) {
             localStorage.removeItem('restPeriodEndTime');
             restPeriodEndTime = null;
             triggerHapticFeedback();
+            
+            // --- MODIFIED ---
+            // Remove active bar when timer finishes
+            const currentActive = document.querySelector('.exercise-active');
+            if (currentActive) {
+                currentActive.classList.remove('exercise-active');
+            }
+            // --- END MODIFICATION ---
+
         } else { timeLeft--; }
     };
     updateTimer();
@@ -262,6 +271,17 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         newCompletedCount = Math.min(totalSets, currentCompleted + 1);
         if (newCompletedCount > currentCompleted) {
              triggerHapticFeedback();
+             
+             // --- MODIFIED ---
+             // Remove from old active item
+             const currentActive = document.querySelector('.exercise-active');
+             if (currentActive) {
+                currentActive.classList.remove('exercise-active');
+             }
+             // Add to new active item
+             card.classList.add('exercise-active');
+             // --- END MODIFICATION ---
+
              const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
              const restTime = parseRestTime(exerciseDetailsText);
              startOnScreenTimer(restTime);
@@ -273,6 +293,10 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
             timerDisplay.classList.add('hidden');
             localStorage.removeItem('restPeriodEndTime');
             restPeriodEndTime = null;
+            
+            // --- MODIFIED ---
+            card.classList.remove('exercise-active'); // Remove if timer is stopped
+            // --- END MODIFICATION ---
         }
     }
 
@@ -293,6 +317,7 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
 
 function animateAndMoveToCompleted(card) {
     card.classList.add('reordering');
+    card.classList.remove('exercise-active'); // Remove active bar on completion
     removeCardListeners(card); // Remove listeners before moving
     setTimeout(() => {
         completedList.appendChild(card);
@@ -548,9 +573,12 @@ const renderSection = (title, items, cssClass, idType, dayNum) => {
         } else {
              // Append active items *after* their section title (if it exists)
              if (sectionTitleElement) {
-                exerciseList.appendChild(el); // Appends to the end of the list
+                // --- MODIFIED (FIX) ---
+                // Appends to the end of the list, after the title
+                exerciseList.appendChild(el); 
+                // --- END MODIFICATION ---
              } else {
-                 exerciseList.appendChild(el); 
+                 exerciseList.appendChild(el); // Fallback if no title was added (e.g., all items completed initially)
              }
         }
     });
@@ -586,6 +614,15 @@ function setActiveDay(dayIndex) {
     document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
     const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
     if (currentBtn) currentBtn.classList.add("active");
+
+    // --- MODIFIED ---
+    // Remove active bar when changing days
+    const currentActive = document.querySelector('.exercise-active');
+    if (currentActive) {
+        currentActive.classList.remove('exercise-active');
+    }
+    // --- END MODIFICATION ---
+    
     if (activeTimer) {
         clearInterval(activeTimer);
         timerDisplay.classList.add('hidden');
@@ -644,6 +681,15 @@ function init() {
     confirmResetBtn.addEventListener("click", () => {
         progress = {};
         saveProgress(); // Calls updateCompletedSectionVisibility
+
+        // --- MODIFIED ---
+        // Remove active bar on reset
+        const currentActive = document.querySelector('.exercise-active');
+        if (currentActive) {
+            currentActive.classList.remove('exercise-active');
+        }
+        // --- END MODIFICATION ---
+        
         const activeDayIndex = document.querySelector(".day-btn.active")?.dataset.day || 0;
         if(activeTimer) {
             clearInterval(activeTimer);
