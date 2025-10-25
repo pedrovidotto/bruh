@@ -235,6 +235,9 @@ function updateCardVisuals(card, progressId, totalSets) {
 
 function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
+        // Skip theme toggle button
+        if (btn.id === 'theme-toggle-btn') return; 
+        
         const dayData = workoutData[index];
         if (!dayData || dayData.exercises.length === 0) { btn.style.setProperty('--progress', '0%'); return; }
         let totalSetsForDay = 0, completedSetsForDay = 0;
@@ -630,7 +633,12 @@ function renderWorkout(dayIndex) {
 
 
 function setActiveDay(dayIndex) { 
-    document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".day-btn").forEach(btn => {
+        // Skip theme toggle button
+        if (btn.id === 'theme-toggle-btn') return;
+        btn.classList.remove("active")
+    });
+    
     const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
     if (currentBtn) currentBtn.classList.add("active");
 
@@ -693,8 +701,21 @@ function init() {
         daySelector.appendChild(btn);
     });
 
-    // ADDED: Theme toggle listener
+    // --- MODIFIED BLOCK: Add SVG to theme toggle button ---
+    themeToggleBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <clipPath id="half-clip">
+              <rect x="0" y="0" width="10" height="20" />
+            </clipPath>
+          </defs>
+          <circle cx="10" cy="10" r="9" class="svg-bg-circle"/>
+          <circle cx="10" cy="10" r="9" class="svg-fg-circle" clip-path="url(#half-clip)"/>
+        </svg>
+    `;
+    themeToggleBtn.setAttribute('aria-label', 'Switch theme'); // Accessibility
     themeToggleBtn.addEventListener("click", toggleTheme); 
+    // --- END MODIFIED BLOCK ---
 
     resetButton.addEventListener("click", openResetModal);
     confirmResetBtn.addEventListener("click", () => {
