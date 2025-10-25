@@ -58,7 +58,7 @@ const workoutData = [
   },
   {
     "day": 5,
-    "title": "Arms (Biceps & Triceps)",
+    "title": "Biceps & Triceps",
     "duration": "35-45 minutes",
     "exercises": [
         { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps." },
@@ -72,7 +72,7 @@ const workoutData = [
   },
   {
     "day": 6,
-    "title": "Hamstrings & Glutes",
+    "title": "Glutes & Hamstrings",
     "duration": "55-65 minutes",
     "exercises": [
         { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start." },
