@@ -121,7 +121,7 @@ header {
 
 .day-btn:hover {
   color: var(--text-color);
-  border-color: var(--border-color);
+  border-color: var(--border-color); /* Use standard border color on hover */
 }
 
 .day-btn.active {
@@ -262,9 +262,10 @@ header {
   user-select: none;
 }
 
-.exercise-item:hover,
-.ab-finisher:hover,
-.cardio-session:hover {
+/* Add slight background change on hover for active items */
+#exercise-list .exercise-item:hover,
+#exercise-list .ab-finisher:hover,
+#exercise-list .cardio-session:hover {
   background-color: rgba(255, 255, 255, 0.03);
 }
 
@@ -283,35 +284,34 @@ header {
   z-index: -1;
 }
 
-/* Styles specifically for completed items */
+/* Styles specifically for completed items in the completed list */
 #completed-list .exercise-item,
 #completed-list .ab-finisher,
 #completed-list .cardio-session {
-    opacity: 0.5; /* Apply fade directly */
-    cursor: default; /* Non-interactive appearance */
-    pointer-events: none; /* Make them non-clickable */
+    opacity: 0.4; /* Stronger fade for completed items */
+    cursor: default;
+    pointer-events: none; /* Make non-interactive */
     user-select: none;
 }
-
+/* Remove hover effect from completed items */
 #completed-list .exercise-item:hover,
 #completed-list .ab-finisher:hover,
 #completed-list .cardio-session:hover {
-    background-color: transparent; /* No hover effect when completed */
+    background-color: transparent;
 }
 
-/* Removed fully-completed class styles as they are handled by list */
 
-/* Animation for moving items */
+/* Animation for moving items (used when moving TO completed) */
 .exercise-item.reordering,
 .ab-finisher.reordering,
 .cardio-session.reordering {
-  opacity: 0;
+  opacity: 0 !important; /* Force opacity for smooth transition */
   transform: translateY(10px);
 }
 
 .exercise-details {
   flex-grow: 1;
-  pointer-events: none;
+  pointer-events: none; /* Allow clicks to pass through to the LI */
 }
 
 .exercise-details h3 {
@@ -341,7 +341,10 @@ header {
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  z-index: 5;
+  z-index: 5; /* Keep above progress indicator */
+  /* Make info button interactive even when LI is not */
+  pointer-events: auto !important;
+  user-select: auto !important;
 }
 
 .info-btn:hover {
