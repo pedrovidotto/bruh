@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>WORKOUT.SYS</title>
   
-  <!-- 1. UPDATED: Import the Inter font family (Light, Regular, Medium, Bold) -->
+  <!-- 1. Import the Inter font family (Light, Regular, Medium, Bold) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -23,22 +23,21 @@
   
   <!-- 3. Redesigned Header -->
   <header>
-    <!-- This loads your logo.svg file -->
+    <!-- UPDATED: Removed "WORKOUT.SYS" text -->
     <h1 class="logo">
       <img src="logo.svg" alt="Logo" class="logo-svg">
-      WORKOUT.SYS
     </h1>
     <div id="header-controls">
-      <!-- Weekly calories now fits the "tech data" read-out style -->
+      <!-- Weekly calories readout -->
       <div id="weekly-calories-container" class="data-readout">
         // WEEKLY: 0 KCAL
       </div>
     </div>
-    <!-- Day selector remains structurally similar -->
+    <!-- Day selector -->
     <nav id="day-selector"></nav>
   </header>
 
-  <!-- 4. Main content area, styled as an outline "module" -->
+  <!-- 4. Main content area -->
   <main id="workout-container">
     <div id="workout-header">
       <h2 id="workout-title"></h2>
@@ -47,28 +46,27 @@
         <p id="daily-calories" class="data-readout"></p>
       </div>
     </div>
-    <div class="divider"></div>
+    <!-- Exercise list -->
     <ul id="exercise-list">
-      <!-- Exercise items will be injected by script.js -->
+      <!-- Items injected by script.js -->
     </ul>
   </main>
 
-  <!-- 5. Footer for system-level actions -->
+  <!-- 5. Footer -->
   <footer>
     <p class="footer-label">// SYSTEM</p>
     <button id="reset-button" class="btn-secondary">PURGE WEEKLY PROGRESS</button>
   </footer>
 </div>
 
-<!-- 6. On-screen timer, restyled -->
+<!-- 6. On-screen timer -->
 <div id="timer-display" class="hidden">00:00</div>
 
-<!-- 7. Info Modal, redesigned -->
+<!-- 7. Info Modal -->
 <div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
     <div class="modal-header">
       <h2 id="info-modal-title">Exercise Title</h2>
-      <!-- Outline-style close button with SVG icon -->
       <button id="info-modal-close-btn" class="btn-icon" aria-label="Close info modal">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
@@ -80,7 +78,7 @@
   </div>
 </div>
 
-<!-- 8. Reset Modal, redesigned -->
+<!-- 8. Reset Modal -->
 <div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
   <div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
     <div class="modal-header">
@@ -89,15 +87,13 @@
     <div class="divider"></div>
     <p class="modal-body-text">Purge all weekly progress data? This action is irreversible.</p>
     <div class="modal-buttons">
-      <!-- "Filled" primary button for the destructive action -->
       <button id="confirm-reset-btn" class="btn-primary">CONFIRM PURGE</button>
-      <!-- Outline secondary button for cancel -->
       <button id="cancel-reset-btn" class="btn-secondary">CANCEL</button>
     </div>
   </div>
 </div>
 
-<!-- 9. Completion Overlay, redesigned to be minimalist -->
+<!-- 9. Completion Overlay -->
 <div id="completion-overlay" class="hidden">
     <div id="completion-card">
         <h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2>
