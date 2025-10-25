@@ -116,7 +116,7 @@ let progress = {};
 let longPressTimer;
 const LONG_PRESS_DURATION = 500; // ms
 let activeTimer = null;
-let restPeriodEndTime = null; // Stores the timestamp when the timer should end
+let restPeriodEndTime = null;
 
 const motivationalMessages = [
     "Crushed it! See you for the next one.", "Be proud of your hard work today.",
@@ -136,8 +136,6 @@ function startOnScreenTimer(durationSeconds) {
         clearInterval(activeTimer);
     }
 
-    // NEW: Save the exact end time to localStorage
-    // This allows the timer to be restored even if the page is fully reloaded
     restPeriodEndTime = Date.now() + (durationSeconds * 1000);
     localStorage.setItem('restPeriodEndTime', restPeriodEndTime);
 
@@ -170,19 +168,15 @@ function startOnScreenTimer(durationSeconds) {
     activeTimer = setInterval(updateTimer, 1000);
 }
 
-// NEW: Function to check and resume timer when app becomes visible
 function checkTimerOnFocus() {
-    // Check if we were in the middle of a rest period
     const endTime = restPeriodEndTime || localStorage.getItem('restPeriodEndTime');
     if (!endTime) return;
 
     const remainingTime = Math.round((endTime - Date.now()) / 1000);
 
     if (remainingTime > 0) {
-        // Resume the timer with the correct time left
         startOnScreenTimer(remainingTime);
     } else {
-        // Timer finished while we were away
         timerDisplay.classList.add('hidden');
         localStorage.removeItem('restPeriodEndTime');
         restPeriodEndTime = null;
@@ -445,7 +439,6 @@ function setActiveDay(dayIndex) {
         timerDisplay.classList.add('hidden');
         activeTimer = null;
     }
-    // Clear the end time from storage when switching days
     localStorage.removeItem('restPeriodEndTime');
     restPeriodEndTime = null;
     
@@ -462,15 +455,12 @@ function closeResetModal() { resetModalOverlay.classList.add("hidden"); resetMod
 function init() {
     loadProgress();
 
-    // NEW: Listen for when the user brings the app back into focus
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
             checkTimerOnFocus();
         }
     });
 
-    // We no longer need to ask for notification permission
-    
     workoutData.forEach((day, index) => {
         const btn = document.createElement("button");
         btn.className = "day-btn";
@@ -494,7 +484,6 @@ function init() {
             clearInterval(activeTimer);
             timerDisplay.classList.add('hidden');
         }
-        // Also clear any saved timer from storage
         localStorage.removeItem('restPeriodEndTime');
         restPeriodEndTime = null;
         
@@ -505,13 +494,18 @@ function init() {
 
     infoModalCloseBtn.addEventListener("click", closeInfoModal);
     infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
-    resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
+    
+    // CORRECTED: Added the check for e.target === resetModalOverlay
+    resetModalOverlay.addEventListener("click", e => { 
+        if (e.target === resetModalOverlay) {
+            closeResetModal(); 
+        }
+    });
 
     const today = new Date().getDay(); // Sunday = 0
     const initialDayIndex = today === 0 ? 6 : today - 1; // Map to 0-indexed week (Mon-Sun)
     setActiveDay(initialDayIndex);
 
-    // NEW: Check the timer on initial load, just in case the page was reloaded
     checkTimerOnFocus();
 }
 
