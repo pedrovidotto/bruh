@@ -2,9 +2,10 @@
 :root {
   --background-color: #000000;
   --text-color: #FFFFFF;
-  --border-color: rgba(255, 255, 255, 0.4);
+  --border-color: rgba(255, 255, 255, 0.4); /* Slightly more visible for lines */
   --border-color-muted: rgba(255, 255, 255, 0.2);
   --text-color-muted: rgba(255, 255, 255, 0.6);
+  --progress-bg-color: rgba(255, 255, 255, 0.05); /* Subtle bg for progress */
 }
 
 * {
@@ -18,11 +19,6 @@ html {
 }
 
 body {
-  /*
-   * FONT FIX:
-   * Changed font to 'Inter'
-   * Set default weight to 300 (Light) as requested.
-  */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text-color);
   background-color: var(--background-color);
@@ -30,45 +26,42 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-top: env(safe-area-inset-top);
-  font-weight: 300; /* DEFAULT WEIGHT IS NOW LIGHT */
+  font-weight: 300; /* DEFAULT WEIGHT IS LIGHT */
 }
 
 /* 2. TYPOGRAPHY */
 h1, h2, h3 {
-  font-weight: 500; /* Medium weight for headers */
+  font-weight: 500; /* Medium weight for general headers */
   margin-bottom: 0.5em;
 }
 
 .logo {
-  font-size: 1.25rem;
-  font-weight: 500; /* Medium */
+  font-size: 1rem; /* Slightly smaller logo text */
+  font-weight: 400; /* Regular */
   letter-spacing: 0.05em;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px; /* Reduced gap */
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px; /* More space below logo */
   text-transform: uppercase;
+  color: var(--text-color-muted); /* Less prominent */
 }
 
-/* Style for your logo.svg */
 .logo-svg {
-  width: 24px;
-  height: 24px;
+  width: 20px; /* Smaller logo icon */
+  height: 20px;
   /* If your SVG is black, uncomment this to make it white: */
   /* filter: invert(1); */
 }
 
 .data-readout {
-  /*
-   * This is our "fine, light text".
-   * It now inherits 300 (Light) from the body.
-  */
   font-family: 'Inter', monospace;
-  font-size: 0.875rem; /* Smaller */
+  font-size: 0.8rem; /* Even smaller */
   color: var(--text-color-muted);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em; /* Tighter spacing */
   text-transform: uppercase;
+  font-weight: 300; /* Light */
 }
 
 .divider {
@@ -87,7 +80,7 @@ h1, h2, h3 {
 
 header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px; /* More space below header */
 }
 
 #header-controls {
@@ -96,8 +89,7 @@ header {
 
 #weekly-calories-container {
   text-align: center;
-  font-size: 1rem;
-  /* This inherits the new .data-readout style */
+  font-size: 0.8rem; /* Matches data-readout */
 }
 
 #day-selector {
@@ -105,25 +97,21 @@ header {
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 32px; /* More space below day selector */
 }
 
 /* 4. BUTTONS & INTERACTION */
 
 .btn-secondary, .day-btn {
-  /*
-   * HIERARCHY:
-   * Use Regular (400) for contrast against the Light text.
-  */
   background-color: transparent;
   color: var(--text-color-muted);
   border: 1px solid var(--border-color-muted);
-  border-radius: 20px;
-  padding: 8px 16px;
+  border-radius: 16px; /* Slightly less rounded */
+  padding: 6px 14px; /* Smaller padding */
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400; /* REGULAR */
+  font-size: 0.8rem; /* Smaller */
+  font-weight: 400; /* Regular */
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -131,14 +119,14 @@ header {
 
 .day-btn:hover {
   color: var(--text-color);
-  border-color: var(--text-color);
+  border-color: var(--border-color); /* Use standard border color on hover */
 }
 
 .day-btn.active {
   color: var(--background-color);
   background-color: var(--text-color);
   border-color: var(--text-color);
-  font-weight: 700; /* Bold (This contrast is good) */
+  font-weight: 500; /* Medium for active */
 }
 
 /* Progress bar for day buttons */
@@ -152,7 +140,7 @@ header {
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 2px; /* Thin line at the bottom */
+  height: 2px;
   width: var(--progress, 0%);
   background-color: var(--text-color);
   transition: width 0.4s ease-in-out;
@@ -168,12 +156,12 @@ header {
   background-color: var(--text-color);
   color: var(--background-color);
   border: 1px solid var(--text-color);
-  border-radius: 20px;
-  padding: 10px 20px;
+  border-radius: 16px;
+  padding: 8px 18px; /* Slightly smaller */
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 700; /* Bold */
+  font-size: 0.8rem;
+  font-weight: 500; /* Medium */
   letter-spacing: 0.02em;
   text-transform: uppercase;
   transition: all 0.2s ease;
@@ -198,30 +186,26 @@ header {
   color: var(--text-color);
 }
 
-/* 5. WORKOUT MODULE */
+/* 5. WORKOUT MODULE (NO LONGER A CARD) */
 #workout-container {
-  border: 1px solid var(--border-color-muted);
-  border-radius: 16px;
-  padding: 24px;
+  /* REMOVED BORDER AND PADDING */
 }
 
 #workout-header {
   text-align: left;
-  /* Add space for the big title */
   margin-bottom: 24px;
 }
 
 #workout-title {
   /*
-   * HIERARCHY:
-   * This is our "BIG TYPOGRAPHY".
-   * Make it much larger and bolder.
-  */
-  font-size: 2.75rem; /* MUCH BIGGER */
-  font-weight: 700; /* BOLD */
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+   * HUGE, LIGHT TITLE
+   */
+  font-size: 4rem; /* HUGE */
+  font-weight: 300; /* LIGHT */
+  margin-bottom: 12px;
+  letter-spacing: -0.03em; /* Tighter */
+  line-height: 1.1;
+  color: var(--text-color); /* Ensure full white */
 }
 
 #workout-info-flex {
@@ -229,6 +213,7 @@ header {
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
+  margin-bottom: 24px; /* Add margin here since divider moved */
 }
 
 #exercise-list {
@@ -236,48 +221,51 @@ header {
 }
 
 .category-title {
-  /*
-   * HIERARCHY:
-   * De-emphasize this title. Make it Regular.
-  */
-  margin-top: 24px;
-  margin-bottom: 12px;
-  padding-bottom: 6px;
+  margin-top: 32px; /* More space above category titles */
+  margin-bottom: 16px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color-muted);
   color: var(--text-color-muted);
-  font-size: 0.875rem; /* Smaller */
+  font-size: 0.8rem;
   font-weight: 400; /* Regular */
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+/* Don't add margin-top to the very first category title */
+#exercise-list > .category-title:first-of-type {
+    margin-top: 0;
+}
 
+
+/* Exercise Item Styling (NO CARD) */
 .exercise-item,
 .ab-finisher,
 .cardio-session {
-  border: 1px solid var(--border-color-muted);
-  border-radius: 12px;
-  margin-bottom: 12px;
-  padding: 16px;
+  /* REMOVED BORDER, RADIUS, MARGIN-BOTTOM */
+  /* ADDED BORDER-BOTTOM and adjusted padding */
+  border-bottom: 1px solid var(--border-color-muted);
+  padding: 16px 0; /* Padding only top/bottom */
   display: flex;
   align-items: center;
   gap: 16px;
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out, border-color 0.3s ease;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* Keep for ::before */
   z-index: 1;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
+/* Add slight background change on hover for affordance */
 .exercise-item:hover,
 .ab-finisher:hover,
 .cardio-session:hover {
-  border-color: var(--text-color);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* Progress bar for cards */
+/* Progress Indicator (Subtle Background Fill) */
 .exercise-item::before,
 .ab-finisher::before,
 .cardio-session::before {
@@ -287,31 +275,30 @@ header {
   left: 0;
   height: 100%;
   width: var(--series-progress, 0%);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--progress-bg-color);
   transition: width 0.4s ease-in-out;
   z-index: -1;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  /* Removed border-right */
 }
 
 .exercise-item.fully-completed,
 .ab-finisher.fully-completed,
 .cardio-session.fully-completed {
   opacity: 0.5;
-  border-color: var(--border-color-muted);
 }
 
 .exercise-item.fully-completed:hover,
 .ab-finisher.fully-completed:hover,
 .cardio-session.fully-completed:hover {
   opacity: 0.6;
+  background-color: transparent; /* No hover bg if completed */
 }
-
 
 .exercise-item.reordering,
 .ab-finisher.reordering,
 .cardio-session.reordering {
   opacity: 0;
-  transform: scale(0.95);
+  transform: translateY(10px); /* Slight downward move */
 }
 
 .exercise-details {
@@ -320,29 +307,26 @@ header {
 }
 
 .exercise-details h3 {
-  /* This is our Level 2 hierarchy */
-  font-size: 1.125rem;
-  font-weight: 500; /* Medium */
+  /* Exercise name - Level 2 */
+  font-size: 1.05rem; /* Slightly smaller */
+  font-weight: 400; /* Regular */
   margin-bottom: 4px;
-  transition: color 0.3s;
   color: var(--text-color);
 }
 
 .exercise-details p {
-  /*
-   * HIERARCHY:
-   * This is our "fine, light text" (Level 3).
-   * It inherits 300 (Light) from the body.
-  */
+  /* Sets/Reps - Level 3 */
   color: var(--text-color-muted);
-  font-size: 0.875rem; /* Smaller */
+  font-size: 0.8rem; /* Smaller */
+  font-weight: 300; /* Light */
 }
 
+/* Simplified Info Button (No Border) */
 .info-btn {
   flex-shrink: 0;
   background-color: transparent;
   color: var(--text-color-muted);
-  border: 1px solid var(--border-color-muted);
+  border: none; /* REMOVED BORDER */
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -356,18 +340,17 @@ header {
 
 .info-btn:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  border-color: var(--border-color);
   color: var(--text-color);
 }
 
 /* 6. FOOTER */
 footer {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 48px; /* More space above footer */
   padding-bottom: env(safe-area-inset-bottom);
 }
 .footer-label {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 400; /* Regular */
   color: var(--text-color-muted);
   text-transform: uppercase;
@@ -375,7 +358,7 @@ footer {
   margin-bottom: 12px;
 }
 
-/* 7. MODALS */
+/* 7. MODALS (Minor spacing adjustments) */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -396,7 +379,7 @@ footer {
 .modal {
   background-color: var(--background-color);
   padding: 24px;
-  border-radius: 16px;
+  border-radius: 12px; /* Slightly less rounded */
   border: 1px solid var(--border-color-muted);
   max-width: 500px;
   width: 100%;
@@ -423,7 +406,7 @@ footer {
 }
 
 .modal-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 500; /* Medium */
   margin-bottom: 0;
 }
@@ -435,11 +418,12 @@ footer {
   white-space: pre-wrap;
   max-height: 60vh;
   overflow-y: auto;
+  font-size: 0.9rem; /* Slightly smaller */
 }
 
 .modal-body-text {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem; /* Slightly smaller */
   margin-bottom: 24px;
   font-weight: 300; /* Light */
 }
@@ -474,8 +458,8 @@ footer {
 
 #completion-card {
     background-color: transparent;
-    padding: 40px;
-    border-radius: 16px;
+    padding: 32px; /* Slightly smaller padding */
+    border-radius: 12px;
     border: 1px solid var(--border-color-muted);
     text-align: center;
     transform: scale(1);
@@ -484,7 +468,8 @@ footer {
 
 #completion-title {
     color: var(--text-color);
-    margin-bottom: 10px;
+    margin-bottom: 8px; /* Less space */
+    font-size: 1.1rem;
     font-weight: 500; /* Medium */
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -492,6 +477,7 @@ footer {
 #completion-message {
   font-weight: 300; /* Light */
   color: var(--text-color-muted);
+  font-size: 0.9rem;
 }
 
 /* 9. ON-SCREEN TIMER */
@@ -502,9 +488,9 @@ footer {
   transform: translateX(-50%);
   background-color: var(--text-color);
   color: var(--background-color);
-  padding: 10px 25px;
-  border-radius: 25px;
-  font-size: 1.5rem;
+  padding: 8px 20px; /* Smaller */
+  border-radius: 20px;
+  font-size: 1.25rem; /* Smaller */
   font-weight: 500; /* Medium */
   z-index: 999;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
