@@ -548,9 +548,9 @@ const renderSection = (title, items, cssClass, idType, dayNum) => {
         } else {
              // Append active items *after* their section title (if it exists)
              if (sectionTitleElement) {
-                exerciseList.insertBefore(el, sectionTitleElement.nextSibling); // Appends right after title
+                exerciseList.appendChild(el); // Appends to the end of the list
              } else {
-                 exerciseList.appendChild(el); // Fallback if no title was added (e.g., all items completed initially)
+                 exerciseList.appendChild(el); 
              }
         }
     });
