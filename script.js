@@ -28,7 +28,6 @@ const workoutData = [
     "abFinisher": null,
     "cardio": null
   },
-    // ... (rest of workoutData, make sure 'calories' is removed from all) ...
      {
     "day": 3,
     "title": "Quads & Calves",
@@ -280,7 +279,26 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
              }
              // Add to new active item
              card.classList.add('exercise-active');
-             // --- END MODIFICATION ---
+             
+             // --- NEW: Move to top of section ---
+             if (!wasFullyCompleted) { // Don't move if it's about to be completed
+                let previousSibling = card.previousElementSibling;
+                let titleElement = null;
+                while (previousSibling) {
+                    if (previousSibling.classList.contains('category-title')) {
+                        titleElement = previousSibling;
+                        break;
+                    }
+                    previousSibling = previousSibling.previousElementSibling;
+                }
+                
+                if (titleElement) {
+                    // Move card to be immediately after its title
+                    titleElement.after(card);
+                }
+                // If no titleElement is found, we don't move it.
+             }
+             // --- END NEW BLOCK ---
 
              const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
              const restTime = parseRestTime(exerciseDetailsText);
@@ -327,32 +345,94 @@ function animateAndMoveToCompleted(card) {
     }, 300);
 }
 
+// --- MODIFIED FUNCTION ---
+// This function now finds or creates the correct section title
+// when moving an item from "Completed" back to "Active".
 function moveFromCompletedToActive(card) {
     removeCardListeners(card); // Remove listeners before moving
 
-    // Find the H3 title element this card belongs under in the active list
     const cardTypeClass = card.classList.contains('exercise-item') ? 'exercise-item'
                         : card.classList.contains('ab-finisher') ? 'ab-finisher'
                         : 'cardio-session';
+    
+    // --- NEW LOGIC TO FIND/CREATE TITLE ---
     let targetTitleElement = null;
+    let sectionTitleText = "";
+    let sectionOrder = 0; // 0 = Main, 1 = Abs, 2 = Cardio
+
+    if (cardTypeClass === 'exercise-item') {
+        sectionTitleText = "Main Workout";
+        sectionOrder = 0;
+    } else if (cardTypeClass === 'ab-finisher') {
+        sectionTitleText = "Ab Finisher";
+        sectionOrder = 1;
+    } else if (cardTypeClass === 'cardio-session') {
+        sectionTitleText = "Post-Workout Cardio";
+        sectionOrder = 2;
+    }
+
+    // Try to find the title
     const titles = exerciseList.querySelectorAll('.category-title');
-    if (cardTypeClass === 'exercise-item' && titles[0]) targetTitleElement = titles[0];
-    else if (cardTypeClass === 'ab-finisher' && titles[1]) targetTitleElement = titles[1];
-     else if (cardTypeClass === 'cardio-session' && titles[2]) targetTitleElement = titles[2];
+    titles.forEach(title => {
+        if (title.textContent === sectionTitleText) {
+            targetTitleElement = title;
+        }
+    });
+
+    // If title doesn't exist, create it and insert it
+    if (!targetTitleElement) {
+        targetTitleElement = document.createElement("h3");
+        targetTitleElement.className = "category-title";
+        targetTitleElement.textContent = sectionTitleText;
+        
+        // Find the correct insertion point
+        let anchorElement = null;
+        if (sectionOrder === 1) { // Find last "Main Workout" item
+            const mainItems = exerciseList.querySelectorAll('.exercise-item');
+            if (mainItems.length > 0) {
+                anchorElement = mainItems[mainItems.length - 1];
+            } else if (titles.length > 0 && titles[0].textContent === "Main Workout") {
+                 anchorElement = titles[0]; // Insert after title if no items
+            }
+        } else if (sectionOrder === 2) { // Find last "Ab Finisher" item
+            const abItems = exerciseList.querySelectorAll('.ab-finisher');
+            if (abItems.length > 0) {
+                anchorElement = abItems[abItems.length - 1];
+            } else if (titles.length > 0) { // Find last "Ab Finisher" title
+                 titles.forEach(t => { 
+                    if(t.textContent === "Ab Finisher") anchorElement = t; 
+                });
+            }
+            if (!anchorElement) { // Fallback: find last "Main Workout" item
+                 const mainItems = exerciseList.querySelectorAll('.exercise-item');
+                 if (mainItems.length > 0) anchorElement = mainItems[mainItems.length - 1];
+            }
+        }
+        
+        if (anchorElement) {
+            anchorElement.after(targetTitleElement);
+        } else if (sectionOrder === 0) {
+            exerciseList.prepend(targetTitleElement); // "Main Workout" always first
+        } else {
+            exerciseList.appendChild(targetTitleElement); // Fallback
+        }
+    }
+    // --- END NEW LOGIC ---
 
 
     if (targetTitleElement) {
          // Insert the card *after* its corresponding title
-        targetTitleElement.parentNode.insertBefore(card, targetTitleElement.nextSibling);
+        targetTitleElement.after(card);
     } else {
-        // Fallback: append to the end if title isn't found (shouldn't happen)
+        // Fallback: append to the end
         exerciseList.appendChild(card);
-        console.warn("Could not find correct section title, appending card to end.");
+        console.warn("Could not find or create correct section title, appending card to end.");
     }
 
     addCardListeners(card, false); // Add back listeners for active state
     updateCompletedSectionVisibility();
 }
+// --- END MODIFIED FUNCTION ---
 
 
 // --- Completion Celebration --- (Keep as is)
