@@ -5,7 +5,6 @@
   --border-color: rgba(255, 255, 255, 0.4);
   --border-color-muted: rgba(255, 255, 255, 0.2);
   --text-color-muted: rgba(255, 255, 255, 0.6);
-  /* Progress bar color removed */
 }
 
 * {
@@ -39,22 +38,21 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 24px; /* Adjusted spacing */
+  margin-bottom: 24px;
 }
 
 .logo-svg {
   width: 128px;
   height: 128px;
-  /* filter: invert(1); */ /* Uncomment if your SVG is black */
+  /* filter: invert(1); */
 }
 
-/* NEW: Divider under logo */
 .header-divider {
     border: none;
     height: 1px;
     background-color: var(--border-color-muted);
-    margin-top: 0; /* Remove default margin */
-    margin-bottom: 32px; /* Space below divider */
+    margin-top: 0;
+    margin-bottom: 32px;
 }
 
 .data-readout {
@@ -74,22 +72,12 @@ h1, h2, h3 {
 }
 
 /* Utility class */
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
 
 /* 3. LAYOUT */
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-header {
-  margin-bottom: 40px; /* Increased space after header */
-}
-
-#header-controls { /* Removed, styles not needed */ }
+.container { max-width: 600px; margin: 0 auto; padding: 24px; }
+header { margin-bottom: 24px; } /* Reduced bottom margin */
+#header-controls { /* Removed */ }
 #weekly-calories-container { /* Removed */ }
 
 #day-selector {
@@ -97,12 +85,23 @@ header {
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 40px; /* Increased space after day selector */
+  margin-bottom: 24px; /* Reduced bottom margin */
 }
+
+/* NEW: Undo Button Container */
+.undo-container {
+    margin-bottom: 40px; /* Space below undo button */
+    text-align: left; /* Align button left */
+}
+#undo-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 
 /* 4. BUTTONS */
 
-.btn-secondary, .day-btn {
+.btn-secondary, .day-btn, #undo-button { /* Apply base style to undo button too */
   background-color: transparent;
   color: var(--text-color-muted);
   border: 1px solid var(--border-color-muted);
@@ -115,12 +114,12 @@ header {
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  position: relative; /* Keep for ::before if needed later, but bar is removed */
+  position: relative;
   overflow: hidden;
   z-index: 1;
 }
 
-.day-btn:hover {
+.day-btn:hover, #undo-button:not(:disabled):hover {
   color: var(--text-color);
   border-color: var(--border-color);
 }
@@ -131,8 +130,6 @@ header {
   border-color: var(--text-color);
   font-weight: 500; /* Medium */
 }
-
-/* REMOVED: Day button progress bar (.day-btn::before) */
 
 .btn-primary {
   background-color: var(--text-color);
@@ -149,95 +146,69 @@ header {
   transition: all 0.2s ease;
 }
 
-.btn-primary:hover {
-  background-color: transparent;
-  color: var(--text-color);
-}
+.btn-primary:hover { background-color: transparent; color: var(--text-color); }
 
 .btn-icon {
-  background: transparent;
-  border: none;
-  color: var(--text-color-muted);
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.2s ease;
-  line-height: 1;
+  background: transparent; border: none; color: var(--text-color-muted);
+  cursor: pointer; padding: 4px; transition: color 0.2s ease; line-height: 1;
 }
-.btn-icon:hover {
-  color: var(--text-color);
-}
+.btn-icon:hover { color: var(--text-color); }
 
 /* 5. WORKOUT MODULE */
 #workout-container { }
 
-#workout-header {
-  text-align: left;
-  margin-bottom: 24px;
-}
+#workout-header { text-align: left; margin-bottom: 24px; }
 
 #workout-title {
-  font-size: 4rem;
-  font-weight: 300; /* LIGHT */
-  margin-bottom: 12px;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--text-color);
+  font-size: 4rem; font-weight: 300; margin-bottom: 12px;
+  letter-spacing: -0.03em; line-height: 1.1; color: var(--text-color);
 }
 
-#workout-info-flex { /* Removed, container div not needed */ }
+#workout-duration { margin-bottom: 32px; }
 
-/* Workout Duration Styling */
-#workout-duration {
-    margin-bottom: 32px; /* Space after duration */
-}
-
-
-#exercise-list,
-#completed-list {
-  list-style: none;
-}
+#exercise-list, #completed-list { list-style: none; }
 
 .category-title {
-  margin-top: 32px;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-color-muted);
-  color: var(--text-color-muted);
-  font-size: 0.8rem;
-  font-weight: 400; /* Regular */
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-top: 32px; margin-bottom: 0; /* Remove bottom margin */
+  padding-bottom: 8px; border-bottom: 1px solid var(--border-color-muted);
+  color: var(--text-color-muted); font-size: 0.8rem; font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.05em;
 }
-#exercise-list > .category-title:first-of-type {
-    margin-top: 0;
-}
+#exercise-list > .category-title:first-of-type { margin-top: 0; }
 #completed-title {
-    margin-top: 48px;
-    color: var(--text-color);
-    font-weight: 500; /* Medium weight */
+    margin-top: 48px; color: var(--text-color); font-weight: 500;
 }
 
 
 /* Exercise Item Styling */
-.exercise-item,
-.ab-finisher,
-.cardio-session {
+.exercise-item, .ab-finisher, .cardio-session {
   border-bottom: 1px solid var(--border-color-muted);
-  padding: 20px 0; /* Increased vertical padding */
-  display: flex;
-  align-items: center; /* Vertically align items */
-  gap: 16px;
-  transition: opacity 0.5s ease-out, transform 0.3s ease-out;
-  cursor: pointer;
-  position: relative; /* Keep for potential absolute elements */
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  padding: 20px 0 20px 14px; /* Added left padding for indicator */
+  display: flex; align-items: center; gap: 16px;
+  transition: opacity 0.5s ease-out, transform 0.3s ease-out, background-color 0.2s ease; /* Added background transition */
+  cursor: pointer; position: relative;
+  -webkit-user-select: none; -ms-user-select: none; user-select: none;
 }
-/* Remove bottom border for the last item in each list */
-#exercise-list > li:last-child,
-#completed-list > li:last-child {
+#exercise-list > li:last-of-type, /* More specific selector */
+#completed-list > li:last-of-type {
     border-bottom: none;
+}
+
+/* NEW: Active Indicator Bar */
+.active-indicator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px; /* Bar width */
+    height: 60%; /* Bar height relative to item */
+    background-color: var(--text-color);
+    border-radius: 2px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease;
+}
+.is-current-exercise > .active-indicator {
+    opacity: 1; /* Show when parent has class */
 }
 
 
@@ -247,115 +218,63 @@ header {
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* REMOVED: Progress Indicator (.exercise-item::before, etc.) */
-
 /* Completed Item Styles */
 #completed-list .exercise-item,
 #completed-list .ab-finisher,
 #completed-list .cardio-session {
-    opacity: 0.4;
-    cursor: default;
-    /* Allow interaction for decrementing */
-    user-select: none;
+    opacity: 0.4; cursor: default; user-select: none;
 }
 #completed-list .exercise-item:hover,
 #completed-list .ab-finisher:hover,
 #completed-list .cardio-session:hover {
     background-color: transparent;
 }
+/* Hide indicator bar in completed list */
+#completed-list .active-indicator { display: none; }
 
 .exercise-item.reordering,
 .ab-finisher.reordering,
 .cardio-session.reordering {
-  opacity: 0 !important;
-  transform: translateY(10px);
+  opacity: 0 !important; transform: translateY(10px);
 }
 
 .exercise-details {
-  flex-grow: 1; /* Take available space */
-  pointer-events: none;
-  padding-right: 16px; /* Add padding to prevent overlap with counter */
+  flex-grow: 1; pointer-events: none; padding-right: 16px;
 }
 
 .exercise-details h3 {
-  font-size: 1.05rem;
-  font-weight: 400; /* Regular */
-  margin-bottom: 4px;
-  color: var(--text-color);
-  line-height: 1.3;
+  font-size: 1.05rem; font-weight: 400; margin-bottom: 4px;
+  color: var(--text-color); line-height: 1.3;
 }
 
 .exercise-details p {
-  color: var(--text-color-muted);
-  font-size: 0.8rem;
-  font-weight: 300; /* Light */
-  line-height: 1.4;
+  color: var(--text-color-muted); font-size: 0.8rem; font-weight: 300; line-height: 1.4;
 }
 
-/* NEW: Set Counter Styles */
+/* Set Counter Styles */
 .set-counter {
     font-family: 'Inter', monospace;
-    /* INCREASED SIZE & WEIGHT */
-    font-size: 1.25rem; /* Larger */
-    font-weight: 500; /* Medium */
-    color: var(--text-color-muted);
-    background-color: transparent; /* No background initially */
-    padding: 4px 0; /* Vertical padding only */
-    border-radius: 4px;
-    margin-left: auto; /* Push counter & button right */
-    white-space: nowrap;
-    transition: color 0.3s, background-color 0.3s;
-    flex-shrink: 0; /* Prevent shrinking */
-    text-align: right; /* Align text right if needed */
-    min-width: 50px; /* Ensure space for "X/YY" */
+    font-size: 1.25rem; font-weight: 500; /* Medium */
+    color: var(--text-color-muted); background-color: transparent;
+    padding: 4px 0; border-radius: 4px; margin-left: auto;
+    white-space: nowrap; transition: color 0.3s;
+    flex-shrink: 0; text-align: right; min-width: 50px;
 }
-
-/* Style when all sets are complete */
-.set-counter.sets-complete {
-    color: var(--text-color); /* Full white when complete */
-    background-color: transparent; /* Still no background */
-    font-weight: 500; /* Medium */
-}
+.set-counter.sets-complete { color: var(--text-color); }
 
 
 .info-btn {
-  flex-shrink: 0;
-  background-color: transparent;
-  color: var(--text-color-muted);
-  border: none;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  z-index: 5;
-  pointer-events: auto !important;
-  user-select: auto !important;
-  margin-left: 12px;
+  flex-shrink: 0; background-color: transparent; color: var(--text-color-muted);
+  border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; z-index: 5; pointer-events: auto !important;
+  user-select: auto !important; margin-left: 12px;
 }
-
-.info-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: var(--text-color);
-}
+.info-btn:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--text-color); }
 
 /* 6. FOOTER */
-footer {
-  text-align: left;
-  margin-top: 64px; /* More space above footer */
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.footer-label {
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: var(--text-color-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  margin-bottom: 12px;
-}
+footer { text-align: left; margin-top: 64px; padding-bottom: env(safe-area-inset-bottom); }
+.footer-label { font-size: 0.8rem; font-weight: 400; color: var(--text-color-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 12px; }
 
 /* 7. MODALS */
 .modal-overlay {
@@ -365,31 +284,29 @@ footer {
   z-index: 1000; opacity: 1; transition: opacity 0.3s ease-in-out;
   padding: 15px;
 }
-
 .modal {
-  background-color: var(--background-color);
-  padding: 24px; border-radius: 12px;
-  border: 1px solid var(--border-color-muted);
-  max-width: 500px; width: 100%;
+  background-color: var(--background-color); padding: 24px; border-radius: 12px;
+  border: 1px solid var(--border-color-muted); max-width: 500px; width: 100%;
   position: relative; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   transform: scale(1); transition: transform 0.3s ease-in-out;
 }
-
 .modal-overlay.hidden { opacity: 0; pointer-events: none; }
 .modal-overlay.hidden .modal { transform: scale(0.95); }
-
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .modal-header h2 { font-size: 1.1rem; font-weight: 500; margin-bottom: 0; }
-
 #info-modal-instructions p, #info-modal-instructions {
   font-weight: 300; color: var(--text-color); white-space: pre-wrap;
   max-height: 60vh; overflow-y: auto; font-size: 0.9rem;
 }
-
 .modal-body-text { text-align: left; font-size: 1rem; margin-bottom: 24px; font-weight: 300; }
 .modal-buttons { display: flex; justify-content: flex-start; gap: 15px; }
 
 /* 8. COMPLETION OVERLAY */
+#completion-overlay { /* ... same ... */ }
+#completion-overlay.hidden { /* ... same ... */ }
+#completion-card { /* ... same ... */ }
+#completion-title { /* ... same ... */ }
+#completion-message { /* ... same ... */ }
 #completion-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px);
@@ -397,18 +314,19 @@ footer {
     z-index: 2000; opacity: 1; transition: opacity 0.4s ease-in-out;
 }
 #completion-overlay.hidden { opacity: 0; pointer-events: none; }
-
 #completion-card {
     background-color: transparent; padding: 32px; border-radius: 12px;
     border: 1px solid var(--border-color-muted); text-align: left;
     transform: scale(1); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     max-width: 400px; width: 90%;
 }
-
 #completion-title { color: var(--text-color); margin-bottom: 8px; font-size: 1.1rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
 #completion-message { font-weight: 300; color: var(--text-color-muted); font-size: 0.9rem; }
 
+
 /* 9. ON-SCREEN TIMER */
+#timer-display { /* ... same ... */ }
+#timer-display.hidden { /* ... same ... */ }
 #timer-display {
   position: fixed; bottom: 20px; left: 24px; transform: translateX(0);
   background-color: var(--text-color); color: var(--background-color);
