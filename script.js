@@ -44,7 +44,7 @@ const workoutData = [
   },
   {
     "day": 4,
-    "title": "Chest & Shoulders",
+    "title": "Shoulders & Chest",
     "duration": "60-70 minutes",
     "exercises": [
         { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height." },
@@ -58,7 +58,7 @@ const workoutData = [
   },
   {
     "day": 5,
-    "title": "Biceps & Triceps",
+    "title": "Arms (Biceps & Triceps)",
     "duration": "35-45 minutes",
     "exercises": [
         { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps." },
@@ -72,7 +72,7 @@ const workoutData = [
   },
   {
     "day": 6,
-    "title": "Glute & Hamstrings",
+    "title": "Hamstrings & Glutes",
     "duration": "55-65 minutes",
     "exercises": [
         { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start." },
@@ -757,7 +757,7 @@ function init() {
     });
 
     // --- MODIFIED BLOCK ---
-    const dayLabels = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+    const dayLabels = ["M", "T", "W", "T", "F", "S", "S"]; // Use single-letter labels
     workoutData.forEach((day, index) => {
         const btn = document.createElement("button");
         btn.className = "day-btn";
