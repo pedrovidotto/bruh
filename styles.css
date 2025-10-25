@@ -51,6 +51,14 @@ h1, h2, h3 {
   text-transform: uppercase;
 }
 
+/* Style for your logo.svg */
+.logo-svg {
+  width: 24px;
+  height: 24px;
+  /* If your SVG is black, uncomment this to make it white: */
+  /* filter: invert(1); */
+}
+
 .data-readout {
   /*
    * HIERARCHY FIX:
