@@ -214,9 +214,7 @@ function parseRestTime(details) {
     return match ? parseInt(match[1], 10) : 0;
 }
 
-// REBUILT: This function now correctly parses the simplified IDs
 function findNextExercise(currentProgressId) {
-    // ID format is now "day1-exercise-0", "day1-ab-0", etc.
     const [day, type, indexStr] = currentProgressId.replace('day', '').split('-');
     const dayData = workoutData.find(d => d.day == day);
     const index = parseInt(indexStr, 10);
@@ -225,18 +223,17 @@ function findNextExercise(currentProgressId) {
 
     if (type === 'exercise') {
         if (index < dayData.exercises.length - 1) {
-            return dayData.exercises[index + 1].name; // Next main exercise
+            return dayData.exercises[index + 1].name;
         } else if (dayData.abFinisher) {
-            return dayData.abFinisher.name; // Move to abs
+            return dayData.abFinisher.name;
         } else if (dayData.cardio) {
-            return dayData.cardio.name; // Move to cardio
+            return dayData.cardio.name;
         }
     } else if (type === 'ab') {
         if (dayData.cardio) {
-            return dayData.cardio.name; // Move to cardio
+            return dayData.cardio.name;
         }
     }
-    // If type is 'cardio' or it's the last item in the sequence, return null
     return null;
 }
 
@@ -258,7 +255,6 @@ function updateCalorieCounters() {
     let weeklyTotal = 0; let dailyTotal = 0;
     const activeDayIndex = parseInt(document.querySelector('.day-btn.active')?.dataset.day || '0', 10);
     workoutData.forEach((dayData, dayIndex) => {
-        // REBUILT: Use the new simplified ID types
         const allExercises = [
             ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-${i}` })),
             ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
@@ -283,7 +279,6 @@ function updateProgressBars() {
         if (dayData.exercises.length === 0) { btn.style.setProperty('--progress', '0%'); return; }
         let totalSets = 0, completedSets = 0;
         
-        // REBUILT: Use the new simplified ID types
         dayData.exercises.forEach((ex, i) => { const id = `day${dayData.day}-exercise-${i}`; totalSets += parseSets(ex.details); completedSets += progress[id] || 0; });
         if (dayData.abFinisher) { const id = `day${dayData.day}-ab-0`; totalSets += parseSets(dayData.abFinisher.details); completedSets += progress[id] || 0; }
         if (dayData.cardio) { const id = `day${dayData.day}-cardio-0`; totalSets += parseSets(dayData.cardio.details); completedSets += progress[id] || 0; }
@@ -299,6 +294,26 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const wasCompleted = currentCompleted >= totalSets;
 
     if (direction === 'increment') {
+        
+        // --- NEW: Jump-to-top logic ---
+        if (currentCompleted === 0) { // This is the first set being logged
+            let currentElement = card;
+            let precedingTitle = null;
+            // Find the H3 title for this card's section
+            while (currentElement.previousElementSibling) {
+                currentElement = currentElement.previousElementSibling;
+                if (currentElement.tagName === 'H3') {
+                    precedingTitle = currentElement;
+                    break;
+                }
+            }
+            // If we found its title AND the card is not already the first item
+            if (precedingTitle && precedingTitle.nextElementSibling !== card) {
+                precedingTitle.after(card); // Move the card to be right after its title
+            }
+        }
+        // --- End of new logic ---
+
         progress[progressId] = Math.min(totalSets, currentCompleted + 1);
         triggerHapticFeedback();
         
@@ -358,7 +373,6 @@ function triggerConfetti() {
 function checkDayCompletion() {
     const activeDayIndex = parseInt(document.querySelector('.day-btn.active').dataset.day, 10);
     const dayData = workoutData[activeDayIndex];
-    // REBUILT: Use the new simplified ID types
     const allItems = [
         ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-${i}` })),
         ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
@@ -377,7 +391,6 @@ function checkDayCompletion() {
 }
 
 // --- DOM Rendering ---
-// REBUILT: This function is now much cleaner and uses simplified IDs
 function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
     workoutTitle.textContent = `Day ${dayData.day}: ${dayData.title}`;
@@ -390,13 +403,11 @@ function renderWorkout(dayIndex) {
         return; 
     }
     
-    // This is a new, cleaner helper function to create each card
     const createExerciseItem = (exercise, cssClass, idType, index) => {
         const li = document.createElement("li");
-        li.className = cssClass; // Applies the correct style: 'exercise-item', 'ab-finisher', etc.
+        li.className = cssClass;
         
-        // This is the new, simplified ID that is easy to parse
-        const progressId = `day${dayData.day}-${idType}-${index}`; // e.g., "day1-exercise-0", "day1-ab-0"
+        const progressId = `day${dayData.day}-${idType}-${index}`;
         const totalSets = parseSets(exercise.details);
         
         li.dataset.progressId = progressId;
@@ -404,13 +415,11 @@ function renderWorkout(dayIndex) {
         
         li.innerHTML = `<div class="exercise-details"><h3>${exercise.name}</h3><p>${exercise.details}</p></div><button class="info-btn" aria-label="Open exercise info for ${exercise.name}">i</button>`;
         
-        // Add event listeners, passing the 'li' element directly
-        li.addEventListener('click', () => handleSeriesUpdate(li, progressId, totalSets, 'increment'));
-        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(li, progressId, totalSets, 'decrement'); });
+        li.addEventListener('click', (e) => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment'));
+        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'); });
         li.addEventListener('touchstart', (e) => { 
             longPressTimer = setTimeout(() => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'), LONG_PRESS_DURATION); 
         }, { passive: true });
-        // REMOVED 'touchmove' listener as it was too sensitive and blocked undo
         li.addEventListener('touchend', () => clearTimeout(longPressTimer));
         
         li.querySelector(".info-btn").addEventListener("click", (e) => { e.stopPropagation(); openInfoModal(exercise.name, exercise.instructions); });
@@ -419,7 +428,6 @@ function renderWorkout(dayIndex) {
         return li;
     };
 
-    // This new helper function cleanly renders each section
     const renderSection = (title, items, cssClass, idType) => {
         if (!items || (Array.isArray(items) && items.length === 0)) return [];
 
@@ -428,15 +436,14 @@ function renderWorkout(dayIndex) {
         sectionTitle.textContent = title;
 
         const elements = Array.isArray(items)
-            ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i)) // For main exercises
-            : [createExerciseItem(items, cssClass, idType, 0)]; // For single ab/cardio
+            ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i))
+            : [createExerciseItem(items, cssClass, idType, 0)];
         
         elements.sort((a, b) => { const completedA = a.classList.contains('fully-completed'); const completedB = b.classList.contains('fully-completed'); return completedA - completedB; });
         
         return [sectionTitle, ...elements];
     };
     
-    // Use the new renderSection helper for cleaner code
     exerciseList.append(...renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise'));
     exerciseList.append(...renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab'));
     exerciseList.append(...renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio'));
@@ -449,7 +456,6 @@ function setActiveDay(dayIndex) {
     const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`); 
     if (currentBtn) currentBtn.classList.add("active");
     
-    // Clear any active timer when switching days
     if (activeTimer) {
         clearInterval(activeTimer);
         timerDisplay.classList.add('hidden');
