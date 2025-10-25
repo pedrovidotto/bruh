@@ -21,19 +21,16 @@
 <!-- 2. Main container for layout -->
 <div class="container">
   
-  <!-- 3. Redesigned Header -->
+  <!-- 3. Header with large logo -->
   <header>
-    <!-- UPDATED: Removed "WORKOUT.SYS" text -->
     <h1 class="logo">
       <img src="logo.svg" alt="Logo" class="logo-svg">
     </h1>
     <div id="header-controls">
-      <!-- Weekly calories readout -->
       <div id="weekly-calories-container" class="data-readout">
         // WEEKLY: 0 KCAL
       </div>
     </div>
-    <!-- Day selector -->
     <nav id="day-selector"></nav>
   </header>
 
@@ -46,10 +43,18 @@
         <p id="daily-calories" class="data-readout"></p>
       </div>
     </div>
-    <!-- Exercise list -->
+    
+    <!-- Active Exercises List -->
     <ul id="exercise-list">
       <!-- Items injected by script.js -->
     </ul>
+
+    <!-- NEW: Section for Completed Exercises -->
+    <h3 id="completed-title" class="category-title hidden">// COMPLETED</h3>
+    <ul id="completed-list">
+        <!-- Completed items moved here by script.js -->
+    </ul>
+    
   </main>
 
   <!-- 5. Footer -->
