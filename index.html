@@ -21,15 +21,13 @@
 <div class="container">
 
   <header>
+    <!-- Logo container, styling will align it right -->
     <h1 class="logo">
       <img src="logo.svg" alt="Logo" class="logo-svg">
     </h1>
     <hr class="header-divider">
     <nav id="day-selector"></nav>
-     <!-- Undo Button Container -->
-     <div class="undo-container">
-        <button id="undo-button" class="btn-secondary" disabled>UNDO LAST SET</button>
-    </div>
+     <!-- REMOVED: Undo Button Container -->
   </header>
 
   <main id="workout-container">
@@ -40,7 +38,7 @@
 
     <!-- Active Exercises List -->
     <ul id="exercise-list">
-      <!-- Active items and Category Titles injected by script.js -->
+      <!-- Items injected by script.js -->
     </ul>
 
     <!-- Section for Completed Exercises -->
@@ -59,7 +57,7 @@
 
 <div id="timer-display" class="hidden">00:00</div>
 
-<!-- Modals -->
+<!-- Modals remain the same -->
 <div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
         <div class="modal-header">
