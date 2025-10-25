@@ -1,11 +1,10 @@
+/* 1. ROOT & GLOBAL STYLES */
 :root {
-  --primary-color: #EE8C46; /* Orange from logo */
-  --destructive-color: #D94C4C; /* Red from logo */
-  --background-color: #121212;
-  --surface-color: #1e1e1e;
-  --text-color: #ffffff;
-  --text-muted-color: #a0a0a0;
-  --border-color: #333333;
+  --background-color: #000000;
+  --text-color: #FFFFFF;
+  --border-color: rgba(255, 255, 255, 0.4);
+  --border-color-muted: rgba(255, 255, 255, 0.2);
+  --text-color-muted: rgba(255, 255, 255, 0.6);
 }
 
 * {
@@ -14,155 +13,241 @@
   padding: 0;
 }
 
-/* These settings are for the CodePen environment to simulate the app */
 html {
   background-color: var(--background-color);
 }
 
 body {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
+  /* Use the new font, default to Light (300) as requested */
+  font-family: 'Archivio', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text-color);
+  background-color: var(--background-color);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-top: env(safe-area-inset-top);
+  font-weight: 300; /* Use Light weight as default */
 }
-/* End of simulation settings */
 
+/* 2. TYPOGRAPHY */
+h1, h2, h3 {
+  font-weight: 500; /* Medium weight for headers */
+  margin-bottom: 0.5em;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 500; /* Medium */
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.data-readout {
+  font-family: 'Archivio', monospace;
+  font-size: 0.875rem;
+  color: var(--text-color-muted);
+  letter-spacing: 0.02em;
+  font-weight: 400; /* Regular */
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-color-muted);
+  margin: 20px 0;
+}
+
+/* 3. LAYOUT */
 .container {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
 
-header h1 {
+header {
   text-align: center;
-  margin-bottom: 20px;
-  color: var(--text-color);
+  margin-bottom: 24px;
 }
 
 #header-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 #weekly-calories-container {
-    text-align: center;
-    color: var(--primary-color);
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 0;
+  text-align: center;
+  font-weight: 400; /* Regular */
+  font-size: 1rem;
+  text-transform: uppercase;
 }
 
 #day-selector {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 30px;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
-.day-btn {
-  background-color: var(--surface-color);
-  color: var(--text-muted-color);
-  border: 1px solid var(--border-color);
-  border-radius: 17px;
-  padding: 8px 17px;
+/* 4. BUTTONS & INTERACTION */
+
+/* Standard outline button */
+.btn-secondary, .day-btn {
+  background-color: transparent;
+  color: var(--text-color-muted);
+  border: 1px solid var(--border-color-muted);
+  border-radius: 20px;
+  padding: 8px 16px;
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: background-color 0.3s, color 0.3s;
+  font-family: 'Archivio', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500; /* Medium */
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.day-btn:hover {
+  color: var(--text-color);
+  border-color: var(--text-color);
+}
+
+.day-btn.active {
+  color: var(--background-color);
+  background-color: var(--text-color);
+  border-color: var(--text-color);
+  font-weight: 700; /* Bold */
+}
+
+/* Progress bar for day buttons */
+.day-btn {
   position: relative;
   overflow: hidden;
   z-index: 1;
 }
-
 .day-btn::before {
   content: '';
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
-  height: 100%;
+  height: 2px; /* Thin line at the bottom */
   width: var(--progress, 0%);
-  background-color: rgba(238, 140, 70, 0.25); /* Faded primary color */
+  background-color: var(--text-color);
   transition: width 0.4s ease-in-out;
   z-index: -1;
 }
-
-.day-btn span {
-  position: relative;
-  z-index: 2;
-}
-
-.day-btn:hover {
-  background-color: #2f2f2f;
-}
-
-.day-btn.active {
-  background-color: var(--primary-color);
-  color: #121212;
-  border-color: var(--primary-color);
-  font-weight: bold;
-}
-
 .day-btn.active::before {
-    background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--background-color);
+  opacity: 0.5;
 }
 
+/* Primary "filled" button */
+.btn-primary {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  border: 1px solid var(--text-color);
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: 'Archivio', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700; /* Bold */
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+/* Icon-only button */
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: var(--text-color-muted);
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+.btn-icon:hover {
+  color: var(--text-color);
+}
+
+/* 5. WORKOUT MODULE */
 #workout-container {
-  background-color: var(--surface-color);
-  border-radius: 12px;
-  padding: 25px;
-  border: 1px solid var(--border-color);
+  /* This is the main "outline" container */
+  border: 1px solid var(--border-color-muted);
+  border-radius: 16px;
+  padding: 24px;
 }
 
 #workout-header {
-  text-align: center;
-  margin-bottom: 20px;
+  text-align: left;
+}
+
+#workout-title {
+  font-size: 1.75rem;
+  font-weight: 700; /* Bold */
+  margin-bottom: 8px;
 }
 
 #workout-info-flex {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-#daily-calories {
-    color: var(--text-muted-color);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 #exercise-list {
   list-style: none;
 }
 
+.category-title {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-color-muted);
+  color: var(--text-color-muted);
+  font-size: 1rem;
+  font-weight: 500; /* Medium */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .exercise-item,
 .ab-finisher,
 .cardio-session {
-  background-color: #2a2a2a;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  margin-bottom: 15px;
-  padding: 15px;
+  border: 1px solid var(--border-color-muted);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  padding: 16px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  gap: 16px;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out, border-color 0.3s ease;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   z-index: 1;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10+ */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-/* Progress bar for each card */
+.exercise-item:hover,
+.ab-finisher:hover,
+.cardio-session:hover {
+  border-color: var(--text-color);
+}
+
+/* Redesigned progress bar for cards */
 .exercise-item::before,
 .ab-finisher::before,
 .cardio-session::before {
@@ -172,100 +257,91 @@ header h1 {
   left: 0;
   height: 100%;
   width: var(--series-progress, 0%);
-  background-color: rgba(238, 140, 70, 0.25);
-  transition: width 0.4s ease-in-out, background-color 0.4s;
+  /* Subtle white fill for progress */
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: width 0.4s ease-in-out;
   z-index: -1;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.exercise-item.fully-completed::before,
-.ab-finisher.fully-completed::before,
-.cardio-session.fully-completed::before {
-    background-color: rgba(238, 140, 70, 0.4);
+.exercise-item.fully-completed,
+.ab-finisher.fully-completed,
+.cardio-session.fully-completed {
+  /* Completed items are faded out */
+  opacity: 0.5;
+  border-color: var(--border-color-muted);
 }
 
-.exercise-item.fully-completed .exercise-details h3,
-.ab-finisher.fully-completed .exercise-details h3,
-.cardio-session.fully-completed .exercise-details h3 {
-    text-decoration: line-through;
-    color: var(--text-muted-color);
+.exercise-item.fully-completed:hover,
+.ab-finisher.fully-completed:hover,
+.cardio-session.fully-completed:hover {
+  opacity: 0.6; /* Slight fade-in on hover */
 }
 
-/* Animation for when card moves to the bottom */
+
 .exercise-item.reordering,
 .ab-finisher.reordering,
 .cardio-session.reordering {
-    opacity: 0;
-    transform: scale(0.95);
+  opacity: 0;
+  transform: scale(0.95);
 }
 
 .exercise-details {
   flex-grow: 1;
-  pointer-events: none; /* Makes text non-interactive for easier card clicks */
+  pointer-events: none;
 }
 
 .exercise-details h3 {
   font-size: 1.1rem;
-  margin-bottom: 5px;
-  transition: color 0.3s, text-decoration 0.3s;
+  font-weight: 500; /* Medium */
+  margin-bottom: 4px;
+  transition: color 0.3s;
 }
 
 .exercise-details p {
-  color: var(--text-muted-color);
+  color: var(--text-color-muted);
   font-size: 0.9rem;
+  font-weight: 300; /* Light */
 }
 
 .info-btn {
   flex-shrink: 0;
-  background-color: #333;
-  color: #ccc;
-  border: 1px solid #555;
+  background-color: transparent;
+  color: var(--text-color-muted);
+  border: 1px solid var(--border-color-muted);
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  font-size: 1rem;
-  font-weight: bold;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
-  z-index: 5; /* Ensure it's above the progress bar */
+  transition: all 0.2s;
+  z-index: 5;
 }
 
 .info-btn:hover {
-  background-color: #444;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-color);
+  color: var(--text-color);
 }
 
-.category-title {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  padding-bottom: 5px;
-  border-bottom: 2px solid var(--primary-color);
-  color: var(--primary-color);
-  font-size: 1.2rem;
-}
-
+/* 6. FOOTER */
 footer {
   text-align: center;
   margin-top: 40px;
   padding-bottom: env(safe-area-inset-bottom);
 }
-
-#reset-button {
-  background-color: var(--destructive-color);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 25px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.footer-label {
+  font-size: 0.875rem;
+  font-weight: 400; /* Regular */
+  color: var(--text-color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
 }
 
-#reset-button:hover {
-  background-color: #c94040;
-}
-
+/* 7. MODALS */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -273,6 +349,7 @@ footer {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -283,10 +360,10 @@ footer {
 }
 
 .modal {
-  background-color: var(--surface-color);
-  padding: 30px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color-muted);
   max-width: 500px;
   width: 100%;
   position: relative;
@@ -304,34 +381,36 @@ footer {
   transform: scale(0.95);
 }
 
-#info-modal-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: var(--text-muted-color);
-  font-size: 2rem;
-  cursor: pointer;
-  line-height: 1;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-#info-modal-title {
-  margin-bottom: 15px;
-  color: var(--primary-color);
+.modal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 500; /* Medium */
+  margin-bottom: 0;
 }
 
 #info-modal-instructions {
   color: var(--text-color);
-  white-space: pre-wrap; /* This ensures \n characters create line breaks */
+  white-space: pre-wrap;
   max-height: 60vh;
   overflow-y: auto;
+  font-weight: 300; /* Light */
+}
+#info-modal-instructions p,
+#info-modal-instructions {
+  font-weight: 300; /* Light */
 }
 
-#reset-modal p {
+.modal-body-text {
   text-align: center;
   font-size: 1.1rem;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
+  font-weight: 300; /* Light */
 }
 
 .modal-buttons {
@@ -340,38 +419,15 @@ footer {
   gap: 15px;
 }
 
-.modal-btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#confirm-reset-btn {
-  background-color: var(--destructive-color);
-  color: #fff;
-}
-#confirm-reset-btn:hover {
-  background-color: #c94040;
-}
-#cancel-reset-btn {
-  background-color: #444;
-  color: #fff;
-}
-#cancel-reset-btn:hover {
-  background-color: #555;
-}
-
-/* Completion Overlay */
+/* 8. COMPLETION OVERLAY (NO CONFETTI) */
 #completion-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -386,48 +442,40 @@ footer {
 }
 
 #completion-card {
-    background-color: var(--surface-color);
+    background-color: transparent;
     padding: 40px;
-    border-radius: 12px;
-    border: 1px solid var(--primary-color);
+    border-radius: 16px;
+    border: 1px solid var(--border-color-muted);
     text-align: center;
-    transform: scale(0.9);
+    transform: scale(1);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-#completion-overlay:not(.hidden) #completion-card {
-    transform: scale(1);
-}
-
 #completion-title {
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-bottom: 10px;
+    font-weight: 500; /* Medium */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+#completion-message {
+  font-weight: 300; /* Light */
+  color: var(--text-color-muted);
 }
 
-/* Confetti styles */
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background-color: var(--primary-color);
-    opacity: 0.9;
-    z-index: 2001;
-    pointer-events: none;
-    border-radius: 2px;
-}
-
-/* On-Screen Timer styles */
+/* 9. ON-SCREEN TIMER */
 #timer-display {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--primary-color);
+  /* Changed from orange to simple monochrome */
+  background-color: var(--text-color);
   color: var(--background-color);
   padding: 10px 25px;
   border-radius: 25px;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 500; /* Medium */
   z-index: 999;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   opacity: 1;
