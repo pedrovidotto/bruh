@@ -102,18 +102,9 @@ const infoModalOverlay = document.getElementById("info-modal-overlay");
 const infoModalCloseBtn = document.getElementById("info-modal-close-btn");
 const infoModalTitle = document.getElementById("info-modal-title");
 const infoModalInstructions = document.getElementById("info-modal-instructions");
-const infoModalLastTime = document.getElementById("info-modal-last-time"); // New
 const resetModalOverlay = document.getElementById("reset-modal-overlay");
 const confirmResetBtn = document.getElementById("confirm-reset-btn");
 const cancelResetBtn = document.getElementById("cancel-reset-btn");
-const logSetModalOverlay = document.getElementById("log-set-modal-overlay"); // New
-const logSetModalTitle = document.getElementById("log-set-modal-title"); // New
-const logSetModalSubtitle = document.getElementById("log-set-modal-subtitle"); // New
-const logSetModalCloseBtn = document.getElementById("log-set-modal-close-btn"); // New
-const logSetWeightInput = document.getElementById("log-set-weight"); // New
-const logSetRepsInput = document.getElementById("log-set-reps"); // New
-const saveSetBtn = document.getElementById("save-set-btn"); // New
-const cancelLogSetBtn = document.getElementById("cancel-log-set-btn"); // New
 
 // Completion Overlay Elements
 const completionOverlay = document.getElementById("completion-overlay");
@@ -121,12 +112,11 @@ const completionTitle = document.getElementById("completion-title");
 const completionMessage = document.getElementById("completion-message");
 
 // State
-let progress = {}; // Now stores { id: [{weight: w, reps: r}, ...] }
+let progress = {};
 let longPressTimer;
-const LONG_PRESS_DURATION = 500;
+const LONG_PRESS_DURATION = 500; // ms
 let activeTimer = null;
 let restPeriodEndTime = null;
-let currentLoggingInfo = null; // Stores {card, progressId, totalSets} for the log modal
 
 const motivationalMessages = [
     "Crushed it! See you for the next one.", "Be proud of your hard work today.",
@@ -145,20 +135,25 @@ function startOnScreenTimer(durationSeconds) {
     if (activeTimer) {
         clearInterval(activeTimer);
     }
+
     restPeriodEndTime = Date.now() + (durationSeconds * 1000);
     localStorage.setItem('restPeriodEndTime', restPeriodEndTime);
+
     if (durationSeconds <= 0) {
         timerDisplay.classList.add('hidden');
         localStorage.removeItem('restPeriodEndTime');
         restPeriodEndTime = null;
         return;
     }
+
     let timeLeft = durationSeconds;
     timerDisplay.classList.remove('hidden');
+
     const updateTimer = () => {
         const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         const seconds = (timeLeft % 60).toString().padStart(2, '0');
         timerDisplay.textContent = `${minutes}:${seconds}`;
+
         if (timeLeft <= 0) {
             clearInterval(activeTimer);
             activeTimer = null;
@@ -176,7 +171,9 @@ function startOnScreenTimer(durationSeconds) {
 function checkTimerOnFocus() {
     const endTime = restPeriodEndTime || localStorage.getItem('restPeriodEndTime');
     if (!endTime) return;
+
     const remainingTime = Math.round((endTime - Date.now()) / 1000);
+
     if (remainingTime > 0) {
         startOnScreenTimer(remainingTime);
     } else {
@@ -191,12 +188,6 @@ function loadProgress() {
     try {
         const savedProgress = localStorage.getItem("broSplitProgress");
         progress = savedProgress ? JSON.parse(savedProgress) : {};
-        // Ensure progress entries are arrays
-        for (const key in progress) {
-            if (!Array.isArray(progress[key])) {
-                progress[key] = []; // Reset invalid entries
-            }
-        }
     } catch (e) { console.error("Could not load progress from localStorage:", e); progress = {}; }
 }
 
@@ -214,7 +205,28 @@ function parseRestTime(details) {
     return match ? parseInt(match[1], 10) : 0;
 }
 
-function findNextExercise(currentProgressId) { /* ... unchanged ... */ }
+function findNextExercise(currentProgressId) {
+    const [day, type, indexStr] = currentProgressId.replace('day', '').split('-');
+    const dayData = workoutData.find(d => d.day == day);
+    const index = parseInt(indexStr, 10);
+
+    if (!dayData) return null;
+
+    if (type === 'exercise') {
+        if (index < dayData.exercises.length - 1) {
+            return dayData.exercises[index + 1].name;
+        } else if (dayData.abFinisher) {
+            return dayData.abFinisher.name;
+        } else if (dayData.cardio) {
+            return dayData.cardio.name;
+        }
+    } else if (type === 'ab') {
+        if (dayData.cardio) {
+            return dayData.cardio.name;
+        }
+    }
+    return null;
+}
 
 function parseSets(details) {
     if (!details) return 1;
@@ -224,7 +236,7 @@ function parseSets(details) {
 
 // --- UI Update Functions ---
 function updateCardVisuals(card, progressId, totalSets) {
-    const completedSets = progress[progressId]?.length || 0; // Use length of array
+    const completedSets = progress[progressId] || 0;
     const percentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
     card.style.setProperty('--series-progress', `${percentage}%`);
     card.classList.toggle('fully-completed', completedSets >= totalSets);
@@ -240,12 +252,9 @@ function updateCalorieCounters() {
             ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
         ];
         allExercises.forEach(ex => {
-            const completedSetsArray = progress[ex.id] || [];
-            const completedSetsCount = completedSetsArray.length; // Use length
-            if (completedSetsCount > 0) {
-                // Simplified calorie calculation: calories per set * number of sets done
-                // More accurate would be to sum calories based on reps/weight if available
-                const caloriesBurned = completedSetsCount * (ex.calories || 0);
+            const completedSets = progress[ex.id] || 0;
+            if (completedSets > 0) {
+                const caloriesBurned = completedSets * (ex.calories || 0);
                 weeklyTotal += caloriesBurned;
                 if (dayIndex === activeDayIndex) { dailyTotal += caloriesBurned; }
             }
@@ -258,313 +267,73 @@ function updateCalorieCounters() {
 function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
         const dayData = workoutData[index];
-        if (dayData.exercises.length === 0 && !dayData.abFinisher && !dayData.cardio) { // Check all types
-             btn.style.setProperty('--progress', '0%'); return;
-        }
-        let totalSets = 0, completedSetsCount = 0;
+        if (dayData.exercises.length === 0) { btn.style.setProperty('--progress', '0%'); return; }
+        let totalSets = 0, completedSets = 0;
         
-        dayData.exercises.forEach((ex, i) => { const id = `day${dayData.day}-exercise-${i}`; totalSets += parseSets(ex.details); completedSetsCount += progress[id]?.length || 0; });
-        if (dayData.abFinisher) { const id = `day${dayData.day}-ab-0`; totalSets += parseSets(dayData.abFinisher.details); completedSetsCount += progress[id]?.length || 0; }
-        if (dayData.cardio) { const id = `day${dayData.day}-cardio-0`; totalSets += parseSets(dayData.cardio.details); completedSetsCount += progress[id]?.length || 0; }
+        dayData.exercises.forEach((ex, i) => { const id = `day${dayData.day}-exercise-${i}`; totalSets += parseSets(ex.details); completedSets += progress[id] || 0; });
+        if (dayData.abFinisher) { const id = `day${dayData.day}-ab-0`; totalSets += parseSets(dayData.abFinisher.details); completedSets += progress[id] || 0; }
+        if (dayData.cardio) { const id = `day${dayData.day}-cardio-0`; totalSets += parseSets(dayData.cardio.details); completedSets += progress[id] || 0; }
 
-        const progressPercentage = totalSets > 0 ? (completedSetsCount / totalSets) * 100 : 0;
+        const progressPercentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
         btn.style.setProperty('--progress', `${progressPercentage}%`);
     });
 }
 
 // --- Event Handlers & Interaction ---
 function handleSeriesUpdate(card, progressId, totalSets, direction) {
-    const currentSetsArray = progress[progressId] || [];
-    const currentCompleted = currentSetsArray.length;
+    const currentCompleted = progress[progressId] || 0;
     const wasCompleted = currentCompleted >= totalSets;
 
     if (direction === 'increment') {
-        // Only open modal if there are sets remaining
-        if (currentCompleted < totalSets) {
-            openLogSetModal(card, progressId, totalSets);
+        
+        if (currentCompleted === 0) {
+            let currentElement = card;
+            let precedingTitle = null;
+            while (currentElement.previousElementSibling) {
+                currentElement = currentElement.previousElementSibling;
+                if (currentElement.tagName === 'H3') {
+                    precedingTitle = currentElement;
+                    break;
+                }
+            }
+            if (precedingTitle && precedingTitle.nextElementSibling !== card) {
+                precedingTitle.after(card);
+            }
         }
+
+        progress[progressId] = Math.min(totalSets, currentCompleted + 1);
+        triggerHapticFeedback();
+        
+        const exerciseDetails = card.querySelector('p').textContent;
+        const restTime = parseRestTime(exerciseDetails);
+        startOnScreenTimer(restTime);
+
     } else { // 'decrement'
-        if (currentCompleted > 0) {
-            progress[progressId].pop(); // Remove the last logged set
-            triggerHapticFeedback();
-            if (activeTimer) {
-                clearInterval(activeTimer);
-                timerDisplay.classList.add('hidden');
-                localStorage.removeItem('restPeriodEndTime');
-                restPeriodEndTime = null;
-            }
-            saveProgress();
-            updateCardVisuals(card, progressId, totalSets);
+        progress[progressId] = Math.max(0, currentCompleted - 1);
+        if (activeTimer) {
+            clearInterval(activeTimer);
+            timerDisplay.classList.add('hidden');
+            localStorage.removeItem('restPeriodEndTime');
+            restPeriodEndTime = null;
         }
     }
-}
-
-// NEW: Function to handle saving set data from modal
-function saveSetData() {
-    const weight = parseFloat(logSetWeightInput.value) || 0; // Default to 0 if input is invalid
-    const reps = parseInt(logSetRepsInput.value) || 0; // Default to 0 if input is invalid
-
-    if (!currentLoggingInfo) return; // Should not happen
-
-    const { card, progressId, totalSets } = currentLoggingInfo;
-
-    // --- Jump-to-top logic ---
-    const currentSetsArray = progress[progressId] || [];
-    if (currentSetsArray.length === 0) { // This is the first set being logged
-        let currentElement = card;
-        let precedingTitle = null;
-        while (currentElement.previousElementSibling) {
-            currentElement = currentElement.previousElementSibling;
-            if (currentElement.tagName === 'H3') {
-                precedingTitle = currentElement;
-                break;
-            }
-        }
-        if (precedingTitle && precedingTitle.nextElementSibling !== card) {
-            precedingTitle.after(card); // Move the card to be right after its title
-        }
-    }
-    // --- End of jump-to-top logic ---
-
-    // Initialize array if it doesn't exist
-    if (!progress[progressId]) {
-        progress[progressId] = [];
-    }
-
-    // Add the new set data
-    progress[progressId].push({ weight, reps });
-
-    triggerHapticFeedback();
-
-    const newCompletedCount = progress[progressId].length;
-    const wasCompleted = (newCompletedCount -1) >= totalSets; // Check if it *was* complete before this set
-    const isNowCompleted = newCompletedCount >= totalSets;
-
-    const exerciseDetails = card.querySelector('p').textContent;
-    const restTime = parseRestTime(exerciseDetails);
-    startOnScreenTimer(restTime);
-
+    
     saveProgress();
+    
     updateCardVisuals(card, progressId, totalSets);
-
+    const isNowCompleted = (progress[progressId] || 0) >= totalSets;
     if (!wasCompleted && isNowCompleted) {
         animateAndMoveToEnd(card);
         checkDayCompletion();
     }
-
-    closeLogSetModal();
 }
 
-
-function animateAndMoveToEnd(card) { /* ... unchanged ... */ }
-
-// --- Completion Celebration ---
-function triggerConfetti() { /* ... unchanged ... */ }
-function checkDayCompletion() { /* ... unchanged ... */ }
-
-// --- DOM Rendering ---
-function renderWorkout(dayIndex) {
-    const dayData = workoutData[dayIndex];
-    workoutTitle.textContent = `Day ${dayData.day}: ${dayData.title}`;
-    workoutDuration.textContent = `Estimated Duration: ${dayData.duration}`;
-    exerciseList.innerHTML = "";
-    
-    if (dayData.exercises.length === 0 && !dayData.abFinisher && !dayData.cardio) { // Check if truly empty
-        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>';
-        updateCalorieCounters();
-        return;
-    }
-    
-    const createExerciseItem = (exercise, cssClass, idType, index) => {
-        const li = document.createElement("li");
-        li.className = cssClass;
-        const progressId = `day${dayData.day}-${idType}-${index}`;
-        const totalSets = parseSets(exercise.details);
-        li.dataset.progressId = progressId;
-        li.dataset.totalSets = totalSets;
-        li.innerHTML = `<div class="exercise-details"><h3>${exercise.name}</h3><p>${exercise.details}</p></div><button class="info-btn" aria-label="Open exercise info for ${exercise.name}">i</button>`;
-        
-        // Click now opens modal or does nothing if complete
-        li.addEventListener('click', (e) => {
-            const currentSets = progress[progressId]?.length || 0;
-            if(currentSets < totalSets) { // Only allow logging if sets remain
-                handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment');
-            }
-        });
-        // Right-click/long-press handles undo
-        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'); });
-        li.addEventListener('touchstart', (e) => {
-            longPressTimer = setTimeout(() => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'), LONG_PRESS_DURATION);
-        }, { passive: true });
-        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
-        
-        li.querySelector(".info-btn").addEventListener("click", (e) => {
-             e.stopPropagation();
-             // Pass progressId to info modal
-             openInfoModal(exercise.name, exercise.instructions, progressId);
-        });
-        
-        updateCardVisuals(li, progressId, totalSets);
-        return li;
-    };
-
-    const renderSection = (title, items, cssClass, idType) => {
-        if (!items || (Array.isArray(items) && items.length === 0)) return [];
-        const sectionTitle = document.createElement("h3");
-        sectionTitle.className = "category-title";
-        sectionTitle.textContent = title;
-        const elements = Array.isArray(items)
-            ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i))
-            : [createExerciseItem(items, cssClass, idType, 0)];
-        elements.sort((a, b) => { const completedA = a.classList.contains('fully-completed'); const completedB = b.classList.contains('fully-completed'); return completedA - completedB; });
-        return [sectionTitle, ...elements];
-    };
-    
-    exerciseList.append(...renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise'));
-    exerciseList.append(...renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab'));
-    exerciseList.append(...renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio'));
-    updateCalorieCounters();
-}
-
-function setActiveDay(dayIndex) { /* ... unchanged ... */ }
-
-// --- Modal Functions ---
-// MODIFIED: openInfoModal now accepts progressId to fetch "Last Time" data
-function openInfoModal(title, instructions, progressId) {
-    infoModalTitle.textContent = title;
-    infoModalInstructions.textContent = instructions;
-
-    // Find "Last Time" data (simplified: last set logged this week for this exercise)
-    const setsArray = progress[progressId];
-    if (setsArray && setsArray.length > 0) {
-        const lastSet = setsArray[setsArray.length - 1];
-        infoModalLastTime.innerHTML = `<strong>Last Set:</strong> ${lastSet.weight} x ${lastSet.reps}`;
-        infoModalLastTime.style.display = 'block'; // Show the div
-    } else {
-        infoModalLastTime.style.display = 'none'; // Hide if no data
-    }
-
-    infoModalOverlay.classList.remove("hidden");
-    infoModalOverlay.setAttribute('aria-hidden', 'false');
-}
-function closeInfoModal() { infoModalOverlay.classList.add("hidden"); infoModalOverlay.setAttribute('aria-hidden', 'true'); }
-function openResetModal() { resetModalOverlay.classList.remove("hidden"); resetModalOverlay.setAttribute('aria-hidden', 'false'); }
-function closeResetModal() { resetModalOverlay.classList.add("hidden"); resetModalOverlay.setAttribute('aria-hidden', 'true'); }
-
-// NEW: Log Set Modal functions
-function openLogSetModal(card, progressId, totalSets) {
-    currentLoggingInfo = { card, progressId, totalSets }; // Store context
-    const exerciseName = card.querySelector('h3').textContent;
-    const currentSetsArray = progress[progressId] || [];
-    const nextSetNumber = currentSetsArray.length + 1;
-
-    logSetModalTitle.textContent = exerciseName;
-    logSetModalSubtitle.textContent = `Logging Set ${nextSetNumber} of ${totalSets}`;
-
-    // Pre-fill with data from the previous set of this exercise *this session*, if available
-    if (currentSetsArray.length > 0) {
-        const lastSetLogged = currentSetsArray[currentSetsArray.length - 1];
-        logSetWeightInput.value = lastSetLogged.weight || '';
-        logSetRepsInput.value = lastSetLogged.reps || '';
-    } else {
-        // Optionally pre-fill with "Last Time" data if implementing full history later
-        logSetWeightInput.value = '';
-        logSetRepsInput.value = '';
-    }
-
-    logSetModalOverlay.classList.remove("hidden");
-    logSetModalOverlay.setAttribute('aria-hidden', 'false');
-    logSetWeightInput.focus(); // Focus weight input first
-}
-
-function closeLogSetModal() {
-    logSetModalOverlay.classList.add("hidden");
-    logSetModalOverlay.setAttribute('aria-hidden', 'true');
-    currentLoggingInfo = null; // Clear context
-    logSetWeightInput.value = ''; // Clear inputs
-    logSetRepsInput.value = '';
-}
-
-
-// --- App Initialization ---
-function init() {
-    loadProgress();
-
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            checkTimerOnFocus();
-        }
-    });
-    
-    workoutData.forEach((day, index) => {
-        const btn = document.createElement("button");
-        btn.className = "day-btn";
-        const textSpan = document.createElement("span");
-        textSpan.textContent = day.title === "Rest Day" ? "Rest" : `Day ${day.day}`;
-        btn.appendChild(textSpan);
-        btn.dataset.day = index;
-        btn.addEventListener("click", () => setActiveDay(index));
-        daySelector.appendChild(btn);
-    });
-
-    updateProgressBars();
-
-    // Reset Modal listeners
-    resetButton.addEventListener("click", openResetModal);
-    confirmResetBtn.addEventListener("click", () => {
-        progress = {};
-        saveProgress();
-        const activeDayIndex = document.querySelector(".day-btn.active")?.dataset.day || 0;
-        if(activeTimer) {
-            clearInterval(activeTimer);
-            timerDisplay.classList.add('hidden');
-        }
-        localStorage.removeItem('restPeriodEndTime');
-        restPeriodEndTime = null;
-        renderWorkout(parseInt(activeDayIndex, 10));
-        closeResetModal();
-    });
-    cancelResetBtn.addEventListener("click", closeResetModal);
-    resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
-
-    // Info Modal listeners
-    infoModalCloseBtn.addEventListener("click", closeInfoModal);
-    infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
-
-    // Log Set Modal listeners
-    logSetModalCloseBtn.addEventListener("click", closeLogSetModal);
-    cancelLogSetBtn.addEventListener("click", closeLogSetModal);
-    saveSetBtn.addEventListener("click", saveSetData);
-    logSetModalOverlay.addEventListener("click", e => { if (e.target === logSetModalOverlay) closeLogSetModal(); });
-    // Allow Enter key to save set
-    logSetRepsInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') saveSetData(); });
-    logSetWeightInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') saveSetData(); });
-
-
-    const today = new Date().getDay(); // Sunday = 0
-    const initialDayIndex = today === 0 ? 6 : today - 1; // Map to 0-indexed week (Mon-Sun)
-    setActiveDay(initialDayIndex);
-
-    checkTimerOnFocus();
-}
-
-// Re-pasting unchanged helper functions for completeness
-function findNextExercise(currentProgressId) {
-    const [day, type, indexStr] = currentProgressId.replace('day', '').split('-');
-    const dayData = workoutData.find(d => d.day == day);
-    const index = parseInt(indexStr, 10);
-    if (!dayData) return null;
-    if (type === 'exercise') {
-        if (index < dayData.exercises.length - 1) { return dayData.exercises[index + 1].name; }
-        else if (dayData.abFinisher) { return dayData.abFinisher.name; }
-        else if (dayData.cardio) { return dayData.cardio.name; }
-    } else if (type === 'ab') { if (dayData.cardio) { return dayData.cardio.name; } }
-    return null;
-}
 function animateAndMoveToEnd(card) {
     card.classList.add('reordering'); card.dataset.moved = 'true';
     setTimeout(() => { exerciseList.appendChild(card); card.classList.remove('reordering'); }, 500);
 }
+
+// --- Completion Celebration ---
 function triggerConfetti() {
     for (let i = 0; i < 100; i++) {
         const confetti = document.createElement('div'); confetti.className = 'confetti';
@@ -578,6 +347,7 @@ function triggerConfetti() {
     const styleSheet = document.styleSheets[0];
     try { styleSheet.insertRule(keyframes, styleSheet.cssRules.length); } catch(e) {/* ignore */}
 }
+
 function checkDayCompletion() {
     const activeDayIndex = parseInt(document.querySelector('.day-btn.active').dataset.day, 10);
     const dayData = workoutData[activeDayIndex];
@@ -587,7 +357,7 @@ function checkDayCompletion() {
         ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
     ];
     if (allItems.length === 0) return;
-    const isDayComplete = allItems.every(item => { const totalSets = parseSets(item.details); const completedSets = progress[item.id]?.length || 0; return completedSets >= totalSets; });
+    const isDayComplete = allItems.every(item => { const totalSets = parseSets(item.details); const completedSets = progress[item.id] || 0; return completedSets >= totalSets; });
     if (isDayComplete) {
         const isWeekComplete = activeDayIndex === 5;
         completionTitle.textContent = isWeekComplete ? "🎉 Week Complete! 🎉" : "💪 Day Complete! 💪";
@@ -597,10 +367,73 @@ function checkDayCompletion() {
         } else { setTimeout(() => completionOverlay.classList.add('hidden'), 4000); }
     }
 }
-function setActiveDay(dayIndex) {
-    document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
-    const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
+
+// --- DOM Rendering ---
+function renderWorkout(dayIndex) {
+    const dayData = workoutData[dayIndex];
+    workoutTitle.textContent = `Day ${dayData.day}: ${dayData.title}`;
+    workoutDuration.textContent = `Estimated Duration: ${dayData.duration}`;
+    exerciseList.innerHTML = "";
+    
+    if (dayData.exercises.length === 0) { 
+        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>'; 
+        updateCalorieCounters(); 
+        return; 
+    }
+    
+    const createExerciseItem = (exercise, cssClass, idType, index) => {
+        const li = document.createElement("li");
+        li.className = cssClass;
+        
+        const progressId = `day${dayData.day}-${idType}-${index}`;
+        const totalSets = parseSets(exercise.details);
+        
+        li.dataset.progressId = progressId;
+        li.dataset.totalSets = totalSets;
+        
+        li.innerHTML = `<div class="exercise-details"><h3>${exercise.name}</h3><p>${exercise.details}</p></div><button class="info-btn" aria-label="Open exercise info for ${exercise.name}">i</button>`;
+        
+        li.addEventListener('click', (e) => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment'));
+        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'); });
+        li.addEventListener('touchstart', (e) => { 
+            longPressTimer = setTimeout(() => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'), LONG_PRESS_DURATION); 
+        }, { passive: true });
+        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+        
+        li.querySelector(".info-btn").addEventListener("click", (e) => { e.stopPropagation(); openInfoModal(exercise.name, exercise.instructions); });
+        
+        updateCardVisuals(li, progressId, totalSets);
+        return li;
+    };
+
+    const renderSection = (title, items, cssClass, idType) => {
+        if (!items || (Array.isArray(items) && items.length === 0)) return [];
+
+        const sectionTitle = document.createElement("h3");
+        sectionTitle.className = "category-title";
+        sectionTitle.textContent = title;
+
+        const elements = Array.isArray(items)
+            ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i))
+            : [createExerciseItem(items, cssClass, idType, 0)];
+        
+        elements.sort((a, b) => { const completedA = a.classList.contains('fully-completed'); const completedB = b.classList.contains('fully-completed'); return completedA - completedB; });
+        
+        return [sectionTitle, ...elements];
+    };
+    
+    exerciseList.append(...renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise'));
+    exerciseList.append(...renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab'));
+    exerciseList.append(...renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio'));
+
+    updateCalorieCounters();
+}
+
+function setActiveDay(dayIndex) { 
+    document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active")); 
+    const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`); 
     if (currentBtn) currentBtn.classList.add("active");
+    
     if (activeTimer) {
         clearInterval(activeTimer);
         timerDisplay.classList.add('hidden');
@@ -608,7 +441,72 @@ function setActiveDay(dayIndex) {
     }
     localStorage.removeItem('restPeriodEndTime');
     restPeriodEndTime = null;
-    renderWorkout(dayIndex);
+    
+    renderWorkout(dayIndex); 
+}
+
+// --- Modal Functions ---
+function openInfoModal(title, instructions) { infoModalOverlay.classList.remove("hidden"); infoModalOverlay.setAttribute('aria-hidden', 'false'); infoModalTitle.textContent = title; infoModalInstructions.textContent = instructions; }
+function closeInfoModal() { infoModalOverlay.classList.add("hidden"); infoModalOverlay.setAttribute('aria-hidden', 'true'); }
+function openResetModal() { resetModalOverlay.classList.remove("hidden"); resetModalOverlay.setAttribute('aria-hidden', 'false'); }
+function closeResetModal() { resetModalOverlay.classList.add("hidden"); resetModalOverlay.setAttribute('aria-hidden', 'true'); }
+
+// --- App Initialization ---
+function init() {
+    loadProgress();
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            checkTimerOnFocus();
+        }
+    });
+
+    workoutData.forEach((day, index) => {
+        const btn = document.createElement("button");
+        btn.className = "day-btn";
+        const textSpan = document.createElement("span");
+        textSpan.textContent = day.title === "Rest Day" ? "Rest" : `Day ${day.day}`;
+        btn.appendChild(textSpan);
+        btn.dataset.day = index;
+        btn.addEventListener("click", () => setActiveDay(index));
+        daySelector.appendChild(btn);
+    });
+
+    updateProgressBars();
+
+    resetButton.addEventListener("click", openResetModal);
+    confirmResetBtn.addEventListener("click", () => {
+        progress = {};
+        saveProgress();
+        const activeDayIndex = document.querySelector(".day-btn.active")?.dataset.day || 0;
+        
+        if(activeTimer) {
+            clearInterval(activeTimer);
+            timerDisplay.classList.add('hidden');
+        }
+        localStorage.removeItem('restPeriodEndTime');
+        restPeriodEndTime = null;
+        
+        renderWorkout(parseInt(activeDayIndex, 10));
+        closeResetModal();
+    });
+    cancelResetBtn.addEventListener("click", closeResetModal);
+
+    infoModalCloseBtn.addEventListener("click", closeInfoModal);
+    infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
+    
+    // CORRECTED: Added the check for e.target === resetModalOverlay
+    resetModalOverlay.addEventListener("click", e => { 
+        if (e.target === resetModalOverlay) {
+            closeResetModal(); 
+        }
+    });
+
+    const today = new Date().getDay(); // Sunday = 0
+    const initialDayIndex = today === 0 ? 6 : today - 1; // Map to 0-indexed week (Mon-Sun)
+    setActiveDay(initialDayIndex);
+
+    checkTimerOnFocus();
 }
 
 init();
