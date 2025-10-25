@@ -19,7 +19,7 @@ html {
 }
 
 body {
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* MODIFIED */
+  font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* MODIFIED */
   color: var(--text-color);
   background-color: var(--background-color);
   line-height: 1.6;
@@ -59,7 +59,7 @@ h1, h2, h3 {
 }
 
 .data-readout {
-  font-family: 'Manrope', monospace; /* MODIFIED */
+  font-family: 'Work Sans', monospace; /* MODIFIED */
   font-size: 0.8rem;
   color: var(--text-color-muted);
   letter-spacing: 0.03em;
@@ -112,7 +112,7 @@ header {
   border-radius: 50%; /* MODIFIED: Makes buttons circular */
   padding: 6px 0; /* MODIFIED: Adjusted padding */
   cursor: pointer;
-  font-family: 'Manrope', sans-serif; /* MODIFIED */
+  font-family: 'Work Sans', sans-serif; /* MODIFIED */
   font-size: 0.8rem;
   font-weight: 400; /* Regular */
   transition: all 0.2s ease;
@@ -139,7 +139,7 @@ header {
   border-radius: 16px; /* Regular rounded corners */
   padding: 8px 18px; /* Regular padding */
   cursor: pointer;
-  font-family: 'Manrope', sans-serif; /* MODIFIED */
+  font-family: 'Work Sans', sans-serif; /* MODIFIED */
   font-size: 0.8rem;
   font-weight: 400; /* Regular */
   transition: all 0.2s ease;
@@ -174,7 +174,7 @@ header {
   border-radius: 16px;
   padding: 8px 18px;
   cursor: pointer;
-  font-family: 'Manrope', sans-serif; /* MODIFIED */
+  font-family: 'Work Sans', sans-serif; /* MODIFIED */
   font-size: 0.8rem;
   font-weight: 500; /* Medium */
   letter-spacing: 0.02em;
@@ -358,7 +358,7 @@ header {
 
 /* --- MODIFIED: Set Counter Styles --- */
 .set-counter {
-    font-family: 'Manrope', monospace; /* MODIFIED */
+    font-family: 'Work Sans', monospace; /* MODIFIED */
     font-size: 1.8rem; /* MODIFIED: Was 1.5rem */
     font-weight: 300; /* MODIFIED: Thin font */
     color: var(--text-color-muted);
