@@ -123,8 +123,6 @@ const motivationalMessages = [
 
 // --- Timer, Haptic Functions --- (Keep as is)
 function triggerHapticFeedback() { if ('vibrate' in navigator) { navigator.vibrate(50); } }
-function startOnScreenTimer(durationSeconds) { /* ... same as before ... */ }
-function checkTimerOnFocus() { /* ... same as before ... */ }
 // --- Timer, Haptic Functions ---
 function startOnScreenTimer(durationSeconds) {
     if (activeTimer) { clearInterval(activeTimer); }
@@ -194,8 +192,6 @@ function saveProgress() {
     } catch (e) { console.error("Could not save progress:", e); }
 }
 
-function parseRestTime(details) { /* ... same as before ... */ }
-function parseSets(details) { /* ... same as before ... */ }
 function parseRestTime(details) {
     if (!details) return 0;
     const match = details.match(/\|\s*(\d+)s\s*rest/);
@@ -237,7 +233,6 @@ function updateCardVisuals(card, progressId, totalSets) {
 
 // REMOVED: updateCalorieCounters()
 
-function updateProgressBars() { /* ... same as before, useful for day buttons ... */ }
 function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
         const dayData = workoutData[index];
@@ -256,10 +251,6 @@ function updateCompletedSectionVisibility() {
     completedTitle.classList.toggle('hidden', completedList.children.length === 0);
 }
 
-// --- Event Handlers & Interaction --- (Logic largely same, calls updated functions)
-function handleSeriesUpdate(card, progressId, totalSets, direction) { /* ... same core logic ... */ }
-function animateAndMoveToCompleted(card) { /* ... same as before ... */ }
-function moveFromCompletedToActive(card) { /* ... same corrected logic ... */ }
 // --- Event Handlers & Interaction ---
 function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
@@ -436,7 +427,6 @@ function moveFromCompletedToActive(card) {
 
 
 // --- Completion Celebration --- (Keep as is)
-function checkDayCompletion() { /* ... same as before ... */ }
 function checkDayCompletion() {
     const activeDayBtn = document.querySelector('.day-btn.active');
     if (!activeDayBtn) return;
@@ -589,20 +579,22 @@ const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
     li.dataset.progressId = progressId;
     li.dataset.totalSets = totalSets;
 
-    // ADDED: Set counter span
+    // --- MODIFIED BLOCK ---
+    // The set-counter span is now after the info-btn.
     li.innerHTML = `
         <div class="exercise-details">
             <h3>${exercise.name}</h3>
             <p>${exercise.details}</p>
         </div>
-        <span class="set-counter">0/${totalSets}</span>
         <button class="info-btn" aria-label="Open exercise info for ${exercise.name}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="16" x2="12" y2="12"></line>
                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
-        </button>`;
+        </button>
+        <span class="set-counter">0/${totalSets}</span>`;
+    // --- END MODIFIED BLOCK ---
 
     // Determine initial state
     const completedSets = progress[progressId] || 0;
@@ -689,7 +681,6 @@ function renderWorkout(dayIndex) {
 }
 
 
-function setActiveDay(dayIndex) { /* ... same as before ... */ }
 function setActiveDay(dayIndex) {
     document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
     const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
@@ -714,10 +705,6 @@ function setActiveDay(dayIndex) {
 }
 
 // --- Modal Functions --- (Keep as is)
-function openInfoModal(title, instructions) { /* ... same ... */ }
-function closeInfoModal() { /* ... same ... */ }
-function openResetModal() { /* ... same ... */ }
-function closeResetModal() { /* ... same ... */ }
 function openInfoModal(title, instructions) {
     infoModalOverlay.classList.remove("hidden");
     infoModalOverlay.setAttribute('aria-hidden', 'false');
