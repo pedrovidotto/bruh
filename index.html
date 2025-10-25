@@ -58,41 +58,9 @@
 <div id="timer-display" class="hidden">00:00</div>
 
 <!-- Modals -->
-<div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
-        <div class="modal-header">
-            <h2 id="info-modal-title">Exercise Title</h2>
-            <button id="info-modal-close-btn" class="btn-icon" aria-label="Close info modal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="divider"></div>
-        <div id="info-modal-instructions">
-            <p>Instructions will go here.</p>
-        </div>
-    </div>
-</div>
-
-<div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
-    <div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
-        <div class="modal-header">
-            <h2 id="reset-modal-title">CONFIRM ACTION</h2>
-        </div>
-        <div class="divider"></div>
-        <p class="modal-body-text">Purge all weekly progress data? This action is irreversible.</p>
-        <div class="modal-buttons">
-            <button id="confirm-reset-btn" class="btn-primary">CONFIRM PURGE</button>
-            <button id="cancel-reset-btn" class="btn-secondary">CANCEL</button>
-        </div>
-    </div>
-</div>
-
-<div id="completion-overlay" class="hidden">
-    <div id="completion-card">
-        <h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2>
-        <p id="completion-message">Processing...</p>
-    </div>
-</div>
+<div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title"><div class="modal-header"><h2 id="info-modal-title">Exercise Title</h2><button id="info-modal-close-btn" class="btn-icon" aria-label="Close info modal"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="divider"></div><div id="info-modal-instructions"><p>Instructions</p></div></div></div>
+<div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true"><div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title"><div class="modal-header"><h2 id="reset-modal-title">CONFIRM ACTION</h2></div><div class="divider"></div><p class="modal-body-text">Purge progress?</p><div class="modal-buttons"><button id="confirm-reset-btn" class="btn-primary">CONFIRM PURGE</button><button id="cancel-reset-btn" class="btn-secondary">CANCEL</button></div></div></div>
+<div id="completion-overlay" class="hidden"><div id="completion-card"><h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2><p id="completion-message">Processing...</p></div></div>
 
 <script src="script.js"></script>
 </body>
