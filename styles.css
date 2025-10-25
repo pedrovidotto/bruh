@@ -439,6 +439,14 @@ footer {
     z-index: 2001;
     pointer-events: none;
     border-radius: 2px;
+    /* Animation is set by JS, but keyframes are below */
+}
+
+@keyframes fall { 
+  to { 
+    transform: translateY(100vh) rotate(720deg); 
+    opacity: 0; 
+  } 
 }
 
 /* On-Screen Timer styles */
