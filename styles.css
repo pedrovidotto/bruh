@@ -2,10 +2,11 @@
 :root {
   --background-color: #000000;
   --text-color: #FFFFFF;
-  --border-color: rgba(255, 255, 255, 0.4); /* Slightly more visible for lines */
+  --border-color: rgba(255, 255, 255, 0.4);
   --border-color-muted: rgba(255, 255, 255, 0.2);
   --text-color-muted: rgba(255, 255, 255, 0.6);
-  --progress-bg-color: rgba(255, 255, 255, 0.05); /* Subtle bg for progress */
+  /* INCREASED CONTRAST: Make progress bg more visible */
+  --progress-bg-color: rgba(255, 255, 255, 0.15); /* Was 0.05 */
 }
 
 * {
@@ -36,15 +37,16 @@ h1, h2, h3 {
 }
 
 .logo {
-  /* ALIGNMENT: Align logo to the left */
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Changed from center */
-  margin-bottom: 24px;
+  justify-content: flex-start;
+  /* INCREASED MARGIN: More space below large logo */
+  margin-bottom: 48px; /* Was 24px */
 }
 
 .logo-svg {
-  width: 128px; /* Slightly larger icon */
+  /* INCREASED SIZE */
+  width: 128px;
   height: 128px;
   /* If your SVG is black, uncomment this to make it white: */
   /* filter: invert(1); */
@@ -66,6 +68,11 @@ h1, h2, h3 {
   margin: 20px 0;
 }
 
+/* Utility class to hide elements */
+.hidden {
+    display: none !important;
+}
+
 /* 3. LAYOUT */
 .container {
   max-width: 600px;
@@ -74,26 +81,22 @@ h1, h2, h3 {
 }
 
 header {
-  /* ALIGNMENT: Remove center alignment */
   margin-bottom: 32px;
 }
 
 #header-controls {
-   /* ALIGNMENT: Align content to the left */
-  display: flex; /* Use flexbox for easier alignment */
-  justify-content: flex-start; /* Align item to the left */
+  display: flex;
+  justify-content: flex-start;
   margin-bottom: 24px;
 }
 
 #weekly-calories-container {
-   /* ALIGNMENT: Already left-aligned within flex container */
   font-size: 0.8rem;
 }
 
 #day-selector {
-  /* ALIGNMENT: Align buttons to the left */
   display: flex;
-  justify-content: flex-start; /* Changed from center */
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 32px;
@@ -187,7 +190,7 @@ header {
 
 /* 5. WORKOUT MODULE */
 #workout-container {
-  /* No border or padding needed */
+  /* No styles needed here */
 }
 
 #workout-header {
@@ -206,14 +209,14 @@ header {
 
 #workout-info-flex {
   display: flex;
-  /* ALIGNMENT: Align items to the start, allow wrapping */
   justify-content: flex-start;
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 24px;
 }
 
-#exercise-list {
+#exercise-list,
+#completed-list { /* Apply list styles to both */
   list-style: none;
 }
 
@@ -228,8 +231,15 @@ header {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+/* Don't add margin-top to the very first category title */
 #exercise-list > .category-title:first-of-type {
     margin-top: 0;
+}
+/* Style for the completed title */
+#completed-title {
+    margin-top: 48px; /* More space before completed section */
+    color: var(--text-color); /* Make it stand out more */
+    font-weight: 500; /* Medium weight */
 }
 
 
@@ -268,24 +278,30 @@ header {
   left: 0;
   height: 100%;
   width: var(--series-progress, 0%);
-  background-color: var(--progress-bg-color);
+  background-color: var(--progress-bg-color); /* Using updated variable */
   transition: width 0.4s ease-in-out;
   z-index: -1;
 }
 
-.exercise-item.fully-completed,
-.ab-finisher.fully-completed,
-.cardio-session.fully-completed {
-  opacity: 0.5;
+/* Styles specifically for completed items */
+#completed-list .exercise-item,
+#completed-list .ab-finisher,
+#completed-list .cardio-session {
+    opacity: 0.5; /* Apply fade directly */
+    cursor: default; /* Non-interactive appearance */
+    pointer-events: none; /* Make them non-clickable */
+    user-select: none;
 }
 
-.exercise-item.fully-completed:hover,
-.ab-finisher.fully-completed:hover,
-.cardio-session.fully-completed:hover {
-  opacity: 0.6;
-  background-color: transparent;
+#completed-list .exercise-item:hover,
+#completed-list .ab-finisher:hover,
+#completed-list .cardio-session:hover {
+    background-color: transparent; /* No hover effect when completed */
 }
 
+/* Removed fully-completed class styles as they are handled by list */
+
+/* Animation for moving items */
 .exercise-item.reordering,
 .ab-finisher.reordering,
 .cardio-session.reordering {
@@ -335,7 +351,6 @@ header {
 
 /* 6. FOOTER */
 footer {
-  /* ALIGNMENT: Align footer content left */
   text-align: left;
   margin-top: 48px;
   padding-bottom: env(safe-area-inset-bottom);
@@ -413,7 +428,6 @@ footer {
 }
 
 .modal-body-text {
-  /* ALIGNMENT: Align modal body text left */
   text-align: left;
   font-size: 1rem;
   margin-bottom: 24px;
@@ -421,9 +435,8 @@ footer {
 }
 
 .modal-buttons {
-  /* ALIGNMENT: Align modal buttons left */
   display: flex;
-  justify-content: flex-start; /* Changed from center */
+  justify-content: flex-start;
   gap: 15px;
 }
 
@@ -454,11 +467,10 @@ footer {
     padding: 32px;
     border-radius: 12px;
     border: 1px solid var(--border-color-muted);
-    /* ALIGNMENT: Align completion text left */
     text-align: left;
     transform: scale(1);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    max-width: 400px; /* Limit width */
+    max-width: 400px;
     width: 90%;
 }
 
@@ -480,9 +492,8 @@ footer {
 #timer-display {
   position: fixed;
   bottom: 20px;
-  /* ALIGNMENT: Align timer left */
-  left: 24px; /* Align with container padding */
-  transform: translateX(0); /* Remove center transform */
+  left: 24px;
+  transform: translateX(0);
   background-color: var(--text-color);
   color: var(--background-color);
   padding: 8px 20px;
@@ -497,7 +508,6 @@ footer {
 
 #timer-display.hidden {
   opacity: 0;
-  /* Adjust hidden transform for left alignment */
   transform: translateY(20px);
   pointer-events: none;
 }
