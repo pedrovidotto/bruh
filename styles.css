@@ -44,8 +44,8 @@ h1, h2, h3 {
 }
 
 .logo-svg {
-  width: 24px; /* Slightly larger icon */
-  height: 24px;
+  width: 128px; /* Slightly larger icon */
+  height: 128px;
   /* If your SVG is black, uncomment this to make it white: */
   /* filter: invert(1); */
 }
