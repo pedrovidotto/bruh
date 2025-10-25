@@ -29,6 +29,62 @@ const workoutData = [
     "cardio": null
   },
     // ... (rest of workoutData remains the same) ...
+     {
+    "day": 3,
+    "title": "Quads & Calves",
+    "duration": "60-75 minutes",
+    "exercises": [
+        { "name": "Barbell Back Squats", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Place the bar on your upper back, not your neck.\n2. Keep your chest up and back straight.\n3. Squat down until your hips are at or below parallel.\n4. Drive up through your heels.", "calories": 25 },
+        { "name": "Leg Press", "details": "4 sets of 10-15 reps | 90s rest", "instructions": "1. Place your feet shoulder-width apart on the platform.\n2. Lower the weight until your knees are near a 90-degree angle.\n3. Press up, but do not lock your knees.", "calories": 20 },
+        { "name": "Bulgarian Split Squats", "details": "3 sets of 10-12 reps (per leg) | 75s rest", "instructions": "1. Place the top of your rear foot on a bench.\n2. Lower your back knee towards the floor, keeping your front knee aligned with your foot.\n3. Drive up through your front heel.", "calories": 18 },
+        { "name": "Leg Extensions", "details": "3 sets of 15-20+ reps | 60s rest (Drop set on last set)", "instructions": "1. Squeeze your quads hard for 2 seconds at the top of each rep.\n2. Control the weight as you lower it.", "calories": 10 },
+        { "name": "Standing Calf Raises", "details": "5 sets of 10-15 reps | 45s rest", "instructions": "1. Get a deep stretch at the bottom of the movement.\n2. Press up onto your big toes and pause at the top.", "calories": 5 }
+    ],
+    "abFinisher": null,
+    "cardio": null
+  },
+  {
+    "day": 4,
+    "title": "Shoulders & Chest",
+    "duration": "60-70 minutes",
+    "exercises": [
+        { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height.", "calories": 11 },
+        { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative.", "calories": 7 },
+        { "name": "Reverse Pec-Deck", "details": "4 sets of 15-20 reps | 60s rest", "instructions": "1. Sit facing the machine with your chest against the pad.\n2. Drive your arms back and out in a wide arc, squeezing your rear delts.", "calories": 7 },
+        { "name": "Flat Dumbbell Press", "details": "3 sets of 8-12 reps | 75s rest", "instructions": "1. Lie flat on the bench.\n2. Press the dumbbells up until your arms are extended but not locked.\n3. Lower slowly, feeling a stretch in your chest.", "calories": 11 },
+        { "name": "Cable Flys", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Set pulleys to chest height.\n2. Step forward and bring the handles together in a wide arc.\n3. Squeeze your chest hard at the peak of the movement.", "calories": 8 }
+    ],
+    "abFinisher": { "name": "Decline Reverse Crunches", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Lie on a decline bench, holding the top for support.\n2. Bring your knees toward your chest.\n3. Focus on lifting your hips off the bench using your lower abs.", "calories": 35 },
+    "cardio": null
+  },
+  {
+    "day": 5,
+    "title": "Arms (Biceps & Triceps)",
+    "duration": "35-45 minutes",
+    "exercises": [
+        { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps.", "calories": 10 },
+        { "name": "Barbell Curls", "details": "4 sets of 8-12 reps | 75s rest", "instructions": "1. Keep your elbows pinned to your sides.\n2. Curl the weight up without using momentum or swinging your body.\n3. Squeeze your biceps at the top and lower with control.", "calories": 9 },
+        { "name": "Overhead Rope Extension", "details": "3 sets of 10-15 reps | 60s rest", "instructions": "1. Use a high cable pulley with a rope attachment.\n2. Extend your arms fully overhead, feeling a stretch in your triceps.\n3. Spread the rope apart at the top.", "calories": 8 },
+        { "name": "Incline Dumbbell Curls", "details": "3 sets of 10-15 reps | 60s rest", "instructions": "1. Sit back on an incline bench.\n2. Let your arms hang straight down to stretch the biceps.\n3. Curl the dumbbells up, rotating your palms to face you.", "calories": 8 },
+        { "name": "Superset: Rope Pushdowns & Cable Hammer Curls", "details": "3 sets of 12-15 reps each | 60s rest after superset", "instructions": "Pushdowns: Keep elbows pinned and spread the rope at the bottom.\nHammer Curls: Use a rope on a low pulley, keeping a neutral (hammer) grip.", "calories": 15 }
+    ],
+    "abFinisher": { "name": "Landmine Twists", "details": "3 sets of 10-12 reps (per side) | 60s rest", "instructions": "1. Place one end of a barbell in a landmine attachment or corner.\n2. Hold the other end with both hands and rotate from your core, pivoting your feet.", "calories": 40 },
+    "cardio": { "name": "20 minutes of moderate-intensity cardio", "details": "1 set of 20 minutes", "instructions": "Choose a machine like the stationary bike or elliptical. This is a great way to improve cardiovascular health without high impact.", "calories": 220 }
+  },
+  {
+    "day": 6,
+    "title": "Hamstrings & Glutes",
+    "duration": "55-65 minutes",
+    "exercises": [
+        { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start.", "calories": 22 },
+        { "name": "Barbell Hip Thrusts", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Rest your upper back on a bench.\n2. Drive your hips up powerfully, squeezing your glutes hard at the top.\n3. Keep your chin tucked.", "calories": 16 },
+        { "name": "Seated or Lying Leg Curls", "details": "4 sets of 12-15 reps | 75s rest (Drop set on last set)", "instructions": "1. Point your toes to better engage the hamstrings.\n2. Squeeze at the peak of the curl and control the negative.", "calories": 9 },
+        { "name": "Hip Abduction Machine", "details": "4 sets of 15-20+ reps | 60s rest (Double drop set on last set)", "instructions": "1. Lean your torso forward to better target the upper glute shelf.\n2. Control the movement, especially on the way back in.", "calories": 7 },
+        { "name": "45-Degree Kickbacks (Cable/Band)", "details": "3 sets of 15-20 reps (per leg) | 45s rest", "instructions": "1. Kick your leg back and out at a 45-degree angle.\n2. Squeeze your upper glute for a full second at the peak of the movement.", "calories": 8 }
+    ],
+    "abFinisher": null,
+    "cardio": null
+  },
   { "day": 7, "title": "Rest Day", "duration": "Focus on recovery", "exercises": [], "abFinisher": null, "cardio": null }
 ];
 
@@ -37,15 +93,15 @@ const workoutData = [
 const daySelector = document.getElementById("day-selector");
 const workoutTitle = document.getElementById("workout-title");
 const workoutDuration = document.getElementById("workout-duration");
-const exerciseList = document.getElementById("exercise-list");
-const completedList = document.getElementById("completed-list"); // New list
-const completedTitle = document.getElementById("completed-title"); // New title
+const exerciseList = document.getElementById("exercise-list"); // Active list
+const completedList = document.getElementById("completed-list"); // Completed list
+const completedTitle = document.getElementById("completed-title"); // Title for completed section
 const resetButton = document.getElementById("reset-button");
 const dailyCaloriesEl = document.getElementById("daily-calories");
 const weeklyCaloriesContainer = document.getElementById("weekly-calories-container");
 const timerDisplay = document.getElementById('timer-display');
 
-// Modal Elements
+// Modal Elements (assuming these IDs exist in your HTML)
 const infoModalOverlay = document.getElementById("info-modal-overlay");
 const infoModalCloseBtn = document.getElementById("info-modal-close-btn");
 const infoModalTitle = document.getElementById("info-modal-title");
@@ -54,7 +110,7 @@ const resetModalOverlay = document.getElementById("reset-modal-overlay");
 const confirmResetBtn = document.getElementById("confirm-reset-btn");
 const cancelResetBtn = document.getElementById("cancel-reset-btn");
 
-// Completion Overlay Elements
+// Completion Overlay Elements (assuming these IDs exist)
 const completionOverlay = document.getElementById("completion-overlay");
 const completionTitle = document.getElementById("completion-title");
 const completionMessage = document.getElementById("completion-message");
@@ -76,9 +132,7 @@ const motivationalMessages = [
 
 // --- Timer, and Haptic Functions ---
 function triggerHapticFeedback() {
-    if ('vibrate' in navigator) {
-        navigator.vibrate(50);
-    }
+    if ('vibrate' in navigator) { navigator.vibrate(50); }
 }
 
 function startOnScreenTimer(durationSeconds) {
@@ -156,10 +210,9 @@ function updateCardVisuals(card, progressId, totalSets) {
     const completedSets = progress[progressId] || 0;
     const percentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
     card.style.setProperty('--series-progress', `${percentage}%`);
-    // Keep class for logic, but styling is handled by list placement
+    // Keep class for logic if needed, but styling primarily relies on list placement
     card.classList.toggle('fully-completed', completedSets >= totalSets);
 }
-
 
 function updateCalorieCounters() {
     let weeklyTotal = 0;
@@ -192,16 +245,16 @@ function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
         const dayData = workoutData[index];
         if (!dayData || dayData.exercises.length === 0) { btn.style.setProperty('--progress', '0%'); return; }
-        let totalSets = 0, completedSets = 0;
-        dayData.exercises.forEach((ex, i) => { const id = `day${dayData.day}-exercise-${i}`; totalSets += parseSets(ex.details); completedSets += progress[id] || 0; });
-        if (dayData.abFinisher) { const id = `day${dayData.day}-ab-0`; totalSets += parseSets(dayData.abFinisher.details); completedSets += progress[id] || 0; }
-        if (dayData.cardio) { const id = `day${dayData.day}-cardio-0`; totalSets += parseSets(dayData.cardio.details); completedSets += progress[id] || 0; }
-        const progressPercentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
+        let totalSetsForDay = 0, completedSetsForDay = 0;
+        dayData.exercises.forEach((ex, i) => { const id = `day${dayData.day}-exercise-${i}`; totalSetsForDay += parseSets(ex.details); completedSetsForDay += progress[id] || 0; });
+        if (dayData.abFinisher) { const id = `day${dayData.day}-ab-0`; totalSetsForDay += parseSets(dayData.abFinisher.details); completedSetsForDay += progress[id] || 0; }
+        if (dayData.cardio) { const id = `day${dayData.day}-cardio-0`; totalSetsForDay += parseSets(dayData.cardio.details); completedSetsForDay += progress[id] || 0; }
+        const progressPercentage = totalSetsForDay > 0 ? (completedSetsForDay / totalSetsForDay) * 100 : 0;
         btn.style.setProperty('--progress', `${progressPercentage}%`);
     });
 }
 
-// Shows/hides the completed section title based on list content
+// Shows/hides the completed section title
 function updateCompletedSectionVisibility() {
     completedTitle.classList.toggle('hidden', completedList.children.length === 0);
 }
@@ -211,15 +264,18 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
     const wasFullyCompleted = currentCompleted >= totalSets;
 
+    let newCompletedCount;
     if (direction === 'increment') {
-        progress[progressId] = Math.min(totalSets, currentCompleted + 1);
-        triggerHapticFeedback();
-        const exerciseDetails = card.querySelector('p').textContent;
-        const restTime = parseRestTime(exerciseDetails);
-        startOnScreenTimer(restTime);
+        newCompletedCount = Math.min(totalSets, currentCompleted + 1);
+        if (newCompletedCount > currentCompleted) { // Only trigger feedback/timer if count actually increased
+             triggerHapticFeedback();
+             const exerciseDetails = card.querySelector('p').textContent;
+             const restTime = parseRestTime(exerciseDetails);
+             startOnScreenTimer(restTime);
+        }
     } else { // 'decrement'
-        progress[progressId] = Math.max(0, currentCompleted - 1);
-        if (activeTimer) {
+        newCompletedCount = Math.max(0, currentCompleted - 1);
+        if (activeTimer && newCompletedCount < currentCompleted) { // Stop timer only if count decreased
             clearInterval(activeTimer);
             timerDisplay.classList.add('hidden');
             localStorage.removeItem('restPeriodEndTime');
@@ -227,64 +283,60 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         }
     }
     
-    saveProgress(); // Calls updateCompletedSectionVisibility indirectly
-    
-    updateCardVisuals(card, progressId, totalSets); // Update the card's progress bar
-    const isNowFullyCompleted = (progress[progressId] || 0) >= totalSets;
+    progress[progressId] = newCompletedCount; // Update progress state
+    saveProgress(); // Save and update UI elements dependent on progress
 
-    // Move between lists based on completion status change
+    const isNowFullyCompleted = newCompletedCount >= totalSets;
+    updateCardVisuals(card, progressId, totalSets); // Update visual progress bar immediately
+
+    // Move between lists ONLY if completion status flipped
     if (!wasFullyCompleted && isNowFullyCompleted) {
         animateAndMoveToCompleted(card);
-        checkDayCompletion(); // Check if the whole day is done
+        checkDayCompletion();
     } else if (wasFullyCompleted && !isNowFullyCompleted) {
-        // Find the correct place to re-insert in the active list
-        const correctSectionTitle = findCorrectSectionTitle(card);
-        moveFromCompletedToActive(card, correctSectionTitle);
+        moveFromCompletedToActive(card);
     }
 }
 
-// Helper to find the H3 title element preceding where an item should go
-function findCorrectSectionTitle(card) {
-    const cardType = card.classList.contains('exercise-item') ? 'exercise' : (card.classList.contains('ab-finisher') ? 'ab' : 'cardio');
-    let targetTitleText = "Main Workout";
-    if (cardType === 'ab') targetTitleText = "Ab Finisher";
-    if (cardType === 'cardio') targetTitleText = "Post-Workout Cardio";
-
-    // Find the H3 with matching text content within #exercise-list
-    const titles = exerciseList.querySelectorAll('.category-title');
-    for (let title of titles) {
-        if (title.textContent === targetTitleText) {
-            return title;
-        }
-    }
-    return null; // Should not happen if titles exist
-}
 
 // Moves item to completed list with animation
 function animateAndMoveToCompleted(card) {
     card.classList.add('reordering');
-    // No need for dataset.moved anymore
+    // Remove listeners before moving
+    removeCardListeners(card);
     setTimeout(() => {
-        completedList.appendChild(card); // Append to #completed-list
+        completedList.appendChild(card);
         card.classList.remove('reordering');
-        updateCompletedSectionVisibility(); // Update title visibility
-    }, 300); // Shorter duration for smoother feel
+        // Add back listeners appropriate for completed items (if any, maybe just info btn?)
+        addCardListeners(card, true); // Add listeners for completed state
+        updateCompletedSectionVisibility();
+    }, 300);
 }
 
 // Moves item from completed back to its correct section in active list
-function moveFromCompletedToActive(card, sectionTitleElement) {
-    if (sectionTitleElement) {
-         // Insert after the title, before the next title or end of list
-        let insertBeforeNode = sectionTitleElement.nextElementSibling;
-        while(insertBeforeNode && !insertBeforeNode.classList.contains('category-title')) {
-             insertBeforeNode = insertBeforeNode.nextElementSibling;
-        }
-        exerciseList.insertBefore(card, insertBeforeNode);
+function moveFromCompletedToActive(card) {
+     // Remove listeners before moving
+    removeCardListeners(card);
 
-    } else {
-        // Fallback: append to the end of the active list if title not found
+    // Determine where to insert based on its original type/order if possible
+    // Simpler: Find the FIRST item in the completed list and insert BEFORE it in the active list,
+    // or append if active list is empty or has no suitable spot.
+    // This maintains *some* order without complex section logic.
+     let inserted = false;
+     // Try to insert before the first completed item currently in the active list
+     const firstCompletedInActive = exerciseList.querySelector('.fully-completed');
+     if (firstCompletedInActive) {
+         exerciseList.insertBefore(card, firstCompletedInActive);
+         inserted = true;
+     }
+
+     // Fallback: Append to the end of the active list
+     if (!inserted) {
         exerciseList.appendChild(card);
-    }
+     }
+
+    // Add back listeners for active state
+    addCardListeners(card, false);
     updateCompletedSectionVisibility();
 }
 
@@ -302,8 +354,7 @@ function checkDayCompletion() {
         ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
     ];
     if (allItems.length === 0) return; // Don't show completion for rest day
-    
-    // Check if ALL items for this day are in the progress object and completed
+
     const isDayComplete = allItems.every(item => {
         const totalSets = parseSets(item.details);
         const completedSets = progress[item.id] || 0;
@@ -326,8 +377,118 @@ function checkDayCompletion() {
     }
 }
 
+// --- DOM Rendering & Listener Management ---
 
-// --- DOM Rendering ---
+// NEW: Central function to add listeners
+function addCardListeners(card, isCompleted) {
+    const progressId = card.dataset.progressId;
+    const totalSets = parseInt(card.dataset.totalSets, 10);
+
+    // Click/Tap to Increment (only if not completed)
+    if (!isCompleted) {
+         const clickHandler = (e) => {
+            // Prevent increment if info button was the target
+            if (e.target.closest('.info-btn')) return;
+             // Check if the item is still in the active list before handling
+             if (card.parentElement === exerciseList) {
+                handleSeriesUpdate(card, progressId, totalSets, 'increment');
+            }
+        };
+        card.addEventListener('click', clickHandler);
+        card._clickHandler = clickHandler; // Store reference for removal
+    }
+
+
+    // Context Menu / Long Press to Decrement (always add, logic inside handles state)
+    const contextHandler = (e) => {
+        e.preventDefault();
+        handleSeriesUpdate(card, progressId, totalSets, 'decrement');
+    };
+    card.addEventListener('contextmenu', contextHandler);
+    card._contextHandler = contextHandler; // Store reference
+
+    let longPressTimeoutId = null;
+    const touchStartHandler = (e) => {
+        if (e.target.closest('.info-btn')) return;
+        // Clear any existing timer
+        if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
+        longPressTimeoutId = setTimeout(() => {
+            e.preventDefault(); // Prevent click/scroll after long press detected
+            handleSeriesUpdate(card, progressId, totalSets, 'decrement');
+            longPressTimeoutId = null; // Reset timer ID
+        }, LONG_PRESS_DURATION);
+    };
+     const touchEndHandler = () => {
+        if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
+        longPressTimeoutId = null;
+    };
+     const touchMoveHandler = () => { // Cancel on scroll
+        if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
+         longPressTimeoutId = null;
+    };
+
+    card.addEventListener('touchstart', touchStartHandler, { passive: false });
+    card.addEventListener('touchend', touchEndHandler);
+    card.addEventListener('touchcancel', touchEndHandler); // Also cancel on touchcancel
+    card.addEventListener('touchmove', touchMoveHandler);
+
+    // Store references for removal
+    card._touchStartHandler = touchStartHandler;
+    card._touchEndHandler = touchEndHandler;
+    card._touchMoveHandler = touchMoveHandler;
+
+
+    // Info Button Listener (always add)
+    const infoBtn = card.querySelector(".info-btn");
+    if (infoBtn) {
+        const infoClickHandler = (e) => {
+            e.stopPropagation(); // Prevent LI click handler
+            const exerciseName = card.querySelector('h3').textContent;
+            // Find exercise data again (needed if instructions aren't stored on element)
+            const dayNum = parseInt(progressId.match(/day(\d+)/)[1], 10);
+            const type = progressId.match(/-([a-z]+)-/)[1];
+            const index = parseInt(progressId.match(/-(\d+)$/)[1], 10);
+            const dayData = workoutData.find(d => d.day === dayNum);
+            let exerciseData;
+            if (type === 'exercise') exerciseData = dayData.exercises[index];
+            else if (type === 'ab') exerciseData = dayData.abFinisher;
+            else if (type === 'cardio') exerciseData = dayData.cardio;
+
+            if (exerciseData) {
+                openInfoModal(exerciseData.name, exerciseData.instructions);
+            }
+        };
+        infoBtn.addEventListener('click', infoClickHandler);
+        infoBtn._infoClickHandler = infoClickHandler; // Store reference
+    }
+}
+
+
+// NEW: Central function to remove listeners
+function removeCardListeners(card) {
+    if (card._clickHandler) card.removeEventListener('click', card._clickHandler);
+    if (card._contextHandler) card.removeEventListener('contextmenu', card._contextHandler);
+    if (card._touchStartHandler) card.removeEventListener('touchstart', card._touchStartHandler);
+    if (card._touchEndHandler) card.removeEventListener('touchend', card._touchEndHandler);
+    if (card._touchCancelHandler) card.removeEventListener('touchcancel', card._touchCancelHandler); // Ensure cancellation handler removed
+    if (card._touchMoveHandler) card.removeEventListener('touchmove', card._touchMoveHandler);
+
+
+    const infoBtn = card.querySelector(".info-btn");
+    if (infoBtn && infoBtn._infoClickHandler) {
+        infoBtn.removeEventListener('click', infoBtn._infoClickHandler);
+    }
+    // Clear stored references
+    card._clickHandler = null;
+    card._contextHandler = null;
+    card._touchStartHandler = null;
+    card._touchEndHandler = null;
+    card._touchCancelHandler = null;
+    card._touchMoveHandler = null;
+     if (infoBtn) infoBtn._infoClickHandler = null;
+}
+
+
 const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
     const li = document.createElement("li");
     li.className = cssClass;
@@ -347,70 +508,43 @@ const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
         </button>`;
-    
-    // Attach event listeners ONLY if the item is NOT completed initially
+
+    // Determine initial state and add appropriate listeners
     const completedSets = progress[progressId] || 0;
-    if (completedSets < totalSets) {
-        li.addEventListener('click', (e) => {
-            if (e.target.closest('.info-btn')) return;
-            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment');
-        });
-        li.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
-        });
-        li.addEventListener('touchstart', (e) => {
-            if (e.target.closest('.info-btn')) return;
-            longPressTimer = setTimeout(() => {
-                e.preventDefault();
-                handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
-            }, LONG_PRESS_DURATION);
-        }, { passive: false });
-        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
-        li.addEventListener('touchmove', () => clearTimeout(longPressTimer));
-    }
+    const isInitiallyCompleted = completedSets >= totalSets;
+    addCardListeners(li, isInitiallyCompleted); // Add listeners based on initial state
 
-    // Info button listener is always attached
-    li.querySelector(".info-btn").addEventListener("click", (e) => {
-        e.stopPropagation();
-        openInfoModal(exercise.name, exercise.instructions);
-    });
-
-    updateCardVisuals(li, progressId, totalSets); // Still useful for progress bar
+    updateCardVisuals(li, progressId, totalSets); // Set initial progress bar
     return li;
 };
 
-// Modified to append titles to active list only
+
+// Appends titles to active list, appends items to correct lists
 const renderSection = (title, items, cssClass, idType, dayNum) => {
     if (!items || (Array.isArray(items) && items.length === 0)) return;
 
+    // Create and append the category title to the active list
     const sectionTitle = document.createElement("h3");
     sectionTitle.className = "category-title";
     sectionTitle.textContent = title;
-    exerciseList.appendChild(sectionTitle); // Append title to active list
+    exerciseList.appendChild(sectionTitle);
 
+    // Create all element nodes first
     const elements = (Array.isArray(items)
         ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i, dayNum))
         : [createExerciseItem(items, cssClass, idType, 0, dayNum)]);
 
-    // Separate into active and completed during rendering
+    // Append elements to the correct list based on initial state
     elements.forEach(el => {
         const progressId = el.dataset.progressId;
         const totalSets = parseInt(el.dataset.totalSets, 10);
         const completedSets = progress[progressId] || 0;
         if (completedSets >= totalSets) {
-            completedList.appendChild(el); // Add completed items to completed list
+            completedList.appendChild(el);
         } else {
-             // Append active items *after* the section title we just added
-            exerciseList.insertBefore(el, sectionTitle.nextSibling); // This appends right after the title
+            exerciseList.appendChild(el); // Append active items after their title
         }
     });
-
-     // Re-sort active items within their section (Optional, good for consistency)
-     const activeItemsInSection = Array.from(sectionTitle.parentElement.children).filter(child => child.tagName === 'LI' && !child.classList.contains('fully-completed') && child.previousElementSibling === sectionTitle);
-     activeItemsInSection.forEach(item => exerciseList.insertBefore(item, sectionTitle.nextElementSibling));
-
-
 };
 
 
@@ -426,17 +560,15 @@ function renderWorkout(dayIndex) {
     if (dayData.exercises.length === 0) {
         workoutTitle.textContent = "7. Rest Day";
         exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON NUTRITION, HYDRATION, AND SLEEP TO MAXIMIZE GROWTH.</p></div></li>';
-        updateCalorieCounters();
-        updateCompletedSectionVisibility(); // Important for rest day
-        return;
+        // No exercises to render
+    } else {
+        renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
+        renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
+        renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio', dayData.day);
     }
 
-    renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
-    renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
-    renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio', dayData.day);
-
     updateCalorieCounters();
-    updateCompletedSectionVisibility(); // Update visibility after rendering all sections
+    updateCompletedSectionVisibility(); // Update visibility after potential rendering
 }
 
 
@@ -451,7 +583,7 @@ function setActiveDay(dayIndex) {
     }
     localStorage.removeItem('restPeriodEndTime');
     restPeriodEndTime = null;
-    renderWorkout(dayIndex);
+    renderWorkout(dayIndex); // This now correctly clears both lists before rendering
 }
 
 // --- Modal Functions ---
@@ -477,7 +609,6 @@ function closeResetModal() {
     resetModalOverlay.classList.add("hidden");
     resetModalOverlay.setAttribute('aria-hidden', 'true');
 }
-
 
 // --- App Initialization ---
 function init() {
@@ -515,7 +646,7 @@ function init() {
     resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
     const today = new Date().getDay();
     const initialDayIndex = today === 0 ? 6 : today - 1;
-    setActiveDay(initialDayIndex);
+    setActiveDay(initialDayIndex); // This call includes the first render
     checkTimerOnFocus();
 }
 
