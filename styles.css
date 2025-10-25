@@ -274,6 +274,7 @@ header {
 .exercise-details {
   flex-grow: 1; /* Take available space */
   pointer-events: none;
+  padding-right: 16px; /* Add padding to prevent overlap with counter */
 }
 
 .exercise-details h3 {
@@ -281,40 +282,44 @@ header {
   font-weight: 400; /* Regular */
   margin-bottom: 4px;
   color: var(--text-color);
-  line-height: 1.3; /* Improve readability */
+  line-height: 1.3;
 }
 
 .exercise-details p {
   color: var(--text-color-muted);
   font-size: 0.8rem;
   font-weight: 300; /* Light */
-  line-height: 1.4; /* Improve readability */
+  line-height: 1.4;
 }
 
 /* NEW: Set Counter Styles */
 .set-counter {
-    font-family: 'Inter', monospace; /* Monospace for alignment */
-    font-size: 0.9rem;
-    font-weight: 400; /* Regular */
+    font-family: 'Inter', monospace;
+    /* INCREASED SIZE & WEIGHT */
+    font-size: 1.25rem; /* Larger */
+    font-weight: 500; /* Medium */
     color: var(--text-color-muted);
-    background-color: rgba(255, 255, 255, 0.05); /* Subtle background */
-    padding: 4px 8px;
+    background-color: transparent; /* No background initially */
+    padding: 4px 0; /* Vertical padding only */
     border-radius: 4px;
-    margin-left: auto; /* Push to the right */
-    white-space: nowrap; /* Prevent wrapping */
+    margin-left: auto; /* Push counter & button right */
+    white-space: nowrap;
     transition: color 0.3s, background-color 0.3s;
+    flex-shrink: 0; /* Prevent shrinking */
+    text-align: right; /* Align text right if needed */
+    min-width: 50px; /* Ensure space for "X/YY" */
 }
 
 /* Style when all sets are complete */
 .set-counter.sets-complete {
-    color: var(--background-color);
-    background-color: var(--text-color);
+    color: var(--text-color); /* Full white when complete */
+    background-color: transparent; /* Still no background */
     font-weight: 500; /* Medium */
 }
 
 
 .info-btn {
-  flex-shrink: 0; /* Prevent shrinking */
+  flex-shrink: 0;
   background-color: transparent;
   color: var(--text-color-muted);
   border: none;
@@ -329,7 +334,7 @@ header {
   z-index: 5;
   pointer-events: auto !important;
   user-select: auto !important;
-  margin-left: 12px; /* Add space between counter and info button */
+  margin-left: 12px;
 }
 
 .info-btn:hover {
@@ -354,10 +359,8 @@ footer {
 
 /* 7. MODALS */
 .modal-overlay {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
   display: flex; justify-content: center; align-items: center;
   z-index: 1000; opacity: 1; transition: opacity 0.3s ease-in-out;
   padding: 15px;
