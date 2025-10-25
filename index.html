@@ -44,6 +44,7 @@
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
     <button id="info-modal-close-btn" aria-label="Close info modal">&times;</button>
     <h2 id="info-modal-title">Exercise Title</h2>
+    <div id="info-modal-last-time" class="last-time-info"></div>
     <div id="info-modal-instructions">
       <p>Instructions will go here.</p>
     </div>
@@ -59,6 +60,25 @@
     </div>
   </div>
 </div>
+
+<div id="log-set-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
+  <div id="log-set-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="log-set-modal-title">
+    <button id="log-set-modal-close-btn" aria-label="Close log set modal">&times;</button>
+    <h2 id="log-set-modal-title">Log Set</h2>
+    <p id="log-set-modal-subtitle"></p>
+    <div class="log-set-inputs">
+        <label for="log-set-weight">Weight:</label>
+        <input type="number" id="log-set-weight" step="0.5" placeholder="e.g., 50.5">
+        <label for="log-set-reps">Reps:</label>
+        <input type="number" id="log-set-reps" step="1" placeholder="e.g., 10">
+    </div>
+    <div class="modal-buttons">
+        <button id="save-set-btn" class="modal-btn">Save Set</button>
+        <button id="cancel-log-set-btn" class="modal-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
 
 <div id="completion-overlay" class="hidden">
     <div id="completion-card">
