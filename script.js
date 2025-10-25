@@ -423,7 +423,7 @@ function renderWorkout(dayIndex) {
         }, { passive: false }); // Set passive to false to allow preventDefault
         
         li.addEventListener('touchend', () => clearTimeout(longPressTimer));
-        li.addEventListener('touchmove', () => clearTimeout(longPressTimer)); // Cancel on scroll
+        li.addEventListener('touchmove', ()D => clearTimeout(longPressTimer)); // Cancel on scroll
         
         li.querySelector(".info-btn").addEventListener("click", (e) => { 
             e.stopPropagation(); 
