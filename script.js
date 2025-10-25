@@ -448,17 +448,22 @@ function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
     if (!dayData) { console.error("No data for day index:", dayIndex); return; }
 
-    workoutTitle.textContent = `DAY ${dayData.day}: ${dayData.title.toUpperCase()}`;
+    // *** THIS IS THE CHANGED LINE ***
+    workoutTitle.textContent = `${dayData.day}. ${dayData.title}`; // Example: "1. Chest"
+    // *** END OF CHANGE ***
+
     workoutDuration.textContent = `// EST. DURATION: ${dayData.duration.toUpperCase()}`;
     exerciseList.innerHTML = "";
     
     if (dayData.exercises.length === 0) { 
-        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON NUTRITION, HYDRATION, AND SLEEP TO MAXIMIZE GROWTH.</p></div></li>'; 
+        // Special display for rest day
+        workoutTitle.textContent = "7. Rest Day"; // Override title for rest day
+        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON NUTRITION, HYDRATION, AND SLEEP TO MAXIMIZE GROWTH.</p></div></li>'; 
         updateCalorieCounters(); 
         return; 
     }
     
-    // BUG FIX: Pass dayData.day to renderSection
+    // Pass dayData.day to renderSection
     renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
     renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
     renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio', dayData.day);
