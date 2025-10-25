@@ -35,7 +35,6 @@ header { margin-bottom: 24px; }
 
 #day-selector { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
 
-/* Undo Button Container */
 .undo-container { margin-bottom: 40px; text-align: left; }
 #undo-button:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -80,22 +79,26 @@ header { margin-bottom: 24px; }
   border-bottom: 1px solid var(--border-color-muted);
   padding: 20px 0 20px 14px; /* Left padding for indicator */
   display: flex; align-items: center; gap: 16px;
-  transition: opacity 0.5s ease-out, transform 0.3s ease-out, background-color 0.2s ease;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out, background-color 0.2s ease; /* Faster transition */
   cursor: pointer; position: relative;
   -webkit-user-select: none; -ms-user-select: none; user-select: none;
 }
-#exercise-list > li:last-of-type:not(.category-title), /* Adjust selector for last LI */
-#completed-list > li:last-of-type {
-    border-bottom: none;
-}
+#exercise-list > li:last-of-type:not(.category-title),
+#completed-list > li:last-of-type { border-bottom: none; }
 
 /* Active Indicator Bar */
 .active-indicator {
     position: absolute; left: 0; top: 50%; transform: translateY(-50%);
     width: 4px; height: 60%; background-color: var(--text-color); border-radius: 2px;
-    opacity: 0; transition: opacity 0.3s ease; pointer-events: none; /* Don't interfere with clicks */
+    opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+}
+/* Style applied by JS when item is active */
+.is-current-exercise {
+    /* Optional: Slightly change background of active item */
+    /* background-color: rgba(255, 255, 255, 0.02); */
 }
 .is-current-exercise > .active-indicator { opacity: 1; }
+
 
 #exercise-list .exercise-item:hover,
 #exercise-list .ab-finisher:hover,
@@ -105,15 +108,16 @@ header { margin-bottom: 24px; }
 #completed-list .exercise-item,
 #completed-list .ab-finisher,
 #completed-list .cardio-session {
-    opacity: 0.4; cursor: default; user-select: none;
+    opacity: 0.4; cursor: pointer; /* Allow clicking completed for decrement */ user-select: none;
 }
 #completed-list .exercise-item:hover,
 #completed-list .ab-finisher:hover,
-#completed-list .cardio-session:hover { background-color: transparent; }
+#completed-list .cardio-session:hover { background-color: rgba(255, 255, 255, 0.03); } /* Allow hover on completed */
 #completed-list .active-indicator { display: none; }
 
+/* Animation for moving items */
 .exercise-item.reordering, .ab-finisher.reordering, .cardio-session.reordering {
-  opacity: 0 !important; transform: translateY(10px);
+  opacity: 0 !important; transform: scale(0.95); /* Changed animation */ transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
 .exercise-details { flex-grow: 1; pointer-events: none; padding-right: 16px; }
@@ -125,15 +129,16 @@ header { margin-bottom: 24px; }
     font-family: 'Inter', monospace; font-size: 1.25rem; font-weight: 500;
     color: var(--text-color-muted); background-color: transparent; padding: 4px 0;
     border-radius: 4px; margin-left: auto; white-space: nowrap; transition: color 0.3s;
-    flex-shrink: 0; text-align: right; min-width: 50px;
+    flex-shrink: 0; text-align: right; min-width: 50px; pointer-events: none; /* Make non-interactive */
 }
 .set-counter.sets-complete { color: var(--text-color); }
 
 .info-btn {
   flex-shrink: 0; background-color: transparent; color: var(--text-color-muted);
   border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-  z-index: 5; pointer-events: auto !important; user-select: auto !important; margin-left: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; z-index: 5; pointer-events: auto !important;
+  user-select: auto !important; margin-left: 12px;
 }
 .info-btn:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--text-color); }
 
