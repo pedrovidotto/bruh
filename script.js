@@ -1,7 +1,5 @@
-// Workout data (Make sure 'calories' property is removed)
-const workoutData = [
-    // ... (Your workout data without calories) ...
-];
+// Workout data (Ensure 'calories' property is removed)
+const workoutData = [ /* ... Same data ... */ ];
 const workoutData = [
   {
     "day": 1,
@@ -90,6 +88,7 @@ const workoutData = [
   { "day": 7, "title": "Rest Day", "duration": "Focus on recovery", "exercises": [], "abFinisher": null, "cardio": null }
 ];
 
+
 // DOM Elements
 const daySelector = document.getElementById("day-selector");
 const workoutTitle = document.getElementById("workout-title");
@@ -109,22 +108,20 @@ const cancelResetBtn = document.getElementById("cancel-reset-btn");
 const completionOverlay = document.getElementById("completion-overlay");
 const completionTitleEl = document.getElementById("completion-title");
 const completionMessage = document.getElementById("completion-message");
-// REMOVED: undoButton element
+// REMOVED: undoButton
 
 // State
 let progress = {};
 let activeTimer = null;
 let restPeriodEndTime = null;
 let currentExerciseCard = null; // Track the card with the active indicator
-// REMOVED: lastAction state variable
+// REMOVED: lastAction
 
-const motivationalMessages = [ /* ... same messages ... */ ];
 const motivationalMessages = [
     "TASK COMPLETE. AWAITING NEXT INPUT.", "PROCESSING... POSITIVE RESULTS. REST.",
     "EXECUTION SUCCESSFUL. RECOVER.", "SESSION LOGGED. SYSTEM OPTIMIZED.",
     "GOALS PROGRESSED. CONTINUE.",
 ];
-
 
 // --- Timer, Haptic Functions --- (Robust versions)
 function triggerHapticFeedback() { /* ... same ... */ }
@@ -136,7 +133,6 @@ function triggerHapticFeedback() {
         try { navigator.vibrate(50); } catch (e) { console.warn("Haptic feedback failed:", e); }
     }
 }
-
 function stopActiveTimer() {
     if (activeTimer) {
         clearInterval(activeTimer);
@@ -144,59 +140,43 @@ function stopActiveTimer() {
         timerDisplay.classList.add('hidden');
         localStorage.removeItem('restPeriodEndTime');
         restPeriodEndTime = null;
-        removeActiveIndicator(); // Remove indicator when timer stops explicitly
+        removeActiveIndicator();
     }
 }
-
 function startOnScreenTimer(durationSeconds) {
-    stopActiveTimer(); // Stop any existing timer first
+    stopActiveTimer();
     if (durationSeconds <= 0) {
-         removeActiveIndicator(); // Ensure no indicator if duration is 0
+         removeActiveIndicator();
          return;
     }
-
     restPeriodEndTime = Date.now() + (durationSeconds * 1000);
     localStorage.setItem('restPeriodEndTime', restPeriodEndTime);
-
     let timeLeft = durationSeconds;
     timerDisplay.classList.remove('hidden');
-
     const updateTimer = () => {
         const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         const seconds = (timeLeft % 60).toString().padStart(2, '0');
         timerDisplay.textContent = `${minutes}:${seconds}`;
-
         if (timeLeft <= 0) {
-            stopActiveTimer(); // Use central stop function
+            stopActiveTimer();
             triggerHapticFeedback();
-        } else {
-            timeLeft--;
-        }
+        } else { timeLeft--; }
     };
-    updateTimer(); // Initial display
+    updateTimer();
     activeTimer = setInterval(updateTimer, 1000);
 }
-
 function checkTimerOnFocus() {
-    const endTime = localStorage.getItem('restPeriodEndTime'); // Read directly from storage
-    if (!endTime) {
-        removeActiveIndicator(); // Ensure no indicator if no timer in storage
-        return;
-    }
-    restPeriodEndTime = parseInt(endTime, 10); // Update global state
+    const endTime = localStorage.getItem('restPeriodEndTime');
+    if (!endTime) { removeActiveIndicator(); return; }
+    restPeriodEndTime = parseInt(endTime, 10);
     const remainingTime = Math.round((restPeriodEndTime - Date.now()) / 1000);
-
-    if (remainingTime > 0) {
-        startOnScreenTimer(remainingTime);
-    } else {
-        stopActiveTimer(); // Ensure timer/indicator are cleared if expired
-    }
+    if (remainingTime > 0) { startOnScreenTimer(remainingTime); }
+    else { stopActiveTimer(); }
 }
-
 
 // --- Core & Helper Functions ---
 function loadProgress() { /* ... same ... */ }
-function saveProgress() { /* ... REMOVED undo button update ... */ }
+function saveProgress() { /* ... Simplified: removed undo update ... */ }
 function parseRestTime(details) { /* ... same ... */ }
 function parseSets(details) { /* ... same ... */ }
 function loadProgress() {
@@ -205,7 +185,6 @@ function loadProgress() {
         progress = savedProgress ? JSON.parse(savedProgress) : {};
     } catch (e) { console.error("Could not load progress:", e); progress = {}; }
 }
-
 function saveProgress() {
     try {
         localStorage.setItem("workoutSysProgress", JSON.stringify(progress));
@@ -214,7 +193,6 @@ function saveProgress() {
         // REMOVED: updateUndoButtonState();
     } catch (e) { console.error("Could not save progress:", e); }
 }
-
 function parseRestTime(details) {
     if (!details) return 0;
     const match = details.match(/\|\s*(\d+)s\s*rest/);
@@ -249,7 +227,6 @@ function removeActiveIndicator() {
     }
 }
 
-
 function updateCardVisuals(card, progressId, totalSets) { /* ... same ... */ }
 function updateCardVisuals(card, progressId, totalSets) {
     if (!card) return;
@@ -261,7 +238,6 @@ function updateCardVisuals(card, progressId, totalSets) {
     }
     card.classList.toggle('fully-completed', completedSets >= totalSets);
 }
-
 
 function updateProgressBars() { /* ... same ... */ }
 function updateProgressBars() {
@@ -293,16 +269,14 @@ function updateCompletedSectionVisibility() {
     completedTitle.classList.toggle('hidden', completedList.children.length === 0);
 }
 
-
 // REMOVED: updateUndoButtonState()
 
 // --- Event Handlers & Interaction ---
 
 // REMOVED: recordLastAction()
 // REMOVED: undoLastAction()
-// REMOVED: moveFromActiveToCompleted() // Merged logic or unnecessary
 
-// Main handler - Simplified without undo
+// Main handler - Simplified
 function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
     const wasFullyCompleted = currentCompleted >= totalSets;
@@ -313,7 +287,7 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
 
     if (direction === 'increment') {
         newCompletedCount = Math.min(totalSets, currentCompleted + 1);
-        if (newCompletedCount > currentCompleted) {
+        if (newCompletedCount > currentCompleted) { // Action occurred
             actionOccurred = true;
             triggerHapticFeedback();
             const detailsP = card.querySelector('.exercise-details p');
@@ -342,9 +316,9 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         }
     } else { // 'decrement'
         newCompletedCount = Math.max(0, currentCompleted - 1);
-        if (newCompletedCount < currentCompleted) {
+        if (newCompletedCount < currentCompleted) { // Action occurred
             actionOccurred = true;
-            if (currentExerciseCard === card) stopActiveTimer();
+            if (currentExerciseCard === card) stopActiveTimer(); // Stop timer if decrementing current
         }
     }
 
@@ -352,23 +326,33 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         progress[progressId] = newCompletedCount;
         const isNowFullyCompleted = newCompletedCount >= totalSets;
 
-        // Move between lists only if status flipped
-        if (!wasFullyCompleted && isNowFullyCompleted) {
+        // Determine if a list move is needed BEFORE saving
+        const needsMoveToCompleted = !wasFullyCompleted && isNowFullyCompleted;
+        const needsMoveToActive = wasFullyCompleted && !isNowFullyCompleted;
+
+        // Update state first
+        saveProgress();
+
+        // Perform DOM move AFTER saving state
+        if (needsMoveToCompleted) {
             animateAndMoveToCompleted(card);
-        } else if (wasFullyCompleted && !isNowFullyCompleted) {
+        } else if (needsMoveToActive) {
             moveFromCompletedToActive(card);
+        } else {
+             // If no move, just update visuals
+             updateCardVisuals(card, progressId, totalSets);
         }
 
-        saveProgress(); // Save the new state
 
-        // Update visuals on the correct element (might have moved)
-        const finalCardElement = document.querySelector(`[data-progress-id="${progressId}"]`);
-        if (finalCardElement) updateCardVisuals(finalCardElement, progressId, totalSets);
+        // Check day completion AFTER potential move and save
+        if (needsMoveToCompleted) {
+            checkDayCompletion();
+        }
 
-        if (!wasFullyCompleted && isNowFullyCompleted) checkDayCompletion();
-
+        // Scroll if moved to top
         if (movedToTop && card.parentElement === exerciseList) {
-            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Short delay to allow potential reflow after insertion
+            setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
         }
     }
 }
@@ -382,46 +366,53 @@ function animateAndMoveToCompleted(card) {
     if (currentExerciseCard === card) removeActiveIndicator();
     const handleTransitionEnd = () => {
         card.removeEventListener('transitionend', handleTransitionEnd);
-        // Double check parent before appending
+        // Check if it hasn't already been moved (e.g., by rapid clicks/undo)
         if (card.parentElement !== completedList) {
-             completedList.appendChild(card);
-             addCardListeners(card, true); // Add back listeners for completed state
-             updateCompletedSectionVisibility();
+            completedList.appendChild(card);
+            addCardListeners(card, true); // Add back listeners for completed state
+            updateCompletedSectionVisibility();
         }
-        card.classList.remove('reordering'); // Ensure removal after append
+         // Ensure class removed *after* potential append
+         card.classList.remove('reordering');
     };
     card.addEventListener('transitionend', handleTransitionEnd);
-    setTimeout(() => { // Fallback
-         if (card.classList.contains('reordering')) handleTransitionEnd();
-     }, 350);
+    // Fallback timer
+    setTimeout(() => { if (card.classList.contains('reordering')) handleTransitionEnd(); }, 350);
 }
 
 
 function moveFromCompletedToActive(card) { /* ... same corrected logic ... */ }
 function moveFromCompletedToActive(card) {
     if (!card || card.parentElement !== completedList) return;
-    removeCardListeners(card);
+    removeCardListeners(card); // Remove completed listeners
 
     const isExercise = card.classList.contains('exercise-item');
     const isAb = card.classList.contains('ab-finisher');
     let targetSectionTitle = null;
     const titles = exerciseList.querySelectorAll('.category-title');
 
+    // Find the correct H3 title element in the active list
     if (isExercise && titles[0]) targetSectionTitle = titles[0];
-    else if (isAb && titles.length > 1) targetSectionTitle = titles[1];
-    else if (titles.length > 2) targetSectionTitle = titles[2]; // Cardio
-    else targetSectionTitle = titles.length > 0 ? titles[titles.length - 1] : null;
+    else if (isAb && titles.length > 1) targetSectionTitle = titles[1]; // Assumes Ab is 2nd
+    else if (titles.length > 2) targetSectionTitle = titles[2]; // Assumes Cardio is 3rd
+    else if (titles.length > 0) targetSectionTitle = titles[titles.length - 1]; // Fallback: last title
+    else targetSectionTitle = null; // Fallback: no titles yet
 
+    // Determine insertion point
+    let insertBeforeNode = null;
     if (targetSectionTitle) {
-         let insertBeforeNode = targetSectionTitle.nextElementSibling;
-         while (insertBeforeNode && !insertBeforeNode.classList.contains('category-title') && !insertBeforeNode.classList.contains('fully-completed')) {
-             insertBeforeNode = insertBeforeNode.nextElementSibling;
-         }
-         exerciseList.insertBefore(card, insertBeforeNode);
+        insertBeforeNode = targetSectionTitle.nextElementSibling;
+        // Iterate to find the first completed item *within this section*
+        while (insertBeforeNode && !insertBeforeNode.classList.contains('category-title') && !insertBeforeNode.classList.contains('fully-completed')) {
+            insertBeforeNode = insertBeforeNode.nextElementSibling;
+        }
     } else {
-        const firstCompleted = exerciseList.querySelector('.fully-completed');
-        exerciseList.insertBefore(card, firstCompleted || null); // null appends
+        // If no titles, insert before the first completed item in the whole list
+        insertBeforeNode = exerciseList.querySelector('.fully-completed');
     }
+
+    // Insert the card
+    exerciseList.insertBefore(card, insertBeforeNode); // insertBefore(node, null) appends to end
 
     addCardListeners(card, false); // Add back listeners for active state
     updateCompletedSectionVisibility();
@@ -465,96 +456,67 @@ function checkDayCompletion() {
 
 // --- DOM Rendering & Listener Management ---
 
-// Add/Remove Listeners (Corrected)
-function addCardListeners(card, isCompleted) { /* ... same corrected logic ... */ }
+// Add/Remove Listeners (Corrected & Simplified)
+function addCardListeners(card, isCompleted) { /* ... same robust version ... */ }
 function addCardListeners(card, isCompleted) {
     const progressId = card.dataset.progressId;
-    if (!progressId) { console.error("Card missing progressId:", card); return; } // Safety check
+    if (!progressId) { console.error("Card missing progressId:", card); return; }
     const totalSets = parseInt(card.dataset.totalSets, 10);
-    if (isNaN(totalSets)) { console.error("Card missing or invalid totalSets:", card); return; } // Safety check
+    if (isNaN(totalSets)) { console.error("Card missing or invalid totalSets:", card); return; }
 
+    // --- Clear potentially existing listeners ---
+    removeCardListeners(card);
 
-    // --- Clear existing listeners first ---
-    removeCardListeners(card); // Use the dedicated removal function
-
-    // Click/Tap to Increment (only add if NOT completed)
+    // --- Add listeners based on state ---
     if (!isCompleted) {
         const clickHandler = (e) => {
             if (e.target.closest('.info-btn')) return;
-            // Double-check parentage before handling
-            if (card.parentElement === exerciseList) {
+            if (card.parentElement === exerciseList) { // Check parentage
                 handleSeriesUpdate(card, progressId, totalSets, 'increment');
-            } else {
-                 console.warn("Click handled on card not in active list:", card);
             }
         };
         card.addEventListener('click', clickHandler);
         card._clickHandler = clickHandler; // Store reference
     }
 
-    // Context Menu / Long Press to Decrement (ALWAYS add)
-    const contextHandler = (e) => {
-        e.preventDefault();
-        handleSeriesUpdate(card, progressId, totalSets, 'decrement');
-    };
+    // Decrement listeners (always add, logic inside handleSeriesUpdate)
+    const contextHandler = (e) => { e.preventDefault(); handleSeriesUpdate(card, progressId, totalSets, 'decrement'); };
     card.addEventListener('contextmenu', contextHandler);
-    card._contextHandler = contextHandler; // Store reference
+    card._contextHandler = contextHandler;
 
     let longPressTimeoutId = null;
     const touchStartHandler = (e) => {
         if (e.target.closest('.info-btn')) return;
-        clearTimeout(longPressTimeoutId); // Clear previous timer
-        longPressTimeoutId = setTimeout(() => {
-            e.preventDefault(); // Prevent default action (like context menu)
-            handleSeriesUpdate(card, progressId, totalSets, 'decrement');
-            longPressTimeoutId = null; // Reset timer ID
-        }, LONG_PRESS_DURATION);
-    };
-     const clearLongPress = () => { // Used for touchend, touchcancel, touchmove
         clearTimeout(longPressTimeoutId);
-        longPressTimeoutId = null;
+        longPressTimeoutId = setTimeout(() => { e.preventDefault(); handleSeriesUpdate(card, progressId, totalSets, 'decrement'); longPressTimeoutId = null; }, LONG_PRESS_DURATION);
     };
-
+    const clearLongPress = () => { clearTimeout(longPressTimeoutId); longPressTimeoutId = null; };
     card.addEventListener('touchstart', touchStartHandler, { passive: false });
     card.addEventListener('touchend', clearLongPress);
-    card.addEventListener('touchcancel', clearLongPress); // Important for interruptions
-    card.addEventListener('touchmove', clearLongPress); // Cancel on scroll
-
-    // Store references for removal
-    card._touchStartHandler = touchStartHandler;
-    card._touchEndHandler = clearLongPress;
-    card._touchMoveHandler = clearLongPress;
+    card.addEventListener('touchcancel', clearLongPress);
+    card.addEventListener('touchmove', clearLongPress);
+    card._touchStartHandler = touchStartHandler; card._touchEndHandler = clearLongPress; card._touchMoveHandler = clearLongPress;
 
     // Info Button Listener (always add)
     const infoBtn = card.querySelector(".info-btn");
     if (infoBtn) {
         const infoClickHandler = (e) => {
-            e.stopPropagation(); // Prevent LI click handler
-            // Find exercise data again (more robust)
-            const dayNumMatch = progressId.match(/day(\d+)/);
-            const typeMatch = progressId.match(/-([a-z]+)-/);
-            const indexMatch = progressId.match(/-(\d+)$/);
-
-             if (!dayNumMatch || !typeMatch || !indexMatch) {
-                 console.error("Could not parse progressId:", progressId); return;
-             }
-            const dayNum = parseInt(dayNumMatch[1], 10);
-            const type = typeMatch[1];
-            const index = parseInt(indexMatch[1], 10);
-
+            e.stopPropagation();
+            // Fetch data robustly
+            const dayNumMatch = progressId.match(/day(\d+)/); const typeMatch = progressId.match(/-([a-z]+)-/); const indexMatch = progressId.match(/-(\d+)$/);
+            if (!dayNumMatch || !typeMatch || !indexMatch) { console.error("Could not parse progressId:", progressId); return; }
+            const dayNum = parseInt(dayNumMatch[1], 10); const type = typeMatch[1]; const index = parseInt(indexMatch[1], 10);
             const dayData = workoutData.find(d => d.day === dayNum);
             let exerciseData;
              if (dayData) {
                  if (type === 'exercise' && dayData.exercises && index < dayData.exercises.length) exerciseData = dayData.exercises[index];
-                 else if (type === 'ab' && dayData.abFinisher) exerciseData = dayData.abFinisher; // Assuming only one ab finisher (index 0)
-                 else if (type === 'cardio' && dayData.cardio) exerciseData = dayData.cardio; // Assuming only one cardio (index 0)
+                 else if (type === 'ab' && dayData.abFinisher) exerciseData = dayData.abFinisher;
+                 else if (type === 'cardio' && dayData.cardio) exerciseData = dayData.cardio;
              }
-             if (exerciseData) {
-                 openInfoModal(exerciseData.name, exerciseData.instructions);
-             } else { console.error("Could not find exercise data for modal:", progressId); }
+             if (exerciseData) { openInfoModal(exerciseData.name, exerciseData.instructions); }
+             else { console.error("Could not find exercise data for modal:", progressId); }
         };
-        // Ensure listener isn't added multiple times
-        if (infoBtn._infoClickHandler) infoBtn.removeEventListener('click', infoBtn._infoClickHandler);
+        if (infoBtn._infoClickHandler) infoBtn.removeEventListener('click', infoBtn._infoClickHandler); // Prevent duplicates
         infoBtn.addEventListener('click', infoClickHandler);
         infoBtn._infoClickHandler = infoClickHandler;
     }
@@ -563,7 +525,6 @@ function addCardListeners(card, isCompleted) {
 
 function removeCardListeners(card) { /* ... same corrected logic ... */ }
 function removeCardListeners(card) {
-    // Use stored references to remove specific listeners
     if (card._clickHandler) card.removeEventListener('click', card._clickHandler);
     if (card._contextHandler) card.removeEventListener('contextmenu', card._contextHandler);
     if (card._touchStartHandler) card.removeEventListener('touchstart', card._touchStartHandler);
@@ -577,15 +538,14 @@ function removeCardListeners(card) {
     if (infoBtn && infoBtn._infoClickHandler) {
         infoBtn.removeEventListener('click', infoBtn._infoClickHandler);
     }
-
-    // Clear stored references after removing
+    // Clear stored references
     card._clickHandler = card._contextHandler = card._touchStartHandler =
     card._touchEndHandler = card._touchMoveHandler = null;
     if (infoBtn) infoBtn._infoClickHandler = null;
 }
 
 
-// Create element, add listeners based on initial state
+// Creates the element, adds initial listeners and visuals
 const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => { /* ... same corrected logic ... */ }
 const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
     const li = document.createElement("li");
@@ -610,21 +570,17 @@ const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
             </svg>
         </button>`;
 
-    // Determine initial state from progress
     const completedSets = progress[progressId] || 0;
     const isInitiallyCompleted = completedSets >= totalSets;
 
-    // Add listeners based on initial state
-    addCardListeners(li, isInitiallyCompleted);
-
-    // Set initial visual state (set counter, classes)
-    updateCardVisuals(li, progressId, totalSets);
+    addCardListeners(li, isInitiallyCompleted); // Add listeners based on initial state
+    updateCardVisuals(li, progressId, totalSets); // Set initial visual state
 
     return li;
 };
 
 
-// Render section, placing items in correct lists initially
+// Renders sections correctly into active/completed lists
 const renderSection = (title, items, cssClass, idType, dayNum) => { /* ... same corrected logic ... */ }
 const renderSection = (title, items, cssClass, idType, dayNum) => {
     if (!items || (Array.isArray(items) && items.length === 0)) return;
@@ -657,12 +613,9 @@ const renderSection = (title, items, cssClass, idType, dayNum) => {
             completedList.appendChild(el);
         } else {
             // Append active items *after* their section title in #exercise-list
-             exerciseList.appendChild(el); // Append at the end of the list for simplicity during render
+             exerciseList.appendChild(el); // Appending here simplifies initial render order
         }
     });
-
-     // Optional: Re-sort active items within their sections after initial render if needed
-     // This part can be complex and might be omitted if initial render order is acceptable.
 };
 
 
@@ -680,8 +633,9 @@ function renderWorkout(dayIndex) {
     // REMOVED: lastAction = null;
     // REMOVED: updateUndoButtonState();
 
-    if (dayData.day === 7 || (!dayData.exercises && !dayData.abFinisher && !dayData.cardio)) {
+    if (dayData.day === 7 || (!dayData.exercises && !dayData.abFinisher && !dayData.cardio)) { // More robust check
         workoutTitle.textContent = "7. Rest Day";
+        // Ensure rest day message doesn't have indicator padding
         exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none; padding-left: 0;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON RECOVERY.</p></div></li>';
     } else {
         renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
@@ -692,16 +646,15 @@ function renderWorkout(dayIndex) {
 }
 
 
-function setActiveDay(dayIndex) { /* ... same ... */ }
+function setActiveDay(dayIndex) { /* ... same corrected logic ... */ }
 function setActiveDay(dayIndex) {
-     if (dayIndex < 0 || dayIndex >= workoutData.length) { dayIndex = 0; } // Basic validation
+     if (dayIndex < 0 || dayIndex >= workoutData.length) { dayIndex = 0; }
     document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
     const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
     if (currentBtn) currentBtn.classList.add("active");
     stopActiveTimer();
     renderWorkout(dayIndex);
 }
-
 
 // --- Modal Functions --- (Unchanged)
 function openInfoModal(title, instructions) { /* ... same ... */ }
@@ -712,9 +665,9 @@ function openInfoModal(title, instructions) {
     infoModalOverlay.classList.remove("hidden");
     infoModalOverlay.setAttribute('aria-hidden', 'false');
     infoModalTitle.textContent = title.toUpperCase();
-    infoModalInstructions.innerHTML = '';
+    infoModalInstructions.innerHTML = ''; // Clear previous
     const p = document.createElement('p');
-    p.textContent = instructions;
+    p.textContent = instructions; // Use textContent for security
     infoModalInstructions.appendChild(p);
 }
 function closeInfoModal() {
@@ -730,8 +683,7 @@ function closeResetModal() {
     resetModalOverlay.setAttribute('aria-hidden', 'true');
 }
 
-
-// --- App Initialization ---
+// --- App Initialization --- (Removed Undo listener)
 function init() {
     loadProgress();
     document.addEventListener('visibilitychange', () => {
