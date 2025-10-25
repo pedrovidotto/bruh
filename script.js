@@ -156,10 +156,10 @@ function updateCardVisuals(card, progressId, totalSets) {
     const completedSets = progress[progressId] || 0;
     const percentage = totalSets > 0 ? (completedSets / totalSets) * 100 : 0;
     card.style.setProperty('--series-progress', `${percentage}%`);
-    // NOTE: .fully-completed class is no longer needed for styling here
-    // but keep it for logic if necessary, or remove if truly unused.
+    // Keep class for logic, but styling is handled by list placement
     card.classList.toggle('fully-completed', completedSets >= totalSets);
 }
+
 
 function updateCalorieCounters() {
     let weeklyTotal = 0;
@@ -201,7 +201,7 @@ function updateProgressBars() {
     });
 }
 
-// NEW: Function to show/hide the completed section title
+// Shows/hides the completed section title based on list content
 function updateCompletedSectionVisibility() {
     completedTitle.classList.toggle('hidden', completedList.children.length === 0);
 }
@@ -227,45 +227,65 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         }
     }
     
-    saveProgress(); // This now calls updateCompletedSectionVisibility
+    saveProgress(); // Calls updateCompletedSectionVisibility indirectly
     
-    updateCardVisuals(card, progressId, totalSets);
+    updateCardVisuals(card, progressId, totalSets); // Update the card's progress bar
     const isNowFullyCompleted = (progress[progressId] || 0) >= totalSets;
 
-    // Logic to move between lists
+    // Move between lists based on completion status change
     if (!wasFullyCompleted && isNowFullyCompleted) {
-        animateAndMoveToCompleted(card); // Move to completed list
-        checkDayCompletion();
+        animateAndMoveToCompleted(card);
+        checkDayCompletion(); // Check if the whole day is done
     } else if (wasFullyCompleted && !isNowFullyCompleted) {
-        moveFromCompletedToActive(card); // Move back to active list
+        // Find the correct place to re-insert in the active list
+        const correctSectionTitle = findCorrectSectionTitle(card);
+        moveFromCompletedToActive(card, correctSectionTitle);
     }
 }
 
-// UPDATED: Move to completed list
+// Helper to find the H3 title element preceding where an item should go
+function findCorrectSectionTitle(card) {
+    const cardType = card.classList.contains('exercise-item') ? 'exercise' : (card.classList.contains('ab-finisher') ? 'ab' : 'cardio');
+    let targetTitleText = "Main Workout";
+    if (cardType === 'ab') targetTitleText = "Ab Finisher";
+    if (cardType === 'cardio') targetTitleText = "Post-Workout Cardio";
+
+    // Find the H3 with matching text content within #exercise-list
+    const titles = exerciseList.querySelectorAll('.category-title');
+    for (let title of titles) {
+        if (title.textContent === targetTitleText) {
+            return title;
+        }
+    }
+    return null; // Should not happen if titles exist
+}
+
+// Moves item to completed list with animation
 function animateAndMoveToCompleted(card) {
     card.classList.add('reordering');
-    card.dataset.moved = 'true';
+    // No need for dataset.moved anymore
     setTimeout(() => {
         completedList.appendChild(card); // Append to #completed-list
         card.classList.remove('reordering');
         updateCompletedSectionVisibility(); // Update title visibility
-    }, 500);
+    }, 300); // Shorter duration for smoother feel
 }
 
-// NEW: Move back from completed to active list
-function moveFromCompletedToActive(card) {
-    // Find the correct category title to insert after
-    const cardType = card.classList.contains('exercise-item') ? 'exercise' : (card.classList.contains('ab-finisher') ? 'ab' : 'cardio');
-    let insertBeforeElement = null;
-    let targetList = exerciseList; // Target the main list
+// Moves item from completed back to its correct section in active list
+function moveFromCompletedToActive(card, sectionTitleElement) {
+    if (sectionTitleElement) {
+         // Insert after the title, before the next title or end of list
+        let insertBeforeNode = sectionTitleElement.nextElementSibling;
+        while(insertBeforeNode && !insertBeforeNode.classList.contains('category-title')) {
+             insertBeforeNode = insertBeforeNode.nextElementSibling;
+        }
+        exerciseList.insertBefore(card, insertBeforeNode);
 
-    // Find the next item or the completed title to insert before
-     insertBeforeElement = completedList.firstChild || completedTitle;
-
-
-    // Simple append for now, can refine later if specific order is needed
-    exerciseList.appendChild(card); // Append to #exercise-list for simplicity
-    updateCompletedSectionVisibility(); // Update title visibility
+    } else {
+        // Fallback: append to the end of the active list if title not found
+        exerciseList.appendChild(card);
+    }
+    updateCompletedSectionVisibility();
 }
 
 
@@ -281,14 +301,17 @@ function checkDayCompletion() {
         ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
         ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
     ];
-    if (allItems.length === 0) return;
+    if (allItems.length === 0) return; // Don't show completion for rest day
+    
+    // Check if ALL items for this day are in the progress object and completed
     const isDayComplete = allItems.every(item => {
         const totalSets = parseSets(item.details);
         const completedSets = progress[item.id] || 0;
         return completedSets >= totalSets;
     });
+
     if (isDayComplete) {
-        const isWeekComplete = activeDayIndex === 5;
+        const isWeekComplete = activeDayIndex === 5; // Day 6 is index 5
         completionTitle.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE";
         completionMessage.textContent = isWeekComplete ? "SYSTEM RESET IN 5S... PREPARE FOR NEXT CYCLE." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
         completionOverlay.classList.remove('hidden');
@@ -302,6 +325,7 @@ function checkDayCompletion() {
         } else { setTimeout(() => completionOverlay.classList.add('hidden'), 4000); }
     }
 }
+
 
 // --- DOM Rendering ---
 const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
@@ -323,56 +347,72 @@ const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
         </button>`;
-    li.addEventListener('click', (e) => {
-        if (e.target.closest('.info-btn')) return;
-        handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment');
-    });
-    li.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
-    });
-    li.addEventListener('touchstart', (e) => {
-        if (e.target.closest('.info-btn')) return;
-        longPressTimer = setTimeout(() => {
+    
+    // Attach event listeners ONLY if the item is NOT completed initially
+    const completedSets = progress[progressId] || 0;
+    if (completedSets < totalSets) {
+        li.addEventListener('click', (e) => {
+            if (e.target.closest('.info-btn')) return;
+            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment');
+        });
+        li.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
-        }, LONG_PRESS_DURATION);
-    }, { passive: false });
-    li.addEventListener('touchend', () => clearTimeout(longPressTimer));
-    li.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+        });
+        li.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.info-btn')) return;
+            longPressTimer = setTimeout(() => {
+                e.preventDefault();
+                handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
+            }, LONG_PRESS_DURATION);
+        }, { passive: false });
+        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+        li.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+    }
+
+    // Info button listener is always attached
     li.querySelector(".info-btn").addEventListener("click", (e) => {
         e.stopPropagation();
         openInfoModal(exercise.name, exercise.instructions);
     });
-    updateCardVisuals(li, progressId, totalSets);
+
+    updateCardVisuals(li, progressId, totalSets); // Still useful for progress bar
     return li;
 };
 
-// UPDATED: Now sorts into active/completed and appends to correct lists
+// Modified to append titles to active list only
 const renderSection = (title, items, cssClass, idType, dayNum) => {
     if (!items || (Array.isArray(items) && items.length === 0)) return;
 
     const sectionTitle = document.createElement("h3");
     sectionTitle.className = "category-title";
     sectionTitle.textContent = title;
-    exerciseList.appendChild(sectionTitle); // Add title to main list
+    exerciseList.appendChild(sectionTitle); // Append title to active list
 
     const elements = (Array.isArray(items)
         ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i, dayNum))
         : [createExerciseItem(items, cssClass, idType, 0, dayNum)]);
 
-    // Separate into active and completed
+    // Separate into active and completed during rendering
     elements.forEach(el => {
         const progressId = el.dataset.progressId;
         const totalSets = parseInt(el.dataset.totalSets, 10);
         const completedSets = progress[progressId] || 0;
         if (completedSets >= totalSets) {
-            completedList.appendChild(el); // Add directly to completed list
+            completedList.appendChild(el); // Add completed items to completed list
         } else {
-            exerciseList.appendChild(el); // Add to active list
+             // Append active items *after* the section title we just added
+            exerciseList.insertBefore(el, sectionTitle.nextSibling); // This appends right after the title
         }
     });
+
+     // Re-sort active items within their section (Optional, good for consistency)
+     const activeItemsInSection = Array.from(sectionTitle.parentElement.children).filter(child => child.tagName === 'LI' && !child.classList.contains('fully-completed') && child.previousElementSibling === sectionTitle);
+     activeItemsInSection.forEach(item => exerciseList.insertBefore(item, sectionTitle.nextElementSibling));
+
+
 };
+
 
 function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
@@ -380,14 +420,14 @@ function renderWorkout(dayIndex) {
 
     workoutTitle.textContent = `${dayData.day}. ${dayData.title}`;
     workoutDuration.textContent = `// EST. DURATION: ${dayData.duration.toUpperCase()}`;
-    exerciseList.innerHTML = "";
-    completedList.innerHTML = ""; // Clear completed list too
+    exerciseList.innerHTML = ""; // Clear active list
+    completedList.innerHTML = ""; // Clear completed list
 
     if (dayData.exercises.length === 0) {
         workoutTitle.textContent = "7. Rest Day";
         exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON NUTRITION, HYDRATION, AND SLEEP TO MAXIMIZE GROWTH.</p></div></li>';
         updateCalorieCounters();
-        updateCompletedSectionVisibility(); // Check visibility even on rest day
+        updateCompletedSectionVisibility(); // Important for rest day
         return;
     }
 
@@ -396,8 +436,9 @@ function renderWorkout(dayIndex) {
     renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio', dayData.day);
 
     updateCalorieCounters();
-    updateCompletedSectionVisibility(); // Update visibility after rendering
+    updateCompletedSectionVisibility(); // Update visibility after rendering all sections
 }
+
 
 function setActiveDay(dayIndex) {
     document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
@@ -414,6 +455,7 @@ function setActiveDay(dayIndex) {
 }
 
 // --- Modal Functions ---
+// (Keep modal functions as they were)
 function openInfoModal(title, instructions) {
     infoModalOverlay.classList.remove("hidden");
     infoModalOverlay.setAttribute('aria-hidden', 'false');
@@ -436,6 +478,7 @@ function closeResetModal() {
     resetModalOverlay.setAttribute('aria-hidden', 'true');
 }
 
+
 // --- App Initialization ---
 function init() {
     loadProgress();
@@ -455,7 +498,7 @@ function init() {
     resetButton.addEventListener("click", openResetModal);
     confirmResetBtn.addEventListener("click", () => {
         progress = {};
-        saveProgress(); // saveProgress now calls updateCompletedSectionVisibility
+        saveProgress(); // Calls updateCompletedSectionVisibility
         const activeDayIndex = document.querySelector(".day-btn.active")?.dataset.day || 0;
         if(activeTimer) {
             clearInterval(activeTimer);
@@ -463,7 +506,7 @@ function init() {
         }
         localStorage.removeItem('restPeriodEndTime');
         restPeriodEndTime = null;
-        renderWorkout(parseInt(activeDayIndex, 10)); // Re-render clears lists
+        renderWorkout(parseInt(activeDayIndex, 10)); // Re-render clears lists correctly
         closeResetModal();
     });
     cancelResetBtn.addEventListener("click", closeResetModal);
