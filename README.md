@@ -1,19 +1,27 @@
 # WORKOUT.SYS
 
-A minimalist, monochrome PWA for tracking a 6-day workout routine. This app uses the "Futuristic/Technical Monochrome" design style with the `Archivio` font family. It is built with vanilla HTML, CSS, and JavaScript.
+A minimalist, monochrome PWA for tracking a 6-day workout routine, adapted from a Bro Split structure. Uses the Inter font and a clean, list-based UI.
 
-All progress is saved locally to your browser's `localStorage` under the key `workoutSysProgress`.
+Progress is saved locally using `localStorage`.
+
+## Features
+-   Minimalist black and white design.
+-   Tracks sets completed using an `X/Y` counter.
+-   Moves completed exercises to a separate section.
+-   Moves the currently active exercise to the top of its section.
+-   Includes a rest timer with visual indicator.
+-   Modal popups for exercise instructions and reset confirmation.
+-   Day completion celebration overlay.
 
 ## Core Files
-- `index.html` — Application structure and markup.
-- `styles.css` — All styling for the monochrome interface.
-- `script.js` — All application logic, including data, DOM rendering, and progress tracking.
+-   `index.html` — Application structure.
+-   `styles.css` — All styling.
+-   `script.js` — All application logic and embedded workout data.
 
 ## How to Use
-1.  Open `index.html` in your browser.
-2.  The app will automatically select the current day of the week.
-3.  Click the day buttons (`DAY 1` - `REST`) to view workouts.
-4.  **Click an exercise card** to mark one set as complete.
-5.  **Right-click (or long-press on mobile)** an exercise card to remove one completed set.
-6.  Click the info icon (circle "i") on a card to view detailed instructions.
-7.  Use the `PURGE WEEKLY PROGRESS` button to reset all stored data.
+1.  Open `index.html`.
+2.  Click day buttons (`Day 1` - `Rest`).
+3.  **Click an active exercise** to mark one set complete (moves to top, starts timer).
+4.  **Right-click (or long-press)** an exercise to decrement one set (moves back to active if needed, stops timer).
+5.  Click the `(i)` icon for instructions.
+6.  Use `PURGE WEEKLY PROGRESS` to reset.
