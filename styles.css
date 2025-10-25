@@ -7,216 +7,99 @@
   --text-color-muted: rgba(255, 255, 255, 0.6);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  background-color: var(--background-color);
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background-color: var(--background-color); }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: var(--text-color);
-  background-color: var(--background-color);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding-top: env(safe-area-inset-top);
-  font-weight: 300; /* DEFAULT WEIGHT IS LIGHT */
+  color: var(--text-color); background-color: var(--background-color);
+  line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  padding-top: env(safe-area-inset-top); font-weight: 300; /* Light */
 }
 
 /* 2. TYPOGRAPHY & HEADER */
-h1, h2, h3 {
-  font-weight: 500;
-  margin-bottom: 0.5em;
-}
+h1, h2, h3 { font-weight: 500; margin-bottom: 0.5em; }
 
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 24px;
-}
+.logo { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 24px; }
+.logo-svg { width: 128px; height: 128px; /* filter: invert(1); */ }
 
-.logo-svg {
-  width: 128px;
-  height: 128px;
-  /* filter: invert(1); */
-}
+.header-divider { border: none; height: 1px; background-color: var(--border-color-muted); margin-top: 0; margin-bottom: 32px; }
 
-.header-divider {
-    border: none;
-    height: 1px;
-    background-color: var(--border-color-muted);
-    margin-top: 0;
-    margin-bottom: 32px;
-}
-
-.data-readout {
-  font-family: 'Inter', monospace;
-  font-size: 0.8rem;
-  color: var(--text-color-muted);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  font-weight: 300;
-}
-
-.divider { /* Standard divider used in modals */
-  width: 100%;
-  height: 1px;
-  background-color: var(--border-color-muted);
-  margin: 20px 0;
-}
-
-/* Utility class */
+.data-readout { font-family: 'Inter', monospace; font-size: 0.8rem; color: var(--text-color-muted); letter-spacing: 0.03em; text-transform: uppercase; font-weight: 300; }
+.divider { width: 100%; height: 1px; background-color: var(--border-color-muted); margin: 20px 0; }
 .hidden { display: none !important; }
 
 /* 3. LAYOUT */
 .container { max-width: 600px; margin: 0 auto; padding: 24px; }
-header { margin-bottom: 24px; } /* Reduced bottom margin */
-#header-controls { /* Removed */ }
-#weekly-calories-container { /* Removed */ }
+header { margin-bottom: 24px; }
 
-#day-selector {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 24px; /* Reduced bottom margin */
-}
+#day-selector { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
 
-/* NEW: Undo Button Container */
-.undo-container {
-    margin-bottom: 40px; /* Space below undo button */
-    text-align: left; /* Align button left */
-}
-#undo-button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
+/* Undo Button Container */
+.undo-container { margin-bottom: 40px; text-align: left; }
+#undo-button:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* 4. BUTTONS */
-
-.btn-secondary, .day-btn, #undo-button { /* Apply base style to undo button too */
-  background-color: transparent;
-  color: var(--text-color-muted);
-  border: 1px solid var(--border-color-muted);
-  border-radius: 16px;
-  padding: 6px 14px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 400; /* Regular */
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+.btn-secondary, .day-btn, #undo-button {
+  background-color: transparent; color: var(--text-color-muted); border: 1px solid var(--border-color-muted);
+  border-radius: 16px; padding: 6px 14px; cursor: pointer; font-family: 'Inter', sans-serif;
+  font-size: 0.8rem; font-weight: 400; transition: all 0.2s ease; text-transform: uppercase;
+  letter-spacing: 0.03em; position: relative; overflow: hidden; z-index: 1;
 }
-
-.day-btn:hover, #undo-button:not(:disabled):hover {
-  color: var(--text-color);
-  border-color: var(--border-color);
-}
-
-.day-btn.active {
-  color: var(--background-color);
-  background-color: var(--text-color);
-  border-color: var(--text-color);
-  font-weight: 500; /* Medium */
-}
+.day-btn:hover, #undo-button:not(:disabled):hover { color: var(--text-color); border-color: var(--border-color); }
+.day-btn.active { color: var(--background-color); background-color: var(--text-color); border-color: var(--text-color); font-weight: 500; }
 
 .btn-primary {
-  background-color: var(--text-color);
-  color: var(--background-color);
-  border: 1px solid var(--text-color);
-  border-radius: 16px;
-  padding: 8px 18px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500; /* Medium */
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  background-color: var(--text-color); color: var(--background-color); border: 1px solid var(--text-color);
+  border-radius: 16px; padding: 8px 18px; cursor: pointer; font-family: 'Inter', sans-serif;
+  font-size: 0.8rem; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase;
   transition: all 0.2s ease;
 }
-
 .btn-primary:hover { background-color: transparent; color: var(--text-color); }
 
-.btn-icon {
-  background: transparent; border: none; color: var(--text-color-muted);
-  cursor: pointer; padding: 4px; transition: color 0.2s ease; line-height: 1;
-}
+.btn-icon { background: transparent; border: none; color: var(--text-color-muted); cursor: pointer; padding: 4px; transition: color 0.2s ease; line-height: 1; }
 .btn-icon:hover { color: var(--text-color); }
 
 /* 5. WORKOUT MODULE */
 #workout-container { }
-
 #workout-header { text-align: left; margin-bottom: 24px; }
-
-#workout-title {
-  font-size: 4rem; font-weight: 300; margin-bottom: 12px;
-  letter-spacing: -0.03em; line-height: 1.1; color: var(--text-color);
-}
-
+#workout-title { font-size: 4rem; font-weight: 300; margin-bottom: 12px; letter-spacing: -0.03em; line-height: 1.1; color: var(--text-color); }
 #workout-duration { margin-bottom: 32px; }
 
 #exercise-list, #completed-list { list-style: none; }
 
 .category-title {
-  margin-top: 32px; margin-bottom: 0; /* Remove bottom margin */
-  padding-bottom: 8px; border-bottom: 1px solid var(--border-color-muted);
-  color: var(--text-color-muted); font-size: 0.8rem; font-weight: 400;
-  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-top: 32px; margin-bottom: 0; padding-bottom: 8px; border-bottom: 1px solid var(--border-color-muted);
+  color: var(--text-color-muted); font-size: 0.8rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.05em;
 }
 #exercise-list > .category-title:first-of-type { margin-top: 0; }
-#completed-title {
-    margin-top: 48px; color: var(--text-color); font-weight: 500;
-}
-
+#completed-title { margin-top: 48px; color: var(--text-color); font-weight: 500; }
 
 /* Exercise Item Styling */
 .exercise-item, .ab-finisher, .cardio-session {
   border-bottom: 1px solid var(--border-color-muted);
-  padding: 20px 0 20px 14px; /* Added left padding for indicator */
+  padding: 20px 0 20px 14px; /* Left padding for indicator */
   display: flex; align-items: center; gap: 16px;
-  transition: opacity 0.5s ease-out, transform 0.3s ease-out, background-color 0.2s ease; /* Added background transition */
+  transition: opacity 0.5s ease-out, transform 0.3s ease-out, background-color 0.2s ease;
   cursor: pointer; position: relative;
   -webkit-user-select: none; -ms-user-select: none; user-select: none;
 }
-#exercise-list > li:last-of-type, /* More specific selector */
+#exercise-list > li:last-of-type:not(.category-title), /* Adjust selector for last LI */
 #completed-list > li:last-of-type {
     border-bottom: none;
 }
 
-/* NEW: Active Indicator Bar */
+/* Active Indicator Bar */
 .active-indicator {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px; /* Bar width */
-    height: 60%; /* Bar height relative to item */
-    background-color: var(--text-color);
-    border-radius: 2px;
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.3s ease;
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 60%; background-color: var(--text-color); border-radius: 2px;
+    opacity: 0; transition: opacity 0.3s ease; pointer-events: none; /* Don't interfere with clicks */
 }
-.is-current-exercise > .active-indicator {
-    opacity: 1; /* Show when parent has class */
-}
-
+.is-current-exercise > .active-indicator { opacity: 1; }
 
 #exercise-list .exercise-item:hover,
 #exercise-list .ab-finisher:hover,
-#exercise-list .cardio-session:hover {
-  background-color: rgba(255, 255, 255, 0.03);
-}
+#exercise-list .cardio-session:hover { background-color: rgba(255, 255, 255, 0.03); }
 
 /* Completed Item Styles */
 #completed-list .exercise-item,
@@ -226,49 +109,31 @@ header { margin-bottom: 24px; } /* Reduced bottom margin */
 }
 #completed-list .exercise-item:hover,
 #completed-list .ab-finisher:hover,
-#completed-list .cardio-session:hover {
-    background-color: transparent;
-}
-/* Hide indicator bar in completed list */
+#completed-list .cardio-session:hover { background-color: transparent; }
 #completed-list .active-indicator { display: none; }
 
-.exercise-item.reordering,
-.ab-finisher.reordering,
-.cardio-session.reordering {
+.exercise-item.reordering, .ab-finisher.reordering, .cardio-session.reordering {
   opacity: 0 !important; transform: translateY(10px);
 }
 
-.exercise-details {
-  flex-grow: 1; pointer-events: none; padding-right: 16px;
-}
-
-.exercise-details h3 {
-  font-size: 1.05rem; font-weight: 400; margin-bottom: 4px;
-  color: var(--text-color); line-height: 1.3;
-}
-
-.exercise-details p {
-  color: var(--text-color-muted); font-size: 0.8rem; font-weight: 300; line-height: 1.4;
-}
+.exercise-details { flex-grow: 1; pointer-events: none; padding-right: 16px; }
+.exercise-details h3 { font-size: 1.05rem; font-weight: 400; margin-bottom: 4px; color: var(--text-color); line-height: 1.3; }
+.exercise-details p { color: var(--text-color-muted); font-size: 0.8rem; font-weight: 300; line-height: 1.4; }
 
 /* Set Counter Styles */
 .set-counter {
-    font-family: 'Inter', monospace;
-    font-size: 1.25rem; font-weight: 500; /* Medium */
-    color: var(--text-color-muted); background-color: transparent;
-    padding: 4px 0; border-radius: 4px; margin-left: auto;
-    white-space: nowrap; transition: color 0.3s;
+    font-family: 'Inter', monospace; font-size: 1.25rem; font-weight: 500;
+    color: var(--text-color-muted); background-color: transparent; padding: 4px 0;
+    border-radius: 4px; margin-left: auto; white-space: nowrap; transition: color 0.3s;
     flex-shrink: 0; text-align: right; min-width: 50px;
 }
 .set-counter.sets-complete { color: var(--text-color); }
 
-
 .info-btn {
   flex-shrink: 0; background-color: transparent; color: var(--text-color-muted);
   border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s; z-index: 5; pointer-events: auto !important;
-  user-select: auto !important; margin-left: 12px;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  z-index: 5; pointer-events: auto !important; user-select: auto !important; margin-left: 12px;
 }
 .info-btn:hover { background-color: rgba(255, 255, 255, 0.1); color: var(--text-color); }
 
@@ -277,6 +142,15 @@ footer { text-align: left; margin-top: 64px; padding-bottom: env(safe-area-inset
 .footer-label { font-size: 0.8rem; font-weight: 400; color: var(--text-color-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 12px; }
 
 /* 7. MODALS */
+.modal-overlay { /* ... same ... */ }
+.modal { /* ... same ... */ }
+.modal-overlay.hidden { /* ... same ... */ }
+.modal-overlay.hidden .modal { /* ... same ... */ }
+.modal-header { /* ... same ... */ }
+.modal-header h2 { /* ... same ... */ }
+#info-modal-instructions p, #info-modal-instructions { /* ... same ... */ }
+.modal-body-text { /* ... same ... */ }
+.modal-buttons { /* ... same ... */ }
 .modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
@@ -300,6 +174,7 @@ footer { text-align: left; margin-top: 64px; padding-bottom: env(safe-area-inset
 }
 .modal-body-text { text-align: left; font-size: 1rem; margin-bottom: 24px; font-weight: 300; }
 .modal-buttons { display: flex; justify-content: flex-start; gap: 15px; }
+
 
 /* 8. COMPLETION OVERLAY */
 #completion-overlay { /* ... same ... */ }
