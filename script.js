@@ -44,7 +44,7 @@ const workoutData = [
   },
   {
     "day": 4,
-    "title": "Shoulders & Chest",
+    "title": "Chest & Shoulders",
     "duration": "60-70 minutes",
     "exercises": [
         { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height." },
