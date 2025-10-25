@@ -118,16 +118,19 @@ const LONG_PRESS_DURATION = 500; // ms
 let activeTimer = null;
 let restPeriodEndTime = null;
 
+// Updated motivational messages to fit the new theme
 const motivationalMessages = [
-    "Crushed it! See you for the next one.", "Be proud of your hard work today.",
-    "That's how it's done! Rest up.", "Awesome session! Your future self thanks you.",
-    "One step closer to your goals. Great job!",
+    "TASK COMPLETE. AWAITING NEXT INPUT.",
+    "PROCESSING... POSITIVE RESULTS. REST.",
+    "EXECUTION SUCCESSFUL. RECOVER.",
+    "SESSION LOGGED. SYSTEM OPTIMIZED.",
+    "GOALS PROGRESSED. CONTINUE.",
 ];
 
 // --- Timer, and Haptic Functions ---
 function triggerHapticFeedback() {
     if ('vibrate' in navigator) {
-        navigator.vibrate(50);
+        navigator.vibrate(50); // Short, crisp vibration
     }
 }
 
@@ -160,6 +163,7 @@ function startOnScreenTimer(durationSeconds) {
             timerDisplay.classList.add('hidden');
             localStorage.removeItem('restPeriodEndTime');
             restPeriodEndTime = null;
+            triggerHapticFeedback(); // Vibrate when timer finishes
         } else {
             timeLeft--;
         }
@@ -186,14 +190,14 @@ function checkTimerOnFocus() {
 // --- Core & Helper Functions ---
 function loadProgress() {
     try {
-        const savedProgress = localStorage.getItem("broSplitProgress");
+        const savedProgress = localStorage.getItem("workoutSysProgress"); // Renamed localStorage key
         progress = savedProgress ? JSON.parse(savedProgress) : {};
     } catch (e) { console.error("Could not load progress from localStorage:", e); progress = {}; }
 }
 
 function saveProgress() {
     try {
-        localStorage.setItem("broSplitProgress", JSON.stringify(progress));
+        localStorage.setItem("workoutSysProgress", JSON.stringify(progress));
         updateCalorieCounters();
         updateProgressBars();
     } catch (e) { console.error("Could not save progress to localStorage:", e); }
@@ -203,29 +207,6 @@ function parseRestTime(details) {
     if (!details) return 0;
     const match = details.match(/\|\s*(\d+)s\s*rest/);
     return match ? parseInt(match[1], 10) : 0;
-}
-
-function findNextExercise(currentProgressId) {
-    const [day, type, indexStr] = currentProgressId.replace('day', '').split('-');
-    const dayData = workoutData.find(d => d.day == day);
-    const index = parseInt(indexStr, 10);
-
-    if (!dayData) return null;
-
-    if (type === 'exercise') {
-        if (index < dayData.exercises.length - 1) {
-            return dayData.exercises[index + 1].name;
-        } else if (dayData.abFinisher) {
-            return dayData.abFinisher.name;
-        } else if (dayData.cardio) {
-            return dayData.cardio.name;
-        }
-    } else if (type === 'ab') {
-        if (dayData.cardio) {
-            return dayData.cardio.name;
-        }
-    }
-    return null;
 }
 
 function parseSets(details) {
@@ -243,31 +224,50 @@ function updateCardVisuals(card, progressId, totalSets) {
 }
 
 function updateCalorieCounters() {
-    let weeklyTotal = 0; let dailyTotal = 0;
-    const activeDayIndex = parseInt(document.querySelector('.day-btn.active')?.dataset.day || '0', 10);
-    workoutData.forEach((dayData, dayIndex) => {
+    let weeklyTotal = 0;
+    const activeDayBtn = document.querySelector('.day-btn.active');
+    if (!activeDayBtn) return; // Exit if no active day
+    
+    const activeDayIndex = parseInt(activeDayBtn.dataset.day, 10);
+    const activeDayData = workoutData[activeDayIndex];
+    if (!activeDayData) return; // Exit if data mismatch
+
+    let dailyTotal = 0;
+    
+    workoutData.forEach((dayData) => {
         const allExercises = [
             ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-${i}` })),
             ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
             ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
         ];
+        
         allExercises.forEach(ex => {
             const completedSets = progress[ex.id] || 0;
             if (completedSets > 0) {
                 const caloriesBurned = completedSets * (ex.calories || 0);
                 weeklyTotal += caloriesBurned;
-                if (dayIndex === activeDayIndex) { dailyTotal += caloriesBurned; }
+                
+                if (dayData.day === activeDayData.day) {
+                    dailyTotal += caloriesBurned;
+                }
             }
         });
     });
-    weeklyCaloriesContainer.textContent = `🔥 Weekly Total: ${weeklyTotal} kcal`;
-    dailyCaloriesEl.textContent = `🔥 Daily: ${dailyTotal} kcal`;
+
+    // Updated text to new technical style
+    weeklyCaloriesContainer.textContent = `// WEEKLY: ${weeklyTotal} KCAL`;
+    dailyCaloriesEl.textContent = `// DAILY: ${dailyTotal} KCAL`;
 }
+
 
 function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
         const dayData = workoutData[index];
-        if (dayData.exercises.length === 0) { btn.style.setProperty('--progress', '0%'); return; }
+        if (!dayData || dayData.exercises.length === 0) { 
+            btn.style.setProperty('--progress', '0%'); 
+            return; 
+        }
+        
         let totalSets = 0, completedSets = 0;
         
         dayData.exercises.forEach((ex, i) => { const id = `day${dayData.day}-exercise-${i}`; totalSets += parseSets(ex.details); completedSets += progress[id] || 0; });
@@ -285,22 +285,6 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const wasCompleted = currentCompleted >= totalSets;
 
     if (direction === 'increment') {
-        
-        if (currentCompleted === 0) {
-            let currentElement = card;
-            let precedingTitle = null;
-            while (currentElement.previousElementSibling) {
-                currentElement = currentElement.previousElementSibling;
-                if (currentElement.tagName === 'H3') {
-                    precedingTitle = currentElement;
-                    break;
-                }
-            }
-            if (precedingTitle && precedingTitle.nextElementSibling !== card) {
-                precedingTitle.after(card);
-            }
-        }
-
         progress[progressId] = Math.min(totalSets, currentCompleted + 1);
         triggerHapticFeedback();
         
@@ -330,53 +314,70 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
 
 function animateAndMoveToEnd(card) {
     card.classList.add('reordering'); card.dataset.moved = 'true';
-    setTimeout(() => { exerciseList.appendChild(card); card.classList.remove('reordering'); }, 500);
+    setTimeout(() => { 
+        // Only append if it's not already the last element of its type
+        const parentList = card.parentElement;
+        if (parentList && parentList.lastChild !== card) {
+            parentList.appendChild(card);
+        }
+        card.classList.remove('reordering'); 
+    }, 500);
 }
 
-// --- Completion Celebration ---
-function triggerConfetti() {
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div'); confetti.className = 'confetti';
-        confetti.style.left = `${Math.random() * 100}vw`;
-        confetti.style.animation = `fall ${1 + Math.random() * 2}s linear ${Math.random() * 2}s forwards`;
-        confetti.style.backgroundColor = `hsl(${Math.random() * 60 + 15}, 85%, 60%)`;
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 4000);
-    }
-    const keyframes = `@keyframes fall { to { transform: translateY(100vh) rotate(${Math.random() * 720}deg); opacity: 0; } }`;
-    const styleSheet = document.styleSheets[0];
-    try { styleSheet.insertRule(keyframes, styleSheet.cssRules.length); } catch(e) {/* ignore */}
-}
-
+// --- Completion Celebration (REMOVED CONFETTI) ---
 function checkDayCompletion() {
-    const activeDayIndex = parseInt(document.querySelector('.day-btn.active').dataset.day, 10);
+    const activeDayBtn = document.querySelector('.day-btn.active');
+    if (!activeDayBtn) return;
+
+    const activeDayIndex = parseInt(activeDayBtn.dataset.day, 10);
     const dayData = workoutData[activeDayIndex];
+    if (!dayData) return;
+
     const allItems = [
         ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-${i}` })),
         ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
         ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
     ];
+    
     if (allItems.length === 0) return;
-    const isDayComplete = allItems.every(item => { const totalSets = parseSets(item.details); const completedSets = progress[item.id] || 0; return completedSets >= totalSets; });
+    
+    const isDayComplete = allItems.every(item => { 
+        const totalSets = parseSets(item.details); 
+        const completedSets = progress[item.id] || 0; 
+        return completedSets >= totalSets; 
+    });
+
     if (isDayComplete) {
-        const isWeekComplete = activeDayIndex === 5;
-        completionTitle.textContent = isWeekComplete ? "🎉 Week Complete! 🎉" : "💪 Day Complete! 💪";
-        completionMessage.textContent = isWeekComplete ? "Incredible work! Your progress will now reset for a fresh start." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-        completionOverlay.classList.remove('hidden'); triggerConfetti();
-        if (isWeekComplete) { setTimeout(() => { progress = {}; localStorage.removeItem("broSplitProgress"); localStorage.removeItem('restPeriodEndTime'); location.reload(); }, 5000);
-        } else { setTimeout(() => completionOverlay.classList.add('hidden'), 4000); }
+        const isWeekComplete = activeDayIndex === 5; // Day 6 is index 5
+        completionTitle.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE";
+        completionMessage.textContent = isWeekComplete ? "SYSTEM RESET IN 5S... PREPARE FOR NEXT CYCLE." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+        completionOverlay.classList.remove('hidden');
+        
+        if (isWeekComplete) { 
+            setTimeout(() => { 
+                progress = {}; 
+                localStorage.removeItem("workoutSysProgress"); 
+                localStorage.removeItem('restPeriodEndTime'); 
+                location.reload(); 
+            }, 5000);
+        } else { 
+            setTimeout(() => completionOverlay.classList.add('hidden'), 4000); 
+        }
     }
 }
+
 
 // --- DOM Rendering ---
 function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
-    workoutTitle.textContent = `Day ${dayData.day}: ${dayData.title}`;
-    workoutDuration.textContent = `Estimated Duration: ${dayData.duration}`;
+    if (!dayData) { console.error("No data for day index:", dayIndex); return; }
+
+    workoutTitle.textContent = `DAY ${dayData.day}: ${dayData.title.toUpperCase()}`;
+    workoutDuration.textContent = `// EST. DURATION: ${dayData.duration.toUpperCase()}`;
     exerciseList.innerHTML = "";
     
     if (dayData.exercises.length === 0) { 
-        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default;"><div class="exercise-details"><h3>Enjoy your rest!</h3><p>Focus on nutrition, hydration, and sleep to maximize growth.</p></div></li>'; 
+        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON NUTRITION, HYDRATION, AND SLEEP TO MAXIMIZE GROWTH.</p></div></li>'; 
         updateCalorieCounters(); 
         return; 
     }
@@ -391,16 +392,43 @@ function renderWorkout(dayIndex) {
         li.dataset.progressId = progressId;
         li.dataset.totalSets = totalSets;
         
-        li.innerHTML = `<div class="exercise-details"><h3>${exercise.name}</h3><p>${exercise.details}</p></div><button class="info-btn" aria-label="Open exercise info for ${exercise.name}">i</button>`;
+        // Added outline SVG icon
+        li.innerHTML = `
+            <div class="exercise-details">
+                <h3>${exercise.name}</h3>
+                <p>${exercise.details}</p>
+            </div>
+            <button class="info-btn" aria-label="Open exercise info for ${exercise.name}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+            </button>`;
         
-        li.addEventListener('click', (e) => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment'));
-        li.addEventListener('contextmenu', (e) => { e.preventDefault(); handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'); });
+        li.addEventListener('click', (e) => {
+            if (e.target.closest('.info-btn')) return; // Don't register set if info btn is clicked
+            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment');
+        });
+        li.addEventListener('contextmenu', (e) => { 
+            e.preventDefault(); 
+            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'); 
+        });
         li.addEventListener('touchstart', (e) => { 
-            longPressTimer = setTimeout(() => handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'), LONG_PRESS_DURATION); 
-        }, { passive: true });
-        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+            if (e.target.closest('.info-btn')) return;
+            longPressTimer = setTimeout(() => {
+                e.preventDefault(); // Prevent click from firing after long-press
+                handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
+            }, LONG_PRESS_DURATION);
+        }, { passive: false }); // Set passive to false to allow preventDefault
         
-        li.querySelector(".info-btn").addEventListener("click", (e) => { e.stopPropagation(); openInfoModal(exercise.name, exercise.instructions); });
+        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+        li.addEventListener('touchmove', () => clearTimeout(longPressTimer)); // Cancel on scroll
+        
+        li.querySelector(".info-btn").addEventListener("click", (e) => { 
+            e.stopPropagation(); 
+            openInfoModal(exercise.name, exercise.instructions); 
+        });
         
         updateCardVisuals(li, progressId, totalSets);
         return li;
@@ -412,19 +440,25 @@ function renderWorkout(dayIndex) {
         const sectionTitle = document.createElement("h3");
         sectionTitle.className = "category-title";
         sectionTitle.textContent = title;
+        exerciseList.appendChild(sectionTitle);
 
         const elements = Array.isArray(items)
             ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i))
             : [createExerciseItem(items, cssClass, idType, 0)];
         
-        elements.sort((a, b) => { const completedA = a.classList.contains('fully-completed'); const completedB = b.classList.contains('fully-completed'); return completedA - completedB; });
+        // Sorts items to show completed ones at the bottom
+        elements.sort((a, b) => { 
+            const completedA = a.classList.contains('fully-completed'); 
+            const completedB = b.classList.contains('fully-completed'); 
+            return completedA - completedB; 
+        });
         
-        return [sectionTitle, ...elements];
+        elements.forEach(el => exerciseList.appendChild(el));
     };
     
-    exerciseList.append(...renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise'));
-    exerciseList.append(...renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab'));
-    exerciseList.append(...renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio'));
+    renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise');
+    renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab');
+    renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio');
 
     updateCalorieCounters();
 }
@@ -446,21 +480,42 @@ function setActiveDay(dayIndex) {
 }
 
 // --- Modal Functions ---
-function openInfoModal(title, instructions) { infoModalOverlay.classList.remove("hidden"); infoModalOverlay.setAttribute('aria-hidden', 'false'); infoModalTitle.textContent = title; infoModalInstructions.textContent = instructions; }
-function closeInfoModal() { infoModalOverlay.classList.add("hidden"); infoModalOverlay.setAttribute('aria-hidden', 'true'); }
-function openResetModal() { resetModalOverlay.classList.remove("hidden"); resetModalOverlay.setAttribute('aria-hidden', 'false'); }
-function closeResetModal() { resetModalOverlay.classList.add("hidden"); resetModalOverlay.setAttribute('aria-hidden', 'true'); }
+function openInfoModal(title, instructions) { 
+    infoModalOverlay.classList.remove("hidden"); 
+    infoModalOverlay.setAttribute('aria-hidden', 'false'); 
+    infoModalTitle.textContent = title.toUpperCase(); 
+    
+    // Clear previous instructions and add new ones
+    infoModalInstructions.innerHTML = '';
+    const p = document.createElement('p');
+    p.textContent = instructions;
+    infoModalInstructions.appendChild(p);
+}
+function closeInfoModal() { 
+    infoModalOverlay.classList.add("hidden"); 
+    infoModalOverlay.setAttribute('aria-hidden', 'true'); 
+}
+function openResetModal() { 
+    resetModalOverlay.classList.remove("hidden"); 
+    resetModalOverlay.setAttribute('aria-hidden', 'false'); 
+}
+function closeResetModal() { 
+    resetModalOverlay.classList.add("hidden"); 
+    resetModalOverlay.setAttribute('aria-hidden', 'true'); 
+}
 
 // --- App Initialization ---
 function init() {
     loadProgress();
 
+    // Re-check timer if window gains focus
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
             checkTimerOnFocus();
         }
     });
 
+    // Create day buttons
     workoutData.forEach((day, index) => {
         const btn = document.createElement("button");
         btn.className = "day-btn";
@@ -472,8 +527,7 @@ function init() {
         daySelector.appendChild(btn);
     });
 
-    updateProgressBars();
-
+    // Reset button logic
     resetButton.addEventListener("click", openResetModal);
     confirmResetBtn.addEventListener("click", () => {
         progress = {};
@@ -492,21 +546,19 @@ function init() {
     });
     cancelResetBtn.addEventListener("click", closeResetModal);
 
+    // Modal close logic
     infoModalCloseBtn.addEventListener("click", closeInfoModal);
     infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
-    
-    // CORRECTED: Added the check for e.target === resetModalOverlay
-    resetModalOverlay.addEventListener("click", e => { 
-        if (e.target === resetModalOverlay) {
-            closeResetModal(); 
-        }
-    });
+    resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
 
+    // Set initial day
     const today = new Date().getDay(); // Sunday = 0
     const initialDayIndex = today === 0 ? 6 : today - 1; // Map to 0-indexed week (Mon-Sun)
     setActiveDay(initialDayIndex);
 
+    // Check for active timer on load
     checkTimerOnFocus();
 }
 
+// Run the app
 init();
