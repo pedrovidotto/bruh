@@ -38,7 +38,7 @@ h1, h2, h3 {
 .logo {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end; /* CHANGED from flex-start */
   margin-bottom: 24px; /* Adjusted spacing */
 }
 
