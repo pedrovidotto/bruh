@@ -18,7 +18,11 @@ html {
 }
 
 body {
-  /* Use the new font, default to Light (300) as requested */
+  /*
+   * HIERARCHY FIX:
+   * Set the default font-weight to Regular (400) instead of Light.
+   * We will now *selectively* make text light.
+  */
   font-family: 'Archivio', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text-color);
   background-color: var(--background-color);
@@ -26,7 +30,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-top: env(safe-area-inset-top);
-  font-weight: 300; /* Use Light weight as default */
+  font-weight: 400; /* DEFAULT WEIGHT IS NOW REGULAR */
 }
 
 /* 2. TYPOGRAPHY */
@@ -48,11 +52,17 @@ h1, h2, h3 {
 }
 
 .data-readout {
+  /*
+   * HIERARCHY FIX:
+   * This is our "fine, light text".
+   * Make it smaller and explicitly Light (300).
+  */
   font-family: 'Archivio', monospace;
-  font-size: 0.875rem;
+  font-size: 0.875rem; /* Smaller */
   color: var(--text-color-muted);
   letter-spacing: 0.02em;
-  font-weight: 400; /* Regular */
+  font-weight: 300; /* Light */
+  text-transform: uppercase;
 }
 
 .divider {
@@ -80,9 +90,8 @@ header {
 
 #weekly-calories-container {
   text-align: center;
-  font-weight: 400; /* Regular */
   font-size: 1rem;
-  text-transform: uppercase;
+  /* This inherits the new .data-readout style */
 }
 
 #day-selector {
@@ -95,8 +104,12 @@ header {
 
 /* 4. BUTTONS & INTERACTION */
 
-/* Standard outline button */
 .btn-secondary, .day-btn {
+  /*
+   * HIERARCHY FIX:
+   * Make inactive buttons less prominent.
+   * Use Regular (400) or Light (300) weight.
+  */
   background-color: transparent;
   color: var(--text-color-muted);
   border: 1px solid var(--border-color-muted);
@@ -105,7 +118,7 @@ header {
   cursor: pointer;
   font-family: 'Archivio', sans-serif;
   font-size: 0.875rem;
-  font-weight: 500; /* Medium */
+  font-weight: 400; /* REGULAR */
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -120,7 +133,7 @@ header {
   color: var(--background-color);
   background-color: var(--text-color);
   border-color: var(--text-color);
-  font-weight: 700; /* Bold */
+  font-weight: 700; /* Bold (This contrast is good) */
 }
 
 /* Progress bar for day buttons */
@@ -182,7 +195,6 @@ header {
 
 /* 5. WORKOUT MODULE */
 #workout-container {
-  /* This is the main "outline" container */
   border: 1px solid var(--border-color-muted);
   border-radius: 16px;
   padding: 24px;
@@ -190,12 +202,21 @@ header {
 
 #workout-header {
   text-align: left;
+  /* Add space for the big title */
+  margin-bottom: 24px;
 }
 
 #workout-title {
-  font-size: 1.75rem;
-  font-weight: 700; /* Bold */
-  margin-bottom: 8px;
+  /*
+   * HIERARCHY FIX:
+   * This is our "BIG TYPOGRAPHY".
+   * Make it much larger and bolder.
+  */
+  font-size: 2.75rem; /* MUCH BIGGER */
+  font-weight: 700; /* BOLD */
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 #workout-info-flex {
@@ -210,13 +231,17 @@ header {
 }
 
 .category-title {
+  /*
+   * HIERARCHY FIX:
+   * De-emphasize this title. Make it lighter.
+  */
   margin-top: 24px;
   margin-bottom: 12px;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--border-color-muted);
   color: var(--text-color-muted);
-  font-size: 1rem;
-  font-weight: 500; /* Medium */
+  font-size: 0.875rem; /* Smaller */
+  font-weight: 400; /* Regular */
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -247,7 +272,7 @@ header {
   border-color: var(--text-color);
 }
 
-/* Redesigned progress bar for cards */
+/* Progress bar for cards */
 .exercise-item::before,
 .ab-finisher::before,
 .cardio-session::before {
@@ -257,7 +282,6 @@ header {
   left: 0;
   height: 100%;
   width: var(--series-progress, 0%);
-  /* Subtle white fill for progress */
   background-color: rgba(255, 255, 255, 0.05);
   transition: width 0.4s ease-in-out;
   z-index: -1;
@@ -267,7 +291,6 @@ header {
 .exercise-item.fully-completed,
 .ab-finisher.fully-completed,
 .cardio-session.fully-completed {
-  /* Completed items are faded out */
   opacity: 0.5;
   border-color: var(--border-color-muted);
 }
@@ -275,7 +298,7 @@ header {
 .exercise-item.fully-completed:hover,
 .ab-finisher.fully-completed:hover,
 .cardio-session.fully-completed:hover {
-  opacity: 0.6; /* Slight fade-in on hover */
+  opacity: 0.6;
 }
 
 
@@ -292,16 +315,23 @@ header {
 }
 
 .exercise-details h3 {
-  font-size: 1.1rem;
+  /* This is our Level 2 hierarchy */
+  font-size: 1.125rem;
   font-weight: 500; /* Medium */
   margin-bottom: 4px;
   transition: color 0.3s;
+  color: var(--text-color);
 }
 
 .exercise-details p {
+  /*
+   * HIERARCHY FIX:
+   * This is our "fine, light text" (Level 3).
+   * Make it smaller and explicitly Light (300).
+  */
   color: var(--text-color-muted);
-  font-size: 0.9rem;
-  font-weight: 300; /* Light */
+  font-size: 0.875rem; /* Smaller */
+  font-weight: 300; /* LIGHT */
 }
 
 .info-btn {
@@ -394,16 +424,13 @@ footer {
   margin-bottom: 0;
 }
 
+#info-modal-instructions p,
 #info-modal-instructions {
+  font-weight: 300; /* Light */
   color: var(--text-color);
   white-space: pre-wrap;
   max-height: 60vh;
   overflow-y: auto;
-  font-weight: 300; /* Light */
-}
-#info-modal-instructions p,
-#info-modal-instructions {
-  font-weight: 300; /* Light */
 }
 
 .modal-body-text {
@@ -419,7 +446,7 @@ footer {
   gap: 15px;
 }
 
-/* 8. COMPLETION OVERLAY (NO CONFETTI) */
+/* 8. COMPLETION OVERLAY */
 #completion-overlay {
     position: fixed;
     top: 0;
@@ -469,7 +496,6 @@ footer {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  /* Changed from orange to simple monochrome */
   background-color: var(--text-color);
   color: var(--background-color);
   padding: 10px 25px;
