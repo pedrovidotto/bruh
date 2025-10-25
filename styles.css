@@ -38,7 +38,7 @@ h1, h2, h3 {
 .logo {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* CHANGED from flex-start */
+  justify-content: flex-end; /* MODIFIED: Logo on right */
   margin-bottom: 24px; /* Adjusted spacing */
 }
 
@@ -223,7 +223,7 @@ header {
 .ab-finisher,
 .cardio-session {
   border-bottom: 1px solid var(--border-color-muted);
-  padding: 20px 0; /* Increased vertical padding */
+  padding: 20px 0 20px 12px; /* MODIFIED: Increased vertical padding, ADDED left padding */
   display: flex;
   align-items: center; /* Vertically align items */
   gap: 16px;
@@ -270,6 +270,28 @@ header {
   opacity: 0 !important;
   transform: translateY(10px);
 }
+
+/* --- NEW: Active exercise indicator bar --- */
+.exercise-item.exercise-active::before,
+.ab-finisher.exercise-active::before,
+.cardio-session.exercise-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20px; /* Match top padding */
+    bottom: 20px; /* Match bottom padding */
+    width: 3px;
+    background-color: var(--text-color);
+    border-radius: 1.5px;
+    animation: fadeInBar 0.3s ease-out;
+}
+
+@keyframes fadeInBar {
+    from { opacity: 0; transform: scaleY(0.5); }
+    to { opacity: 1; transform: scaleY(1); }
+}
+/* --- END NEW BLOCK --- */
+
 
 .exercise-details {
   flex-grow: 1; /* Take available space */
