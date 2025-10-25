@@ -38,7 +38,7 @@ h1, h2, h3 {
 .logo {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* MODIFIED: Logo on right */
+  justify-content: flex-end; /* MODIFIED: Logo on right */
   margin-bottom: 32px; /* MODIFIED: Was 24px */
   margin-top: 32px; /* ADDED */
 }
@@ -314,25 +314,26 @@ header {
   line-height: 1.4; /* Improve readability */
 }
 
-/* NEW: Set Counter Styles */
+/* --- MODIFIED: Set Counter Styles --- */
 .set-counter {
     font-family: 'Inter', monospace; /* Monospace for alignment */
-    font-size: 0.9rem;
-    font-weight: 400; /* Regular */
+    font-size: 1.5rem; /* MODIFIED: Was 0.9rem */
+    font-weight: 300; /* MODIFIED: Was 400 (thin) */
     color: var(--text-color-muted);
-    background-color: rgba(255, 255, 255, 0.05); /* Subtle background */
-    padding: 4px 8px;
-    border-radius: 4px;
-    margin-left: auto; /* Push to the right */
+    background-color: transparent; /* MODIFIED: Removed background */
+    padding: 0; /* MODIFIED: Removed padding */
+    border-radius: 0; /* MODIFIED: Removed radius */
+    margin-left: 16px; /* MODIFIED: Was auto, now spaces from info-btn */
     white-space: nowrap; /* Prevent wrapping */
-    transition: color 0.3s, background-color 0.3s;
+    transition: color 0.3s; /* MODIFIED: Removed bg transition */
+    line-height: 1; /* ADDED: For better vertical alignment */
 }
 
 /* Style when all sets are complete */
 .set-counter.sets-complete {
-    color: var(--background-color);
-    background-color: var(--text-color);
-    font-weight: 500; /* Medium */
+    color: var(--text-color); /* MODIFIED: Now solid white */
+    background-color: transparent; /* MODIFIED: Removed background */
+    font-weight: 400; /* MODIFIED: Was 500, now regular weight */
 }
 
 
@@ -352,8 +353,9 @@ header {
   z-index: 5;
   pointer-events: auto !important;
   user-select: auto !important;
-  margin-left: 12px; /* Add space between counter and info button */
+  margin-left: auto; /* MODIFIED: Was 12px. Pushes info-btn & counter to right */
 }
+/* --- END MODIFIED BLOCK --- */
 
 .info-btn:hover {
   background-color: rgba(255, 255, 255, 0.1);
