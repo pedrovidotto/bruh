@@ -22,21 +22,20 @@
   <header>
     <!-- Logo aligned right via CSS -->
     <h1 class="logo">
-      <!-- Changed from bruh.svg -->
+      <!-- Use your logo.svg -->
       <img src="logo.svg" alt="Logo" class="logo-svg">
     </h1>
     <hr class="header-divider"> <!-- Added Divider -->
-    <!-- Removed header-controls div -->
+    <!-- Removed header-controls div from original -->
     <nav id="day-selector"></nav>
   </header>
 
-  <!-- Removed main workout-container wrapper div -->
+  <!-- Removed main workout-container wrapper div from original -->
   <main>
     <div id="workout-header">
       <h2 id="workout-title"></h2> <!-- Title format changed in JS -->
-      <!-- Info flex removed, only duration -->
+      <!-- Removed workout-info-flex and daily-calories -->
       <p id="workout-duration" class="data-readout"></p>
-      <!-- Daily calories removed -->
     </div>
 
     <!-- Active Exercises List -->
@@ -46,7 +45,7 @@
             <span class="active-indicator"></span>
             <div class="exercise-details"><h3>...</h3><p>...</p></div>
             <span class="set-counter">X/Y</span>
-            <button class="info-btn">...</button>
+            <button class="info-btn">...</button> // SVG inside button
         </li>
         -->
     </ul>
@@ -70,6 +69,7 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
         <div class="modal-header">
             <h2 id="info-modal-title">Exercise Title</h2>
+            <!-- Changed to icon button -->
             <button id="info-modal-close-btn" class="btn-icon" aria-label="Close info modal">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
@@ -80,10 +80,11 @@
 </div>
 
 <div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
+    <!-- Adapted structure and classes -->
     <div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
         <div class="modal-header"><h2 id="reset-modal-title">CONFIRM ACTION</h2></div>
         <div class="divider"></div>
-        <p class="modal-body-text">Purge progress?</p>
+        <p class="modal-body-text">Purge all weekly progress data?</p> <!-- Simpler text -->
         <div class="modal-buttons">
             <button id="confirm-reset-btn" class="btn-primary">CONFIRM PURGE</button>
             <button id="cancel-reset-btn" class="btn-secondary">CANCEL</button>
@@ -91,9 +92,10 @@
     </div>
 </div>
 
+<!-- Simplified completion overlay -->
 <div id="completion-overlay" class="hidden">
     <div id="completion-card">
-        <h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2> <!-- Changed ID -->
+        <h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2> <!-- Use correct ID -->
         <p id="completion-message">Processing...</p>
     </div>
 </div>
