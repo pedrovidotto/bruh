@@ -59,31 +59,6 @@ header h1 {
     margin-bottom: 0;
 }
 
-#enable-notifications-btn {
-    background-color: var(--surface-color);
-    color: var(--text-muted-color);
-    border: 1px solid var(--border-color);
-    border-radius: 17px;
-    padding: 8px 17px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: inherit;
-    transition: all 0.3s;
-}
-
-#enable-notifications-btn:hover {
-    background-color: #2f2f2f;
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-#enable-notifications-btn.activated {
-    background-color: var(--primary-color);
-    color: #121212;
-    border-color: var(--primary-color);
-    cursor: default;
-}
-
 #day-selector {
   display: flex;
   justify-content: center;
@@ -439,14 +414,6 @@ footer {
     z-index: 2001;
     pointer-events: none;
     border-radius: 2px;
-    /* Animation is set by JS, but keyframes are below */
-}
-
-@keyframes fall { 
-  to { 
-    transform: translateY(100vh) rotate(720deg); 
-    opacity: 0; 
-  } 
 }
 
 /* On-Screen Timer styles */
