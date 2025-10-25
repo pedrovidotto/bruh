@@ -36,30 +36,25 @@ h1, h2, h3 {
 }
 
 .logo {
-  font-size: 1rem; /* Slightly smaller logo text */
-  font-weight: 400; /* Regular */
-  letter-spacing: 0.05em;
+  /* ALIGNMENT: Align logo to the left */
   display: flex;
   align-items: center;
-  gap: 8px; /* Reduced gap */
-  justify-content: center;
-  margin-bottom: 32px; /* More space below logo */
-  text-transform: uppercase;
-  color: var(--text-color-muted); /* Less prominent */
+  justify-content: flex-start; /* Changed from center */
+  margin-bottom: 24px;
 }
 
 .logo-svg {
-  width: 20px; /* Smaller logo icon */
-  height: 20px;
+  width: 24px; /* Slightly larger icon */
+  height: 24px;
   /* If your SVG is black, uncomment this to make it white: */
   /* filter: invert(1); */
 }
 
 .data-readout {
   font-family: 'Inter', monospace;
-  font-size: 0.8rem; /* Even smaller */
+  font-size: 0.8rem;
   color: var(--text-color-muted);
-  letter-spacing: 0.03em; /* Tighter spacing */
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   font-weight: 300; /* Light */
 }
@@ -79,25 +74,29 @@ h1, h2, h3 {
 }
 
 header {
-  text-align: center;
-  margin-bottom: 32px; /* More space below header */
+  /* ALIGNMENT: Remove center alignment */
+  margin-bottom: 32px;
 }
 
 #header-controls {
+   /* ALIGNMENT: Align content to the left */
+  display: flex; /* Use flexbox for easier alignment */
+  justify-content: flex-start; /* Align item to the left */
   margin-bottom: 24px;
 }
 
 #weekly-calories-container {
-  text-align: center;
-  font-size: 0.8rem; /* Matches data-readout */
+   /* ALIGNMENT: Already left-aligned within flex container */
+  font-size: 0.8rem;
 }
 
 #day-selector {
+  /* ALIGNMENT: Align buttons to the left */
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center */
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 32px; /* More space below day selector */
+  margin-bottom: 32px;
 }
 
 /* 4. BUTTONS & INTERACTION */
@@ -106,11 +105,11 @@ header {
   background-color: transparent;
   color: var(--text-color-muted);
   border: 1px solid var(--border-color-muted);
-  border-radius: 16px; /* Slightly less rounded */
-  padding: 6px 14px; /* Smaller padding */
+  border-radius: 16px;
+  padding: 6px 14px;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-size: 0.8rem; /* Smaller */
+  font-size: 0.8rem;
   font-weight: 400; /* Regular */
   transition: all 0.2s ease;
   text-transform: uppercase;
@@ -119,7 +118,7 @@ header {
 
 .day-btn:hover {
   color: var(--text-color);
-  border-color: var(--border-color); /* Use standard border color on hover */
+  border-color: var(--border-color);
 }
 
 .day-btn.active {
@@ -157,7 +156,7 @@ header {
   color: var(--background-color);
   border: 1px solid var(--text-color);
   border-radius: 16px;
-  padding: 8px 18px; /* Slightly smaller */
+  padding: 8px 18px;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
@@ -186,9 +185,9 @@ header {
   color: var(--text-color);
 }
 
-/* 5. WORKOUT MODULE (NO LONGER A CARD) */
+/* 5. WORKOUT MODULE */
 #workout-container {
-  /* REMOVED BORDER AND PADDING */
+  /* No border or padding needed */
 }
 
 #workout-header {
@@ -197,23 +196,21 @@ header {
 }
 
 #workout-title {
-  /*
-   * HUGE, LIGHT TITLE
-   */
-  font-size: 4rem; /* HUGE */
+  font-size: 4rem;
   font-weight: 300; /* LIGHT */
   margin-bottom: 12px;
-  letter-spacing: -0.03em; /* Tighter */
+  letter-spacing: -0.03em;
   line-height: 1.1;
-  color: var(--text-color); /* Ensure full white */
+  color: var(--text-color);
 }
 
 #workout-info-flex {
   display: flex;
-  justify-content: space-between;
+  /* ALIGNMENT: Align items to the start, allow wrapping */
+  justify-content: flex-start;
   gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 24px; /* Add margin here since divider moved */
+  margin-bottom: 24px;
 }
 
 #exercise-list {
@@ -221,7 +218,7 @@ header {
 }
 
 .category-title {
-  margin-top: 32px; /* More space above category titles */
+  margin-top: 32px;
   margin-bottom: 16px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color-muted);
@@ -231,41 +228,37 @@ header {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-/* Don't add margin-top to the very first category title */
 #exercise-list > .category-title:first-of-type {
     margin-top: 0;
 }
 
 
-/* Exercise Item Styling (NO CARD) */
+/* Exercise Item Styling */
 .exercise-item,
 .ab-finisher,
 .cardio-session {
-  /* REMOVED BORDER, RADIUS, MARGIN-BOTTOM */
-  /* ADDED BORDER-BOTTOM and adjusted padding */
   border-bottom: 1px solid var(--border-color-muted);
-  padding: 16px 0; /* Padding only top/bottom */
+  padding: 16px 0;
   display: flex;
   align-items: center;
   gap: 16px;
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   cursor: pointer;
   position: relative;
-  overflow: hidden; /* Keep for ::before */
+  overflow: hidden;
   z-index: 1;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-/* Add slight background change on hover for affordance */
 .exercise-item:hover,
 .ab-finisher:hover,
 .cardio-session:hover {
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* Progress Indicator (Subtle Background Fill) */
+/* Progress Indicator */
 .exercise-item::before,
 .ab-finisher::before,
 .cardio-session::before {
@@ -278,7 +271,6 @@ header {
   background-color: var(--progress-bg-color);
   transition: width 0.4s ease-in-out;
   z-index: -1;
-  /* Removed border-right */
 }
 
 .exercise-item.fully-completed,
@@ -291,14 +283,14 @@ header {
 .ab-finisher.fully-completed:hover,
 .cardio-session.fully-completed:hover {
   opacity: 0.6;
-  background-color: transparent; /* No hover bg if completed */
+  background-color: transparent;
 }
 
 .exercise-item.reordering,
 .ab-finisher.reordering,
 .cardio-session.reordering {
   opacity: 0;
-  transform: translateY(10px); /* Slight downward move */
+  transform: translateY(10px);
 }
 
 .exercise-details {
@@ -307,26 +299,24 @@ header {
 }
 
 .exercise-details h3 {
-  /* Exercise name - Level 2 */
-  font-size: 1.05rem; /* Slightly smaller */
+  font-size: 1.05rem;
   font-weight: 400; /* Regular */
   margin-bottom: 4px;
   color: var(--text-color);
 }
 
 .exercise-details p {
-  /* Sets/Reps - Level 3 */
   color: var(--text-color-muted);
-  font-size: 0.8rem; /* Smaller */
+  font-size: 0.8rem;
   font-weight: 300; /* Light */
 }
 
-/* Simplified Info Button (No Border) */
+/* Info Button */
 .info-btn {
   flex-shrink: 0;
   background-color: transparent;
   color: var(--text-color-muted);
-  border: none; /* REMOVED BORDER */
+  border: none;
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -345,8 +335,9 @@ header {
 
 /* 6. FOOTER */
 footer {
-  text-align: center;
-  margin-top: 48px; /* More space above footer */
+  /* ALIGNMENT: Align footer content left */
+  text-align: left;
+  margin-top: 48px;
   padding-bottom: env(safe-area-inset-bottom);
 }
 .footer-label {
@@ -358,7 +349,7 @@ footer {
   margin-bottom: 12px;
 }
 
-/* 7. MODALS (Minor spacing adjustments) */
+/* 7. MODALS */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -379,7 +370,7 @@ footer {
 .modal {
   background-color: var(--background-color);
   padding: 24px;
-  border-radius: 12px; /* Slightly less rounded */
+  border-radius: 12px;
   border: 1px solid var(--border-color-muted);
   max-width: 500px;
   width: 100%;
@@ -418,19 +409,21 @@ footer {
   white-space: pre-wrap;
   max-height: 60vh;
   overflow-y: auto;
-  font-size: 0.9rem; /* Slightly smaller */
+  font-size: 0.9rem;
 }
 
 .modal-body-text {
-  text-align: center;
-  font-size: 1rem; /* Slightly smaller */
+  /* ALIGNMENT: Align modal body text left */
+  text-align: left;
+  font-size: 1rem;
   margin-bottom: 24px;
   font-weight: 300; /* Light */
 }
 
 .modal-buttons {
+  /* ALIGNMENT: Align modal buttons left */
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center */
   gap: 15px;
 }
 
@@ -458,17 +451,20 @@ footer {
 
 #completion-card {
     background-color: transparent;
-    padding: 32px; /* Slightly smaller padding */
+    padding: 32px;
     border-radius: 12px;
     border: 1px solid var(--border-color-muted);
-    text-align: center;
+    /* ALIGNMENT: Align completion text left */
+    text-align: left;
     transform: scale(1);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 400px; /* Limit width */
+    width: 90%;
 }
 
 #completion-title {
     color: var(--text-color);
-    margin-bottom: 8px; /* Less space */
+    margin-bottom: 8px;
     font-size: 1.1rem;
     font-weight: 500; /* Medium */
     text-transform: uppercase;
@@ -484,13 +480,14 @@ footer {
 #timer-display {
   position: fixed;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  /* ALIGNMENT: Align timer left */
+  left: 24px; /* Align with container padding */
+  transform: translateX(0); /* Remove center transform */
   background-color: var(--text-color);
   color: var(--background-color);
-  padding: 8px 20px; /* Smaller */
+  padding: 8px 20px;
   border-radius: 20px;
-  font-size: 1.25rem; /* Smaller */
+  font-size: 1.25rem;
   font-weight: 500; /* Medium */
   z-index: 999;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
@@ -500,6 +497,7 @@ footer {
 
 #timer-display.hidden {
   opacity: 0;
-  transform: translateX(-50%) translateY(20px);
+  /* Adjust hidden transform for left alignment */
+  transform: translateY(20px);
   pointer-events: none;
 }
