@@ -367,7 +367,83 @@ function checkDayCompletion() {
 }
 
 
-// --- DOM Rendering ---
+// --- DOM Rendering (FIXED) ---
+
+// This function creates the item but does NOT append it.
+const createExerciseItem = (exercise, cssClass, idType, index, dayNum) => {
+    const li = document.createElement("li");
+    li.className = cssClass;
+    
+    const progressId = `day${dayNum}-${idType}-${index}`;
+    const totalSets = parseSets(exercise.details);
+    
+    li.dataset.progressId = progressId;
+    li.dataset.totalSets = totalSets;
+    
+    li.innerHTML = `
+        <div class="exercise-details">
+            <h3>${exercise.name}</h3>
+            <p>${exercise.details}</p>
+        </div>
+        <button class="info-btn" aria-label="Open exercise info for ${exercise.name}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+        </button>`;
+    
+    li.addEventListener('click', (e) => {
+        if (e.target.closest('.info-btn')) return; // Don't register set if info btn is clicked
+        handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment');
+    });
+    li.addEventListener('contextmenu', (e) => { 
+        e.preventDefault(); 
+        handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'); 
+    });
+    li.addEventListener('touchstart', (e) => { 
+        if (e.target.closest('.info-btn')) return;
+        longPressTimer = setTimeout(() => {
+            e.preventDefault(); // Prevent click from firing after long-press
+            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
+        }, LONG_PRESS_DURATION);
+    }, { passive: false }); // Set passive to false to allow preventDefault
+    
+    li.addEventListener('touchend', () => clearTimeout(longPressTimer));
+    li.addEventListener('touchmove', () => clearTimeout(longPressTimer)); // Cancel on scroll
+    
+    li.querySelector(".info-btn").addEventListener("click", (e) => { 
+        e.stopPropagation(); 
+        openInfoModal(exercise.name, exercise.instructions); 
+    });
+    
+    updateCardVisuals(li, progressId, totalSets);
+    return li;
+};
+
+// This function appends titles and sorted elements to the list
+const renderSection = (title, items, cssClass, idType, dayNum) => {
+    if (!items || (Array.isArray(items) && items.length === 0)) return;
+
+    const sectionTitle = document.createElement("h3");
+    sectionTitle.className = "category-title";
+    sectionTitle.textContent = title;
+    exerciseList.appendChild(sectionTitle); // Appends title
+
+    const elements = (Array.isArray(items)
+        ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i, dayNum))
+        : [createExerciseItem(items, cssClass, idType, 0, dayNum)]);
+    
+    // Sorts items to show completed ones at the bottom
+    elements.sort((a, b) => { 
+        const completedA = a.classList.contains('fully-completed'); 
+        const completedB = b.classList.contains('fully-completed'); 
+        return completedA - completedB; 
+    });
+    
+    elements.forEach(el => exerciseList.appendChild(el)); // Appends items
+};
+
 function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
     if (!dayData) { console.error("No data for day index:", dayIndex); return; }
@@ -382,83 +458,10 @@ function renderWorkout(dayIndex) {
         return; 
     }
     
-    const createExerciseItem = (exercise, cssClass, idType, index) => {
-        const li = document.createElement("li");
-        li.className = cssClass;
-        
-        const progressId = `day${dayData.day}-${idType}-${index}`;
-        const totalSets = parseSets(exercise.details);
-        
-        li.dataset.progressId = progressId;
-        li.dataset.totalSets = totalSets;
-        
-        // Added outline SVG icon
-        li.innerHTML = `
-            <div class="exercise-details">
-                <h3>${exercise.name}</h3>
-                <p>${exercise.details}</p>
-            </div>
-            <button class="info-btn" aria-label="Open exercise info for ${exercise.name}">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-            </button>`;
-        
-        li.addEventListener('click', (e) => {
-            if (e.target.closest('.info-btn')) return; // Don't register set if info btn is clicked
-            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'increment');
-        });
-        li.addEventListener('contextmenu', (e) => { 
-            e.preventDefault(); 
-            handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement'); 
-        });
-        li.addEventListener('touchstart', (e) => { 
-            if (e.target.closest('.info-btn')) return;
-            longPressTimer = setTimeout(() => {
-                e.preventDefault(); // Prevent click from firing after long-press
-                handleSeriesUpdate(e.currentTarget, progressId, totalSets, 'decrement');
-            }, LONG_PRESS_DURATION);
-        }, { passive: false }); // Set passive to false to allow preventDefault
-        
-        li.addEventListener('touchend', () => clearTimeout(longPressTimer));
-        li.addEventListener('touchmove', ()D => clearTimeout(longPressTimer)); // Cancel on scroll
-        
-        li.querySelector(".info-btn").addEventListener("click", (e) => { 
-            e.stopPropagation(); 
-            openInfoModal(exercise.name, exercise.instructions); 
-        });
-        
-        updateCardVisuals(li, progressId, totalSets);
-        return li;
-    };
-
-    const renderSection = (title, items, cssClass, idType) => {
-        if (!items || (Array.isArray(items) && items.length === 0)) return [];
-
-        const sectionTitle = document.createElement("h3");
-        sectionTitle.className = "category-title";
-        sectionTitle.textContent = title;
-        exerciseList.appendChild(sectionTitle);
-
-        const elements = Array.isArray(items)
-            ? items.map((item, i) => createExerciseItem(item, cssClass, idType, i))
-            : [createExerciseItem(items, cssClass, idType, 0)];
-        
-        // Sorts items to show completed ones at the bottom
-        elements.sort((a, b) => { 
-            const completedA = a.classList.contains('fully-completed'); 
-            const completedB = b.classList.contains('fully-completed'); 
-            return completedA - completedB; 
-        });
-        
-        elements.forEach(el => exerciseList.appendChild(el));
-    };
-    
-    renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise');
-    renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab');
-    renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio');
+    // BUG FIX: Pass dayData.day to renderSection
+    renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
+    renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
+    renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio', dayData.day);
 
     updateCalorieCounters();
 }
