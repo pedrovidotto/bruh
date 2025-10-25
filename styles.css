@@ -5,8 +5,7 @@
   --border-color: rgba(255, 255, 255, 0.4);
   --border-color-muted: rgba(255, 255, 255, 0.2);
   --text-color-muted: rgba(255, 255, 255, 0.6);
-  /* INCREASED CONTRAST: Make progress bg more visible */
-  --progress-bg-color: rgba(255, 255, 255, 0.15); /* Was 0.05 */
+  /* Progress bar color removed */
 }
 
 * {
@@ -30,9 +29,9 @@ body {
   font-weight: 300; /* DEFAULT WEIGHT IS LIGHT */
 }
 
-/* 2. TYPOGRAPHY */
+/* 2. TYPOGRAPHY & HEADER */
 h1, h2, h3 {
-  font-weight: 500; /* Medium weight for general headers */
+  font-weight: 500;
   margin-bottom: 0.5em;
 }
 
@@ -40,16 +39,22 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  /* INCREASED MARGIN: More space below large logo */
-  margin-bottom: 48px; /* Was 24px */
+  margin-bottom: 24px; /* Adjusted spacing */
 }
 
 .logo-svg {
-  /* INCREASED SIZE */
   width: 128px;
   height: 128px;
-  /* If your SVG is black, uncomment this to make it white: */
-  /* filter: invert(1); */
+  /* filter: invert(1); */ /* Uncomment if your SVG is black */
+}
+
+/* NEW: Divider under logo */
+.header-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--border-color-muted);
+    margin-top: 0; /* Remove default margin */
+    margin-bottom: 32px; /* Space below divider */
 }
 
 .data-readout {
@@ -58,17 +63,17 @@ h1, h2, h3 {
   color: var(--text-color-muted);
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  font-weight: 300; /* Light */
+  font-weight: 300;
 }
 
-.divider {
+.divider { /* Standard divider used in modals */
   width: 100%;
   height: 1px;
   background-color: var(--border-color-muted);
   margin: 20px 0;
 }
 
-/* Utility class to hide elements */
+/* Utility class */
 .hidden {
     display: none !important;
 }
@@ -81,28 +86,21 @@ h1, h2, h3 {
 }
 
 header {
-  margin-bottom: 32px;
+  margin-bottom: 40px; /* Increased space after header */
 }
 
-#header-controls {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 24px;
-}
-
-#weekly-calories-container {
-  font-size: 0.8rem;
-}
+#header-controls { /* Removed, styles not needed */ }
+#weekly-calories-container { /* Removed */ }
 
 #day-selector {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 40px; /* Increased space after day selector */
 }
 
-/* 4. BUTTONS & INTERACTION */
+/* 4. BUTTONS */
 
 .btn-secondary, .day-btn {
   background-color: transparent;
@@ -117,43 +115,25 @@ header {
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  position: relative; /* Keep for ::before if needed later, but bar is removed */
+  overflow: hidden;
+  z-index: 1;
 }
 
 .day-btn:hover {
   color: var(--text-color);
-  border-color: var(--border-color); /* Use standard border color on hover */
+  border-color: var(--border-color);
 }
 
 .day-btn.active {
   color: var(--background-color);
   background-color: var(--text-color);
   border-color: var(--text-color);
-  font-weight: 500; /* Medium for active */
+  font-weight: 500; /* Medium */
 }
 
-/* Progress bar for day buttons */
-.day-btn {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-.day-btn::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: var(--progress, 0%);
-  background-color: var(--text-color);
-  transition: width 0.4s ease-in-out;
-  z-index: -1;
-}
-.day-btn.active::before {
-  background-color: var(--background-color);
-  opacity: 0.5;
-}
+/* REMOVED: Day button progress bar (.day-btn::before) */
 
-/* Primary "filled" button */
 .btn-primary {
   background-color: var(--text-color);
   color: var(--background-color);
@@ -174,7 +154,6 @@ header {
   color: var(--text-color);
 }
 
-/* Icon-only button */
 .btn-icon {
   background: transparent;
   border: none;
@@ -189,9 +168,7 @@ header {
 }
 
 /* 5. WORKOUT MODULE */
-#workout-container {
-  /* No styles needed here */
-}
+#workout-container { }
 
 #workout-header {
   text-align: left;
@@ -207,16 +184,16 @@ header {
   color: var(--text-color);
 }
 
-#workout-info-flex {
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
+#workout-info-flex { /* Removed, container div not needed */ }
+
+/* Workout Duration Styling */
+#workout-duration {
+    margin-bottom: 32px; /* Space after duration */
 }
 
+
 #exercise-list,
-#completed-list { /* Apply list styles to both */
+#completed-list {
   list-style: none;
 }
 
@@ -231,14 +208,12 @@ header {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-/* Don't add margin-top to the very first category title in the active list */
 #exercise-list > .category-title:first-of-type {
     margin-top: 0;
 }
-/* Style for the completed title */
 #completed-title {
-    margin-top: 48px; /* More space before completed section */
-    color: var(--text-color); /* Make it stand out more */
+    margin-top: 48px;
+    color: var(--text-color);
     font-weight: 500; /* Medium weight */
 }
 
@@ -248,71 +223,57 @@ header {
 .ab-finisher,
 .cardio-session {
   border-bottom: 1px solid var(--border-color-muted);
-  padding: 16px 0;
+  padding: 20px 0; /* Increased vertical padding */
   display: flex;
-  align-items: center;
+  align-items: center; /* Vertically align items */
   gap: 16px;
-  transition: opacity 0.5s ease-out, transform 0.3s ease-out; /* Adjusted transition */
+  transition: opacity 0.5s ease-out, transform 0.3s ease-out;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+  position: relative; /* Keep for potential absolute elements */
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
+/* Remove bottom border for the last item in each list */
+#exercise-list > li:last-child,
+#completed-list > li:last-child {
+    border-bottom: none;
+}
 
-/* Add slight background change on hover for active items */
+
 #exercise-list .exercise-item:hover,
 #exercise-list .ab-finisher:hover,
 #exercise-list .cardio-session:hover {
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* Progress Indicator */
-.exercise-item::before,
-.ab-finisher::before,
-.cardio-session::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: var(--series-progress, 0%);
-  background-color: var(--progress-bg-color); /* Using updated variable */
-  transition: width 0.4s ease-in-out;
-  z-index: -1;
-}
+/* REMOVED: Progress Indicator (.exercise-item::before, etc.) */
 
-/* Styles specifically for completed items in the completed list */
+/* Completed Item Styles */
 #completed-list .exercise-item,
 #completed-list .ab-finisher,
 #completed-list .cardio-session {
-    opacity: 0.4; /* Stronger fade for completed items */
+    opacity: 0.4;
     cursor: default;
     /* Allow interaction for decrementing */
-    /* pointer-events: none; REMOVED */
     user-select: none;
 }
-/* Remove hover effect from completed items */
 #completed-list .exercise-item:hover,
 #completed-list .ab-finisher:hover,
 #completed-list .cardio-session:hover {
     background-color: transparent;
 }
 
-
-/* Animation for moving items (used when moving TO completed) */
 .exercise-item.reordering,
 .ab-finisher.reordering,
 .cardio-session.reordering {
-  opacity: 0 !important; /* Force opacity for smooth transition */
+  opacity: 0 !important;
   transform: translateY(10px);
 }
 
 .exercise-details {
-  flex-grow: 1;
-  pointer-events: none; /* Allow clicks to pass through to the LI */
+  flex-grow: 1; /* Take available space */
+  pointer-events: none;
 }
 
 .exercise-details h3 {
@@ -320,17 +281,40 @@ header {
   font-weight: 400; /* Regular */
   margin-bottom: 4px;
   color: var(--text-color);
+  line-height: 1.3; /* Improve readability */
 }
 
 .exercise-details p {
   color: var(--text-color-muted);
   font-size: 0.8rem;
   font-weight: 300; /* Light */
+  line-height: 1.4; /* Improve readability */
 }
 
-/* Info Button */
+/* NEW: Set Counter Styles */
+.set-counter {
+    font-family: 'Inter', monospace; /* Monospace for alignment */
+    font-size: 0.9rem;
+    font-weight: 400; /* Regular */
+    color: var(--text-color-muted);
+    background-color: rgba(255, 255, 255, 0.05); /* Subtle background */
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-left: auto; /* Push to the right */
+    white-space: nowrap; /* Prevent wrapping */
+    transition: color 0.3s, background-color 0.3s;
+}
+
+/* Style when all sets are complete */
+.set-counter.sets-complete {
+    color: var(--background-color);
+    background-color: var(--text-color);
+    font-weight: 500; /* Medium */
+}
+
+
 .info-btn {
-  flex-shrink: 0;
+  flex-shrink: 0; /* Prevent shrinking */
   background-color: transparent;
   color: var(--text-color-muted);
   border: none;
@@ -342,10 +326,10 @@ header {
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  z-index: 5; /* Keep above progress indicator */
-  /* Make info button interactive even when LI is handled */
+  z-index: 5;
   pointer-events: auto !important;
   user-select: auto !important;
+  margin-left: 12px; /* Add space between counter and info button */
 }
 
 .info-btn:hover {
@@ -356,12 +340,12 @@ header {
 /* 6. FOOTER */
 footer {
   text-align: left;
-  margin-top: 48px;
+  margin-top: 64px; /* More space above footer */
   padding-bottom: env(safe-area-inset-bottom);
 }
 .footer-label {
   font-size: 0.8rem;
-  font-weight: 400; /* Regular */
+  font-weight: 400;
   color: var(--text-color-muted);
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -371,147 +355,62 @@ footer {
 /* 7. MODALS */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  opacity: 1;
-  transition: opacity 0.3s ease-in-out;
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000; opacity: 1; transition: opacity 0.3s ease-in-out;
   padding: 15px;
 }
 
 .modal {
   background-color: var(--background-color);
-  padding: 24px;
-  border-radius: 12px;
+  padding: 24px; border-radius: 12px;
   border: 1px solid var(--border-color-muted);
-  max-width: 500px;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  transform: scale(1);
-  transition: transform 0.3s ease-in-out;
+  max-width: 500px; width: 100%;
+  position: relative; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transform: scale(1); transition: transform 0.3s ease-in-out;
 }
 
-.modal-overlay.hidden {
-  opacity: 0;
-  pointer-events: none;
+.modal-overlay.hidden { opacity: 0; pointer-events: none; }
+.modal-overlay.hidden .modal { transform: scale(0.95); }
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.modal-header h2 { font-size: 1.1rem; font-weight: 500; margin-bottom: 0; }
+
+#info-modal-instructions p, #info-modal-instructions {
+  font-weight: 300; color: var(--text-color); white-space: pre-wrap;
+  max-height: 60vh; overflow-y: auto; font-size: 0.9rem;
 }
 
-.modal-overlay.hidden .modal {
-  transform: scale(0.95);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.modal-header h2 {
-  font-size: 1.1rem;
-  font-weight: 500; /* Medium */
-  margin-bottom: 0;
-}
-
-#info-modal-instructions p,
-#info-modal-instructions {
-  font-weight: 300; /* Light */
-  color: var(--text-color);
-  white-space: pre-wrap;
-  max-height: 60vh;
-  overflow-y: auto;
-  font-size: 0.9rem;
-}
-
-.modal-body-text {
-  text-align: left;
-  font-size: 1rem;
-  margin-bottom: 24px;
-  font-weight: 300; /* Light */
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: flex-start;
-  gap: 15px;
-}
+.modal-body-text { text-align: left; font-size: 1rem; margin-bottom: 24px; font-weight: 300; }
+.modal-buttons { display: flex; justify-content: flex-start; gap: 15px; }
 
 /* 8. COMPLETION OVERLAY */
 #completion-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    opacity: 1;
-    transition: opacity 0.4s ease-in-out;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000; opacity: 1; transition: opacity 0.4s ease-in-out;
 }
-
-#completion-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
+#completion-overlay.hidden { opacity: 0; pointer-events: none; }
 
 #completion-card {
-    background-color: transparent;
-    padding: 32px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color-muted);
-    text-align: left;
-    transform: scale(1);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    max-width: 400px;
-    width: 90%;
+    background-color: transparent; padding: 32px; border-radius: 12px;
+    border: 1px solid var(--border-color-muted); text-align: left;
+    transform: scale(1); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 400px; width: 90%;
 }
 
-#completion-title {
-    color: var(--text-color);
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-    font-weight: 500; /* Medium */
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-#completion-message {
-  font-weight: 300; /* Light */
-  color: var(--text-color-muted);
-  font-size: 0.9rem;
-}
+#completion-title { color: var(--text-color); margin-bottom: 8px; font-size: 1.1rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+#completion-message { font-weight: 300; color: var(--text-color-muted); font-size: 0.9rem; }
 
 /* 9. ON-SCREEN TIMER */
 #timer-display {
-  position: fixed;
-  bottom: 20px;
-  left: 24px;
-  transform: translateX(0);
-  background-color: var(--text-color);
-  color: var(--background-color);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 1.25rem;
-  font-weight: 500; /* Medium */
-  z-index: 999;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-  opacity: 1;
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  position: fixed; bottom: 20px; left: 24px; transform: translateX(0);
+  background-color: var(--text-color); color: var(--background-color);
+  padding: 8px 20px; border-radius: 20px; font-size: 1.25rem; font-weight: 500;
+  z-index: 999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  opacity: 1; transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
-
-#timer-display.hidden {
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-}
+#timer-display.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
