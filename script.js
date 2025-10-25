@@ -8,7 +8,7 @@ const workoutData = [
   {"day":5,"title":"Arms","duration":"35-45 min","exercises":[{"name":"Close-Grip Bench","details":"4 sets of 8-12 reps | 90s rest","instructions":"1. Narrow grip...\n3. Focus triceps."},{"name":"Barbell Curls","details":"4 sets of 8-12 reps | 75s rest","instructions":"1. Elbows pinned...\n3. Squeeze biceps."},{"name":"Overhead Rope Ext","details":"3 sets of 10-15 reps | 60s rest","instructions":"1. High cable rope...\n3. Spread rope."},{"name":"Incline DB Curls","details":"3 sets of 10-15 reps | 60s rest","instructions":"1. Sit incline...\n3. Curl & rotate."},{"name":"SS: Rope Pushdowns & Hammer Curls","details":"3 sets of 12-15 reps each | 60s rest","instructions":"Pushdowns: Elbows pinned.\nHammer: Low pulley."}],"abFinisher":{"name":"Landmine Twists","details":"3 sets of 10-12/side | 60s rest","instructions":"1. Bar corner...\n2. Rotate core."},"cardio":{"name":"20 min cardio","details":"1 set of 20 minutes","instructions":"Bike or elliptical."}},
   {"day":6,"title":"Hams & Glutes","duration":"55-65 min","exercises":[{"name":"RDLs","details":"4 sets of 8-12 reps | 120s rest","instructions":"1. Hinge hips...\n3. Drive hips."},{"name":"Barbell Hip Thrusts","details":"4 sets of 8-12 reps | 90s rest","instructions":"1. Upper back on bench...\n3. Chin tucked."},{"name":"Leg Curls","details":"4 sets of 12-15 reps | 75s rest (DS)","instructions":"1. Point toes...\n2. Control negative."},{"name":"Hip Abduction","details":"4 sets of 15-20+ reps | 60s rest (DSx2)","instructions":"1. Lean forward...\n2. Control return."},{"name":"45deg Kickbacks","details":"3 sets of 15-20 reps/leg | 45s rest","instructions":"1. Kick back/out 45deg...\n2. Squeeze glute."}],"abFinisher":null,"cardio":null},
   {"day":7,"title":"Rest Day","duration":"Focus Recovery","exercises":[],"abFinisher":null,"cardio":null}
-];
+]; // Simplified details for brevity
 const LONG_PRESS_DURATION = 500;
 const motivationalMessages = [
     "TASK COMPLETE. AWAITING NEXT INPUT.", "PROCESSING... POSITIVE RESULTS. REST.",
@@ -17,7 +17,40 @@ const motivationalMessages = [
 ];
 
 // --- DOM Element References ---
-let DOMElements = {}; // Use let for potential reassignment if needed
+// Use a function to ensure elements exist after DOM load
+let DOMElements = {};
+function cacheDOMElements() {
+    const ids = [
+        "day-selector", "workout-title", "workout-duration", "exercise-list",
+        "completed-list", "completed-title", "reset-button", "timer-display",
+        "info-modal-overlay", "info-modal-close-btn", "info-modal-title",
+        "info-modal-instructions", "reset-modal-overlay", "confirm-reset-btn",
+        "cancel-reset-btn", "completion-overlay", "completion-message"
+    ];
+    let allFound = true;
+    ids.forEach(id => {
+        const camelCaseId = id.replace(/-./g, m => m[1].toUpperCase());
+        DOMElements[camelCaseId] = document.getElementById(id);
+        if (!DOMElements[camelCaseId]) {
+            console.error(`DOM Element not found: #${id}`);
+            allFound = false;
+        }
+    });
+     // Special case for completion title inside the card
+     DOMElements.completionTitleEl = DOMElements.completionOverlay?.querySelector("h2#completion-title");
+     if (!DOMElements.completionTitleEl && DOMElements.completionOverlay) {
+         // Fallback if ID wasn't found but overlay exists
+         DOMElements.completionTitleEl = DOMElements.completionOverlay.querySelector("h2");
+         // console.warn("Using fallback selector for completion title.");
+     }
+     if (!DOMElements.completionTitleEl) {
+         console.error("DOM Element not found: #completion-title inside #completion-overlay");
+         allFound = false;
+     }
+
+    return allFound; // Return true if all essential elements were found
+}
+
 
 // --- State Variables ---
 let progress = {}; // { progressId: completedSets }
@@ -31,6 +64,7 @@ function loadProgress() {
     try {
         const savedProgress = localStorage.getItem("workoutSysProgress"); // Use new key
         progress = savedProgress ? JSON.parse(savedProgress) : {};
+        // Ensure progress values are numbers after loading
         for (const key in progress) { progress[key] = Number(progress[key]) || 0; }
     } catch (e) { console.error("Could not load progress:", e); progress = {}; }
 }
@@ -38,16 +72,16 @@ function loadProgress() {
 function saveProgress() {
     try {
         localStorage.setItem("workoutSysProgress", JSON.stringify(progress));
-        updateProgressBars();
-        updateCompletedSectionVisibility();
+        updateUI(); // Central UI update
     } catch (e) { console.error("Could not save progress:", e); }
 }
 
+function parseRestTime(details = '') { /* ... same ... */ }
+function parseSets(details = '') { /* ... same ... */ }
 function parseRestTime(details = '') {
     const match = details.match(/\|\s*(\d+)s/);
     return match ? parseInt(match[1], 10) : 0;
 }
-
 function parseSets(details = '') {
     let match = details.match(/^(\d+)\s+sets to Failure/i);
     if (match) return parseInt(match[1], 10);
@@ -55,29 +89,40 @@ function parseSets(details = '') {
     if (match) return parseInt(match[1], 10);
     match = details.match(/^1\s+set of/i);
     if (match) return 1;
+    // console.warn("Could not parse sets from details:", details);
     return 1; // Default
 }
 
 // --- Timer and Haptic Feedback ---
 
+function triggerHapticFeedback() { /* ... same ... */ }
+function stopActiveTimer() { /* ... same ... */ }
+function startOnScreenTimer(durationSeconds) { /* ... same ... */ }
+function checkTimerOnFocus() { /* ... same ... */ }
 function triggerHapticFeedback() { if ('vibrate' in navigator && typeof navigator.vibrate === 'function') { try { navigator.vibrate(50); } catch (e) {} }}
 function stopActiveTimer() { if (activeTimerId) { clearInterval(activeTimerId); activeTimerId = null; DOMElements.timerDisplay.classList.add('hidden'); localStorage.removeItem('restPeriodEndTime'); restPeriodEndTime = null; removeActiveIndicator(); }}
 function startOnScreenTimer(durationSeconds) { stopActiveTimer(); if (durationSeconds <= 0) { removeActiveIndicator(); return; } restPeriodEndTime = Date.now() + durationSeconds * 1000; localStorage.setItem('restPeriodEndTime', restPeriodEndTime); let timeLeft = durationSeconds; DOMElements.timerDisplay.classList.remove('hidden'); const updateTimer = () => { const m=Math.floor(timeLeft/60).toString().padStart(2,'0'); const s=(timeLeft%60).toString().padStart(2,'0'); DOMElements.timerDisplay.textContent = `${m}:${s}`; if (timeLeft <= 0) { stopActiveTimer(); triggerHapticFeedback(); } else { timeLeft--; } }; updateTimer(); activeTimerId = setInterval(updateTimer, 1000); }
 function checkTimerOnFocus() { const endTime = localStorage.getItem('restPeriodEndTime'); if (!endTime) { removeActiveIndicator(); return; } restPeriodEndTime = parseInt(endTime, 10); if (isNaN(restPeriodEndTime)) { localStorage.removeItem('restPeriodEndTime'); removeActiveIndicator(); return; } const remainingTime = Math.round((restPeriodEndTime - Date.now()) / 1000); if (remainingTime > 0) { startOnScreenTimer(remainingTime); } else { stopActiveTimer(); }}
 
+
 // --- UI Update Functions ---
 
+function setActiveIndicator(cardElement) { /* ... same ... */ }
+function removeActiveIndicator() { /* ... same ... */ }
 function setActiveIndicator(cardElement) { removeActiveIndicator(); if (cardElement && cardElement.parentElement === DOMElements.exerciseList) { cardElement.classList.add('is-current-exercise'); currentExerciseCard = cardElement; }}
 function removeActiveIndicator() { if (currentExerciseCard) { currentExerciseCard.classList.remove('is-current-exercise'); currentExerciseCard = null; }}
 
-// Updates the 'X/Y' counter and 'fully-completed' class
+// Updates the 'X/Y' counter and related classes
 function updateSetCounterVisuals(card, progressId, totalSets) {
     if (!card || !progressId || isNaN(totalSets)) return;
     const completedSets = progress[progressId] || 0;
     const isComplete = completedSets >= totalSets;
     const setCounter = card.querySelector('.set-counter');
-    if (setCounter) { setCounter.textContent = `${completedSets}/${totalSets}`; setCounter.classList.toggle('sets-complete', isComplete); }
-    card.classList.toggle('fully-completed', isComplete); // Used for logic
+    if (setCounter) {
+        setCounter.textContent = `${completedSets}/${totalSets}`;
+        setCounter.classList.toggle('sets-complete', isComplete);
+    }
+    card.classList.toggle('fully-completed', isComplete);
 }
 
 // Updates day button progress bars
@@ -88,7 +133,7 @@ function updateProgressBars() {
         const hasItems = (dayData.exercises?.length > 0) || dayData.abFinisher || dayData.cardio;
         if (!hasItems) { btn.style.setProperty('--progress', '0%'); return; }
         let totalSetsForDay=0, completedSetsForDay=0;
-        const allDayItems = [ /* ... construct items ... */];
+        const allDayItems = [ /* ... construct allDayItems ... */ ];
         const allDayItems = [
              ...(dayData.exercises || []).map((ex, i) => ({ details: ex.details, id: `day${dayData.day}-exercise-${i}`})),
              ...(dayData.abFinisher ? [{ details: dayData.abFinisher.details, id: `day${dayData.day}-ab-0` }] : []),
@@ -107,7 +152,7 @@ function updateCompletedSectionVisibility() {
     DOMElements.completedTitle.classList.toggle('hidden', !hasCompletedItems);
 }
 
-// Central UI update function (called by saveProgress)
+// Central UI update function
 function updateUI() {
     updateProgressBars();
     updateCompletedSectionVisibility();
@@ -115,7 +160,8 @@ function updateUI() {
 
 // --- DOM Manipulation & Listener Management ---
 
-// Finds correct insertion point for moving an item back to active
+// Finds correct insertion point for moving item back to active
+function findInsertionPointInActiveList(cardToMoveBack) { /* ... same robust version ... */ }
 function findInsertionPointInActiveList(cardToMoveBack) {
     const isExercise = cardToMoveBack.classList.contains('exercise-item');
     const isAb = cardToMoveBack.classList.contains('ab-finisher');
@@ -124,7 +170,7 @@ function findInsertionPointInActiveList(cardToMoveBack) {
     if (isExercise && titles[0]) targetSectionTitle = titles[0];
     else if (isAb && titles.length > 1) targetSectionTitle = titles[1];
     else if (titles.length > 2) targetSectionTitle = titles[2]; // Cardio
-    else if (titles.length > 0) targetSectionTitle = titles[titles.length - 1]; // Fallback last
+    else if (titles.length > 0) targetSectionTitle = titles[titles.length - 1];
     let insertBeforeNode = null;
     if (targetSectionTitle) {
         insertBeforeNode = targetSectionTitle.nextElementSibling;
@@ -133,38 +179,44 @@ function findInsertionPointInActiveList(cardToMoveBack) {
     return insertBeforeNode;
 }
 
-// Moves item TO completed list with animation
+
+// Animate move TO completed list
+function animateAndMoveToCompleted(card) { /* ... same robust version ... */ }
 function animateAndMoveToCompleted(card) {
     if (!card || card.parentElement !== DOMElements.exerciseList) return;
-    removeListenersFromCard(card); // Remove active listeners
+    removeListenersFromCard(card); // Use the correct removal function name
     if (currentExerciseCard === card) removeActiveIndicator();
     card.classList.add('reordering');
     const handleTransitionEnd = () => {
         card.removeEventListener('transitionend', handleTransitionEnd);
         if (card.parentElement !== DOMElements.completedList) {
             DOMElements.completedList.appendChild(card);
-            attachListenersToCard(card, true); // Add listeners for completed state
+            attachListenersToCard(card, true); // Use the correct attachment function name
             updateSetCounterVisuals(card, card.dataset.progressId, parseInt(card.dataset.totalSets, 10));
             updateCompletedSectionVisibility();
         }
         card.classList.remove('reordering');
     };
     card.addEventListener('transitionend', handleTransitionEnd);
-    setTimeout(() => { if (card.classList.contains('reordering')) handleTransitionEnd(); }, 350); // Fallback
+    setTimeout(() => { if (card.classList.contains('reordering')) handleTransitionEnd(); }, 350);
 }
 
-// Instantly moves item FROM completed list back to active list
+
+// Instantly move FROM completed list back to active list
+function moveFromCompletedToActive(card) { /* ... same robust version ... */ }
 function moveFromCompletedToActive(card) {
     if (!card || card.parentElement !== DOMElements.completedList) return;
-    removeListenersFromCard(card); // Remove completed listeners
+    removeListenersFromCard(card); // Use the correct removal function name
     const insertBeforeNode = findInsertionPointInActiveList(card);
     DOMElements.exerciseList.insertBefore(card, insertBeforeNode);
-    addOrRemoveListeners(card, false); // Add back listeners for active state
+    attachListenersToCard(card, false); // Use the correct attachment function name
     updateSetCounterVisuals(card, card.dataset.progressId, parseInt(card.dataset.totalSets, 10));
     updateCompletedSectionVisibility();
 }
 
+
 // Moves an active item to the top of its section
+function moveToTopOfSection(card) { /* ... same robust version ... */ }
 function moveToTopOfSection(card) {
     if (!card || card.parentElement !== DOMElements.exerciseList) return false;
     let precedingTitle = null; let currentElement = card.previousElementSibling;
@@ -197,7 +249,7 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
 
     // 2. Update State FIRST
     progress[progressId] = newCompletedCount;
-    saveProgress(); // Save the new state & update general UI
+    saveProgress(); // Save the new state & update general UI (day buttons, completed title visibility)
 
     // 3. Perform Side Effects
     let movedToTop = false;
@@ -205,13 +257,13 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         triggerHapticFeedback();
         const detailsP = card.querySelector('.exercise-details p');
         const restTime = parseRestTime(detailsP ? detailsP.textContent : '');
-        setActiveIndicator(card); // Set BEFORE timer
+        setActiveIndicator(card); // Set indicator BEFORE timer
         startOnScreenTimer(restTime);
         if (card.parentElement === DOMElements.exerciseList) {
             movedToTop = moveToTopOfSection(card); // Attempt move
         }
     } else { // 'decrement'
-        if (currentExerciseCard === card) stopActiveTimer();
+        if (currentExerciseCard === card) stopActiveTimer(); // Stop timer if decrementing current
     }
 
     // 4. Update DOM (Move Lists / Visuals)
@@ -219,6 +271,7 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const needsMoveToCompleted = !wasFullyCompleted && isNowFullyCompleted;
     const needsMoveToActive = wasFullyCompleted && !isNowFullyCompleted;
 
+    // Perform DOM move only if status flipped
     if (needsMoveToCompleted) {
         animateAndMoveToCompleted(card); // Moves card, re-adds listeners inside
     } else if (needsMoveToActive) {
@@ -228,7 +281,7 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         updateSetCounterVisuals(card, progressId, totalSets);
     }
 
-    // 5. Check Day Completion
+    // 5. Check Day Completion only if an item just became complete
     if (needsMoveToCompleted) {
         checkDayCompletion();
     }
@@ -253,8 +306,8 @@ function checkDayCompletion() {
     const isDayComplete = allItems.every(item => { const sets = parseSets(item.details); const completed = progress[item.id] || 0; return completed >= sets; });
     if (isDayComplete) {
         const isWeekComplete = activeDayIndex === 5; // Day 6 is index 5
-        const titleEl = DOMElements.completionOverlay?.querySelector("h2#completion-title"); // Query within overlay
-        if (titleEl) titleEl.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE";
+        const titleElement = DOMElements.completionOverlay?.querySelector("h2#completion-title");
+        if (titleElement) titleElement.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE";
 
         DOMElements.completionMessage.textContent = isWeekComplete ? "SYSTEM RESET IN 5S..." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
         DOMElements.completionOverlay.classList.remove('hidden');
@@ -266,34 +319,27 @@ function checkDayCompletion() {
 
 // --- Event Listener Management ---
 
-// Removes ALL listeners added by addOrRemoveListeners
-function removeCardListeners(card) {
+// Removes ALL listeners added by attachListenersToCard
+function removeListenersFromCard(card) {
     if (!card || !card._eventHandlers) return; // Exit if no card or no handlers stored
     Object.keys(card._eventHandlers).forEach(type => {
         const handlerData = card._eventHandlers[type];
-        if (handlerData) {
-            card.removeEventListener(type, handlerData.handler, handlerData.options);
-        }
+        if (handlerData) { card.removeEventListener(type, handlerData.handler, handlerData.options); }
     });
     const infoBtn = card.querySelector(".info-btn");
-    if (infoBtn && infoBtn._eventHandlers?.click) {
-        infoBtn.removeEventListener('click', infoBtn._eventHandlers.click.handler);
-        infoBtn._eventHandlers = null; // Clear handlers from button
-    }
+    if (infoBtn && infoBtn._eventHandlers?.click) { infoBtn.removeEventListener('click', infoBtn._eventHandlers.click.handler); infoBtn._eventHandlers = null; }
     card._eventHandlers = null; // Clear handlers from card
 }
 
 // Attaches the correct listeners based on completion state
-function addOrRemoveListeners(card, isCompleted) {
+function attachListenersToCard(card, isCompleted) {
     const progressId = card.dataset.progressId; if (!progressId) return;
     const totalSets = parseInt(card.dataset.totalSets, 10); if (isNaN(totalSets)) return;
 
-    removeCardListeners(card); // Remove existing listeners first
+    removeListenersFromCard(card); // Remove existing listeners first
     card._eventHandlers = {}; // Initialize handler storage
     const infoBtn = card.querySelector(".info-btn");
      if(infoBtn) infoBtn._eventHandlers = {};
-
-    // --- Add Listeners Based on Current State ---
 
     // Click/Tap to Increment (Only for Active Items)
     if (!isCompleted) {
@@ -302,22 +348,19 @@ function addOrRemoveListeners(card, isCompleted) {
         card._eventHandlers.click = { handler: clickHandler, options: false };
     }
 
-    // Decrement listeners (Always add, allows moving back from completed)
+    // Decrement listeners (Always add)
     const contextHandler = (e) => { e.preventDefault(); handleSeriesUpdate(card, progressId, totalSets, 'decrement'); };
     card.addEventListener('contextmenu', contextHandler);
     card._eventHandlers.contextmenu = { handler: contextHandler, options: false };
 
-    let longPressTimeoutId = null;
-    const touchStartHandler = (e) => {
-        if (e.target.closest('.info-btn')) return;
-        clearTimeout(longPressTimeoutId);
-        longPressTimeoutId = setTimeout(() => { e.preventDefault(); handleSeriesUpdate(card, progressId, totalSets, 'decrement'); longPressTimeoutId = null; }, LONG_PRESS_DURATION);
-    };
+    let longPressTimeoutId = null; // Use local variable
+    const touchStartHandler = (e) => { if (e.target.closest('.info-btn')) return; clearTimeout(longPressTimeoutId); longPressTimeoutId = setTimeout(() => { e.preventDefault(); handleSeriesUpdate(card, progressId, totalSets, 'decrement'); longPressTimeoutId = null; }, LONG_PRESS_DURATION); };
     const clearLongPress = () => { clearTimeout(longPressTimeoutId); longPressTimeoutId = null; };
     card.addEventListener('touchstart', touchStartHandler, { passive: false });
     card.addEventListener('touchend', clearLongPress);
     card.addEventListener('touchcancel', clearLongPress);
     card.addEventListener('touchmove', clearLongPress);
+    // Store refs for removal
     card._eventHandlers.touchstart = { handler: touchStartHandler, options: { passive: false } };
     card._eventHandlers.touchend = { handler: clearLongPress, options: false };
     card._eventHandlers.touchcancel = { handler: clearLongPress, options: false };
@@ -371,7 +414,7 @@ const createExerciseItemElement = (exercise, cssClass, idType, index, dayNum) =>
         </button>`;
 
     // Set initial visual state based on progress (counter text + class)
-    updateSetCounterVisuals(li, progressId, totalSets); // Also sets fully-completed class
+    updateSetCounterVisuals(li, progressId, totalSets); // Sets 'fully-completed' class too
     return li;
 };
 
@@ -380,13 +423,21 @@ const createExerciseItemElement = (exercise, cssClass, idType, index, dayNum) =>
 const renderSection = (title, items, cssClass, idType, dayNum) => {
     if (!items || (Array.isArray(items) && items.length === 0)) return;
 
+    let hasActiveItems = false;
+    const sectionElements = []; // Store { element, isCompleted }
+
+    // 1. Create all LI elements for this section
     const itemsArray = Array.isArray(items) ? items : [items];
-    const sectionElements = itemsArray.map((item, i) => createExerciseItemElement(item, cssClass, idType, i, dayNum)).filter(el => el !== null); // Create elements first, filter out nulls
+    itemsArray.forEach((item, i) => {
+        const element = createExerciseItemElement(item, cssClass, idType, i, dayNum);
+        if (element) {
+            const isCompleted = element.classList.contains('fully-completed');
+            sectionElements.push({ element, isCompleted });
+            if (!isCompleted) hasActiveItems = true;
+        }
+    });
 
-    // Check if *any* item needs to go in the active list for this section
-    const hasActiveItems = sectionElements.some(el => !el.classList.contains('fully-completed'));
-
-    // Append title to active list ONLY if section has active items
+    // 2. Add category title only if section contains active items
     if (hasActiveItems) {
         const sectionTitleElement = document.createElement("h3");
         sectionTitleElement.className = "category-title";
@@ -394,16 +445,15 @@ const renderSection = (title, items, cssClass, idType, dayNum) => {
         DOMElements.exerciseList.appendChild(sectionTitleElement);
     }
 
-    // Append items to the correct lists and add listeners
-    sectionElements.forEach(element => {
-        const isCompleted = element.classList.contains('fully-completed');
+    // 3. Append elements to appropriate lists and THEN add listeners
+    sectionElements.forEach(({ element, isCompleted }) => {
         if (isCompleted) {
             DOMElements.completedList.appendChild(element);
         } else {
             DOMElements.exerciseList.appendChild(element); // Append active items
         }
         // Add listeners *after* element is in the DOM
-        addOrRemoveListeners(element, isCompleted);
+        attachListenersToCard(element, isCompleted);
     });
 };
 
@@ -411,20 +461,15 @@ const renderSection = (title, items, cssClass, idType, dayNum) => {
 // Main function to render the workout - Rewritten for clarity and correctness
 function renderWorkout(dayIndex) {
     const dayData = workoutData[dayIndex];
-    if (!dayData) return;
+    if (!dayData) { console.error(`No data for day index: ${dayIndex}`); return; }
 
     DOMElements.workoutTitle.textContent = `${dayData.day}. ${dayData.title}`;
     DOMElements.workoutDuration.textContent = `// EST. DURATION: ${dayData.duration ? dayData.duration.toUpperCase() : 'N/A'}`;
 
     // --- Clear previous content and listeners reliably ---
     const clearList = (listElement) => {
-         // Iterate backwards for safe removal
-        while (listElement.lastChild) {
-            if (listElement.lastChild.nodeType === Node.ELEMENT_NODE && listElement.lastChild.tagName === 'LI') {
-                removeCardListeners(listElement.lastChild); // Remove listeners from LI
-            }
-             listElement.removeChild(listElement.lastChild);
-        }
+        [...listElement.children].forEach(child => { if(child.tagName === 'LI') removeListenersFromCard(child); });
+        listElement.innerHTML = "";
     };
     clearList(DOMElements.exerciseList);
     clearList(DOMElements.completedList);
@@ -434,7 +479,9 @@ function renderWorkout(dayIndex) {
     const isRestDay = dayData.day === 7 || (!dayData.exercises?.length && !dayData.abFinisher && !dayData.cardio);
     if (isRestDay) {
         DOMElements.workoutTitle.textContent = "7. Rest Day";
-        DOMElements.exerciseList.innerHTML = '<li class="exercise-item rest-day-message" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none; padding-left: 0;"><div class="exercise-details"><h3>SYSTEM IN STANDBY</h3><p>FOCUS ON RECOVERY.</p></div></li>';
+        DOMElements.exerciseList.innerHTML = '<li class="exercise-item rest-day-message" style="/* styles */"><div class="exercise-details"><h3>SYSTEM IN STANDBY</h3><p>FOCUS ON RECOVERY.</p></div></li>';
+        const restMsg = DOMElements.exerciseList.querySelector('.rest-day-message');
+        if(restMsg){ restMsg.style.cssText = 'justify-content:center; cursor: default; opacity: 0.8; border-bottom: none; padding-left: 0;';}
     } else {
         renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
         renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
@@ -444,13 +491,13 @@ function renderWorkout(dayIndex) {
     updateProgressBars(); // Update day button progress after render
 }
 
-function setActiveDay(dayIndex) { /* ... same robust version ... */ }
+
 function setActiveDay(dayIndex) {
      if (dayIndex < 0 || dayIndex >= workoutData.length) dayIndex = 0;
     document.querySelectorAll(".day-btn").forEach(btn => btn.classList.remove("active"));
     const currentBtn = document.querySelector(`.day-btn[data-day="${dayIndex}"]`);
     if (currentBtn) currentBtn.classList.add("active");
-    stopActiveTimer(); // Clear timer and indicator
+    stopActiveTimer(); // Clear timer and indicator before rendering
     renderWorkout(dayIndex); // Render the new day
 }
 
@@ -470,7 +517,7 @@ function init() {
     if (!DOMElements.exerciseList || !DOMElements.completedList || !DOMElements.daySelector || !DOMElements.resetButton) { console.error("DOM Init Failed."); return; }
 
     loadProgress(); // Load state
-    checkTimerOnFocus(); // Check timer state
+    checkTimerOnFocus(); // Check timer
 
     // Create Day Buttons
     workoutData.forEach((day, index) => { /* ... create buttons ... */ });
@@ -485,7 +532,7 @@ function init() {
 
     // Attach Global Listeners
     DOMElements.resetButton.addEventListener("click", openResetModal);
-    DOMElements.confirmResetBtn.addEventListener("click", () => { progress = {}; saveProgress(); const activeDayIndex = parseInt(document.querySelector(".day-btn.active")?.dataset.day || '0'); stopActiveTimer(); renderWorkout(activeDayIndex); closeResetModal(); });
+    DOMElements.confirmResetBtn.addEventListener("click", () => { progress = {}; saveProgress(); const idx = parseInt(document.querySelector(".day-btn.active")?.dataset.day||'0'); stopActiveTimer(); renderWorkout(idx); closeResetModal(); });
     DOMElements.cancelResetBtn.addEventListener("click", closeResetModal);
     DOMElements.infoModalCloseBtn.addEventListener("click", closeInfoModal);
     DOMElements.infoModalOverlay.addEventListener("click", e => { if (e.target === DOMElements.infoModalOverlay) closeInfoModal(); });
