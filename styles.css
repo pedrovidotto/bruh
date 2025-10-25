@@ -38,7 +38,7 @@ h1, h2, h3 {
 .logo {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* MODIFIED: Logo on right */
+  justify-content: flex-start; /* MODIFIED: Logo on left */
   margin-bottom: 32px; /* MODIFIED: Was 24px */
   margin-top: 32px; /* ADDED */
 }
@@ -178,12 +178,20 @@ header {
 
 #workout-title {
   font-size: 4rem;
-  font-weight: 300; /* LIGHT */
+  font-weight: 300; /* LIGHT (default for text) */
   margin-bottom: 12px;
   letter-spacing: -0.03em;
   line-height: 1.1;
   color: var(--text-color);
 }
+
+/* --- NEW: Style for thin workout number --- */
+#workout-title .workout-day-num {
+  font-weight: 100; /* Thin */
+  margin-right: 0.05em;
+}
+/* --- END NEW BLOCK --- */
+
 
 #workout-info-flex { /* Removed, container div not needed */ }
 
@@ -224,7 +232,7 @@ header {
 .ab-finisher,
 .cardio-session {
   border-bottom: 1px solid var(--border-color-muted);
-  padding: 20px 0 20px 12px; /* MODIFIED: Increased vertical padding, ADDED left padding */
+  padding: 20px 0; /* MODIFIED: Removed left padding */
   display: flex;
   align-items: center; /* Vertically align items */
   gap: 16px;
@@ -317,23 +325,25 @@ header {
 /* --- MODIFIED: Set Counter Styles --- */
 .set-counter {
     font-family: 'Inter', monospace; /* Monospace for alignment */
-    font-size: 1.5rem; /* MODIFIED: Was 0.9rem */
-    font-weight: 300; /* MODIFIED: Was 400 (thin) */
+    font-size: 1.8rem; /* MODIFIED: Was 1.5rem */
+    font-weight: 300; /* MODIFIED: Thin font */
     color: var(--text-color-muted);
-    background-color: transparent; /* MODIFIED: Removed background */
-    padding: 0; /* MODIFIED: Removed padding */
-    border-radius: 0; /* MODIFIED: Removed radius */
-    margin-left: 16px; /* MODIFIED: Was auto, now spaces from info-btn */
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    margin-left: 12px; /* ADDED: Space from left edge (for bar) */
+    margin-right: 0; /* MODIFIED: No longer needed, using gap on parent */
     white-space: nowrap; /* Prevent wrapping */
-    transition: color 0.3s; /* MODIFIED: Removed bg transition */
-    line-height: 1; /* ADDED: For better vertical alignment */
+    transition: color 0.3s;
+    line-height: 1;
+    flex-shrink: 0; /* ADDED: Prevent counter from shrinking */
 }
 
 /* Style when all sets are complete */
 .set-counter.sets-complete {
-    color: var(--text-color); /* MODIFIED: Now solid white */
-    background-color: transparent; /* MODIFIED: Removed background */
-    font-weight: 400; /* MODIFIED: Was 500, now regular weight */
+    color: var(--text-color);
+    background-color: transparent;
+    font-weight: 400;
 }
 
 
@@ -353,9 +363,8 @@ header {
   z-index: 5;
   pointer-events: auto !important;
   user-select: auto !important;
-  margin-left: auto; /* MODIFIED: Was 12px. Pushes info-btn & counter to right */
+  margin-left: auto; /* MODIFIED: Keeps it on the far right */
 }
-/* --- END MODIFIED BLOCK --- */
 
 .info-btn:hover {
   background-color: rgba(255, 255, 255, 0.1);
