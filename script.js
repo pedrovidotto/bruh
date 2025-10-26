@@ -57,7 +57,7 @@ const workoutData = [
   },
   { // DAY 4: Chest & Shoulders
     "day": 4,
-    "title": "Shoulders, Chest & Abs", // Updated title
+    "title": "Chest & Shoulders", // Updated title
     "duration": "60-70 minutes", // Unchanged
     "exercises": [
       { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "...", "calories": 11 },
@@ -71,7 +71,7 @@ const workoutData = [
   },
   { // DAY 5: Biceps + Triceps
     "day": 5,
-    "title": "Arms & Abs", // Updated title
+    "title": "Biceps + Triceps", // Updated title
     "duration": "45-55 minutes", // Slightly increased duration
     "exercises": [
       { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "...", "calories": 10 },
@@ -85,7 +85,7 @@ const workoutData = [
   },
   { // DAY 6: Glutes & Hamstrings
     "day": 6,
-    "title": "Hamstrings, Glutes & Calves", // Updated title
+    "title": "Glutes & Hamstrings", // Updated title
     "duration": "60-70 minutes", // Slightly increased duration
     "exercises": [
       { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "...", "calories": 22 },
@@ -104,7 +104,7 @@ const workoutData = [
     "abFinisher": null,
     "cardio": null
   },
-  { // DAY 7: Optional Back, Shoulders & Traps Frequency
+  { // DAY 7: Back, Shoulders & Traps
     "day": 7,
     "title": "Back, Shoulders & Traps", // Updated title
     "duration": "45-55 minutes", // Unchanged
