@@ -69,9 +69,9 @@ const workoutData = [
     "abFinisher": { "name": "Decline Reverse Crunches", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "...", "calories": 35 },
     "cardio": null
   },
-  { // DAY 5: Biceps + Triceps
+  { // DAY 5: Biceps & Triceps
     "day": 5,
-    "title": "Biceps + Triceps", // Updated title
+    "title": "Biceps & Triceps", // Updated title
     "duration": "45-55 minutes", // Slightly increased duration
     "exercises": [
       { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "...", "calories": 10 },
