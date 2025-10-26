@@ -3,7 +3,7 @@ const workoutData = [
   { // DAY 1: Chest & Triceps
     "day": 1,
     "title": "Chest & Triceps",
-    "duration": "50-60 minutes", // Slightly increased duration
+    "duration": "50-60 minutes", 
     "exercises": [
       { "name": "Incline Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Set bench to a 30-45 degree angle.\n2. Lie back with dumbbells on your thighs, then kick them up to your shoulders.\n3. Press the weights up until your arms are extended, but not locked out.\n4. Lower the dumbbells slowly and controlled back to the sides of your chest." },
       { "name": "Flat Machine Press", "details": "3 sets of 10-15 reps | 75s rest", "instructions": "1. Adjust the seat so the handles align with your mid-chest.\n2. Press forward, focusing on squeezing your chest muscles together.\n3. Stop just short of locking your elbows.\n4. Return slowly to the starting position, feeling a stretch in your chest." },
@@ -21,7 +21,7 @@ const workoutData = [
   { // DAY 2: Back & Biceps
     "day": 2,
     "title": "Back & Biceps",
-    "duration": "55-65 minutes", // Slightly increased duration
+    "duration": "55-65 minutes", 
     "exercises": [
       { "name": "Weighted Pull-ups (or Lat Pulldowns)", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar slightly wider than shoulder-width.\n2. Drive your elbows down and back to pull your chest towards the bar.\n3. Squeeze your back muscles at the top.\n4. Lower yourself slowly and fully extend your arms at the bottom." },
       { "name": "Barbell Row", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Hinge at your hips, keeping your back straight.\n2. Pull the barbell towards your lower stomach, not your chest.\n3. Squeeze your shoulder blades together at the top.\n4. Lower the bar under control." },
@@ -39,7 +39,7 @@ const workoutData = [
   { // DAY 3: Quads & Calves
     "day": 3,
     "title": "Quads & Calves",
-    "duration": "60-75 minutes", // Unchanged
+    "duration": "60-75 minutes", 
     "exercises": [
       { "name": "Barbell Back Squats", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Place the bar on your upper back, not your neck.\n2. Keep your chest up and back straight.\n3. Squat down until your hips are at or below parallel.\n4. Drive up through your heels." },
       { "name": "Leg Press", "details": "4 sets of 10-15 reps | 90s rest", "instructions": "1. Place your feet shoulder-width apart on the platform.\n2. Lower the weight until your knees are near a 90-degree angle.\n3. Press up, but do not lock your knees." },
@@ -52,8 +52,8 @@ const workoutData = [
   },
   { // DAY 4: Chest & Shoulders
     "day": 4,
-    "title": "Chest & Shoulders", // Updated title
-    "duration": "60-70 minutes", // Unchanged
+    "title": "Chest & Shoulders", 
+    "duration": "60-70 minutes", 
     "exercises": [
       { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height." },
       { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative." },
@@ -66,8 +66,8 @@ const workoutData = [
   },
   { // DAY 5: Biceps & Triceps
     "day": 5,
-    "title": "Biceps & Triceps", // Updated title
-    "duration": "45-55 minutes", // Slightly increased duration
+    "title": "Biceps & Triceps", 
+    "duration": "45-55 minutes", 
     "exercises": [
       { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps." },
       { "name": "Barbell Curls", "details": "4 sets of 8-12 reps | 75s rest", "instructions": "1. Keep your elbows pinned to your sides.\n2. Curl the weight up without using momentum or swinging your body.\n3. Squeeze your biceps at the top and lower with control." },
@@ -80,13 +80,20 @@ const workoutData = [
   },
   { // DAY 6: Glutes & Hamstrings
     "day": 6,
-    "title": "Glutes & Hamstrings", // Updated title
-    "duration": "60-70 minutes", // Slightly increased duration
+    "title": "Glutes & Hamstrings", 
+    "duration": "65-75 minutes", // MODIFIED: Increased duration slightly
     "exercises": [
       { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start." },
       { "name": "Barbell Hip Thrusts", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Rest your upper back on a bench.\n2. Drive your hips up powerfully, squeezing your glutes hard at the top.\n3. Keep your chin tucked." },
       { "name": "Seated or Lying Leg Curls", "details": "4 sets of 12-15 reps | 75s rest (Drop set)", "instructions": "1. Point your toes to better engage the hamstrings.\n2. Squeeze at the peak of the curl and control the negative." },
       { "name": "Hip Abduction Machine", "details": "4 sets of 15-20+ reps | 60s rest (Drop set)", "instructions": "1. Lean your torso forward to better target the upper glute shelf.\n2. Control the movement, especially on the way back in." },
+      // --- ADDED BACK: 45-Degree Kickbacks ---
+      { 
+        "name": "45-Degree Kickbacks (Cable/Band)", 
+        "details": "3 sets of 15-20 reps (per leg) | 45s rest", 
+        "instructions": "1. Attach an ankle strap to a low cable pulley or use a resistance band.\n2. Stand facing the machine/anchor point.\n3. Keeping your leg mostly straight, kick it back and slightly out to the side (about 45 degrees).\n4. Focus on squeezing your upper glute at the peak of the movement.\n5. Control the return to the starting position." 
+      },
+      // --- END ADDITION ---
       {
         "name": "Seated Calf Raises",
         "details": "4 sets of 15-20 reps | 45s rest",
@@ -96,10 +103,10 @@ const workoutData = [
     "abFinisher": null,
     "cardio": null
   },
-  { // DAY 7: Back, Shoulders & Traps
+  { // DAY 7: Back, Traps & Shoulders
     "day": 7,
-    "title": "Back, Shoulders & Traps", // Updated title
-    "duration": "45-55 minutes", // Unchanged
+    "title": "Back, Traps & Shoulders", 
+    "duration": "45-55 minutes", 
     "exercises": [
       { "name": "Machine Lat Pulldown (Neutral Grip)", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Use a machine with handles allowing a neutral grip (palms facing each other).\n2. Pull the handles down towards your chest, driving your elbows down and back.\n3. Squeeze your lats at the bottom.\n4. Control the ascent, feeling a stretch." },
       { "name": "Seated Cable Row (Wide Grip)", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Use a wide bar attachment on a seated cable row machine.\n2. Pull the bar towards your mid-torso, keeping your chest up and back straight.\n3. Focus on squeezing your upper back muscles together.\n4. Slowly return to the starting position." },
@@ -262,10 +269,8 @@ function updateProgressBars() {
     document.querySelectorAll(".day-btn").forEach((btn, index) => {
         if (btn.id === 'theme-toggle-btn') return; 
         
-        // --- MODIFIED: Ensure index maps correctly to workoutData array index ---
         const dataIndex = btn.dataset.day ? parseInt(btn.dataset.day, 10) : index; 
         const dayData = workoutData[dataIndex];
-        // --- END MODIFICATION ---
 
         if (!dayData || !dayData.exercises || dayData.exercises.length === 0) { btn.style.setProperty('--progress', '0%'); return; }
         
@@ -442,11 +447,11 @@ function checkDayCompletion() {
     const dayData = workoutData[activeDayIndex];
     if (!dayData) return;
     const allItems = [
-        ...dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-${i}` })),
+        ...(dayData.exercises ? dayData.exercises.map((ex, i) => ({ ...ex, id: `day${dayData.day}-exercise-${i}` })) : []), // Add check for exercises existence
         ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
         ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
     ];
-    if (!allItems || allItems.length === 0) return; // Modified check for empty days
+    if (!allItems || allItems.length === 0) return; 
 
     const isDayComplete = allItems.every(item => {
         const totalSets = parseSets(item.details);
@@ -455,10 +460,7 @@ function checkDayCompletion() {
     });
 
     if (isDayComplete) {
-        // --- MODIFIED: Week completion check depends on your data structure ---
-        // Assuming the last workout day index means week complete
         const isWeekComplete = activeDayIndex === (workoutData.length - 1); 
-        // --- END MODIFICATION ---
         
         completionTitleEl.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE"; 
         completionMessage.textContent = isWeekComplete ? "SYSTEM RESET IN 5S... PREPARE FOR NEXT CYCLE." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
@@ -653,20 +655,14 @@ function renderWorkout(dayIndex) {
     exerciseList.innerHTML = ""; 
     completedList.innerHTML = ""; 
 
-    // --- CORRECTED LOGIC ---
-    // Check only if there are exercises defined for the day.
     if (!dayData.exercises || dayData.exercises.length === 0) { 
-        // Display a generic "No workout defined" or "Rest Day" message
-        // For now, let's keep the original rest day message for consistency if a day has no exercises
-        workoutTitle.innerHTML = `<span class="workout-day-num">${dayData.day}.</span> ${dayData.title || 'Rest Day'}`; // Use title if available
+        workoutTitle.innerHTML = `<span class="workout-day-num">${dayData.day}.</span> ${dayData.title || 'Rest Day'}`; 
         exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON RECOVERY.</p></div></li>';
     } else {
-        // Render the defined workout sections
         renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
         renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
         renderSection("Post-Workout Cardio", dayData.cardio, 'cardio-session', 'cardio', dayData.day);
     }
-    // --- END CORRECTION ---
 
     updateCompletedSectionVisibility(); 
 }
@@ -729,10 +725,8 @@ function init() {
         if (document.visibilityState === 'visible') { checkTimerOnFocus(); }
     });
 
-    // --- MODIFIED: Use workoutData length for labels ---
     const dayLabels = ["M", "T", "W", "T", "F", "S", "S"]; // Assuming 7 days
     workoutData.forEach((day, index) => {
-        // Ensure dayLabels array is long enough or handle index out of bounds
         const label = dayLabels[index] || `D${index + 1}`; 
         
         const btn = document.createElement("button");
@@ -740,11 +734,10 @@ function init() {
         const textSpan = document.createElement("span");
         textSpan.textContent = label; 
         btn.appendChild(textSpan);
-        btn.dataset.day = index; // Use array index for dataset.day
+        btn.dataset.day = index; 
         btn.addEventListener("click", () => setActiveDay(index));
         daySelector.appendChild(btn);
     });
-    // --- END MODIFICATION ---
 
     themeToggleBtn.innerHTML = `
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -785,11 +778,8 @@ function init() {
     infoModalOverlay.addEventListener("click", e => { if (e.target === infoModalOverlay) closeInfoModal(); });
     resetModalOverlay.addEventListener("click", e => { if (e.target === resetModalOverlay) closeResetModal(); });
     
-    // --- MODIFIED: Initial day logic assumes Sunday is the last day (index 6) ---
-    const today = new Date().getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-    // Map JS Sunday(0) to our index 6, JS Monday(1) to our index 0, etc.
+    const today = new Date().getDay(); 
     const initialDayIndex = today === 0 ? 6 : today - 1; 
-    // --- END MODIFICATION ---
     
     setActiveDay(initialDayIndex); 
     checkTimerOnFocus();
