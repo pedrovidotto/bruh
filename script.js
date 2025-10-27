@@ -156,7 +156,7 @@ const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
 // State
 let progress = {};
-let completedDays = []; // ADDED: State for completed days
+let completedDays = []; 
 let longPressTimer;
 const LONG_PRESS_DURATION = 500;
 let activeTimer = null;
@@ -164,7 +164,7 @@ let restPeriodEndTime = null;
 
 // LocalStorage Keys
 const PROGRESS_KEY = "workoutSysProgress";
-const COMPLETED_DAYS_KEY = "workoutSysCompletedDays"; // ADDED
+const COMPLETED_DAYS_KEY = "workoutSysCompletedDays"; 
 const TIMER_END_KEY = "restPeriodEndTime";
 
 const motivationalMessages = [
@@ -204,9 +204,9 @@ function clearTimerState() {
 }
 
 function startOnScreenTimer(durationSeconds) {
-    clearTimerState(); // Ensure any existing timer is cleared first
+    clearTimerState(); 
 
-    if (durationSeconds <= 0) return; // Don't start if duration is zero or less
+    if (durationSeconds <= 0) return; 
 
     restPeriodEndTime = Date.now() + (durationSeconds * 1000);
     localStorage.setItem(TIMER_END_KEY, restPeriodEndTime);
@@ -220,32 +220,29 @@ function startOnScreenTimer(durationSeconds) {
         timerDisplay.textContent = `${minutes}:${seconds}`;
 
         if (timeLeft <= 0) {
-            clearTimerState(); // Clear everything when timer naturally finishes
+            clearTimerState(); 
             triggerHapticFeedback();
-            // Active bar is NOT removed here anymore
         } else {
             timeLeft--;
         }
     };
 
-    updateTimer(); // Initial display
+    updateTimer(); 
     activeTimer = setInterval(updateTimer, 1000);
 }
 
 function checkTimerOnFocus() {
     const endTime = localStorage.getItem(TIMER_END_KEY);
     if (!endTime) {
-        clearTimerState(); // Ensure display is hidden if no timer should be running
+        clearTimerState(); 
         return;
     }
 
     const remainingTime = Math.round((parseInt(endTime, 10) - Date.now()) / 1000);
 
     if (remainingTime > 0) {
-        // If timer should still be running, restart interval with remaining time
         startOnScreenTimer(remainingTime); 
     } else {
-        // If timer has expired while away, clear state
         clearTimerState();
     }
 }
@@ -267,7 +264,6 @@ function saveProgress() {
     } catch (e) { console.error("Could not save progress:", e); }
 }
 
-// --- ADDED: Load/Save for Completed Days ---
 function loadCompletedDays() {
     try {
         const savedDays = localStorage.getItem(COMPLETED_DAYS_KEY);
@@ -280,12 +276,13 @@ function saveCompletedDays() {
         localStorage.setItem(COMPLETED_DAYS_KEY, JSON.stringify(completedDays));
     } catch (e) { console.error("Could not save completed days:", e); }
 }
-// --- END ADDED ---
 
 
 function parseRestTime(details) {
     if (!details) return 0;
-    const match = details.match(/\|\s*(\d+)s\s*rest/);
+    // --- MODIFIED REGEX: Capture the FIRST number before 's rest' ---
+    const match = details.match(/\|\s*(\d+).*?s\s*rest/); 
+    // --- END MODIFICATION ---
     return match ? parseInt(match[1], 10) : 0;
 }
 
@@ -318,11 +315,10 @@ function updateProgressBars() {
         if (btn.id === 'theme-toggle-btn') return; 
         
         const dataIndex = btn.dataset.day ? parseInt(btn.dataset.day, 10) : null; 
-        if (dataIndex === null) return; // Skip if no data-day attribute
+        if (dataIndex === null) return; 
 
         const dayData = workoutData[dataIndex];
 
-        // Simplified check: if no dayData or no exercises, progress is 0
         if (!dayData || !dayData.exercises || dayData.exercises.length === 0) { 
             btn.style.setProperty('--progress', '0%'); 
             return; 
@@ -338,47 +334,48 @@ function updateProgressBars() {
     });
 }
 
-// --- ADDED: Update visual marks on day buttons ---
 function updateDayButtonCompletionMarks() {
     document.querySelectorAll(".day-btn").forEach(btn => {
         if (btn.id === 'theme-toggle-btn') return;
         const dayIndex = parseInt(btn.dataset.day, 10);
-        if (completedDays.includes(dayIndex)) {
-            btn.classList.add('day-complete');
-        } else {
-            btn.classList.remove('day-complete');
+        if (!isNaN(dayIndex)) { // Ensure dayIndex is a valid number
+             if (completedDays.includes(dayIndex)) {
+                btn.classList.add('day-complete');
+            } else {
+                btn.classList.remove('day-complete');
+            }
         }
     });
 }
-// --- END ADDED ---
 
 function updateCompletedSectionVisibility() {
     completedTitle.classList.toggle('hidden', completedList.children.length === 0);
 }
 
 // --- Event Handlers & Interaction ---
+// --- MODIFIED: Reworked timer start logic ---
 function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
     const wasFullyCompleted = currentCompleted >= totalSets;
     let newCompletedCount = currentCompleted; 
-    let setIncremented = false; // Flag if a set was actually added
+    let shouldStartTimer = false; 
 
     if (direction === 'increment') {
         const potentialCount = Math.min(totalSets, currentCompleted + 1);
         if (potentialCount > currentCompleted) {
             newCompletedCount = potentialCount; 
-            setIncremented = true; // Mark that a set was added
+            shouldStartTimer = true; // Flag to start timer AFTER potential state updates
             triggerHapticFeedback();
              
             // Handle active class
             const currentActive = document.querySelector('.exercise-active');
-            if (currentActive && currentActive !== card) { // Don't remove if clicking same item
+            if (currentActive && currentActive !== card) { 
                 currentActive.classList.remove('exercise-active');
             }
             card.classList.add('exercise-active');
              
             // Handle moving to top (only if not completing now)
-            if (newCompletedCount < totalSets) { 
+            if (newCompletedCount < totalSets && !wasFullyCompleted) { // Add !wasFullyCompleted check
                 let previousSibling = card.previousElementSibling;
                 let titleElement = null;
                 while (previousSibling) {
@@ -397,7 +394,7 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         const potentialCount = Math.max(0, currentCompleted - 1);
         if (potentialCount < currentCompleted) {
             newCompletedCount = potentialCount; 
-            // Stop timer if it was running FOR THIS CARD
+            // Stop timer only if it was running FOR THIS CARD
             if (card.classList.contains('exercise-active') && activeTimer) {
                clearTimerState();
             }
@@ -409,13 +406,18 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         progress[progressId] = newCompletedCount;
         saveProgress(); 
     }
-
-    // Start timer only if a set was successfully incremented
-    if (setIncremented) {
+    
+    // Start timer only if a set was successfully incremented and not the final set
+    if (shouldStartTimer && newCompletedCount < totalSets) {
         const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
         const restTime = parseRestTime(exerciseDetailsText);
         startOnScreenTimer(restTime);
+    } 
+    // Clear timer if the final set was just completed
+    else if (shouldStartTimer && newCompletedCount >= totalSets) {
+        clearTimerState();
     }
+
 
     const isNowFullyCompleted = newCompletedCount >= totalSets;
     updateCardVisuals(card, progressId, totalSets); 
@@ -435,10 +437,11 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
         }
     }
 }
+// --- END MODIFICATION ---
 
 function animateAndMoveToCompleted(card) {
     card.classList.add('reordering');
-    card.classList.remove('exercise-active'); // Bar removed when moving to completed
+    card.classList.remove('exercise-active'); 
     removeCardListeners(card); 
     setTimeout(() => {
         completedList.appendChild(card);
@@ -526,7 +529,6 @@ function moveFromCompletedToActive(card) {
 }
 
 // --- Completion Celebration ---
-// --- MODIFIED: Check and save day completion ---
 function checkDayCompletion() {
     const activeDayBtn = document.querySelector('.day-btn.active');
     if (!activeDayBtn) return;
@@ -538,7 +540,6 @@ function checkDayCompletion() {
         ...(dayData.abFinisher ? [{ ...dayData.abFinisher, id: `day${dayData.day}-ab-0` }] : []),
         ...(dayData.cardio ? [{ ...dayData.cardio, id: `day${dayData.day}-cardio-0` }] : [])
     ];
-    // If a day has no trackable items, it can't be "completed" in this sense
     if (!allItems || allItems.length === 0) return; 
 
     const isDayComplete = allItems.every(item => {
@@ -547,35 +548,31 @@ function checkDayCompletion() {
         return completedSets >= totalSets;
     });
 
-    // Save completion status and update button visuals
     if (isDayComplete) {
         if (!completedDays.includes(activeDayIndex)) {
             completedDays.push(activeDayIndex);
             saveCompletedDays();
-            updateDayButtonCompletionMarks(); // Update visuals immediately
+            updateDayButtonCompletionMarks(); 
         }
 
-        // Show overlay celebration
-        const isWeekComplete = activeDayIndex === (workoutData.length - 1); // Simple check, assumes last day index means week end
+        const isWeekComplete = activeDayIndex === (workoutData.length - 1); 
         completionTitleEl.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE"; 
         completionMessage.textContent = isWeekComplete ? "SYSTEM RESET IN 5S... PREPARE FOR NEXT CYCLE." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
         completionOverlay.classList.remove('hidden');
         if (isWeekComplete) {
-            // Automatically reset after week completion celebration
             setTimeout(() => {
                 progress = {};
-                completedDays = []; // Clear completed days state
+                completedDays = []; 
                 localStorage.removeItem(PROGRESS_KEY);
-                localStorage.removeItem(COMPLETED_DAYS_KEY); // Remove from storage
+                localStorage.removeItem(COMPLETED_DAYS_KEY); 
                 localStorage.removeItem(TIMER_END_KEY);
-                location.reload(); // Reload to apply reset
+                location.reload(); 
             }, 5000);
         } else { 
             setTimeout(() => completionOverlay.classList.add('hidden'), 4000); 
         }
     }
 }
-// --- END MODIFICATION ---
 
 
 // --- DOM Rendering & Listener Management ---
@@ -781,7 +778,6 @@ function setActiveDay(dayIndex) {
         currentActive.classList.remove('exercise-active');
     }
     
-    // Clear timer when changing days
     clearTimerState(); 
     
     renderWorkout(dayIndex); 
@@ -791,7 +787,7 @@ function setActiveDay(dayIndex) {
 function openInfoModal(title, instructions) { 
     infoModalOverlay.classList.remove("hidden");
     infoModalOverlay.setAttribute('aria-hidden', 'false');
-    infoModalTitle.textContent = title; // Use direct title casing
+    infoModalTitle.textContent = title; 
     infoModalInstructions.innerHTML = '';
     const p = document.createElement('p');
     p.textContent = instructions || "No instructions available."; 
@@ -815,7 +811,7 @@ function closeResetModal() {
 function init() {
     loadTheme(); 
     loadProgress();
-    loadCompletedDays(); // ADDED: Load completed status
+    loadCompletedDays(); 
     
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') { checkTimerOnFocus(); }
@@ -852,11 +848,10 @@ function init() {
     resetButton.addEventListener("click", openResetModal);
     confirmResetBtn.addEventListener("click", () => {
         progress = {};
-        completedDays = []; // Clear completed days state
+        completedDays = []; 
         saveProgress(); 
-        saveCompletedDays(); // Save the cleared state
+        saveCompletedDays(); 
         
-        // Clear active bar and timer
         const currentActive = document.querySelector('.exercise-active');
         if (currentActive) {
             currentActive.classList.remove('exercise-active');
@@ -865,7 +860,7 @@ function init() {
         
         const activeDayIndex = parseInt(document.querySelector(".day-btn.active")?.dataset.day || 0, 10);
         renderWorkout(activeDayIndex); 
-        updateDayButtonCompletionMarks(); // Update visuals after reset
+        updateDayButtonCompletionMarks(); 
         closeResetModal();
     });
     cancelResetBtn.addEventListener("click", closeResetModal);
@@ -876,9 +871,9 @@ function init() {
     const today = new Date().getDay(); 
     const initialDayIndex = today === 0 ? 6 : today - 1; 
     
-    setActiveDay(initialDayIndex); // Includes initial render
-    updateDayButtonCompletionMarks(); // Set initial completion marks
-    checkTimerOnFocus(); // Check if a timer was running on load
+    setActiveDay(initialDayIndex); 
+    updateDayButtonCompletionMarks(); 
+    checkTimerOnFocus(); 
 }
 
 init();
