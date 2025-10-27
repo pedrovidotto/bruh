@@ -9,11 +9,13 @@
   --gradient-start: #2d2a27; 
   --gradient-end: rgba(45, 42, 39, 0); 
   --checkmark-color: var(--text-color); 
-  /* ADDED: Explicit light colors for overlay contrast */
   --light-text-color: #f2ece7; 
   --light-text-muted: rgba(242, 236, 231, 0.6);
   --light-border-muted: rgba(242, 236, 231, 0.2);
-
+  
+  /* --- ADDED: Tertiary Accent Color --- */
+  --accent-color: #ff5533; 
+  /* --- END ADDED --- */
 
   /* UI Element Colors */
   --hover-color: rgba(242, 236, 231, 0.03);
@@ -31,12 +33,16 @@ body[data-theme="light"] {
   --gradient-start: #f2ece7; 
   --gradient-end: rgba(242, 236, 231, 0); 
   --checkmark-color: var(--text-color); 
+  
+  /* --- ADDED: Tertiary Accent Color (Keeping it consistent for now) --- */
+  --accent-color: #ff5533; 
+  /* --- END ADDED --- */
 
   /* UI Element Colors */
   --hover-color: rgba(45, 42, 39, 0.03);
   --hover-color-icon: rgba(45, 42, 39, 0.1);
   --modal-overlay-bg: rgba(45, 42, 39, 0.8);
-  --completion-overlay-bg: rgba(45, 42, 39, 0.9); /* Still darkish for contrast */
+  --completion-overlay-bg: rgba(45, 42, 39, 0.9); 
 }
 
 
@@ -265,18 +271,20 @@ header {
     stroke: var(--border-color);
 }
 
+/* --- MODIFIED: Active Day Button uses Accent Color --- */
 .day-btn.active {
-  color: var(--background-color);
-  background-color: var(--text-color);
-  border-color: var(--text-color);
+  background-color: var(--accent-color); /* Use accent for background */
+  border-color: var(--accent-color);     /* Use accent for border */
+  color: var(--background-color);       /* Inverted text color for contrast */
   font-weight: 500;
 }
 .day-btn.active.day-complete::after {
-     color: var(--background-color);
+     color: var(--background-color); /* Checkmark matches text color */
 }
+/* --- END MODIFICATION --- */
 
 
-.btn-primary {
+.btn-primary { /* Base style for CONFIRM PURGE, CANCEL */
   background-color: var(--text-color);
   color: var(--background-color);
   border: 1px solid var(--text-color);
@@ -295,6 +303,21 @@ header {
   background-color: transparent;
   color: var(--text-color);
 }
+
+/* --- ADDED: Warning style for confirm reset button --- */
+#confirm-reset-btn {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--background-color); /* Invert text for contrast */
+}
+
+#confirm-reset-btn:hover {
+  background-color: transparent;
+  color: var(--accent-color); /* Text becomes accent color on hover */
+  border-color: var(--accent-color);
+}
+/* --- END ADDED --- */
+
 
 .btn-icon {
   background: transparent;
@@ -414,6 +437,7 @@ header {
   transform: translateY(10px);
 }
 
+/* --- MODIFIED: Active Exercise Bar uses Accent Color --- */
 .exercise-item.exercise-active::before,
 .ab-finisher.exercise-active::before,
 .cardio-session.exercise-active::before {
@@ -423,11 +447,13 @@ header {
     top: 20px;
     bottom: 20px;
     width: 3px;
-    background-color: var(--text-color);
+    background-color: var(--accent-color); /* Use accent for the bar */
     border-radius: 1.5px;
     animation: fadeInBar 0.3s ease-out;
     transition: background-color 0.3s ease;
 }
+/* --- END MODIFICATION --- */
+
 
 @keyframes fadeInBar {
     from { opacity: 0; transform: scaleY(0.5); }
@@ -473,11 +499,13 @@ header {
     flex-shrink: 0;
 }
 
+/* --- MODIFIED: Completed Sets Counter uses Accent Color --- */
 .set-counter.sets-complete {
-    color: var(--text-color);
+    color: var(--accent-color); /* Use accent color */
     background-color: transparent;
-    font-weight: 400;
+    font-weight: 400; /* Keep regular weight for completed */
 }
+/* --- END MODIFICATION --- */
 
 
 .info-btn {
@@ -582,10 +610,8 @@ footer {
 }
 #completion-overlay.hidden { opacity: 0; pointer-events: none; }
 
-/* --- MODIFIED: Completion card styles --- */
 #completion-card {
     background-color: transparent; padding: 32px; border-radius: 12px;
-    /* Use explicit light muted border regardless of theme */
     border: 1px solid var(--light-border-muted); 
     text-align: left;
     transform: scale(1); 
@@ -593,7 +619,6 @@ footer {
     max-width: 400px; width: 90%;
 }
 
-/* Use explicit light colors regardless of theme */
 #completion-title { 
     color: var(--light-text-color); 
     margin-bottom: 8px; font-size: 1.1rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; 
@@ -605,7 +630,6 @@ footer {
     font-size: 0.9rem; 
     transition: color 0.3s ease; 
 }
-/* --- END MODIFICATION --- */
 
 
 /* 9. ON-SCREEN TIMER */
