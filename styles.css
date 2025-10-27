@@ -140,8 +140,8 @@ body[data-theme="light"] .logo-svg {
   max-width: 600px;
   margin: 0 auto;
   padding: 16px;
-  position: relative; /* Ensure container establishes stacking context if needed */
-  z-index: 1; /* Keep content above default body background */
+  position: relative;
+  z-index: 1; 
 }
 
 header {
@@ -159,7 +159,7 @@ header {
 
 /* 4. BUTTONS */
 
-.day-btn {
+.day-btn { /* Applies to day buttons AND theme toggle */
   background-color: transparent;
   color: var(--text-color-muted);
   border: 1px solid var(--border-color-muted);
@@ -502,7 +502,16 @@ footer {
 .modal-overlay.hidden .modal { transform: scale(0.95); }
 
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.modal-header h2 { font-size: 1.1rem; font-weight: 500; margin-bottom: 0; }
+
+/* MODIFIED: Info modal title font */
+.modal-header h2,
+#info-modal-title { 
+  font-family: 'Instrument Serif', serif; /* ADDED */
+  font-size: 1.3rem; /* Adjusted size slightly */
+  font-weight: 400; /* Regular */
+  margin-bottom: 0; 
+  letter-spacing: 0.01em; /* Slight letter spacing */
+}
 
 #info-modal-instructions p, #info-modal-instructions {
   font-weight: 300; color: var(--text-color); white-space: pre-wrap;
@@ -545,7 +554,7 @@ footer {
   border-radius: 20px;
   font-size: 2.25rem;
   font-weight: 300;
-  z-index: 999; /* Lower than modal overlay */
+  z-index: 999;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   opacity: 1;
   transition: opacity 0.3s ease-out, transform 0.3s ease-out, background-color 0.3s ease, color 0.3s ease;
