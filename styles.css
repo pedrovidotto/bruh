@@ -6,8 +6,9 @@
   --border-color: rgba(242, 236, 231, 0.4);
   --border-color-muted: rgba(242, 236, 231, 0.2);
   --text-color-muted: rgba(242, 236, 231, 0.6);
-  --gradient-start: #2d2a27; /* Added for gradient */
-  --gradient-end: rgba(45, 42, 39, 0); /* Added for gradient */
+  --gradient-start: #2d2a27; 
+  --gradient-end: rgba(45, 42, 39, 0); 
+  --checkmark-color: var(--text-color); /* Added */
 
   /* UI Element Colors */
   --hover-color: rgba(242, 236, 231, 0.03);
@@ -22,8 +23,9 @@ body[data-theme="light"] {
   --border-color: rgba(45, 42, 39, 0.4);
   --border-color-muted: rgba(45, 42, 39, 0.2);
   --text-color-muted: rgba(45, 42, 39, 0.6);
-  --gradient-start: #f2ece7; /* Added for gradient */
-  --gradient-end: rgba(242, 236, 231, 0); /* Added for gradient */
+  --gradient-start: #f2ece7; 
+  --gradient-end: rgba(242, 236, 231, 0); 
+  --checkmark-color: var(--text-color); /* Added */
 
   /* UI Element Colors */
   --hover-color: rgba(45, 42, 39, 0.03);
@@ -54,23 +56,21 @@ body {
   padding-top: env(safe-area-inset-top);
   font-weight: 300;
   transition: color 0.3s ease, background-color 0.3s ease;
-  position: relative; /* Needed for pseudo-element positioning context */
+  position: relative; 
 }
 
-/* --- ADDED: Top fade gradient --- */
 body::before {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px; /* Adjust height as needed */
+  height: 60px; 
   background: linear-gradient(to bottom, var(--gradient-start) 60%, var(--gradient-end));
-  z-index: 10; /* Make sure it's above content but below modals/timer */
-  pointer-events: none; /* Allows clicks to pass through */
+  z-index: 10; 
+  pointer-events: none; 
   transition: background 0.3s ease;
 }
-/* --- END ADDED --- */
 
 /* 2. TYPOGRAPHY & HEADER */
 h1, h2, h3 {
@@ -173,7 +173,7 @@ header {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* Changed from visible to clip checkmark */
   z-index: 1;
   width: 36px;
   height: 36px;
@@ -181,6 +181,32 @@ header {
   align-items: center;
   justify-content: center;
 }
+
+/* --- ADDED: Style for completed day checkmark --- */
+.day-btn.day-complete::after {
+    content: '✓';
+    position: absolute;
+    bottom: -2px; /* Position slightly offset */
+    right: 0px;  /* Position slightly offset */
+    font-size: 0.7em;
+    line-height: 1;
+    color: var(--checkmark-color); 
+    opacity: 0.7; /* Make it slightly subtle */
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Make checkmark more visible on hover/active completed days */
+.day-btn.day-complete:hover::after,
+.day-btn.day-complete.active::after {
+    opacity: 1;
+}
+
+/* Style checkmark color for active completed button */
+.day-btn.day-complete.active::after {
+    color: var(--background-color); /* Match text color of active button */
+}
+/* --- END ADDED --- */
+
 
 #theme-toggle-btn svg {
     display: block;
@@ -503,25 +529,25 @@ footer {
 
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 
-/* --- MODIFIED: Info modal title font and style --- */
-.modal-header h2,
+/* MODIFIED: Info modal title font and style */
 #info-modal-title { 
   font-family: 'Instrument Serif', serif; 
-  font-size: 1.6rem; /* MODIFIED: Increased size */
+  font-size: 1.8rem; /* MODIFIED: Increased size */
   font-weight: 400; 
   margin-bottom: 0; 
   letter-spacing: 0.01em; 
-  text-transform: none; /* ADDED: Ensure normal casing */
+  text-transform: none; /* Ensure normal casing */
+  line-height: 1.3; /* Added for better spacing */
 }
 
-/* --- ADDED: Style for reset modal title --- */
+/* Keep reset modal title distinct */
 #reset-modal-title {
-  font-family: 'Inter', sans-serif; /* Keep Inter for this */
+  font-family: 'Inter', sans-serif; 
   font-size: 1.1rem;
   font-weight: 500;
-  text-transform: uppercase; /* Keep uppercase */
+  text-transform: uppercase; 
+  margin-bottom: 0;
 }
-/* --- END ADDED --- */
 
 
 #info-modal-instructions p, #info-modal-instructions {
