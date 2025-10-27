@@ -1,8 +1,8 @@
 // Workout data - Refined for 2x/Week Frequency on Arms & Calves
 const workoutData = [
-  { // DAY 1: Chest Crusher & Triceps
+  { // DAY 1: Chest & Triceps
     "day": 1,
-    "title": "Chest Crusher & Triceps", 
+    "title": "Chest & Triceps", 
     "duration": "60-75 minutes", 
     "exercises": [ 
       { 
