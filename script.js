@@ -1,8 +1,8 @@
 // Workout data - Refined for 2x/Week Frequency on Arms & Calves
 const workoutData = [
-  { // DAY 1: Chest & Triceps
+  { // DAY 1: Chest Crusher & Triceps
     "day": 1,
-    "title": "Chest & Triceps", 
+    "title": "Chest Crusher & Triceps", 
     "duration": "60-75 minutes", 
     "exercises": [ 
       { 
@@ -300,31 +300,28 @@ function updateCompletedSectionVisibility() {
 }
 
 // --- Event Handlers & Interaction ---
-// --- MODIFIED: Ensure timer starts on first increment ---
+// --- MODIFIED: Ensure timer starts on first increment (Simplified) ---
 function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
     const wasFullyCompleted = currentCompleted >= totalSets;
-
-    let newCompletedCount;
-    let shouldStartTimer = false; // Flag to start timer
+    let newCompletedCount = currentCompleted; // Initialize with current count
 
     if (direction === 'increment') {
-        newCompletedCount = Math.min(totalSets, currentCompleted + 1);
-        if (newCompletedCount > currentCompleted) {
-             triggerHapticFeedback();
+        const potentialCount = Math.min(totalSets, currentCompleted + 1);
+        // Only proceed if the count actually increases
+        if (potentialCount > currentCompleted) {
+            newCompletedCount = potentialCount; // Update count
+            triggerHapticFeedback();
              
-             // Mark that timer should start if this isn't the completion click
-             if (newCompletedCount <= totalSets) { 
-                 shouldStartTimer = true;
-             }
-             
-             const currentActive = document.querySelector('.exercise-active');
-             if (currentActive) {
+            // Handle active class
+            const currentActive = document.querySelector('.exercise-active');
+            if (currentActive) {
                 currentActive.classList.remove('exercise-active');
-             }
-             card.classList.add('exercise-active');
+            }
+            card.classList.add('exercise-active');
              
-             if (!wasFullyCompleted && newCompletedCount < totalSets) { // Only move if not completing now
+            // Handle moving to top (only if not completing now)
+            if (newCompletedCount < totalSets) { 
                 let previousSibling = card.previousElementSibling;
                 let titleElement = null;
                 while (previousSibling) {
@@ -334,41 +331,38 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
                     }
                     previousSibling = previousSibling.previousElementSibling;
                 }
-                
                 if (titleElement) {
                     titleElement.after(card);
                 }
-             }
-        } else {
-            // If already at max sets, don't change count or start timer
-            newCompletedCount = currentCompleted;
+            }
+            
+            // Start the timer since a set was successfully incremented
+            const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
+            const restTime = parseRestTime(exerciseDetailsText);
+            startOnScreenTimer(restTime);
         }
+        // If potentialCount is not > currentCompleted, do nothing (already maxed)
+
     } else { // 'decrement'
-        newCompletedCount = Math.max(0, currentCompleted - 1);
-        if (activeTimer && newCompletedCount < currentCompleted) {
-            // Stop timer if it was running and count decreased
-            clearInterval(activeTimer);
-            timerDisplay.classList.add('hidden');
-            localStorage.removeItem('restPeriodEndTime');
-            restPeriodEndTime = null;
+        const potentialCount = Math.max(0, currentCompleted - 1);
+        // Only proceed if the count actually decreases
+        if (potentialCount < currentCompleted) {
+            newCompletedCount = potentialCount; // Update count
+            // Stop timer only if it was running
+            if (activeTimer) {
+                clearInterval(activeTimer);
+                timerDisplay.classList.add('hidden');
+                localStorage.removeItem('restPeriodEndTime');
+                restPeriodEndTime = null;
+            }
         }
-        // If decrementing makes it no longer the active item visually (e.g., another item is active)
-        // or if it moves back from completed, ensure the active class is removed if appropriate.
-        // This logic might need refinement depending on exact desired behavior on decrement.
-        // For now, let's keep it simple: active bar stays until explicitly moved or completed.
+        // If potentialCount is not < currentCompleted, do nothing (already 0)
     }
 
-    // Update progress state only if count changed
+    // Update progress state only if count actually changed
     if (newCompletedCount !== currentCompleted) {
         progress[progressId] = newCompletedCount;
         saveProgress(); 
-    }
-
-    // Start timer AFTER updating progress, if flagged
-    if (shouldStartTimer) {
-        const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
-        const restTime = parseRestTime(exerciseDetailsText);
-        startOnScreenTimer(restTime);
     }
 
     const isNowFullyCompleted = newCompletedCount >= totalSets;
@@ -728,10 +722,11 @@ function setActiveDay(dayIndex) {
 function openInfoModal(title, instructions) { 
     infoModalOverlay.classList.remove("hidden");
     infoModalOverlay.setAttribute('aria-hidden', 'false');
-    infoModalTitle.textContent = title.toUpperCase();
+    // MODIFIED: Use title directly without .toUpperCase()
+    infoModalTitle.textContent = title; 
     infoModalInstructions.innerHTML = '';
     const p = document.createElement('p');
-    p.textContent = instructions || "No instructions available."; // Add fallback
+    p.textContent = instructions || "No instructions available."; 
     infoModalInstructions.appendChild(p);
 }
 function closeInfoModal() { 
