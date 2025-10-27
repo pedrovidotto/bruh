@@ -1,43 +1,43 @@
 // Workout data - Refined for 2x/Week Frequency on Arms & Calves
 const workoutData = [
-  { // DAY 1: Chest Crusher & Triceps
+  { // DAY 1: Chest & Triceps
     "day": 1,
-    "title": "Chest Crusher & Triceps",
-    "duration": "60-75 minutes",
-    "exercises": [
-      {
-        "name": "Barbell Bench Press",
-        "details": "4 sets of 6-10 reps | 90-120s rest",
-        "instructions": "1. Lie flat on the bench, feet firm on the ground.\n2. Grip the bar slightly wider than shoulder-width.\n3. Lower the bar to your mid-chest in a controlled manner.\n4. Press the bar back up powerfully, stopping just short of locking elbows."
+    "title": "Chest & Triceps", 
+    "duration": "60-75 minutes", 
+    "exercises": [ 
+      { 
+        "name": "Barbell Bench Press", 
+        "details": "4 sets of 6-10 reps | 90-120s rest", 
+        "instructions": "1. Lie flat on the bench, feet firm on the ground.\n2. Grip the bar slightly wider than shoulder-width.\n3. Lower the bar to your mid-chest in a controlled manner.\n4. Press the bar back up powerfully, stopping just short of locking elbows." 
       },
-      {
-        "name": "Incline Dumbbell Press",
-        "details": "3 sets of 8-12 reps | 90s rest",
-        "instructions": "1. Set bench to a 30-45 degree angle.\n2. Lie back with dumbbells starting near your upper chest.\n3. Press the weights up in an arc until arms are almost extended.\n4. Lower the dumbbells slowly, feeling a stretch in your upper chest."
+      { 
+        "name": "Incline Dumbbell Press", 
+        "details": "3 sets of 8-12 reps | 90s rest", 
+        "instructions": "1. Set bench to a 30-45 degree angle.\n2. Lie back with dumbbells starting near your upper chest.\n3. Press the weights up in an arc until arms are almost extended.\n4. Lower the dumbbells slowly, feeling a stretch in your upper chest." 
       },
-      {
-        "name": "Weighted Dips (Chest Focus)",
-        "details": "3 sets to Failure (aim 8-15) | 75s rest",
-        "instructions": "1. Use parallel bars, add weight if needed.\n2. Lean your torso forward significantly.\n3. Lower yourself until shoulders are slightly below elbows, feeling a chest stretch.\n4. Press back up, focusing on squeezing the chest."
+      { 
+        "name": "Weighted Dips (Chest Focus)", 
+        "details": "3 sets to Failure (aim 8-15) | 75s rest", 
+        "instructions": "1. Use parallel bars, add weight if needed.\n2. Lean your torso forward significantly.\n3. Lower yourself until shoulders are slightly below elbows, feeling a chest stretch.\n4. Press back up, focusing on squeezing the chest." 
       },
-      {
-        "name": "Cable Crossover (High-to-Low)",
-        "details": "3 sets of 12-15 reps | 60s rest",
-        "instructions": "1. Set pulleys to a high position.\n2. Grab handles, step slightly forward.\n3. With a slight bend in elbows, bring hands down and together in front of your lower chest/waist.\n4. Squeeze chest hard at the peak contraction.\n5. Control the return, feeling a stretch."
+      { 
+        "name": "Cable Crossover (High-to-Low)", 
+        "details": "3 sets of 12-15 reps | 60s rest", 
+        "instructions": "1. Set pulleys to a high position.\n2. Grab handles, step slightly forward.\n3. With a slight bend in elbows, bring hands down and together in front of your lower chest/waist.\n4. Squeeze chest hard at the peak contraction.\n5. Control the return, feeling a stretch." 
       },
       {
         "name": "Cable Rope Pushdowns",
-        "details": "4 sets of 10-15 reps | 60s rest",
+        "details": "4 sets of 10-15 reps | 60s rest", 
         "instructions": "1. Attach a rope to a high pulley.\n2. Keep elbows tucked in close to your body.\n3. Extend your arms fully, squeezing the triceps at the bottom.\n4. Spread the rope handles apart slightly at the end of the movement.\n5. Control the negative."
       }
     ],
-    "abFinisher": { "name": "Cable Crunches", "details": "3 sets of 15-20 reps | 45s rest", "instructions": "1. Kneel facing a high pulley with a rope attachment.\n2. Hold the rope by your head and crunch down, bringing your ribs toward your pelvis.\n3. Focus on contracting your abs, not pulling with your arms." },
-    "cardio": { "name": "15 minutes moderate cardio", "details": "1 set of 15 minutes", "instructions": "Choose a machine like the StairMaster or an incline treadmill. Keep a steady pace where you can hold a conversation." }
+    "abFinisher": { "name": "Cable Crunches", "details": "3 sets of 15-20 reps | 45s rest", "instructions": "1. Kneel facing a high pulley with a rope attachment.\n2. Hold the rope by your head and crunch down, bringing your ribs toward your pelvis.\n3. Focus on contracting your abs, not pulling with your arms." }, 
+    "cardio": { "name": "15 minutes moderate cardio", "details": "1 set of 15 minutes", "instructions": "Choose a machine like the StairMaster or an incline treadmill. Keep a steady pace where you can hold a conversation." } 
   },
   { // DAY 2: Back & Biceps
     "day": 2,
     "title": "Back & Biceps",
-    "duration": "55-65 minutes",
+    "duration": "55-65 minutes", 
     "exercises": [
       { "name": "Weighted Pull-ups (or Lat Pulldowns)", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar slightly wider than shoulder-width.\n2. Drive your elbows down and back to pull your chest towards the bar.\n3. Squeeze your back muscles at the top.\n4. Lower yourself slowly and fully extend your arms at the bottom." },
       { "name": "Barbell Row", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Hinge at your hips, keeping your back straight.\n2. Pull the barbell towards your lower stomach, not your chest.\n3. Squeeze your shoulder blades together at the top.\n4. Lower the bar under control." },
@@ -55,7 +55,7 @@ const workoutData = [
   { // DAY 3: Quads & Calves
     "day": 3,
     "title": "Quads & Calves",
-    "duration": "60-75 minutes",
+    "duration": "60-75 minutes", 
     "exercises": [
       { "name": "Barbell Back Squats", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Place the bar on your upper back, not your neck.\n2. Keep your chest up and back straight.\n3. Squat down until your hips are at or below parallel.\n4. Drive up through your heels." },
       { "name": "Leg Press", "details": "4 sets of 10-15 reps | 90s rest", "instructions": "1. Place your feet shoulder-width apart on the platform.\n2. Lower the weight until your knees are near a 90-degree angle.\n3. Press up, but do not lock your knees." },
@@ -68,8 +68,8 @@ const workoutData = [
   },
   { // DAY 4: Chest & Shoulders
     "day": 4,
-    "title": "Chest & Shoulders",
-    "duration": "60-70 minutes",
+    "title": "Chest & Shoulders", 
+    "duration": "60-70 minutes", 
     "exercises": [
       { "name": "Seated Dumbbell Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Sit on a bench with back support.\n2. Press the dumbbells overhead until your arms are almost fully extended.\n3. Lower the dumbbells slowly to shoulder height." },
       { "name": "Cable Lateral Raise", "details": "4 sets of 12-15 reps | 60s rest", "instructions": "1. Stand side-on to a low cable pulley.\n2. Raise your arm out to the side, leading with your elbow.\n3. Keep a slight bend in your arm. Control the negative." },
@@ -82,8 +82,8 @@ const workoutData = [
   },
   { // DAY 5: Biceps & Triceps
     "day": 5,
-    "title": "Biceps & Triceps",
-    "duration": "45-55 minutes",
+    "title": "Biceps & Triceps", 
+    "duration": "45-55 minutes", 
     "exercises": [
       { "name": "Close-Grip Bench Press", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Grip the bar narrower than shoulder-width.\n2. Keep your elbows tucked in close to your body as you lower the bar.\n3. Press up, focusing on your triceps." },
       { "name": "Barbell Curls", "details": "4 sets of 8-12 reps | 75s rest", "instructions": "1. Keep your elbows pinned to your sides.\n2. Curl the weight up without using momentum or swinging your body.\n3. Squeeze your biceps at the top and lower with control." },
@@ -96,17 +96,17 @@ const workoutData = [
   },
   { // DAY 6: Glutes & Hamstrings
     "day": 6,
-    "title": "Glutes & Hamstrings",
-    "duration": "65-75 minutes",
+    "title": "Glutes & Hamstrings", 
+    "duration": "65-75 minutes", 
     "exercises": [
       { "name": "Romanian Deadlifts (RDLs)", "details": "4 sets of 8-12 reps | 120s rest", "instructions": "1. Hinge at your hips, keeping your back flat and legs almost straight.\n2. Lower the bar until you feel a deep stretch in your hamstrings.\n3. Drive your hips forward to return to the start." },
       { "name": "Barbell Hip Thrusts", "details": "4 sets of 8-12 reps | 90s rest", "instructions": "1. Rest your upper back on a bench.\n2. Drive your hips up powerfully, squeezing your glutes hard at the top.\n3. Keep your chin tucked." },
       { "name": "Seated or Lying Leg Curls", "details": "4 sets of 12-15 reps | 75s rest (Drop set)", "instructions": "1. Point your toes to better engage the hamstrings.\n2. Squeeze at the peak of the curl and control the negative." },
       { "name": "Hip Abduction Machine", "details": "4 sets of 15-20+ reps | 60s rest (Drop set)", "instructions": "1. Lean your torso forward to better target the upper glute shelf.\n2. Control the movement, especially on the way back in." },
-      {
-        "name": "45-Degree Kickbacks (Cable/Band)",
-        "details": "3 sets of 15-20 reps (per leg) | 45s rest",
-        "instructions": "1. Attach an ankle strap to a low cable pulley or use a resistance band.\n2. Stand facing the machine/anchor point.\n3. Keeping your leg mostly straight, kick it back and slightly out to the side (about 45 degrees).\n4. Focus on squeezing your upper glute at the peak of the movement.\n5. Control the return to the starting position."
+      { 
+        "name": "45-Degree Kickbacks (Cable/Band)", 
+        "details": "3 sets of 15-20 reps (per leg) | 45s rest", 
+        "instructions": "1. Attach an ankle strap to a low cable pulley or use a resistance band.\n2. Stand facing the machine/anchor point.\n3. Keeping your leg mostly straight, kick it back and slightly out to the side (about 45 degrees).\n4. Focus on squeezing your upper glute at the peak of the movement.\n5. Control the return to the starting position." 
       },
       {
         "name": "Seated Calf Raises",
@@ -119,8 +119,8 @@ const workoutData = [
   },
   { // DAY 7: Back, Shoulders & Traps
     "day": 7,
-    "title": "Back, Shoulders & Traps",
-    "duration": "45-55 minutes",
+    "title": "Back, Shoulders & Traps", 
+    "duration": "45-55 minutes", 
     "exercises": [
       { "name": "Machine Lat Pulldown (Neutral Grip)", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Use a machine with handles allowing a neutral grip (palms facing each other).\n2. Pull the handles down towards your chest, driving your elbows down and back.\n3. Squeeze your lats at the bottom.\n4. Control the ascent, feeling a stretch." },
       { "name": "Seated Cable Row (Wide Grip)", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "1. Use a wide bar attachment on a seated cable row machine.\n2. Pull the bar towards your mid-torso, keeping your chest up and back straight.\n3. Focus on squeezing your upper back muscles together.\n4. Slowly return to the starting position." },
@@ -137,9 +137,9 @@ const workoutData = [
 const daySelector = document.getElementById("day-selector");
 const workoutTitle = document.getElementById("workout-title");
 const workoutDuration = document.getElementById("workout-duration");
-const exerciseList = document.getElementById("exercise-list"); // Active list
-const completedList = document.getElementById("completed-list"); // Completed list
-const completedTitle = document.getElementById("completed-title"); // Title for completed section
+const exerciseList = document.getElementById("exercise-list"); 
+const completedList = document.getElementById("completed-list"); 
+const completedTitle = document.getElementById("completed-title"); 
 const resetButton = document.getElementById("reset-button");
 const timerDisplay = document.getElementById('timer-display');
 const infoModalOverlay = document.getElementById("info-modal-overlay");
@@ -150,7 +150,7 @@ const resetModalOverlay = document.getElementById("reset-modal-overlay");
 const confirmResetBtn = document.getElementById("confirm-reset-btn");
 const cancelResetBtn = document.getElementById("cancel-reset-btn");
 const completionOverlay = document.getElementById("completion-overlay");
-const completionTitleEl = document.getElementById("completion-title"); // Renamed for clarity
+const completionTitleEl = document.getElementById("completion-title"); 
 const completionMessage = document.getElementById("completion-message");
 const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
@@ -187,7 +187,6 @@ function toggleTheme() {
 // --- Timer, Haptic Functions ---
 function triggerHapticFeedback() { if ('vibrate' in navigator) { navigator.vibrate(50); } }
 
-// --- MODIFIED: Removed the active bar removal from timer completion ---
 function startOnScreenTimer(durationSeconds) {
     if (activeTimer) { clearInterval(activeTimer); }
     restPeriodEndTime = Date.now() + (durationSeconds * 1000);
@@ -211,20 +210,12 @@ function startOnScreenTimer(durationSeconds) {
             localStorage.removeItem('restPeriodEndTime');
             restPeriodEndTime = null;
             triggerHapticFeedback();
-            
-            // --- REMOVED THIS BLOCK ---
-            // const currentActive = document.querySelector('.exercise-active');
-            // if (currentActive) {
-            //     currentActive.classList.remove('exercise-active');
-            // }
-            // --- END REMOVAL ---
-
+            // Active bar removal moved from here
         } else { timeLeft--; }
     };
     updateTimer();
     activeTimer = setInterval(updateTimer, 1000);
 }
-// --- END MODIFICATION ---
 
 function checkTimerOnFocus() {
     const endTime = restPeriodEndTime || localStorage.getItem('restPeriodEndTime');
@@ -309,15 +300,23 @@ function updateCompletedSectionVisibility() {
 }
 
 // --- Event Handlers & Interaction ---
+// --- MODIFIED: Ensure timer starts on first increment ---
 function handleSeriesUpdate(card, progressId, totalSets, direction) {
     const currentCompleted = progress[progressId] || 0;
     const wasFullyCompleted = currentCompleted >= totalSets;
 
     let newCompletedCount;
+    let shouldStartTimer = false; // Flag to start timer
+
     if (direction === 'increment') {
         newCompletedCount = Math.min(totalSets, currentCompleted + 1);
         if (newCompletedCount > currentCompleted) {
              triggerHapticFeedback();
+             
+             // Mark that timer should start if this isn't the completion click
+             if (newCompletedCount <= totalSets) { 
+                 shouldStartTimer = true;
+             }
              
              const currentActive = document.querySelector('.exercise-active');
              if (currentActive) {
@@ -325,7 +324,7 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
              }
              card.classList.add('exercise-active');
              
-             if (!wasFullyCompleted) { 
+             if (!wasFullyCompleted && newCompletedCount < totalSets) { // Only move if not completing now
                 let previousSibling = card.previousElementSibling;
                 let titleElement = null;
                 while (previousSibling) {
@@ -340,44 +339,54 @@ function handleSeriesUpdate(card, progressId, totalSets, direction) {
                     titleElement.after(card);
                 }
              }
-
-             const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
-             const restTime = parseRestTime(exerciseDetailsText);
-             startOnScreenTimer(restTime);
+        } else {
+            // If already at max sets, don't change count or start timer
+            newCompletedCount = currentCompleted;
         }
     } else { // 'decrement'
         newCompletedCount = Math.max(0, currentCompleted - 1);
         if (activeTimer && newCompletedCount < currentCompleted) {
+            // Stop timer if it was running and count decreased
             clearInterval(activeTimer);
             timerDisplay.classList.add('hidden');
             localStorage.removeItem('restPeriodEndTime');
             restPeriodEndTime = null;
-            // Note: We intentionally DO NOT remove exercise-active here when decrementing/stopping timer
         }
-        // If decrementing makes it no longer active, but timer wasn't running, still remove active class
-        if (!activeTimer && !card.classList.contains('exercise-active')) {
-             card.classList.remove('exercise-active');
-        }
+        // If decrementing makes it no longer the active item visually (e.g., another item is active)
+        // or if it moves back from completed, ensure the active class is removed if appropriate.
+        // This logic might need refinement depending on exact desired behavior on decrement.
+        // For now, let's keep it simple: active bar stays until explicitly moved or completed.
     }
 
-    progress[progressId] = newCompletedCount;
-    saveProgress(); 
+    // Update progress state only if count changed
+    if (newCompletedCount !== currentCompleted) {
+        progress[progressId] = newCompletedCount;
+        saveProgress(); 
+    }
+
+    // Start timer AFTER updating progress, if flagged
+    if (shouldStartTimer) {
+        const exerciseDetailsText = card.querySelector('.exercise-details p')?.textContent || '';
+        const restTime = parseRestTime(exerciseDetailsText);
+        startOnScreenTimer(restTime);
+    }
 
     const isNowFullyCompleted = newCompletedCount >= totalSets;
     updateCardVisuals(card, progressId, totalSets); 
 
+    // Move between lists only if completion status flipped
     if (!wasFullyCompleted && isNowFullyCompleted) {
-        animateAndMoveToCompleted(card);
+        animateAndMoveToCompleted(card); // This function removes 'exercise-active'
         checkDayCompletion();
     } else if (wasFullyCompleted && !isNowFullyCompleted) {
         moveFromCompletedToActive(card);
     }
 }
+// --- END MODIFICATION ---
 
-// animateAndMoveToCompleted still correctly removes 'exercise-active' when item is moved
 function animateAndMoveToCompleted(card) {
     card.classList.add('reordering');
-    card.classList.remove('exercise-active'); // Bar is removed when fully completed
+    card.classList.remove('exercise-active'); // Bar removed when moving to completed
     removeCardListeners(card); 
     setTimeout(() => {
         completedList.appendChild(card);
