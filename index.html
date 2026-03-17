@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="Minimalist workout tracking system." />
   <title>WORKOUT.SYS</title>
-  <meta name="description" content="A minimalist 7-day workout tracker. Track sets, rest timers, and weekly progress." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,32 +17,30 @@
 </head>
 <body>
 
-<div class="container">
-
-  <header>
+<header id="main-header">
+  <div class="container header-container">
     <div class="header-top-row">
       <h1 class="logo">
         <img src="logo.svg" alt="Logo" class="logo-svg">
       </h1>
-      <button id="theme-toggle-btn" class="day-btn">SM</button>
+      <button id="theme-toggle-btn" class="day-btn" aria-label="Switch theme">SM</button>
     </div>
     <hr class="header-divider">
     <nav id="day-selector"></nav>
-  </header>
+  </div>
+</header>
 
+<div class="container content-container">
   <main id="workout-container">
     <div id="workout-header">
       <h2 id="workout-title"></h2>
       <p id="workout-duration" class="data-readout"></p>
     </div>
 
-    <ul id="exercise-list">
-      </ul>
+    <ul id="exercise-list"></ul>
 
     <h3 id="completed-title" class="category-title hidden">// COMPLETED</h3>
-    <ul id="completed-list">
-        </ul>
-
+    <ul id="completed-list"></ul>
   </main>
 
   <footer>
@@ -85,7 +83,7 @@
     <div id="completion-card">
         <h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2>
         <p id="completion-message">Processing...</p>
-        <p class="completion-dismiss-hint">TAP TO DISMISS</p>
+        <p style="font-size: 0.7rem; color: var(--text-color-muted); margin-top: 16px; text-transform: uppercase;">[Tap anywhere to dismiss]</p>
     </div>
 </div>
 
