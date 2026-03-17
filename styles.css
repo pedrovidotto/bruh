@@ -70,18 +70,7 @@ body {
   position: relative; 
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px; 
-  background: linear-gradient(to bottom, var(--gradient-start) 60%, var(--gradient-end));
-  z-index: 10; 
-  pointer-events: none; 
-  transition: background 0.3s ease;
-}
+/* Gradient variables kept for potential future use */
 
 /* 2. TYPOGRAPHY & HEADER */
 h1, h2, h3 {
@@ -156,7 +145,14 @@ body[data-theme="light"] .logo-svg {
 }
 
 header {
+  position: sticky;
+  top: 0;
+  background-color: var(--background-color);
+  z-index: 50;
   margin-bottom: 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color-muted);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 #day-selector {
@@ -186,8 +182,8 @@ header {
   position: relative;
   overflow: hidden; 
   z-index: 1;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -410,6 +406,16 @@ header {
     border-bottom: none;
 }
 
+/* Rest day placeholder */
+.rest-day-card {
+    justify-content: center;
+    cursor: default;
+    opacity: 0.8;
+    border-bottom: none;
+}
+.rest-day-card h3 { font-weight: 500; }
+.rest-day-card p  { font-weight: 300; }
+
 
 #exercise-list .exercise-item:hover,
 #exercise-list .ab-finisher:hover,
@@ -629,6 +635,21 @@ footer {
     color: var(--light-text-muted); 
     font-size: 0.9rem; 
     transition: color 0.3s ease; 
+}
+
+.completion-dismiss-hint {
+    margin-top: 20px;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--light-text-muted);
+    opacity: 0.5;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+#completion-overlay {
+    cursor: pointer;
 }
 
 
