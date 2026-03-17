@@ -215,19 +215,20 @@ function startOnScreenTimer(durationSeconds) {
     timerDisplay.classList.remove('hidden');
 
     const updateTimer = () => {
+        // Render first, then decrement — ensures 00:00 is shown before clearing
         const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         const seconds = (timeLeft % 60).toString().padStart(2, '0');
         timerDisplay.textContent = `${minutes}:${seconds}`;
 
         if (timeLeft <= 0) {
-            clearTimerState(); 
+            clearTimerState();
             triggerHapticFeedback();
-        } else {
-            timeLeft--;
+            return;
         }
+        timeLeft--;
     };
 
-    updateTimer(); 
+    updateTimer();
     activeTimer = setInterval(updateTimer, 1000);
 }
 
@@ -491,7 +492,7 @@ function moveFromCompletedToActive(card) {
             if (mainItems.length > 0) {
                 anchorElement = mainItems[mainItems.length - 1];
             } else if (titles.length > 0 && titles[0].textContent === "Main Workout") {
-                 anchorElement = titles[0]; 
+                anchorElement = titles[0]; 
             }
         } else if (sectionOrder === 2) { 
             const abItems = exerciseList.querySelectorAll('.ab-finisher');
@@ -555,10 +556,16 @@ function checkDayCompletion() {
             updateDayButtonCompletionMarks(); 
         }
 
-        const isWeekComplete = activeDayIndex === (workoutData.length - 1); 
+        const isWeekComplete = workoutData.every((_, idx) => completedDays.includes(idx));
         completionTitleEl.textContent = isWeekComplete ? "// WEEK COMPLETE" : "// DAY COMPLETE"; 
         completionMessage.textContent = isWeekComplete ? "SYSTEM RESET IN 5S... PREPARE FOR NEXT CYCLE." : motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
         completionOverlay.classList.remove('hidden');
+        // Allow tapping to dismiss early
+        const dismissHandler = () => {
+            completionOverlay.classList.add('hidden');
+            completionOverlay.removeEventListener('click', dismissHandler);
+        };
+        completionOverlay.addEventListener('click', dismissHandler);
         if (isWeekComplete) {
             setTimeout(() => {
                 progress = {};
@@ -583,6 +590,7 @@ function addCardListeners(card, isCompleted) {
     if (!isCompleted) {
          const clickHandler = (e) => {
             if (e.target.closest('.info-btn')) return;
+            if (longPressTriggered) { longPressTriggered = false; return; }
             if (card.parentElement === exerciseList) { 
                 handleSeriesUpdate(card, progressId, totalSets, 'increment');
             }
@@ -599,16 +607,18 @@ function addCardListeners(card, isCompleted) {
     card._contextHandler = contextHandler;
 
     let longPressTimeoutId = null;
+    let longPressTriggered = false;
     const touchStartHandler = (e) => {
         if (e.target.closest('.info-btn')) return;
+        longPressTriggered = false;
         if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
         longPressTimeoutId = setTimeout(() => {
-            e.preventDefault();
+            longPressTriggered = true;
             handleSeriesUpdate(card, progressId, totalSets, 'decrement');
             longPressTimeoutId = null;
         }, LONG_PRESS_DURATION);
     };
-     const clearLongPress = () => {
+    const clearLongPress = () => {
         if (longPressTimeoutId) clearTimeout(longPressTimeoutId);
         longPressTimeoutId = null;
     };
@@ -626,21 +636,11 @@ function addCardListeners(card, isCompleted) {
     if (infoBtn) {
         const infoClickHandler = (e) => {
             e.stopPropagation();
-            const exerciseName = card.querySelector('h3').textContent;
-            const dayNum = parseInt(progressId.match(/day(\d+)/)[1], 10);
-            const type = progressId.match(/-([a-z]+)-/)[1];
-            const index = parseInt(progressId.match(/-(\d+)$/)[1], 10);
-            const dayData = workoutData.find(d => d.day === dayNum);
-            let exerciseData;
-            if (dayData) {
-                 if (type === 'exercise') exerciseData = dayData.exercises[index];
-                 else if (type === 'ab') exerciseData = dayData.abFinisher;
-                 else if (type === 'cardio') exerciseData = dayData.cardio;
-            }
+            const exerciseData = _getExerciseDataFromProgressId(progressId);
             if (exerciseData) {
                 openInfoModal(exerciseData.name, exerciseData.instructions);
             } else {
-                 console.error("Could not find exercise data for modal:", progressId);
+                console.error("Could not find exercise data for modal:", progressId);
             }
         };
         if (infoBtn._infoClickHandler) {
@@ -649,6 +649,22 @@ function addCardListeners(card, isCompleted) {
         infoBtn.addEventListener('click', infoClickHandler);
         infoBtn._infoClickHandler = infoClickHandler;
     }
+}
+
+function _getExerciseDataFromProgressId(progressId) {
+    const dayMatch = progressId.match(/day(\d+)/);
+    const typeMatch = progressId.match(/-([a-z]+)-/);
+    const indexMatch = progressId.match(/-(\d+)$/);
+    if (!dayMatch || !typeMatch || !indexMatch) return null;
+    const dayNum = parseInt(dayMatch[1], 10);
+    const type = typeMatch[1];
+    const index = parseInt(indexMatch[1], 10);
+    const dayData = workoutData.find(d => d.day === dayNum);
+    if (!dayData) return null;
+    if (type === 'exercise') return dayData.exercises?.[index] || null;
+    if (type === 'ab') return dayData.abFinisher || null;
+    if (type === 'cardio') return dayData.cardio || null;
+    return null;
 }
 
 
@@ -754,7 +770,7 @@ function renderWorkout(dayIndex) {
 
     if (!dayData.exercises || dayData.exercises.length === 0) { 
         workoutTitle.innerHTML = `<span class="workout-day-num">${dayData.day}.</span> ${dayData.title || 'Rest Day'}`; 
-        exerciseList.innerHTML = '<li class="exercise-item" style="justify-content:center; cursor: default; opacity: 0.8; border-bottom: none;"><div class="exercise-details"><h3 style="font-weight: 500;">SYSTEM IN STANDBY</h3><p style="font-weight: 300;">FOCUS ON RECOVERY.</p></div></li>';
+        exerciseList.innerHTML = '<li class="exercise-item rest-day-card"><div class="exercise-details"><h3>SYSTEM IN STANDBY</h3><p>FOCUS ON RECOVERY.</p></div></li>';
     } else {
         renderSection("Main Workout", dayData.exercises, 'exercise-item', 'exercise', dayData.day);
         renderSection("Ab Finisher", dayData.abFinisher, 'ab-finisher', 'ab', dayData.day);
@@ -817,7 +833,7 @@ function init() {
         if (document.visibilityState === 'visible') { checkTimerOnFocus(); }
     });
 
-    const dayLabels = ["M", "T", "W", "T", "F", "S", "S"]; 
+    const dayLabels = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
     workoutData.forEach((day, index) => {
         const label = dayLabels[index] || `D${index + 1}`; 
         
