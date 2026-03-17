@@ -1,8 +1,10 @@
 {
   "name": "WORKOUT.SYS",
   "short_name": "WORKOUT.SYS",
+  "description": "A minimalist 7-day workout tracker with set counters, rest timers, and weekly progress.",
   "start_url": ".",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#2d2a27",
   "theme_color": "#2d2a27",
   "icons": [
