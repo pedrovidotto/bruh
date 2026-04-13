@@ -1,4 +1,4 @@
-const CACHE_NAME = 'workout-sys-v2.0';
+const CACHE_NAME = 'workout-sys-v2.1';
 const ASSETS = ['./', './index.html', './styles.css', './script.js', './manifest.json'];
 
 self.addEventListener('install', (e) => {
@@ -7,10 +7,16 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('activate', (e) => {
-  e.waitUntil(caches.keys().then((ks) => Promise.all(ks.map((k) => k !== CACHE_NAME && caches.delete(k)))));
+  e.waitUntil(
+    caches.keys().then((ks) => Promise.all(
+      ks.map((k) => k !== CACHE_NAME && caches.delete(k))
+    ))
+  );
   self.clients.claim();
 });
 
 self.addEventListener('fetch', (e) => {
-  e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+  e.respondWith(
+    caches.match(e.request).then((res) => res || fetch(e.request))
+  );
 });
