@@ -1,6 +1,6 @@
 /* ─── Workout Data ────────────────────────────────────────────── */
 const workoutData = [
-  { "day": 1, "title": "Upper 1", "subtitle": "Strength + AEL", "duration": "85–95m", "exercises": [
+  { "day": 1, "title": "Upper 1", "subtitle": "Strength + AEL", "duration": "75–85m", "exercises": [
     { "name": "Incline DB Press (30°)", "details": "4 × 5–7 reps · 180s rest", "rpe": "8–9", "instructions": "SETUP: Bench at 30°. EXECUTION: 4s negative. 1s pause at bottom stretch. Stop at 95% lockout." },
     { "name": "Weighted Dips (Chest Lean)", "details": "3 × 5–7 reps · 150s rest", "rpe": "8–9", "instructions": "SETUP: Torso 30° forward. EXECUTION: 4s negative. Full chest stretch. Drive up via pec compression." },
     { "name": "Seated DB Overhead Press", "details": "4 × 6–8 reps · 150s rest", "rpe": "8", "instructions": "SETUP: Scapular Plane (elbows 30° forward). EXECUTION: 4s negative. Press to full lockout, ribs tucked." },
@@ -9,7 +9,7 @@ const workoutData = [
     { "name": "Reverse Pec-Deck", "details": "3 × 12–15 reps · 60s rest", "rpe": "9", "instructions": "SETUP: Protract scapulae. EXECUTION: Wide arc using only rear delts. Do not squeeze shoulder blades." }
   ], "abFinisher": { "name": "Cable Crunches", "details": "4 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Flex spine, ribs to pelvis. Do not pivot at hips. Slow controlled return. Heavy load focus." } },
 
-  { "day": 2, "title": "Lower 1", "subtitle": "Strength + AEL", "duration": "70–75m", "exercises": [
+  { "day": 2, "title": "Lower 1", "subtitle": "Strength + AEL", "duration": "65–75m", "exercises": [
     { "name": "Barbell Hip Thrust", "details": "4 × 6–8 reps · 150s rest", "rpe": "8–9", "instructions": "EXECUTION: 3s negative. 2s hard squeeze at peak with Posterior Pelvic Tilt (tuck tailbone)." },
     { "name": "Bulgarian Split Squat", "details": "4 × 7–9 reps · 120s rest", "rpe": "8–9", "instructions": "SETUP: Torso forward 15° for glute bias. EXECUTION: 3s negative. Focus on front leg glute-ham tie-in." },
     { "name": "Romanian Deadlift", "details": "3 × 7–9 reps · 150s rest", "rpe": "8", "instructions": "EXECUTION: 4s negative. Hinge back, keep bar on shins. Stop at max hamstring tension." },
@@ -18,7 +18,7 @@ const workoutData = [
     { "name": "Standing Calf Raise", "details": "4 × 10–12 reps · 60s rest", "rpe": "8", "instructions": "EXECUTION: 4s negative. Pause 1s in deep stretch. Drive onto big toes and squeeze." }
   ] },
 
-  { "day": 3, "title": "Upper 2", "subtitle": "Hypertrophy + Partials", "duration": "55–60m", "exercises": [
+  { "day": 3, "title": "Upper 2", "subtitle": "Hypertrophy + Partials", "duration": "85–95m", "exercises": [
     { "name": "Incline DB Press (45°)", "details": "3 × 9–11 reps · 90s rest", "rpe": "9", "instructions": "Higher angle targets uppermost clavicular fibers. Drive dumbbells toward midline at top." },
     { "name": "Low-to-High Cable Fly", "details": "4 × 10–12 reps + Partials · 90s rest", "rpe": "10", "instructions": "Cross hands at top. At failure, do 5-6 partials from bottom stretch to halfway up." },
     { "name": "Seated DB Lateral Raise", "details": "4 × 12–15 reps + Partials · 75s rest", "rpe": "10", "instructions": "At failure, do 6-8 partials in bottom 30% of range. Stretch position focus for side delt growth." },
@@ -26,7 +26,7 @@ const workoutData = [
     { "name": "Cable Triceps Pushdown", "details": "3 × 10–12 reps · 60s rest", "rpe": "9", "instructions": "SETUP: Straight bar. EXECUTION: Keep elbows pinned. lateral head focus. Squeeze hard at bottom." }
   ], "cardio": { "name": "40m Zone 2 Cardio", "details": "1 × 40 mins", "instructions": "PACING: Conversational pace. Facilitates nutrient delivery and waste clearance. Do not gasp." } },
 
-  { "day": 4, "title": "Lower 2", "subtitle": "Hypertrophy + Partials", "duration": "55–60m", "exercises": [
+  { "day": 4, "title": "Lower 2", "subtitle": "Hypertrophy + Partials", "duration": "60–70m", "exercises": [
     { "name": "Barbell Hip Thrust", "details": "4 × 9–11 reps · 90s rest", "rpe": "9", "instructions": "Constant pace, 1s lockout squeeze. Focus on high-rep endurance for the upper glutes." },
     { "name": "Leg Press (Glute Stance)", "details": "3 × 10–12 reps · 90s rest", "rpe": "9", "instructions": "SETUP: Feet high and wide on platform. EXECUTION: Drive through heels to bias glutes over quads." },
     { "name": "45° Back Extension", "details": "3 × 12–15 reps · 75s rest", "rpe": "8–9", "instructions": "EXECUTION: Round upper back. Use ONLY glutes to pull torso up. Keep chin tucked to spine." },
@@ -35,7 +35,7 @@ const workoutData = [
     { "name": "Seated Calf Raise", "details": "4 × 12–15 reps · 60s rest", "rpe": "8", "instructions": "EXECUTION: 4s negative count. Targeted to the Soleus muscle. Constant slow rhythm." }
   ] },
 
-  { "day": 5, "title": "Upper 3", "subtitle": "Metabolic + Myo-Reps", "duration": "60–65m", "exercises": [
+  { "day": 5, "title": "Upper 3", "subtitle": "Metabolic + Myo-Reps", "duration": "50–60m", "exercises": [
     { "name": "Pec Deck Fly", "details": "1 Activation + 4 Clusters · 90s rest", "rpe": "9–10", "instructions": "PROTOCOL: Set failure at 12-15 reps. Rest 10s. Do 4-5 reps. Repeat for 4 clusters total." },
     { "name": "Machine Shoulder Press", "details": "3 × 12–15 reps · 75s rest", "rpe": "9–10", "instructions": "EXECUTION: Neutral grip. Push into seat. Machine allows for safe absolute failure." },
     { "name": "Cable Lateral Raise", "details": "1 Activation + 4 Clusters · 90s rest", "rpe": "9–10", "instructions": "PROTOCOL: Myo-reps. Final side-delt assault. Focus on the pump and cell swelling." },
@@ -44,7 +44,7 @@ const workoutData = [
     { "name": "Face Pulls", "details": "3 × 15–20 reps · 60s rest", "rpe": "8", "instructions": "EXECUTION: Pull toward forehead, rotate fists back. Essential for 3D shoulder 'cap' appearance." }
   ], "abFinisher": { "name": "Inclined Leg Raises", "details": "3 × 12–15 reps · 60s rest", "instructions": "SETUP: Incline bench (head at top). EXECUTION: Rotate pelvis upward off bench. Target lower abs." } },
 
-  { "day": 6, "title": "Lower 3", "subtitle": "Metabolic Stress", "duration": "115m", "exercises": [
+  { "day": 6, "title": "Lower 3", "subtitle": "Metabolic Stress", "duration": "60–70m", "exercises": [
     { "name": "45° Cable Kickback", "details": "1 Activation + 4 Clusters · 90s rest", "rpe": "9–10", "instructions": "EXECUTION: Kick diagonally UP and OUT (45°). Aligns with upper glute medius fibers. Myo-reps." },
     { "name": "Hip Abduction Machine", "details": "4 × 15–20 reps (Drop) · 75s rest", "rpe": "9–10", "instructions": "SETUP: Lean torso forward 30°. EXECUTION: Drop weight by 30% on final set to technical failure." },
     { "name": "Hack Squat", "details": "4 × 10–12 reps · 90s rest", "rpe": "8–9", "instructions": "SETUP: Feet low on platform. EXECUTION: Maximum depth. Quad-dominant finisher. Control the negative." },
@@ -70,7 +70,8 @@ function renderWorkout(idx) {
   const compSection = document.getElementById('completed-section');
   const fill = document.getElementById('progress-bar-fill');
   
-  document.getElementById('workout-title').innerHTML = `${data.title}<br><em style="font-style:italic;opacity:0.4;">${data.subtitle}</em>`;
+  // Fonte em itálico removida conforme instrução
+  document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-weight:300;opacity:0.5;">${data.subtitle}</span>`;
   document.getElementById('workout-duration').textContent = data.duration === '—' ? '' : `EST. ${data.duration}`;
   
   list.innerHTML = ''; compList.innerHTML = '';
@@ -98,6 +99,12 @@ function renderWorkout(idx) {
 
     const li = document.createElement('li');
     li.className = 'exercise-item';
+    
+    // Aplicação da classe 'active-exercise' se o card tiver pelo menos 1 série concluída, mas não todas.
+    if (sCurrent > 0 && sCurrent < sTotal) {
+      li.classList.add('active-exercise');
+    }
+
     li.innerHTML = `
       <span class="set-counter ${sCurrent >= sTotal ? 'sets-complete' : ''}">${sCurrent}/${sTotal}</span>
       <div class="exercise-details">
@@ -166,7 +173,6 @@ function startTimer(sec) {
 function showInfo(title, text) {
   document.getElementById('info-modal-title').textContent = title;
   const body = document.getElementById('info-modal-instructions');
-  // Ajuste simples para o novo formato de string que não depende mais apenas de ALL CAPS
   body.innerHTML = text.split(/(SETUP:|EXECUTION:|PROTOCOL:|PACING:)/g)
     .filter(Boolean)
     .map(l => {
