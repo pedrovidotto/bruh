@@ -123,6 +123,8 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   cursor: pointer;
   position: relative;
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .set-counter {
@@ -214,13 +216,3 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   font-family: 'DM Mono', monospace; font-size: 0.65rem;
   color: var(--accent); display: block; margin-bottom: 4px;
 }
-
-/* ─── Theme toggle ────────────────────────────────────────────── */
-.theme-toggle {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: var(--surface); border: 1px solid var(--border);
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.theme-toggle svg { width: 18px; height: 18px; }
-.theme-toggle .svg-bg-circle { fill: var(--surface); }
-.theme-toggle .svg-fg-circle { fill: var(--text); }
