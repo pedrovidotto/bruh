@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>WORKOUT.SYS</title>
-  <meta name="description" content="A minimalist 7-day workout tracker. Track sets, rest timers, and weekly progress." />
+  <meta name="description" content="Advanced 6-Day Hypertrophy Protocol" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,32 +17,30 @@
 </head>
 <body>
 
-<div class="container">
-
-  <header>
+<header id="main-header">
+  <div class="container header-container">
     <div class="header-top-row">
       <h1 class="logo">
-        <img src="logo.svg" alt="Logo" class="logo-svg">
+        <img src="logo.svg" alt="Logo" class="logo-svg" onerror="this.style.display='none'">
       </h1>
-      <button id="theme-toggle-btn" class="day-btn">SM</button>
+      <button id="theme-toggle-btn" class="day-btn" aria-label="Switch theme">SM</button>
     </div>
     <hr class="header-divider">
     <nav id="day-selector"></nav>
-  </header>
+  </div>
+</header>
 
+<div class="container content-container">
   <main id="workout-container">
     <div id="workout-header">
       <h2 id="workout-title"></h2>
       <p id="workout-duration" class="data-readout"></p>
     </div>
 
-    <ul id="exercise-list">
-      </ul>
+    <ul id="exercise-list"></ul>
 
     <h3 id="completed-title" class="category-title hidden">// COMPLETED</h3>
-    <ul id="completed-list">
-        </ul>
-
+    <ul id="completed-list"></ul>
   </main>
 
   <footer>
@@ -61,9 +59,7 @@
             </button>
         </div>
         <div class="divider"></div>
-        <div id="info-modal-instructions">
-            <p>Instructions will go here.</p>
-        </div>
+        <div id="info-modal-instructions"></div>
     </div>
 </div>
 
