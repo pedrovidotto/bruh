@@ -48,14 +48,14 @@ body {
 /* ─── Typography ──────────────────────────────────────────────── */
 .title-light {
   font-family: 'Inter', sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   letter-spacing: -0.02em;
 }
 
 #workout-header { margin: 24px 0 32px; }
 #workout-title {
   font-family: 'Inter', sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   font-size: clamp(2.5rem, 10vw, 4rem);
   line-height: 1;
   letter-spacing: -0.03em;
@@ -106,7 +106,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   background: transparent;
   color: var(--text-muted);
   font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
+  font-size: 0.45rem;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.2s ease;
