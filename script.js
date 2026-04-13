@@ -18,13 +18,13 @@ const workoutData = [
     { "name": "Standing Calf Raise", "details": "4 × 10–12 reps · 60s rest", "rpe": "8", "instructions": "EXECUTION: 4s negative. Pause 1s in deep stretch. Drive onto big toes and squeeze." }
   ] },
 
-  { "day": 3, "title": "Upper 2", "subtitle": "Hypertrophy + Partials", "duration": "85–95m", "exercises": [
+  { "day": 3, "title": "Upper 2", "subtitle": "Hypertrophy + Partials", "duration": "50–60m", "exercises": [
     { "name": "Incline DB Press (45°)", "details": "3 × 9–11 reps · 90s rest", "rpe": "9", "instructions": "Higher angle targets uppermost clavicular fibers. Drive dumbbells toward midline at top." },
     { "name": "Low-to-High Cable Fly", "details": "4 × 10–12 reps + Partials · 90s rest", "rpe": "10", "instructions": "Cross hands at top. At failure, do 5-6 partials from bottom stretch to halfway up." },
     { "name": "Seated DB Lateral Raise", "details": "4 × 12–15 reps + Partials · 75s rest", "rpe": "10", "instructions": "At failure, do 6-8 partials in bottom 30% of range. Stretch position focus for side delt growth." },
     { "name": "Lat Pulldown (Neutral)", "details": "3 × 10–12 reps · 90s rest", "rpe": "8–9", "instructions": "EXECUTION: Drive elbows straight down. Full dead-hang stretch at top. Focus on lat width." },
     { "name": "Cable Triceps Pushdown", "details": "3 × 10–12 reps · 60s rest", "rpe": "9", "instructions": "SETUP: Straight bar. EXECUTION: Keep elbows pinned. lateral head focus. Squeeze hard at bottom." }
-  ], "cardio": { "name": "40m Zone 2 Cardio", "details": "1 × 40 mins", "instructions": "PACING: Conversational pace. Facilitates nutrient delivery and waste clearance. Do not gasp." } },
+  ], "abFinisher": { "name": "Inclined Leg Raises", "details": "3 × 12–15 reps · 60s rest", "instructions": "SETUP: Incline bench (head at top). EXECUTION: Rotate pelvis upward off bench. Target lower abs." } },
 
   { "day": 4, "title": "Lower 2", "subtitle": "Hypertrophy + Partials", "duration": "60–70m", "exercises": [
     { "name": "Barbell Hip Thrust", "details": "4 × 9–11 reps · 90s rest", "rpe": "9", "instructions": "Constant pace, 1s lockout squeeze. Focus on high-rep endurance for the upper glutes." },
@@ -35,14 +35,14 @@ const workoutData = [
     { "name": "Seated Calf Raise", "details": "4 × 12–15 reps · 60s rest", "rpe": "8", "instructions": "EXECUTION: 4s negative count. Targeted to the Soleus muscle. Constant slow rhythm." }
   ] },
 
-  { "day": 5, "title": "Upper 3", "subtitle": "Metabolic + Myo-Reps", "duration": "50–60m", "exercises": [
+  { "day": 5, "title": "Upper 3", "subtitle": "Metabolic + Myo-Reps", "duration": "65–75m", "exercises": [
     { "name": "Pec Deck Fly", "details": "1 Activation + 4 Clusters · 90s rest", "rpe": "9–10", "instructions": "PROTOCOL: Set failure at 12-15 reps. Rest 10s. Do 4-5 reps. Repeat for 4 clusters total." },
     { "name": "Machine Shoulder Press", "details": "3 × 12–15 reps · 75s rest", "rpe": "9–10", "instructions": "EXECUTION: Neutral grip. Push into seat. Machine allows for safe absolute failure." },
     { "name": "Cable Lateral Raise", "details": "1 Activation + 4 Clusters · 90s rest", "rpe": "9–10", "instructions": "PROTOCOL: Myo-reps. Final side-delt assault. Focus on the pump and cell swelling." },
     { "name": "Chest-Supported Row", "details": "3 × 12–15 reps · 75s rest", "rpe": "8–9", "instructions": "EXECUTION: Width rows. Pull elbows out to 45°. Squeeze rear delts and mid-traps." },
     { "name": "Arm Superset: Skull/Curl", "details": "3 × 12–15 reps · 60s rest", "rpe": "9–10", "instructions": "SETUP: Single cable station. EXECUTION: Complete Triceps then immediately switch to Biceps." },
     { "name": "Face Pulls", "details": "3 × 15–20 reps · 60s rest", "rpe": "8", "instructions": "EXECUTION: Pull toward forehead, rotate fists back. Essential for 3D shoulder 'cap' appearance." }
-  ], "abFinisher": { "name": "Inclined Leg Raises", "details": "3 × 12–15 reps · 60s rest", "instructions": "SETUP: Incline bench (head at top). EXECUTION: Rotate pelvis upward off bench. Target lower abs." } },
+  ], "cardio": { "name": "20m Zone 2 Cardio", "details": "1 × 20 mins", "instructions": "PACING: Conversational pace. Facilitates nutrient delivery and waste clearance. Do not gasp." } },
 
   { "day": 6, "title": "Lower 3", "subtitle": "Metabolic Stress", "duration": "60–70m", "exercises": [
     { "name": "45° Cable Kickback", "details": "1 Activation + 4 Clusters · 90s rest", "rpe": "9–10", "instructions": "EXECUTION: Kick diagonally UP and OUT (45°). Aligns with upper glute medius fibers. Myo-reps." },
@@ -70,7 +70,6 @@ function renderWorkout(idx) {
   const compSection = document.getElementById('completed-section');
   const fill = document.getElementById('progress-bar-fill');
   
-  // Fonte em itálico removida conforme instrução
   document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-weight:300;opacity:0.5;">${data.subtitle}</span>`;
   document.getElementById('workout-duration').textContent = data.duration === '—' ? '' : `EST. ${data.duration}`;
   
@@ -100,7 +99,6 @@ function renderWorkout(idx) {
     const li = document.createElement('li');
     li.className = 'exercise-item';
     
-    // Aplicação da classe 'active-exercise' se o card tiver pelo menos 1 série concluída, mas não todas.
     if (sCurrent > 0 && sCurrent < sTotal) {
       li.classList.add('active-exercise');
     }
@@ -219,9 +217,12 @@ function init() {
     progress = {};
     completedDays = [];
     document.getElementById('reset-modal-overlay').classList.remove('visible');
-    document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('day-complete'));
     
-    // Re-render the currently active tab
+    // Explicitly remove completion classes from all buttons
+    document.querySelectorAll('.day-btn').forEach(btn => {
+      btn.classList.remove('day-complete');
+    });
+    
     const activeIdx = Array.from(document.getElementById('day-selector').children).findIndex(b => b.classList.contains('active'));
     renderWorkout(activeIdx !== -1 ? activeIdx : ((new Date().getDay() + 6) % 7));
   };
