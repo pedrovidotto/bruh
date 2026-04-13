@@ -4,85 +4,70 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>WORKOUT.SYS</title>
-  <meta name="description" content="Advanced 6-Day Hypertrophy Protocol" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2d2a27"> 
 </head>
-<body>
+<body data-theme="dark">
 
 <header id="main-header">
-  <div class="container header-container">
-    <div class="header-top-row">
-      <h1 class="logo">
-        <img src="logo.svg" alt="Logo" class="logo-svg" onerror="this.style.display='none'">
-      </h1>
-      <button id="theme-toggle-btn" class="day-btn" aria-label="Switch theme">SM</button>
+  <div class="container header-grid">
+    <div class="logo-row">
+      <h1 class="logo-text">WORKOUT.SYS</h1>
+      <button id="theme-toggle-btn" class="day-btn" aria-label="Toggle Theme">SM</button>
     </div>
-    <hr class="header-divider">
-    <nav id="day-selector"></nav>
+    <nav id="day-selector" class="day-grid"></nav>
   </div>
 </header>
 
-<div class="container content-container">
-  <main id="workout-container">
-    <div id="workout-header">
-      <h2 id="workout-title"></h2>
+<main class="container">
+  <section id="active-workout">
+    <header class="workout-meta">
+      <h2 id="workout-title">INITIALIZING...</h2>
       <p id="workout-duration" class="data-readout"></p>
-    </div>
+    </header>
+    <ul id="exercise-list" class="list-reset"></ul>
+  </section>
 
-    <ul id="exercise-list"></ul>
+  <section id="completed-workout" class="hidden">
+    <h3 class="category-title">// COMPLETED</h3>
+    <ul id="completed-list" class="list-reset"></ul>
+  </section>
 
-    <h3 id="completed-title" class="category-title hidden">// COMPLETED</h3>
-    <ul id="completed-list"></ul>
-  </main>
-
-  <footer>
+  <footer class="system-footer">
     <button id="reset-button" class="btn-secondary">PURGE WEEKLY PROGRESS</button>
   </footer>
-</div>
+</main>
 
 <div id="timer-display" class="hidden">00:00</div>
 
-<div id="info-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
-        <div class="modal-header">
-            <h2 id="info-modal-title">Exercise Title</h2>
-            <button id="info-modal-close-btn" class="btn-icon" aria-label="Close info modal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="divider"></div>
-        <div id="info-modal-instructions"></div>
+<div id="info-modal-overlay" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="info-modal-title"></h2>
+      <button id="info-modal-close-btn" class="btn-icon">×</button>
     </div>
+    <div id="info-modal-instructions" class="modal-body"></div>
+  </div>
 </div>
 
-<div id="reset-modal-overlay" class="modal-overlay hidden" aria-hidden="true">
-    <div id="reset-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title">
-        <div class="modal-header">
-            <h2 id="reset-modal-title">CONFIRM ACTION</h2>
-        </div>
-        <div class="divider"></div>
-        <p class="modal-body-text">Purge all weekly progress data? This action is irreversible.</p>
-        <div class="modal-buttons">
-            <button id="confirm-reset-btn" class="btn-primary">CONFIRM PURGE</button>
-            <button id="cancel-reset-btn" class="btn-secondary">CANCEL</button>
-        </div>
+<div id="reset-modal-overlay" class="modal-overlay hidden">
+  <div class="modal">
+    <h3 class="modal-title">CONFIRM PURGE</h3>
+    <p class="modal-body">Irreversible system reset. All progress data will be deleted.</p>
+    <div class="modal-actions">
+      <button id="confirm-reset-btn" class="btn-primary">CONFIRM</button>
+      <button id="cancel-reset-btn" class="btn-secondary">CANCEL</button>
     </div>
+  </div>
 </div>
 
 <div id="completion-overlay" class="hidden">
-    <div id="completion-card">
-        <h2 id="completion-title">// SYSTEM: TASK COMPLETE</h2>
-        <p id="completion-message">Processing...</p>
-        <p class="completion-dismiss-hint">TAP TO DISMISS</p>
-    </div>
+  <div class="completion-card">
+    <h2 id="completion-title"></h2>
+    <p id="completion-message"></p>
+    <p class="hint">TAP TO DISMISS</p>
+  </div>
 </div>
 
 <script src="script.js"></script>
