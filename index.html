@@ -16,9 +16,12 @@
 <header id="main-header">
   <div class="container">
     <div class="header-top">
-      <h1 class="logo-text">WORKOUT.SYS</h1>
-      <button id="theme-toggle-btn" class="day-btn" aria-label="Toggle Theme">SM</button>
+      <div class="logo">
+        <img src="logo.svg" alt="WORKOUT.SYS" class="logo-svg">
+      </div>
+      <button id="theme-toggle-btn" class="day-btn" aria-label="Toggle Theme"></button>
     </div>
+    <hr class="header-divider">
     <nav id="day-selector"></nav>
   </div>
 </header>
@@ -46,9 +49,10 @@
 <div id="info-modal-overlay" class="modal-overlay hidden">
   <div class="modal">
     <div class="modal-header">
-      <h2 id="info-modal-title"></h2>
+      <h2 id="info-modal-title" class="serif-title"></h2>
       <button id="info-modal-close-btn" class="close-btn">×</button>
     </div>
+    <div class="divider"></div>
     <div id="info-modal-instructions" class="modal-body"></div>
   </div>
 </div>
@@ -56,7 +60,7 @@
 <div id="reset-modal-overlay" class="modal-overlay hidden">
   <div class="modal">
     <h2 class="serif-title">CONFIRM RESET</h2>
-    <p class="modal-text">This will permanently delete all weekly progress logs.</p>
+    <p class="modal-body">This will permanently delete all weekly progress logs.</p>
     <div class="modal-actions">
       <button id="confirm-reset-btn" class="btn-primary">CONFIRM</button>
       <button id="cancel-reset-btn" class="btn-secondary">CANCEL</button>
@@ -66,7 +70,7 @@
 
 <div id="completion-overlay" class="hidden">
   <div class="completion-card">
-    <h2>// TASK COMPLETE</h2>
+    <h2 class="serif-title">// TASK COMPLETE</h2>
     <p id="completion-message"></p>
     <p class="hint">TAP TO DISMISS</p>
   </div>
