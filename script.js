@@ -56,7 +56,6 @@ const workoutData = [
 let progress      = JSON.parse(localStorage.getItem('workoutSysProgress'))      || {};
 let completedDays = JSON.parse(localStorage.getItem('workoutSysCompletedDays')) || [];
 let activeTimer   = null;
-let clickLock     = false;
 
 /* ─── Render ──────────────────────────────────────────────────── */
 function renderWorkout(idx) {
@@ -99,26 +98,47 @@ function renderWorkout(idx) {
         <h3>${ex.name}${ex.rpe ? `<span class="rpe-tag">RPE ${ex.rpe}</span>` : ''}</h3>
         <p>${ex.details}</p>
       </div>
-      <button class="info-btn">i</button>
+      <button class="info-btn" aria-label="Exercise info">i</button>
     `;
 
+    // Ação de incremento
     li.onclick = (e) => {
       if (e.target.closest('.info-btn')) return;
-      if (clickLock) return;
       progress[id] = Math.min(sTotal, (progress[id] || 0) + 1);
-      if (progress[id] < sTotal) startTimer(ex.details.match(/(\d+)s/)?.[1] || 90);
+      if (progress[id] < sTotal) {
+        const timerMatch = ex.details.match(/(\d+)s/);
+        if (timerMatch) startTimer(parseInt(timerMatch[1]));
+      }
+      save(); renderWorkout(idx);
+    };
+
+    // Ações de decremento (Desktop Context e Mobile Long Press)
+    const decrementState = () => {
+      progress[id] = Math.max(0, (progress[id] || 0) - 1);
       save(); renderWorkout(idx);
     };
 
     li.oncontextmenu = (e) => {
       e.preventDefault();
-      progress[id] = Math.max(0, (progress[id] || 0) - 1);
-      save(); renderWorkout(idx);
+      decrementState();
     };
 
+    let pressTimer;
+    li.addEventListener('touchstart', () => {
+      pressTimer = setTimeout(() => {
+        decrementState();
+        if (navigator.vibrate) navigator.vibrate(50);
+      }, 600);
+    }, { passive: true });
+    
+    const clearPressTimer = () => clearTimeout(pressTimer);
+    li.addEventListener('touchend', clearPressTimer);
+    li.addEventListener('touchmove', clearPressTimer);
+
+    // Modal de Informação
     li.querySelector('.info-btn').onclick = (e) => {
       e.stopPropagation();
-      showInfo(ex.name, ex.instructions);
+      showInfo(ex.name, ex.instructions || 'No instructions provided.');
     };
 
     (sCurrent >= sTotal ? compList : list).appendChild(li);
@@ -128,7 +148,7 @@ function renderWorkout(idx) {
   fill.style.width = `${(done/total)*100}%`;
   compSection.classList.toggle('hidden', compList.children.length === 0);
   
-  if (done === total && !completedDays.includes(`day-${idx}`)) {
+  if (done === total && total > 0 && !completedDays.includes(`day-${idx}`)) {
     completedDays.push(`day-${idx}`);
     localStorage.setItem('workoutSysCompletedDays', JSON.stringify(completedDays));
     document.querySelectorAll('.day-btn')[idx].classList.add('day-complete');
@@ -136,17 +156,25 @@ function renderWorkout(idx) {
   }
 }
 
-function save() { localStorage.setItem('workoutSysProgress', JSON.stringify(progress)); }
+function save() { 
+  localStorage.setItem('workoutSysProgress', JSON.stringify(progress)); 
+}
 
 function startTimer(sec) {
   if (activeTimer) clearInterval(activeTimer);
   const end = Date.now() + sec * 1000;
   const el = document.getElementById('timer-display');
   el.classList.add('visible');
+  
   activeTimer = setInterval(() => {
     const rem = Math.round((end - Date.now())/1000);
-    if (rem <= 0) { clearInterval(activeTimer); el.classList.remove('visible'); }
-    else { el.textContent = `${Math.floor(rem/60)}:${(rem%60).toString().padStart(2,'0')}`; }
+    if (rem <= 0) { 
+      clearInterval(activeTimer); 
+      el.classList.remove('visible'); 
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Alerta de fim
+    } else { 
+      el.textContent = `${Math.floor(rem/60)}:${(rem%60).toString().padStart(2,'0')}`; 
+    }
   }, 250);
 }
 
@@ -157,7 +185,17 @@ function showInfo(title, text) {
   document.getElementById('info-modal-overlay').classList.add('visible');
 }
 
+function updateThemeColorMeta(theme) {
+  const meta = document.getElementById('meta-theme-color');
+  meta.content = theme === 'dark' ? '#0e0d0c' : '#f5f0eb';
+}
+
 function init() {
+  // Inicialização de Tema Corrigida
+  const savedTheme = localStorage.getItem('workoutSysTheme') || 'dark';
+  document.body.dataset.theme = savedTheme;
+  updateThemeColorMeta(savedTheme);
+
   const nav = document.getElementById('day-selector');
   ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
     const b = document.createElement('button');
@@ -174,11 +212,18 @@ function init() {
     const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
     document.body.dataset.theme = next;
     localStorage.setItem('workoutSysTheme', next);
+    updateThemeColorMeta(next);
   };
 
   document.getElementById('info-modal-close-btn').onclick = () => document.getElementById('info-modal-overlay').classList.remove('visible');
   document.getElementById('reset-button').onclick = () => document.getElementById('reset-modal-overlay').classList.add('visible');
-  document.getElementById('confirm-reset-btn').onclick = () => { localStorage.clear(); location.reload(); };
+  
+  // Limpeza de Estado Corrigida (Mantém as preferências do usuário)
+  document.getElementById('confirm-reset-btn').onclick = () => { 
+    localStorage.removeItem('workoutSysProgress');
+    localStorage.removeItem('workoutSysCompletedDays');
+    location.reload(); 
+  };
   document.getElementById('cancel-reset-btn').onclick = () => document.getElementById('reset-modal-overlay').classList.remove('visible');
 
   const today = (new Date().getDay() + 6) % 7;
