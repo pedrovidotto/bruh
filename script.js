@@ -1,91 +1,184 @@
 const workoutData = [
-  { // DAY 1: UPPER 1 (Strength + AEL)
-    "day": 1,
-    "title": "Upper 1: Strength + AEL", 
-    "duration": "85-95 minutes", 
-    "exercises": [ 
-      { "name": "Incline DB Press (30°)", "details": "4 sets of 5-7 reps | 3m rest", "rpe": "8-9", "instructions": "SETUP: Bench at 30°. Retract and depress scapulae. EXECUTION: Lower weights for a strict 4s count. Focus on a deep stretch in the upper pectorals. Pause 1s at the bottom. Drive explosively but stop at 95% lockout to maintain tension on the clavicular head." },
-      { "name": "Weighted Dips (Chest Lean)", "details": "3 sets of 5-7 reps | 2-3m rest", "rpe": "8-9", "instructions": "SETUP: Torso leaned 30° forward, chin tucked. EXECUTION: 4s negative. Descend until shoulders are slightly below elbows. Feel the lower pec stretch. Pause 1s at bottom. Drive up using chest compression, avoiding excessive tricep takeover at the top." },
-      { "name": "Seated DB Overhead Press", "details": "4 sets of 6-8 reps | 2-3m rest", "rpe": "8", "instructions": "SETUP: Bench at 80°. Position elbows 30° forward (Scapular Plane). EXECUTION: 4s negative. Lower dumbbells to ear level. Press to full lockout while keeping ribs tucked to avoid lumbar hyperextension. Targets anterior deltoid and upper pec." },
-      { "name": "Chest-Supported T-Bar Row", "details": "4 sets of 8-10 reps | 2m rest", "rpe": "8", "instructions": "SETUP: Pad firmly against sternum. EXECUTION: 3s negative. Initiate with scapular retraction (squeeze blades). Pull elbows past the midline. Full dead-hang stretch at the bottom to maximize lat and rhomboid recruitment." },
-      { "name": "Cable Lateral Raise", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "9", "instructions": "SETUP: Cable at hand height, pulling from behind the body. EXECUTION: 2s negative. Raise to shoulder height with pinky slightly higher than thumb. Pause at peak. Targets the lateral deltoid in its most stretched position." },
-      { "name": "Reverse Pec-Deck (Rear Delt)", "details": "3 sets of 12-15 reps | 60s rest", "rpe": "9", "instructions": "SETUP: Seat height so handles are at eye level. EXECUTION: Keep scapulae protracted (rounded forward) throughout. Pull out in a wide arc using only the rear delts. Do not squeeze shoulder blades together; that uses traps." },
-      { "name": "DB Hammer Curls", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "8-9", "instructions": "EXECUTION: Neutral grip (palms facing). Slow 3s eccentric. Focus on the Brachialis (muscle under the bicep) to push the bicep up, increasing arm width." },
-      { "name": "Overhead Rope Extension", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "8-9", "instructions": "SETUP: High pulley. Back to machine. EXECUTION: 3s negative. Allow hands to go deep behind the head for maximum long-head stretch. Flare the rope at the top of the movement for peak lateral head contraction." }
-    ],
-    "abFinisher": { "name": "Cable Crunches", "details": "4 sets of 10-12 reps | 60s rest", "instructions": "SETUP: Kneeling. Rope behind neck. EXECUTION: Flex the spine, attempting to touch elbows to knees. DO NOT pivot at the hips; this is not a hip-flexor movement. Exhale and crunch the ribs into the pelvis. Slow controlled return." } 
-  },
-  { // DAY 2: LOWER 1 (Strength + AEL)
-    "day": 2,
-    "title": "Lower 1: Strength + AEL",
-    "duration": "70-75 minutes", 
-    "exercises": [
-      { "name": "Barbell Hip Thrust", "details": "4 sets of 6-8 reps | 2-3m rest", "rpe": "8-9", "instructions": "SETUP: Bench at scapula level. Chin tucked. EXECUTION: 3s negative. Drive through heels. 2s hard squeeze at peak contraction with a Posterior Pelvic Tilt (tuck the tailbone). Do not hyperextend the lower back." },
-      { "name": "Bulgarian Split Squat", "details": "4 sets of 7-9 reps (per leg) | 2m rest", "rpe": "8-9", "instructions": "SETUP: Torso leaned 15° forward. Short stride for glute bias. EXECUTION: 3s negative. Sink deep until the glute is at maximum stretch. Drive up, focusing all tension on the front leg's glute-ham tie-in." },
-      { "name": "Romanian Deadlift", "details": "3 sets of 7-9 reps | 2-3m rest", "rpe": "8", "instructions": "SETUP: Feet hip-width. EXECUTION: 4s negative. Hinge back as if closing a door with your glutes. Keep bar glued to shins. Stop when hamstrings are at maximum tension (usually just below knees). Do not round the spine." },
-      { "name": "Leg Extension", "details": "3 sets of 10-12 reps | 75s rest", "rpe": "9", "instructions": "EXECUTION: 3s negative. Lean slightly back in the seat. Point toes slightly inward to target the vastus lateralis (outer quad sweep). 1s hard squeeze at the top." },
-      { "name": "Standing Calf Raise", "details": "4 sets of 10-12 reps | 60s rest", "rpe": "8", "instructions": "EXECUTION: 4s negative. Lower into a deep, uncomfortable stretch. Pause for 1s in the stretch to kill the stretch-reflex. Drive onto big toes and squeeze for 1s." }
-    ]
-  },
-  { // DAY 3: UPPER 2 (Hypertrophy + Partials)
-    "day": 3,
-    "title": "Upper 2: Hypertrophy + Partials",
-    "duration": "55-60 minutes", 
-    "exercises": [
-      { "name": "Incline DB Press (45°)", "details": "3 sets of 9-11 reps | 90s rest", "rpe": "9", "instructions": "Higher angle targets the uppermost clavicular fibers. Focus on driving the dumbbells toward each other at the top (adduction) without touching them." },
-      { "name": "Low-to-High Cable Fly", "details": "3 sets of 10-12 reps + Partials | 90s rest", "rpe": "10", "instructions": "EXECUTION: Cross hands over at the top for peak upper-pec contraction. Upon reaching full ROM failure, perform 5-6 'lengthened partials'—moving only from the bottom stretch to halfway up." },
-      { "name": "Seated DB Lateral Raise", "details": "3 sets of 12-15 reps + Partials | 75s rest", "rpe": "10", "instructions": "EXECUTION: Raise to shoulder height. Upon failure, immediately perform partials in the bottom 30% of the ROM. The stretch position is where the side delt receives the highest hypertrophic signal." },
-      { "name": "Lat Pulldown (Neutral Grip)", "details": "3 sets of 10-12 reps | 90s rest", "rpe": "8-9", "instructions": "SETUP: Palms facing each other. EXECUTION: Drive elbows straight down. Full dead-hang at the top to stretch the lats. Focus on pulling with the lats, not the biceps." },
-      { "name": "Cable Triceps Pushdown", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "9", "instructions": "SETUP: Straight bar. EXECUTION: Keep elbows pinned. Focus on the 'lateral head' of the triceps. Squeeze hard at the bottom. Control the return to eye level." },
-      { "name": "Cable Bicep Curl", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "9", "instructions": "EXECUTION: Keep shoulders pinned back. Do not allow elbows to drift forward. Constant tension: do not rest at the bottom or top of the rep." }
-    ]
-  },
-  { // DAY 4: LOWER 2 (Hypertrophy + Partials)
-    "day": 4,
-    "title": "Lower 2: Hypertrophy + Partials", 
-    "duration": "55-60 minutes", 
-    "exercises": [
-      { "name": "Barbell Hip Thrust", "details": "4 sets of 9-11 reps | 90s rest", "rpe": "9", "instructions": "Focus on high-rep endurance. Maintain a constant pace, but never skip the 1s lockout squeeze. Your upper glutes should feel 'pumped' by set 2." },
-      { "name": "Leg Press (High/Wide Stance)", "details": "3 sets of 10-12 reps | 90s rest", "rpe": "9", "instructions": "SETUP: Feet at the very top of the platform, wider than shoulders. EXECUTION: Lower as deep as possible without the tailbone lifting off the seat. Drive through heels to bias glutes." },
-      { "name": "45° Back Extension", "details": "3 sets of 12-15 reps | 75s rest", "rpe": "8-9", "instructions": "SETUP: Pad just below the hip bone. EXECUTION: Round the upper back (flexion). Use ONLY the glutes to pull the torso up. Do not look up or flatten your back; this keeps tension off the spine and on the glute shelf." },
-      { "name": "Lying Leg Curl", "details": "3 sets of 10-12 reps + Partials | 75s rest", "rpe": "10", "instructions": "EXECUTION: Keep hips pressed into the pad. Upon full ROM failure, perform partial reps in the fully stretched (legs straight) position to hit the distal hamstring fibers." },
-      { "name": "Seated Calf Raise", "details": "4 sets of 12-15 reps | 60s rest", "rpe": "8", "instructions": "EXECUTION: Specific to the Soleus muscle. Use a 4s eccentric. This muscle requires higher volume and slower tempos to grow." }
-    ]
-  },
-  { // DAY 5: UPPER 3 (Metabolic Stress)
-    "day": 5,
-    "title": "Upper 3: Metabolic + Myo-Reps", 
-    "duration": "60-65 minutes", 
-    "exercises": [
-      { "name": "Pec Deck Fly", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "PROTOCOL: Activation set of 12-15 reps to failure. Rest 10s (3-5 breaths). Do 4-5 reps. Rest 10s. Repeat for 4 clusters total. Keep constant tension; do not let weights touch." },
-      { "name": "Machine Shoulder Press", "details": "3 sets of 12-15 reps | 75s rest", "rpe": "9-10", "instructions": "EXECUTION: Neutral or standard grip. Push into the seat to create stability. Take every set to 0 RIR. The machine allows for safe failure." },
-      { "name": "Chest-Supported Row", "details": "3 sets of 12-15 reps | 75s rest", "rpe": "8-9", "instructions": "EXECUTION: Focus on 'width' rows. Pull elbows out to 45°. Squeeze the rear delts and mid-traps. High metabolic stress with short rest." },
-      { "name": "Cable Lateral Raise", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "PROTOCOL: Same as Pec Deck. This is the final side-delt assault of the week. Focus on the burn and cell swelling." },
-      { "name": "Face Pulls", "details": "3 sets of 15-20 reps | 60s rest", "rpe": "8", "instructions": "SETUP: Rope at eye level. EXECUTION: Pull toward forehead while rotating fists back (external rotation). Squeeze rear delts. Essential for shoulder health and 'cap' appearance." },
-      { "name": "Arm Superset: Skull Crushers + Curls", "details": "3 sets of 12-15 reps each | 60s rest", "rpe": "9-10", "instructions": "SETUP: Use a single cable station with EZ-bar or rope. EXECUTION: Complete Triceps then immediately switch to Biceps. No rest between exercises. 60s rest between supersets." }
-    ]
-  },
-  { // DAY 6: LOWER 3 (Metabolic Stress + Capillary Density)
-    "day": 6,
-    "title": "Lower 3: Metabolic + Active Recovery", 
-    "duration": "115-120 minutes", 
-    "exercises": [
-      { "name": "45° Cable Kickback", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "SETUP: Ankle strap. EXECUTION: Kick diagonally UP and OUT (45°). This aligns with the upper fibers of the gluteus maximus and medius. Myo-rep protocol." },
-      { "name": "Hip Abduction Machine", "details": "3 sets of 15-20 reps (Drop Set) | 75s rest", "rpe": "9-10", "instructions": "SETUP: Lean your torso forward 30°. EXECUTION: Push out hard. Drop weight by 30% on the final set and go to absolute failure. Targets the 'glute shelf'." },
-      { "name": "Hack Squat", "details": "3 sets of 10-12 reps | 90s rest", "rpe": "8-9", "instructions": "SETUP: Feet low on platform. EXECUTION: Maximum depth. This is a quad-dominant finisher. Keep heels pinned. Control the negative." },
-      { "name": "Seated Leg Curl", "details": "3 sets of 15-20 reps | 75s rest", "rpe": "9", "instructions": "EXECUTION: Focus on high-rep metabolic fatigue. Do not allow your butt to lift off the seat during the curl." },
-      { "name": "Machine Hip Thrust", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "PROTOCOL: Final glute depletion. Use the machine for maximum stability so you can focus purely on the mind-muscle connection and the Myo-rep burn." },
-      { "name": "Standing Calf Raise", "details": "4 sets of 15-20 reps | 45s rest", "rpe": "8-9", "instructions": "EXECUTION: High frequency volume. Bounce-free reps. Squeeze at the top like you are trying to stand on your tiptoes." }
-    ],
-    "abFinisher": { "name": "Inclined Leg Raises", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "SETUP: Incline bench (head at top). EXECUTION: Lift your butt off the bench at the top of the movement (Posterior Pelvic Tilt). This is a pelvic rotation, not just a leg lift. Targets lower rectus abdominis." },
-    "cardio": { "name": "40 Minutes Zone 2 Cardio", "details": "1 set of 40 minutes", "instructions": "Pacing: Conversational. You should be able to speak full sentences. This clears the metabolic waste (H+ ions/Phosphate) from the week's training. Do not enter Zone 3." }
-  },
-  { // DAY 7: SYSTEMIC STANDBY
-    "day": 7,
-    "title": "Systemic Standby", 
-    "duration": "0 minutes", 
-    "exercises": [],
-    "abFinisher": null,
-    "cardio": null
-  }
+  { "day": 1, "title": "Upper 1: Strength + AEL", "duration": "85-95m", "exercises": [
+    { "name": "Incline DB Press (30°)", "details": "4 sets of 5-7 reps | 180s rest", "rpe": "8-9", "instructions": "SETUP: Bench at 30°. EXECUTION: 4s negative. deep stretch in upper pectorals. Pause 1s at bottom. Stop at 95% lockout." },
+    { "name": "Weighted Dips (Chest)", "details": "3 sets of 5-7 reps | 150s rest", "rpe": "8-9", "instructions": "SETUP: Torso 30° forward. EXECUTION: 4s negative. shoulders slightly below elbows. Drive up via chest compression." },
+    { "name": "Seated DB Overhead Press", "details": "4 sets of 6-8 reps | 150s rest", "rpe": "8", "instructions": "SETUP: Scapular Plane (elbows 30° forward). EXECUTION: 4s negative. Press to full lockout, ribs tucked." },
+    { "name": "Chest-Supported T-Bar Row", "details": "4 sets of 8-10 reps | 120s rest", "rpe": "8", "instructions": "3s negative. Initiate with scapular retraction. Full dead-hang stretch at bottom." },
+    { "name": "Cable Lateral Raise", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "9", "instructions": "2s negative. Cable behind body. Raise to shoulder height, pinky higher than thumb." },
+    { "name": "Reverse Pec-Deck", "details": "3 sets of 12-15 reps | 60s rest", "rpe": "9", "instructions": "Keep scapulae protracted (rounded) throughout. wide arc using only rear delts." },
+    { "name": "DB Hammer Curls", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "8-9", "instructions": "3s negative. Focus on Brachialis to increase arm width." },
+    { "name": "Overhead Rope Extension", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "8-9", "instructions": "3s negative. deep behind head for long-head stretch. Flare rope at top." }
+  ], "abFinisher": { "name": "Cable Crunches", "details": "4 sets of 10-12 reps | 60s rest", "instructions": "Flex the spine, ribs to pelvis. DO NOT pivot at hips. Slow controlled return." } },
+  { "day": 2, "title": "Lower 1: Strength + AEL", "duration": "70-75m", "exercises": [
+    { "name": "Barbell Hip Thrust", "details": "4 sets of 6-8 reps | 150s rest", "rpe": "8-9", "instructions": "3s negative. 2s hard squeeze at peak with Posterior Pelvic Tilt (tuck tailbone)." },
+    { "name": "Bulgarian Split Squat", "details": "4 sets of 7-9 reps | 120s rest", "rpe": "8-9", "instructions": "Torso forward 15° for glute bias. 3s negative. focus front leg glute-ham tie-in." },
+    { "name": "Romanian Deadlift", "details": "3 sets of 7-9 reps | 150s rest", "rpe": "8", "instructions": "4s negative. Hinge back, keep bar glued to shins. Stop at max hamstring tension." },
+    { "name": "Leg Extension", "details": "3 sets of 10-12 reps | 75s rest", "rpe": "9", "instructions": "3s negative. Point toes slightly inward for vastus lateralis target. 1s top squeeze." },
+    { "name": "Standing Calf Raise", "details": "4 sets of 10-12 reps | 60s rest", "rpe": "8", "instructions": "4s negative. Pause 1s in deep stretch. Drive onto big toes." }
+  ] },
+  { "day": 3, "title": "Upper 2: Hypertrophy + Partials", "duration": "55-60m", "exercises": [
+    { "name": "Incline DB Press (45°)", "details": "3 sets of 9-11 reps | 90s rest", "rpe": "9", "instructions": "Focus on uppermost clavicular fibers. Drive dumbbells toward midline at top." },
+    { "name": "Low-to-High Cable Fly", "details": "3 sets of 10-12 reps + Partials | 90s rest", "rpe": "10", "instructions": "Cross hands at top. At failure, do 5-6 partials from bottom stretch to halfway." },
+    { "name": "Seated DB Lateral Raise", "details": "3 sets of 12-15 reps + Partials | 75s rest", "rpe": "10", "instructions": "At failure, do 6-8 partials in bottom 30% of range. Stretch position focus." },
+    { "name": "Lat Pulldown (Neutral)", "details": "3 sets of 10-12 reps | 90s rest", "rpe": "8-9", "instructions": "Drive elbows straight down. Full dead-hang stretch at top." },
+    { "name": "Cable Triceps Pushdown", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "9", "instructions": "Straight bar. Lateral head focus. Squeeze hard at bottom." },
+    { "name": "Cable Bicep Curl", "details": "3 sets of 10-12 reps | 60s rest", "rpe": "9", "instructions": "Keep shoulders pinned back. Constant tension: no rest at top or bottom." }
+  ] },
+  { "day": 4, "title": "Lower 2: Hypertrophy + Partials", "duration": "55-60m", "exercises": [
+    { "name": "Barbell Hip Thrust", "details": "4 sets of 9-11 reps | 90s rest", "rpe": "9", "instructions": "Constant pace, never skip 1s lockout squeeze. Target upper glute pump." },
+    { "name": "Leg Press (Glute Stance)", "details": "3 sets of 10-12 reps | 90s rest", "rpe": "9", "instructions": "Feet at top of platform, wider than shoulders. Drive through heels." },
+    { "name": "45° Back Extension", "details": "3 sets of 12-15 reps | 75s rest", "rpe": "8-9", "instructions": "Round upper back. Use ONLY glutes to pull torso up. Keep chin tucked." },
+    { "name": "Lying Leg Curl", "details": "3 sets of 10-12 reps + Partials | 75s rest", "rpe": "10", "instructions": "At failure, do partials in fully stretched (legs straight) position." },
+    { "name": "Seated Calf Raise", "details": "4 sets of 12-15 reps | 60s rest", "rpe": "8", "instructions": "4s eccentric. Target Soleus muscle." }
+  ] },
+  { "day": 5, "title": "Upper 3: Metabolic Stress", "duration": "60-65m", "exercises": [
+    { "name": "Pec Deck Fly", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "Myo-reps: set to failure, rest 10s, do 4-5 reps. Repeat for 4 clusters total." },
+    { "name": "Machine Shoulder Press", "details": "3 sets of 12-15 reps | 75s rest", "rpe": "9-10", "instructions": "Push into seat for stability. Take every set to 0 RIR." },
+    { "name": "Chest-Supported Row", "details": "3 sets of 12-15 reps | 75s rest", "rpe": "8-9", "instructions": "Pull elbows out to 45°. Squeeze rear delts/mid-traps." },
+    { "name": "Cable Lateral Raise", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "Myo-rep protocol. Final side-delt assault. Focus on cell swelling." },
+    { "name": "Face Pulls", "details": "3 sets of 15-20 reps | 60s rest", "rpe": "8", "instructions": "Pull toward forehead while rotating fists back. Squeeze rear delts." },
+    { "name": "Arm Superset: Skull Crushers + Curls", "details": "3 sets of 12-15 reps each | 60s rest", "rpe": "9-10", "instructions": "Single station. Triceps then immediately switch to Biceps." }
+  ] },
+  { "day": 6, "title": "Lower 3: Metabolic + Active Recovery", "duration": "115m", "exercises": [
+    { "name": "45° Cable Kickback", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "Kick diagonally UP and OUT (45°). Targets upper fibers. Myo-reps." },
+    { "name": "Hip Abduction Machine", "details": "3 sets of 15-20 reps (Drop) | 75s rest", "rpe": "9-10", "instructions": "Lean torso forward 30°. Final drop set to absolute failure." },
+    { "name": "Hack Squat", "details": "3 sets of 10-12 reps | 90s rest", "rpe": "8-9", "instructions": "Maximum depth. Quad-dominant. Heels pinned, control negative." },
+    { "name": "Seated Leg Curl", "details": "3 sets of 15-20 reps | 75s rest", "rpe": "9", "instructions": "Keep hips pressed down. High-rep metabolic fatigue." },
+    { "name": "Machine Hip Thrust", "details": "1 Activation + 4 Myo-Clusters | 90s rest", "rpe": "9-10", "instructions": "Final glute depletion. Focus purely on mind-muscle burn." },
+    { "name": "Standing Calf Raise", "details": "4 sets of 15-20 reps | 45s rest", "rpe": "8-9", "instructions": "Bounce-free. Squeeze hard at top." }
+  ], "abFinisher": { "name": "Inclined Leg Raises", "details": "3 sets of 12-15 reps | 60s rest", "instructions": "Pelvic rotation, lift butt off bench at top. Target lower rectus abdominis." },
+     "cardio": { "name": "40m Zone 2 Cardio", "details": "1 set of 40 mins", "instructions": "Conversational pace. Clears metabolic waste. Do not gasp." } },
+  { "day": 7, "title": "Systemic Standby", "duration": "0m", "exercises": [] }
 ];
+
+let progress = JSON.parse(localStorage.getItem('workoutSysProgress')) || {};
+let completedDays = JSON.parse(localStorage.getItem('workoutSysCompletedDays')) || [];
+let activeTimer = null;
+let ignoreNextClick = false;
+
+function startTimer(seconds) {
+    if (activeTimer) clearInterval(activeTimer);
+    const endTime = Date.now() + (seconds * 1000);
+    localStorage.setItem('timerEndTime', endTime);
+    const display = document.getElementById('timer-display');
+    display.classList.remove('hidden');
+
+    activeTimer = setInterval(() => {
+        const remaining = Math.round((endTime - Date.now()) / 1000);
+        if (remaining <= 0) {
+            clearInterval(activeTimer); display.classList.add('hidden');
+            if ('vibrate' in navigator) navigator.vibrate([100, 50, 100]);
+        } else {
+            display.textContent = `${Math.floor(remaining / 60).toString().padStart(2, '0')}:${(remaining % 60).toString().padStart(2, '0')}`;
+        }
+    }, 200);
+}
+
+function renderWorkout(idx) {
+    const data = workoutData[idx];
+    document.getElementById('workout-title').innerHTML = `<span style="font-weight:100; margin-right:10px;">${idx + 1}.</span>${data.title}`;
+    document.getElementById('workout-duration').textContent = `// EST: ${data.duration}`;
+    const list = document.getElementById('exercise-list');
+    const comp = document.getElementById('completed-list');
+    list.innerHTML = ''; comp.innerHTML = '';
+
+    if (data.exercises.length === 0) {
+        list.innerHTML = `<li class="exercise-item standby-card"><h3>SYSTEM IN STANDBY</h3><p>FOCUS ON RECOVERY.</p></li>`;
+        document.getElementById('completed-workout').classList.add('hidden');
+        return;
+    }
+
+    const items = [...data.exercises];
+    if (data.abFinisher) items.push({...data.abFinisher, idType: 'ab'});
+    if (data.cardio) items.push({...data.cardio, idType: 'cardio'});
+
+    items.forEach((ex, i) => {
+        const id = `d${idx}-${ex.idType || 'e'}${i}`;
+        const match = ex.details.match(/(\d+)\s+sets/i) || ex.details.match(/(\d+)\s+Activation/i) || [0, 1];
+        const sets = parseInt(match[1]);
+        const current = progress[id] || 0;
+        const li = document.createElement('li');
+        li.className = 'exercise-item';
+        const rpe = ex.rpe ? `<span class="rpe-badge">RPE ${ex.rpe}</span>` : '';
+        li.innerHTML = `<span class="set-counter ${current >= sets ? 'sets-complete' : ''}">${current}/${sets}</span><div class="exercise-details"><h3>${ex.name}${rpe}</h3><p>${ex.details}</p></div><button class="info-btn">ⓘ</button>`;
+
+        li.addEventListener('touchstart', () => {
+            this.t = setTimeout(() => { updateProgress(id, sets, -1, idx); ignoreNextClick = true; if ('vibrate' in navigator) navigator.vibrate(30); }, 600);
+        }, {passive: true});
+        li.addEventListener('touchend', () => clearTimeout(this.t));
+        li.addEventListener('click', (e) => {
+            if (e.target.closest('.info-btn')) { showInfo(ex.name, ex.instructions); return; }
+            if (ignoreNextClick) { ignoreNextClick = false; return; }
+            updateProgress(id, sets, 1, idx);
+        });
+        (current >= sets ? comp : list).appendChild(li);
+    });
+    document.getElementById('completed-workout').classList.toggle('hidden', comp.children.length === 0);
+}
+
+function updateProgress(id, total, delta, idx) {
+    progress[id] = Math.max(0, Math.min(total, (progress[id] || 0) + delta));
+    localStorage.setItem('workoutSysProgress', JSON.stringify(progress));
+    if (delta > 0 && progress[id] < total) {
+        const match = workoutData[idx].exercises.find(e => e.details.includes('rest'))?.details.match(/(\d+)s/);
+        if (match) startTimer(parseInt(match[1]));
+    }
+    renderWorkout(idx); checkDayComp(idx);
+}
+
+function checkDayComp(idx) {
+    const data = workoutData[idx];
+    const items = [...data.exercises];
+    if (data.abFinisher) items.push(data.abFinisher);
+    if (data.cardio) items.push(data.cardio);
+    const complete = items.every((ex, i) => {
+        const id = `d${idx}-${ex.idType || 'e'}${i}`;
+        const match = ex.details.match(/(\d+)\s+sets/i) || ex.details.match(/(\d+)\s+Activation/i) || [0, 1];
+        return (progress[id] || 0) >= parseInt(match[1]);
+    });
+    if (complete && !completedDays.includes(idx)) {
+        completedDays.push(idx); localStorage.setItem('workoutSysCompletedDays', JSON.stringify(completedDays));
+        document.querySelector(`[data-day="${idx}"]`).classList.add('day-complete');
+    }
+}
+
+function showInfo(title, text) {
+    document.getElementById('info-modal-title').textContent = title;
+    document.getElementById('info-modal-instructions').innerHTML = `<p>${text || "No specific instructions."}</p>`;
+    document.getElementById('info-modal-overlay').classList.remove('hidden');
+}
+
+function toggleTheme() {
+    const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.body.dataset.theme = next;
+    localStorage.setItem('workoutSysTheme', next);
+}
+
+function init() {
+    loadTheme();
+    const nav = document.getElementById('day-selector');
+    ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
+        const b = document.createElement('button'); b.className = 'day-btn'; b.dataset.day = i; b.textContent = l;
+        if (completedDays.includes(i)) b.classList.add('day-complete');
+        b.onclick = () => { document.querySelectorAll('.day-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); renderWorkout(i); };
+        nav.appendChild(b);
+    });
+    const today = (new Date().getDay() + 6) % 7;
+    document.querySelector(`[data-day="${today}"]`).click();
+    document.getElementById('theme-toggle-btn').onclick = toggleTheme;
+    document.getElementById('reset-button').onclick = () => document.getElementById('reset-modal-overlay').classList.remove('hidden');
+    document.getElementById('confirm-reset-btn').onclick = () => { localStorage.clear(); location.reload(); };
+    document.getElementById('cancel-reset-btn').onclick = () => document.getElementById('reset-modal-overlay').classList.add('hidden');
+    document.getElementById('info-modal-close-btn').onclick = () => document.getElementById('info-modal-overlay').classList.add('hidden');
+}
+
+function loadTheme() {
+    const t = localStorage.getItem('workoutSysTheme') || 'dark';
+    document.body.dataset.theme = t;
+}
+
+init();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+}
