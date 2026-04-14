@@ -162,7 +162,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   border-radius: 8px;
 }
 
-/* Componente Isolado: Contador de Sets */
+/* Tipografia de base para listagem */
 .set-counter {
   font-family: 'DM Mono', monospace;
   font-size: 0.85rem;
@@ -179,31 +179,28 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   min-width: 46px;
   transition: all 0.3s;
 }
-.set-counter .slash {
-  opacity: 0.4;
-  margin: 0 2px;
-}
+.set-counter .slash { opacity: 0.4; margin: 0 2px; }
 .set-counter.sets-complete {
   background: var(--accent-dim);
   color: var(--accent);
   border-color: var(--accent-dim);
 }
 
-/* Detalhes do Exercício */
 .exercise-details { flex: 1; padding: 0; min-width: 0; margin-right: 12px; }
 .exercise-details h3 {
   font-size: 0.95rem;
   font-weight: 500;
   margin-bottom: 4px;
   color: var(--text);
+  transition: color 0.3s;
 }
 .exercise-details p {
   font-size: 0.75rem;
   color: var(--text-muted);
   font-weight: 300;
+  transition: color 0.3s;
 }
 
-/* Componente Isolado: Tag RPE (Alinhada à esquerda do botão de info) */
 .rpe-tag {
   font-family: 'DM Mono', monospace;
   font-size: 0.65rem;
@@ -217,7 +214,6 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   transition: all 0.3s;
 }
 
-/* Botão de Info */
 .info-btn {
   width: 34px; height: 34px;
   flex-shrink: 0;
@@ -231,35 +227,56 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   transition: all 0.2s;
 }
 
-/* ─── Estados Condicionais: Ativo ─────────────────────────────── */
-.exercise-item.active-exercise {
+/* ─── Estados Condicionais: Foco Principal (Primeiro Ativo) ───── */
+.exercise-item.primary-active {
   background-color: var(--accent);
   border-color: var(--accent);
 }
-.exercise-item.active-exercise .set-counter {
+.exercise-item.primary-active .set-counter {
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
   border-color: transparent;
 }
-.exercise-item.active-exercise .exercise-details h3,
-.exercise-item.active-exercise .exercise-details p {
+.exercise-item.primary-active .exercise-details h3,
+.exercise-item.primary-active .exercise-details p {
   color: #ffffff;
 }
-.exercise-item.active-exercise .rpe-tag {
+.exercise-item.primary-active .rpe-tag {
   background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
   border-color: transparent;
 }
-.exercise-item.active-exercise .info-btn {
+.exercise-item.primary-active .info-btn {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.3);
   color: #ffffff;
+}
+
+/* ─── Estados Condicionais: Foco Secundário (Ativos Acumulados) ─ */
+.exercise-item.secondary-active {
+  background-color: var(--surface-2);
+  border-color: var(--accent);
+}
+.exercise-item.secondary-active .set-counter {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+.exercise-item.secondary-active .exercise-details h3 {
+  color: var(--text);
+}
+.exercise-item.secondary-active .exercise-details p {
+  color: var(--text-muted);
+}
+.exercise-item.secondary-active .rpe-tag {
+  color: var(--accent);
+  border-color: var(--accent-dim);
 }
 
 /* ─── Estados Condicionais: Concluído ─────────────────────────── */
 #completed-list .exercise-item {
   opacity: 0.35;
   filter: grayscale(100%);
+  border-color: transparent;
 }
 
 .rest-day-message {
@@ -354,13 +371,10 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   text-align: center;
   display: block;
 }
-
 .btn-primary { background: var(--accent); color: #fff; margin-bottom: 10px; }
 .btn-primary:active { background: #e63e20; }
-
 .btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border-mid); margin-top: 20px; }
 .btn-secondary:active { background: var(--border); }
-
 .modal-actions { margin-top: 24px; }
 .modal-actions .btn-secondary { margin-top: 10px; }
 
