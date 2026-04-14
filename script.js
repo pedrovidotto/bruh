@@ -60,7 +60,6 @@ const workoutData = [
 let progress      = JSON.parse(localStorage.getItem('workoutSysProgress'))      || {};
 let completedDays = JSON.parse(localStorage.getItem('workoutSysCompletedDays')) || [];
 let activeTimer   = null;
-let clickLock     = false;
 
 /* ─── Render ──────────────────────────────────────────────────── */
 function renderWorkout(idx) {
@@ -88,6 +87,11 @@ function renderWorkout(idx) {
 
   let total = 0, done = 0;
 
+  // Divisão arquitetônica: Filas de renderização dinâmica
+  const activeNodes = [];
+  const pendingNodes = [];
+  const completedNodes = [];
+
   items.forEach((ex, i) => {
     const id = `d${idx}-${ex.idType || 'e'}${i}`;
     const setsMatch = ex.details.match(/(\d+)\s*[×x]/) || ex.details.match(/(\d+)\s+Activation/i) || [0, 1];
@@ -99,40 +103,70 @@ function renderWorkout(idx) {
     const li = document.createElement('li');
     li.className = 'exercise-item';
     
-    if (sCurrent > 0 && sCurrent < sTotal) {
-      li.classList.add('active-exercise');
-    }
+    if (sCurrent > 0 && sCurrent < sTotal) li.classList.add('active-exercise');
 
     li.innerHTML = `
-      <span class="set-counter ${sCurrent >= sTotal ? 'sets-complete' : ''}">${sCurrent}/${sTotal}</span>
+      <div class="set-counter ${sCurrent >= sTotal ? 'sets-complete' : ''}">${sCurrent}<span class="slash">/</span>${sTotal}</div>
       <div class="exercise-details">
-        <h3>${ex.name}${ex.rpe ? `<span class="rpe-tag">RPE ${ex.rpe}</span>` : ''}</h3>
+        <h3>${ex.name}</h3>
         <p>${ex.details}</p>
       </div>
+      ${ex.rpe ? `<span class="rpe-tag">RPE ${ex.rpe}</span>` : ''}
       <button class="info-btn">i</button>
     `;
 
-    li.onclick = (e) => {
-      if (e.target.closest('.info-btn')) return;
-      if (clickLock) return;
-      progress[id] = Math.min(sTotal, (progress[id] || 0) + 1);
-      if (progress[id] < sTotal) startTimer(ex.details.match(/(\d+)s/)?.[1] || 90);
-      save(); renderWorkout(idx);
-    };
+    // Máquina de estados para toque (clique vs long-press)
+    let pressTimer;
+    let isLongPress = false;
+    let startY = 0;
 
-    li.oncontextmenu = (e) => {
-      e.preventDefault();
-      progress[id] = Math.max(0, (progress[id] || 0) - 1);
-      save(); renderWorkout(idx);
-    };
+    li.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.info-btn')) return;
+      isLongPress = false;
+      startY = e.clientY;
+      pressTimer = setTimeout(() => {
+        isLongPress = true;
+        if (navigator.vibrate) navigator.vibrate(50);
+        progress[id] = Math.max(0, (progress[id] || 0) - 1);
+        save(); renderWorkout(idx);
+      }, 500); // 500ms trigger para long-press nativo
+    });
+
+    li.addEventListener('pointermove', (e) => {
+      if (Math.abs(e.clientY - startY) > 15) clearTimeout(pressTimer); // Cancela se o usuário estiver "scrollando"
+    });
+
+    li.addEventListener('pointerup', (e) => {
+      clearTimeout(pressTimer);
+      if (!isLongPress && !e.target.closest('.info-btn')) {
+        progress[id] = Math.min(sTotal, (progress[id] || 0) + 1);
+        if (progress[id] < sTotal) startTimer(ex.details.match(/(\d+)s/)?.[1] || 90);
+        save(); renderWorkout(idx);
+      }
+    });
+
+    li.addEventListener('pointercancel', () => clearTimeout(pressTimer));
+    li.addEventListener('pointerleave', () => clearTimeout(pressTimer));
 
     li.querySelector('.info-btn').onclick = (e) => {
       e.stopPropagation();
       showInfo(ex.name, ex.instructions);
     };
 
-    (sCurrent >= sTotal ? compList : list).appendChild(li);
+    // Aloca o elemento na fila correta
+    if (sCurrent >= sTotal) {
+      completedNodes.push(li);
+    } else if (sCurrent > 0) {
+      activeNodes.push(li);
+    } else {
+      pendingNodes.push(li);
+    }
   });
+
+  // Reconstrução sequencial garantindo que os ativos fiquem no topo
+  activeNodes.forEach(node => list.appendChild(node));
+  pendingNodes.forEach(node => list.appendChild(node));
+  completedNodes.forEach(node => compList.appendChild(node));
 
   fill.parentElement.classList.remove('hidden');
   fill.style.width = `${(done/total)*100}%`;
@@ -218,7 +252,6 @@ function init() {
     completedDays = [];
     document.getElementById('reset-modal-overlay').classList.remove('visible');
     
-    // Explicitly remove completion classes from all buttons
     document.querySelectorAll('.day-btn').forEach(btn => {
       btn.classList.remove('day-complete');
     });
