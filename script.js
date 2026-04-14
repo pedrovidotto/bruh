@@ -87,7 +87,6 @@ function renderWorkout(idx) {
 
   let total = 0, done = 0;
 
-  // Divisão arquitetônica: Filas de renderização dinâmica
   const activeNodes = [];
   const pendingNodes = [];
   const completedNodes = [];
@@ -102,8 +101,6 @@ function renderWorkout(idx) {
 
     const li = document.createElement('li');
     li.className = 'exercise-item';
-    
-    if (sCurrent > 0 && sCurrent < sTotal) li.classList.add('active-exercise');
 
     li.innerHTML = `
       <div class="set-counter ${sCurrent >= sTotal ? 'sets-complete' : ''}">${sCurrent}<span class="slash">/</span>${sTotal}</div>
@@ -115,25 +112,32 @@ function renderWorkout(idx) {
       <button class="info-btn">i</button>
     `;
 
-    // Máquina de estados para toque (clique vs long-press)
+    // Long-Press Rigoroso
     let pressTimer;
     let isLongPress = false;
+    let startX = 0;
     let startY = 0;
 
     li.addEventListener('pointerdown', (e) => {
       if (e.target.closest('.info-btn')) return;
       isLongPress = false;
+      startX = e.clientX;
       startY = e.clientY;
+      li.setPointerCapture(e.pointerId);
+      
       pressTimer = setTimeout(() => {
         isLongPress = true;
         if (navigator.vibrate) navigator.vibrate(50);
         progress[id] = Math.max(0, (progress[id] || 0) - 1);
         save(); renderWorkout(idx);
-      }, 500); // 500ms trigger para long-press nativo
+      }, 400); // Reduzido para resposta mais tátil
     });
 
     li.addEventListener('pointermove', (e) => {
-      if (Math.abs(e.clientY - startY) > 15) clearTimeout(pressTimer); // Cancela se o usuário estiver "scrollando"
+      // Ampliada a área de escape para absorver tremor dinâmico
+      if (Math.abs(e.clientY - startY) > 20 || Math.abs(e.clientX - startX) > 20) {
+        clearTimeout(pressTimer);
+      }
     });
 
     li.addEventListener('pointerup', (e) => {
@@ -146,14 +150,12 @@ function renderWorkout(idx) {
     });
 
     li.addEventListener('pointercancel', () => clearTimeout(pressTimer));
-    li.addEventListener('pointerleave', () => clearTimeout(pressTimer));
 
     li.querySelector('.info-btn').onclick = (e) => {
       e.stopPropagation();
       showInfo(ex.name, ex.instructions);
     };
 
-    // Aloca o elemento na fila correta
     if (sCurrent >= sTotal) {
       completedNodes.push(li);
     } else if (sCurrent > 0) {
@@ -163,8 +165,15 @@ function renderWorkout(idx) {
     }
   });
 
-  // Reconstrução sequencial garantindo que os ativos fiquem no topo
-  activeNodes.forEach(node => list.appendChild(node));
+  // Alocação com processamento de foco
+  activeNodes.forEach((node, index) => {
+    if (index === 0) {
+      node.classList.add('primary-active');
+    } else {
+      node.classList.add('secondary-active');
+    }
+    list.appendChild(node);
+  });
   pendingNodes.forEach(node => list.appendChild(node));
   completedNodes.forEach(node => compList.appendChild(node));
 
@@ -198,7 +207,7 @@ function startTimer(sec) {
     }
   }
   
-  update(); // Execute immediately
+  update();
   activeTimer = setInterval(update, 1000);
 }
 
