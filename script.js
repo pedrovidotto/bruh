@@ -59,6 +59,7 @@ const workoutData = [
 /* ─── State ───────────────────────────────────────────────────── */
 let progress      = JSON.parse(localStorage.getItem('workoutSysProgress'))      || {};
 let completedDays = JSON.parse(localStorage.getItem('workoutSysCompletedDays')) || [];
+let lastTouched   = JSON.parse(localStorage.getItem('workoutSysLastTouched'))   || {};
 let activeTimer   = null;
 
 /* ─── Render ──────────────────────────────────────────────────── */
@@ -87,7 +88,7 @@ function renderWorkout(idx) {
 
   let total = 0, done = 0;
 
-  const activeNodes = [];
+  const activeNodesData = []; // Armazena objetos para ordenação temporal
   const pendingNodes = [];
   const completedNodes = [];
 
@@ -129,12 +130,12 @@ function renderWorkout(idx) {
         isLongPress = true;
         if (navigator.vibrate) navigator.vibrate(50);
         progress[id] = Math.max(0, (progress[id] || 0) - 1);
+        lastTouched[id] = Date.now();
         save(); renderWorkout(idx);
-      }, 400); // Reduzido para resposta mais tátil
+      }, 400); 
     });
 
     li.addEventListener('pointermove', (e) => {
-      // Ampliada a área de escape para absorver tremor dinâmico
       if (Math.abs(e.clientY - startY) > 20 || Math.abs(e.clientX - startX) > 20) {
         clearTimeout(pressTimer);
       }
@@ -144,6 +145,7 @@ function renderWorkout(idx) {
       clearTimeout(pressTimer);
       if (!isLongPress && !e.target.closest('.info-btn')) {
         progress[id] = Math.min(sTotal, (progress[id] || 0) + 1);
+        lastTouched[id] = Date.now();
         if (progress[id] < sTotal) startTimer(ex.details.match(/(\d+)s/)?.[1] || 90);
         save(); renderWorkout(idx);
       }
@@ -159,21 +161,25 @@ function renderWorkout(idx) {
     if (sCurrent >= sTotal) {
       completedNodes.push(li);
     } else if (sCurrent > 0) {
-      activeNodes.push(li);
+      // Injeta o node com seu timestamp para ordenar posteriormente
+      activeNodesData.push({ node: li, ts: lastTouched[id] || 0 });
     } else {
       pendingNodes.push(li);
     }
   });
 
-  // Alocação com processamento de foco
-  activeNodes.forEach((node, index) => {
+  // Força o item interagido mais recentemente para o topo
+  activeNodesData.sort((a, b) => b.ts - a.ts);
+
+  activeNodesData.forEach((item, index) => {
     if (index === 0) {
-      node.classList.add('primary-active');
+      item.node.classList.add('primary-active');
     } else {
-      node.classList.add('secondary-active');
+      item.node.classList.add('secondary-active');
     }
-    list.appendChild(node);
+    list.appendChild(item.node);
   });
+  
   pendingNodes.forEach(node => list.appendChild(node));
   completedNodes.forEach(node => compList.appendChild(node));
 
@@ -189,7 +195,10 @@ function renderWorkout(idx) {
   }
 }
 
-function save() { localStorage.setItem('workoutSysProgress', JSON.stringify(progress)); }
+function save() { 
+  localStorage.setItem('workoutSysProgress', JSON.stringify(progress)); 
+  localStorage.setItem('workoutSysLastTouched', JSON.stringify(lastTouched));
+}
 
 function startTimer(sec) {
   if (activeTimer) clearInterval(activeTimer);
@@ -251,15 +260,27 @@ function init() {
   const savedTheme = localStorage.getItem('workoutSysTheme');
   if (savedTheme) document.body.dataset.theme = savedTheme;
 
-  document.getElementById('info-modal-close-btn').onclick = () => document.getElementById('info-modal-overlay').classList.remove('visible');
-  document.getElementById('reset-button').onclick = () => document.getElementById('reset-modal-overlay').classList.add('visible');
+  // Listeners de modal com verificação estrita de alvo para fechar ao tocar no overlay
+  const infoOverlay = document.getElementById('info-modal-overlay');
+  infoOverlay.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('visible');
+  });
+  document.getElementById('info-modal-close-btn').onclick = () => infoOverlay.classList.remove('visible');
+
+  const resetOverlay = document.getElementById('reset-modal-overlay');
+  resetOverlay.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('visible');
+  });
+  document.getElementById('reset-button').onclick = () => resetOverlay.classList.add('visible');
   
   document.getElementById('confirm-reset-btn').onclick = () => {
     localStorage.removeItem('workoutSysProgress');
     localStorage.removeItem('workoutSysCompletedDays');
+    localStorage.removeItem('workoutSysLastTouched');
     progress = {};
     completedDays = [];
-    document.getElementById('reset-modal-overlay').classList.remove('visible');
+    lastTouched = {};
+    resetOverlay.classList.remove('visible');
     
     document.querySelectorAll('.day-btn').forEach(btn => {
       btn.classList.remove('day-complete');
@@ -269,7 +290,7 @@ function init() {
     renderWorkout(activeIdx !== -1 ? activeIdx : ((new Date().getDay() + 6) % 7));
   };
   
-  document.getElementById('cancel-reset-btn').onclick = () => document.getElementById('reset-modal-overlay').classList.remove('visible');
+  document.getElementById('cancel-reset-btn').onclick = () => resetOverlay.classList.remove('visible');
 
   const today = (new Date().getDay() + 6) % 7;
   nav.children[today].click();
