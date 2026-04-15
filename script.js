@@ -218,7 +218,7 @@ const nameInput = document.getElementById('name-input');
 function updateMantras() {
   const n = nameInput.value.trim() || 'Pedro';
   document.getElementById('master-mantra').textContent = `"${n}, right now your mind is telling a scary story about the future, and your body is trying to protect you from it. You are experiencing a feeling, not a fact."`;
-  document.getElementById('loop-mantra').textContent = `"That's just an old loop playing again. ${n} doesn't have to listen to it."`;
+  document.getElementById('loop-mantra').textContent = `"That's just an old loop playing again. I don't have to listen to it."`;
   document.getElementById('tension-mantra').textContent = `"${n}, your body is safe. This tension is just energy trying to help."`;
   document.getElementById('future-mantra').textContent = `"${n}, you don't need to solve the future today. You just need one slow breath right now."`;
 }
@@ -229,78 +229,82 @@ function toggleGround(el) {
   el.querySelector('.ground-num').textContent = el.classList.contains('done') ? '✓' : '3';
 }
 
-let breatheInterval = null;
+let breatheTimer = null;
 let breatheActive = false;
-let breathePhase = 'out'; // Track CSS animation state
 
-function startBreathe() {
-  const btn = document.getElementById('breathe-btn');
-  const display = document.getElementById('breathe-display');
-  const label = document.getElementById('breathe-label');
-  const circle = document.getElementById('breathe-circle');
-
-  if (breatheActive) {
-    clearTimeout(breatheInterval);
-    breatheActive = false;
-    btn.textContent = 'START GUIDE';
-    btn.classList.remove('active');
-    display.textContent = '·';
-    label.textContent = '';
-    circle.classList.remove('anim-in', 'anim-out');
-    return;
-  }
-
+function openBreatheModal() {
+  document.getElementById('breathe-modal-overlay').classList.add('visible');
   breatheActive = true;
-  btn.textContent = 'STOP GUIDE';
-  btn.classList.add('active');
   runBreatheCycle();
+}
+
+function stopBreathe() {
+  breatheActive = false;
+  clearTimeout(breatheTimer);
+  document.getElementById('breathe-modal-overlay').classList.remove('visible');
+  
+  // Reset UI
+  document.getElementById('breathe-display-huge').textContent = '·';
+  document.getElementById('breathe-label-huge').textContent = 'PREPARE';
+  const circle = document.getElementById('breathe-circle-huge');
+  circle.classList.remove('anim-in', 'anim-out');
 }
 
 function runBreatheCycle() {
   if (!breatheActive) return;
-  const display = document.getElementById('breathe-display');
-  const label = document.getElementById('breathe-label');
-  const circle = document.getElementById('breathe-circle');
+  const display = document.getElementById('breathe-display-huge');
+  const label = document.getElementById('breathe-label-huge');
+  const circle = document.getElementById('breathe-circle-huge');
 
   // Trigger INHALE
   display.textContent = '4';
   label.textContent = 'INHALE';
   circle.classList.remove('anim-out');
+  // Hack for reflow
+  void circle.offsetWidth;
   circle.classList.add('anim-in');
 
-  let count = 4;
-  const inTimer = setInterval(() => {
-    count--;
-    if (count <= 0) {
-      clearInterval(inTimer);
+  let countIn = 4;
+  function tickInhale() {
+    if (!breatheActive) return;
+    countIn--;
+    if (countIn > 0) {
+      display.textContent = countIn;
+      breatheTimer = setTimeout(tickInhale, 1000);
+    } else {
       // Trigger EXHALE
       display.textContent = '6';
       label.textContent = 'EXHALE SLOWLY';
       circle.classList.remove('anim-in');
+      void circle.offsetWidth;
       circle.classList.add('anim-out');
 
-      let count2 = 6;
-      const outTimer = setInterval(() => {
-        count2--;
-        display.textContent = count2 || '·';
-        if (count2 <= 0) {
-          clearInterval(outTimer);
-          setTimeout(() => { if (breatheActive) runBreatheCycle(); }, 500);
+      let countOut = 6;
+      function tickExhale() {
+        if (!breatheActive) return;
+        countOut--;
+        if (countOut > 0) {
+          display.textContent = countOut;
+          breatheTimer = setTimeout(tickExhale, 1000);
+        } else {
+          // Loop Cycle
+          display.textContent = '·';
+          breatheTimer = setTimeout(runBreatheCycle, 500);
         }
-      }, 1000);
-    } else {
-      display.textContent = count;
+      }
+      breatheTimer = setTimeout(tickExhale, 1000);
     }
-  }, 1000);
+  }
+  breatheTimer = setTimeout(tickInhale, 1000);
 }
 
 function resetMind() {
   document.querySelectorAll('.ground-cell').forEach(c => {
     c.classList.remove('done'); c.querySelector('.ground-num').textContent = '3';
   });
-  document.querySelectorAll('.mantra-card').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.mind-card').forEach(c => c.classList.remove('open'));
   nameInput.value = ''; updateMantras();
-  if (breatheActive) startBreathe();
+  stopBreathe();
 }
 
 /* ─── INIT & DOM BINDINGS ─────────────────────────────────────── */
