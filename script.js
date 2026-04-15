@@ -224,9 +224,17 @@ function updateMantras() {
 }
 nameInput.addEventListener('input', updateMantras);
 
+function switchMindTab(targetId) {
+  document.querySelectorAll('.mind-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(targetId));
+  });
+  document.querySelectorAll('.mind-tab-content').forEach(content => {
+    content.classList.toggle('active', content.id === targetId);
+  });
+}
+
 function toggleGround(el) {
   el.classList.toggle('done');
-  el.querySelector('.ground-num').textContent = el.classList.contains('done') ? '✓' : '3';
 }
 
 let breatheTimer = null;
@@ -299,11 +307,12 @@ function runBreatheCycle() {
 }
 
 function resetMind() {
-  document.querySelectorAll('.ground-cell').forEach(c => {
-    c.classList.remove('done'); c.querySelector('.ground-num').textContent = '3';
+  document.querySelectorAll('.ground-cell-mini').forEach(c => {
+    c.classList.remove('done');
   });
-  document.querySelectorAll('.mind-card').forEach(c => c.classList.remove('open'));
-  nameInput.value = ''; updateMantras();
+  nameInput.value = ''; 
+  updateMantras();
+  switchMindTab('loop-tab');
   stopBreathe();
 }
 
