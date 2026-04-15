@@ -267,9 +267,15 @@ function openBreatheModal(modeKey) {
   breatheActive = true;
   
   const circle = document.getElementById('breathe-circle-huge');
+  const label = document.getElementById('breathe-label-huge');
+  
+  // Reset states
   circle.style.transition = 'none';
   circle.style.transform = 'translate(-50%, -50%) scale(0.2)';
-  circle.style.opacity = '0.05';
+  circle.style.opacity = '0';
+  label.style.transition = 'none';
+  label.style.transform = 'scale(1)';
+  label.style.opacity = '1';
 
   document.getElementById('breathe-modal-overlay').classList.add('visible');
   runBreathePhase();
@@ -283,9 +289,15 @@ function stopBreathe() {
   const circle = document.getElementById('breathe-circle-huge');
   circle.style.transition = 'none';
   circle.style.transform = 'translate(-50%, -50%) scale(0.2)';
+  circle.style.opacity = '0';
+  
+  const label = document.getElementById('breathe-label-huge');
+  label.textContent = 'PREPARE';
+  label.style.transition = 'none';
+  label.style.transform = 'scale(1)';
+  label.style.opacity = '1';
   
   document.getElementById('breathe-display-huge').textContent = '·';
-  document.getElementById('breathe-label-huge').textContent = 'PREPARE';
 }
 
 function runBreathePhase() {
@@ -300,16 +312,25 @@ function runBreathePhase() {
   let count = phase.time;
   display.textContent = count;
 
-  // Direct CSS Injection for GPU offloading
-  circle.style.transition = `transform ${phase.time}s linear, opacity ${phase.time}s linear`;
+  // Direct CSS Injection for Synchronized Animation
+  circle.style.transition = `transform ${phase.time}s cubic-bezier(0.4, 0, 0.2, 1), opacity ${phase.time}s ease-in-out`;
+  label.style.transition = `transform ${phase.time}s cubic-bezier(0.4, 0, 0.2, 1), opacity ${phase.time}s ease-in-out`;
   
   requestAnimationFrame(() => {
     if (phase.action === 'in') {
-      circle.style.transform = 'translate(-50%, -50%) scale(1.2)';
-      circle.style.opacity = '0.15';
+      circle.style.transform = 'translate(-50%, -50%) scale(1)';
+      circle.style.opacity = '1';
+      label.style.transform = 'scale(1.05)';
+      label.style.opacity = '1';
     } else if (phase.action === 'out') {
-      circle.style.transform = 'translate(-50%, -50%) scale(0.2)';
-      circle.style.opacity = '0.05';
+      circle.style.transform = 'translate(-50%, -50%) scale(0.3)';
+      circle.style.opacity = '0.2';
+      label.style.transform = 'scale(0.95)';
+      label.style.opacity = '0.6';
+    } else if (phase.action === 'hold') {
+      // Gentle opacity pulse during hold state
+      circle.style.opacity = '0.5';
+      label.style.opacity = '0.8';
     }
   });
 
