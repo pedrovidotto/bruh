@@ -237,77 +237,96 @@ function toggleGround(el) {
   el.classList.toggle('done');
 }
 
+/* Hardened GPU-Accelerated Breathing Engine */
 let breatheTimer = null;
 let breatheActive = false;
+let currentBreatheMode = [];
+let currentBreathePhaseIndex = 0;
 
-function openBreatheModal() {
-  document.getElementById('breathe-modal-overlay').classList.add('visible');
+const breatheModes = {
+  vagus: [
+    { label: 'INHALE', time: 4, action: 'in' },
+    { label: 'EXHALE', time: 6, action: 'out' }
+  ],
+  box: [
+    { label: 'INHALE', time: 4, action: 'in' },
+    { label: 'HOLD', time: 4, action: 'hold' },
+    { label: 'EXHALE', time: 4, action: 'out' },
+    { label: 'HOLD', time: 4, action: 'hold' }
+  ],
+  relax: [
+    { label: 'INHALE', time: 4, action: 'in' },
+    { label: 'HOLD', time: 7, action: 'hold' },
+    { label: 'EXHALE', time: 8, action: 'out' }
+  ]
+};
+
+function openBreatheModal(modeKey) {
+  currentBreatheMode = breatheModes[modeKey];
+  currentBreathePhaseIndex = 0;
   breatheActive = true;
-  runBreatheCycle();
+  
+  const circle = document.getElementById('breathe-circle-huge');
+  circle.style.transition = 'none';
+  circle.style.transform = 'translate(-50%, -50%) scale(0.2)';
+  circle.style.opacity = '0.05';
+
+  document.getElementById('breathe-modal-overlay').classList.add('visible');
+  runBreathePhase();
 }
 
 function stopBreathe() {
   breatheActive = false;
-  clearTimeout(breatheTimer);
+  clearInterval(breatheTimer);
   document.getElementById('breathe-modal-overlay').classList.remove('visible');
   
-  // Reset UI
+  const circle = document.getElementById('breathe-circle-huge');
+  circle.style.transition = 'none';
+  circle.style.transform = 'translate(-50%, -50%) scale(0.2)';
+  
   document.getElementById('breathe-display-huge').textContent = '·';
   document.getElementById('breathe-label-huge').textContent = 'PREPARE';
-  const circle = document.getElementById('breathe-circle-huge');
-  circle.classList.remove('anim-in', 'anim-out');
 }
 
-function runBreatheCycle() {
+function runBreathePhase() {
   if (!breatheActive) return;
+
+  const phase = currentBreatheMode[currentBreathePhaseIndex];
   const display = document.getElementById('breathe-display-huge');
   const label = document.getElementById('breathe-label-huge');
   const circle = document.getElementById('breathe-circle-huge');
 
-  // Trigger INHALE
-  display.textContent = '4';
-  label.textContent = 'INHALE';
-  circle.classList.remove('anim-out');
-  // Hack for reflow
-  void circle.offsetWidth;
-  circle.classList.add('anim-in');
+  label.textContent = phase.label;
+  let count = phase.time;
+  display.textContent = count;
 
-  let countIn = 4;
-  function tickInhale() {
-    if (!breatheActive) return;
-    countIn--;
-    if (countIn > 0) {
-      display.textContent = countIn;
-      breatheTimer = setTimeout(tickInhale, 1000);
-    } else {
-      // Trigger EXHALE
-      display.textContent = '6';
-      label.textContent = 'EXHALE SLOWLY';
-      circle.classList.remove('anim-in');
-      void circle.offsetWidth;
-      circle.classList.add('anim-out');
-
-      let countOut = 6;
-      function tickExhale() {
-        if (!breatheActive) return;
-        countOut--;
-        if (countOut > 0) {
-          display.textContent = countOut;
-          breatheTimer = setTimeout(tickExhale, 1000);
-        } else {
-          // Loop Cycle
-          display.textContent = '·';
-          breatheTimer = setTimeout(runBreatheCycle, 500);
-        }
-      }
-      breatheTimer = setTimeout(tickExhale, 1000);
+  // Direct CSS Injection for GPU offloading
+  circle.style.transition = `transform ${phase.time}s linear, opacity ${phase.time}s linear`;
+  
+  requestAnimationFrame(() => {
+    if (phase.action === 'in') {
+      circle.style.transform = 'translate(-50%, -50%) scale(1.2)';
+      circle.style.opacity = '0.15';
+    } else if (phase.action === 'out') {
+      circle.style.transform = 'translate(-50%, -50%) scale(0.2)';
+      circle.style.opacity = '0.05';
     }
-  }
-  breatheTimer = setTimeout(tickInhale, 1000);
+  });
+
+  breatheTimer = setInterval(() => {
+    count--;
+    if (count > 0) {
+      display.textContent = count;
+    } else {
+      clearInterval(breatheTimer);
+      currentBreathePhaseIndex = (currentBreathePhaseIndex + 1) % currentBreatheMode.length;
+      runBreathePhase();
+    }
+  }, 1000);
 }
 
 function resetMind() {
-  document.querySelectorAll('.ground-cell-mini').forEach(c => {
+  document.querySelectorAll('.action-btn').forEach(c => {
     c.classList.remove('done');
   });
   nameInput.value = ''; 
