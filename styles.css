@@ -128,44 +128,69 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 .rest-day-message h3 { color: var(--text); margin-bottom: 8px; }
 
 /* ─── MIND PROTOCOL UI ────────────────────────────────────────── */
-.protocol-header { margin: 24px 0 32px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
-.name-row { display: flex; align-items: center; gap: 8px; margin-top: 16px; background: var(--surface); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); }
+.protocol-header { margin: 24px 0 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.protocol-header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.spotify-btn {
+  display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #fff;
+  padding: 8px 12px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  text-decoration: none; font-weight: bold; transition: transform 0.2s; flex-shrink: 0;
+}
+.spotify-btn:active { transform: scale(0.95); }
+.spotify-btn svg { width: 14px; height: 14px; }
+
+.name-row { display: flex; align-items: center; gap: 8px; margin-top: 16px; background: var(--surface); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); }
 #name-input { background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.9rem; padding: 4px; width: 100px; outline: none; }
 #name-input:focus { border-bottom-color: var(--accent); }
 
-.mantra-card {
-  background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
-  padding: 20px; margin-bottom: 12px; border-radius: 6px; cursor: pointer; transition: 0.2s;
-}
-.mantra-card .tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--text-muted); margin-bottom: 8px; letter-spacing: 0.05em; }
-.mantra-card .mantra-text { font-size: 1.1rem; font-style: italic; font-weight: 300; line-height: 1.5; color: var(--text); transition: 0.2s; }
-.mantra-card .why { margin-top: 12px; font-size: 0.8rem; color: var(--text-muted); display: none; }
-.mantra-card.open .why { display: block; }
-.mantra-card.open .mantra-text { color: var(--accent); }
+.mind-cards-container { display: flex; flex-direction: column; gap: 20px; }
 
-.ground-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-.ground-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 10px; text-align: center; cursor: pointer; transition: 0.2s; user-select: none; }
-.ground-cell .ground-num { font-size: 2rem; font-weight: 300; display: block; margin-bottom: 4px; color: var(--text-muted); }
-.ground-cell .ground-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); }
-.ground-cell.done { background: var(--surface-2); border-color: var(--accent); }
-.ground-cell.done .ground-num { color: var(--accent); }
+.mind-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 28px;
+  padding: 32px; cursor: pointer; transition: 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative; overflow: hidden;
+}
+.mind-card:active { transform: scale(0.98); }
 
-.breathe-block {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-  padding: 40px 20px; text-align: center; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 220px;
+.mind-card-icon {
+  width: 42px; height: 42px; background: var(--surface-2); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; color: var(--text);
+  margin-bottom: 24px; border: 1px solid var(--border);
 }
-.breathe-ui { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
-#breathe-btn {
-  font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; background: var(--bg);
-  border: 1px solid var(--border); color: var(--text); padding: 10px 24px; border-radius: 100px; cursor: pointer; margin-bottom: 20px; transition: 0.2s;
+
+.mind-card-title { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 0.05em; }
+.mantra-text { font-size: 1.15rem; font-style: italic; font-weight: 300; line-height: 1.5; color: var(--text); transition: 0.2s; }
+.mind-card .why { margin-top: 16px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; display: none; }
+.mind-card.open .why { display: block; }
+.mind-card.open .mantra-text { color: var(--accent); }
+
+/* Breathe Trigger Specifics */
+.breathe-trigger { text-align: center; display: flex; flex-direction: column; align-items: center; border-color: var(--accent-dim); }
+.breathe-trigger .mind-card-icon { background: var(--accent-dim); color: var(--accent); border-color: transparent; }
+
+/* Grounding Grid */
+.ground-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px; }
+.ground-cell { background: var(--surface-2); border: 1px solid var(--border); border-radius: 16px; padding: 24px 10px; text-align: center; transition: 0.2s; user-select: none; }
+.ground-cell .ground-num { font-size: 2rem; font-weight: 300; display: block; margin-bottom: 6px; color: var(--text-muted); }
+.ground-cell .ground-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); }
+.ground-cell.done { background: var(--accent-dim); border-color: var(--accent); }
+.ground-cell.done .ground-num, .ground-cell.done .ground-label { color: var(--accent); }
+
+/* ─── Breathe Fullscreen Modal ────────────────────────────────── */
+.breathe-modal-overlay {
+  display: flex; align-items: center; justify-content: center; background: var(--bg);
 }
-#breathe-btn.active { color: var(--accent); border-color: var(--accent); }
-#breathe-display { font-size: 3rem; font-weight: 300; color: var(--text); height: 60px; display: flex; align-items: center; justify-content: center; }
-#breathe-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; min-height: 16px; }
+.breathe-modal-content {
+  width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.breathe-ui { display: flex; flex-direction: column; align-items: center; }
+#breathe-display-huge { font-size: 6rem; font-weight: 300; color: var(--text); height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+#breathe-label-huge { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 40px; min-height: 24px; }
+#breathe-stop-btn { width: auto; padding: 12px 32px; border-radius: 100px; font-size: 0.75rem; background: var(--surface-2); border: 1px solid var(--border); }
 
 /* Hardware Accelerated Animation */
 .breathe-circle {
-  position: absolute; top: 50%; left: 50%; width: 220px; height: 220px; border-radius: 50%;
+  position: absolute; top: 50%; left: 50%; width: 80vw; height: 80vw; max-width: 500px; max-height: 500px; border-radius: 50%;
   background: var(--accent); opacity: 0; pointer-events: none;
   transform: translate(-50%, -50%) scale(0.2);
 }
@@ -178,7 +203,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   transition: transform 6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s;
 }
 
-/* ─── Timer & Modals ──────────────────────────────────────────── */
+/* ─── Timer & Generic Modals ──────────────────────────────────── */
 #timer-display {
   position: fixed; bottom: calc(28px + var(--safe-bottom)); left: 50%; transform: translateX(-50%) translateY(10px);
   background: var(--text); color: var(--bg); padding: 10px 28px; border-radius: 100px; font-family: 'DM Mono', monospace;
