@@ -62,7 +62,7 @@ let completedDays = JSON.parse(localStorage.getItem('workoutSysCompletedDays')) 
 let lastTouched   = JSON.parse(localStorage.getItem('workoutSysLastTouched'))   || {};
 let activeTimer   = null;
 
-/* ─── Render ──────────────────────────────────────────────────── */
+/* ─── WORKOUT SYSTEM ──────────────────────────────────────────── */
 function renderWorkout(idx) {
   const data = workoutData[idx];
   const list = document.getElementById('exercise-list');
@@ -87,8 +87,7 @@ function renderWorkout(idx) {
   if (data.cardio) items.push({...data.cardio, idType: 'cardio'});
 
   let total = 0, done = 0;
-
-  const activeNodesData = []; // Armazena objetos para ordenação temporal
+  const activeNodesData = []; 
   const pendingNodes = [];
   const completedNodes = [];
 
@@ -113,19 +112,14 @@ function renderWorkout(idx) {
       <button class="info-btn">i</button>
     `;
 
-    // Long-Press Rigoroso
     let pressTimer;
     let isLongPress = false;
-    let startX = 0;
-    let startY = 0;
+    let startX = 0, startY = 0;
 
     li.addEventListener('pointerdown', (e) => {
       if (e.target.closest('.info-btn')) return;
-      isLongPress = false;
-      startX = e.clientX;
-      startY = e.clientY;
+      isLongPress = false; startX = e.clientX; startY = e.clientY;
       li.setPointerCapture(e.pointerId);
-      
       pressTimer = setTimeout(() => {
         isLongPress = true;
         if (navigator.vibrate) navigator.vibrate(50);
@@ -136,9 +130,7 @@ function renderWorkout(idx) {
     });
 
     li.addEventListener('pointermove', (e) => {
-      if (Math.abs(e.clientY - startY) > 20 || Math.abs(e.clientX - startX) > 20) {
-        clearTimeout(pressTimer);
-      }
+      if (Math.abs(e.clientY - startY) > 20 || Math.abs(e.clientX - startX) > 20) clearTimeout(pressTimer);
     });
 
     li.addEventListener('pointerup', (e) => {
@@ -154,29 +146,18 @@ function renderWorkout(idx) {
     li.addEventListener('pointercancel', () => clearTimeout(pressTimer));
 
     li.querySelector('.info-btn').onclick = (e) => {
-      e.stopPropagation();
-      showInfo(ex.name, ex.instructions);
+      e.stopPropagation(); showInfo(ex.name, ex.instructions);
     };
 
-    if (sCurrent >= sTotal) {
-      completedNodes.push(li);
-    } else if (sCurrent > 0) {
-      // Injeta o node com seu timestamp para ordenar posteriormente
-      activeNodesData.push({ node: li, ts: lastTouched[id] || 0 });
-    } else {
-      pendingNodes.push(li);
-    }
+    if (sCurrent >= sTotal) completedNodes.push(li);
+    else if (sCurrent > 0) activeNodesData.push({ node: li, ts: lastTouched[id] || 0 });
+    else pendingNodes.push(li);
   });
 
-  // Força o item interagido mais recentemente para o topo
   activeNodesData.sort((a, b) => b.ts - a.ts);
-
   activeNodesData.forEach((item, index) => {
-    if (index === 0) {
-      item.node.classList.add('primary-active');
-    } else {
-      item.node.classList.add('secondary-active');
-    }
+    if (index === 0) item.node.classList.add('primary-active');
+    else item.node.classList.add('secondary-active');
     list.appendChild(item.node);
   });
   
@@ -205,41 +186,147 @@ function startTimer(sec) {
   const end = Date.now() + sec * 1000;
   const el = document.getElementById('timer-display');
   el.classList.add('visible');
-  
   function update() {
     const rem = Math.ceil((end - Date.now()) / 1000);
-    if (rem <= 0) {
-      clearInterval(activeTimer);
-      el.classList.remove('visible');
-    } else {
-      el.textContent = `${Math.floor(rem/60)}:${(rem%60).toString().padStart(2,'0')}`;
-    }
+    if (rem <= 0) { clearInterval(activeTimer); el.classList.remove('visible'); }
+    else { el.textContent = `${Math.floor(rem/60)}:${(rem%60).toString().padStart(2,'0')}`; }
   }
-  
   update();
   activeTimer = setInterval(update, 1000);
 }
 
 function showInfo(title, text) {
   document.getElementById('info-modal-title').textContent = title;
-  const body = document.getElementById('info-modal-instructions');
-  body.innerHTML = text.split(/(SETUP:|EXECUTION:|PROTOCOL:|PACING:)/g)
-    .filter(Boolean)
-    .map(l => {
+  document.getElementById('info-modal-instructions').innerHTML = text.split(/(SETUP:|EXECUTION:|PROTOCOL:|PACING:)/g)
+    .filter(Boolean).map(l => {
       l = l.trim();
       return /^(SETUP:|EXECUTION:|PROTOCOL:|PACING:)$/.test(l) ? 
-        `<span class="instruction-label" style="margin-top: 12px;">${l.replace(':','')}</span>` : 
-        `<p>${l}</p>`;
+        `<span class="instruction-label" style="margin-top: 12px;">${l.replace(':','')}</span>` : `<p>${l}</p>`;
     }).join('');
   document.getElementById('info-modal-overlay').classList.add('visible');
 }
 
-function init() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(err => console.error('SW registration failed:', err));
+function showCompletion(title) {
+  document.getElementById('completion-message').textContent = `${title} logged. Recover well.`;
+  const el = document.getElementById('completion-overlay');
+  el.classList.add('visible');
+  el.onclick = () => el.classList.remove('visible');
+}
+
+/* ─── MIND SYSTEM (ANXIETY PROTOCOL) ──────────────────────────── */
+const nameInput = document.getElementById('name-input');
+function updateMantras() {
+  const n = nameInput.value.trim() || 'Pedro';
+  document.getElementById('master-mantra').textContent = `"${n}, right now your mind is telling a scary story about the future, and your body is trying to protect you from it. You are experiencing a feeling, not a fact."`;
+  document.getElementById('loop-mantra').textContent = `"That's just an old loop playing again. ${n} doesn't have to listen to it."`;
+  document.getElementById('tension-mantra').textContent = `"${n}, your body is safe. This tension is just energy trying to help."`;
+  document.getElementById('future-mantra').textContent = `"${n}, you don't need to solve the future today. You just need one slow breath right now."`;
+}
+nameInput.addEventListener('input', updateMantras);
+
+function toggleGround(el) {
+  el.classList.toggle('done');
+  el.querySelector('.ground-num').textContent = el.classList.contains('done') ? '✓' : '3';
+}
+
+let breatheInterval = null;
+let breatheActive = false;
+let breathePhase = 'out'; // Track CSS animation state
+
+function startBreathe() {
+  const btn = document.getElementById('breathe-btn');
+  const display = document.getElementById('breathe-display');
+  const label = document.getElementById('breathe-label');
+  const circle = document.getElementById('breathe-circle');
+
+  if (breatheActive) {
+    clearTimeout(breatheInterval);
+    breatheActive = false;
+    btn.textContent = 'START GUIDE';
+    btn.classList.remove('active');
+    display.textContent = '·';
+    label.textContent = '';
+    circle.classList.remove('anim-in', 'anim-out');
+    return;
   }
 
-  const nav = document.getElementById('day-selector');
+  breatheActive = true;
+  btn.textContent = 'STOP GUIDE';
+  btn.classList.add('active');
+  runBreatheCycle();
+}
+
+function runBreatheCycle() {
+  if (!breatheActive) return;
+  const display = document.getElementById('breathe-display');
+  const label = document.getElementById('breathe-label');
+  const circle = document.getElementById('breathe-circle');
+
+  // Trigger INHALE
+  display.textContent = '4';
+  label.textContent = 'INHALE';
+  circle.classList.remove('anim-out');
+  circle.classList.add('anim-in');
+
+  let count = 4;
+  const inTimer = setInterval(() => {
+    count--;
+    if (count <= 0) {
+      clearInterval(inTimer);
+      // Trigger EXHALE
+      display.textContent = '6';
+      label.textContent = 'EXHALE SLOWLY';
+      circle.classList.remove('anim-in');
+      circle.classList.add('anim-out');
+
+      let count2 = 6;
+      const outTimer = setInterval(() => {
+        count2--;
+        display.textContent = count2 || '·';
+        if (count2 <= 0) {
+          clearInterval(outTimer);
+          setTimeout(() => { if (breatheActive) runBreatheCycle(); }, 500);
+        }
+      }, 1000);
+    } else {
+      display.textContent = count;
+    }
+  }, 1000);
+}
+
+function resetMind() {
+  document.querySelectorAll('.ground-cell').forEach(c => {
+    c.classList.remove('done'); c.querySelector('.ground-num').textContent = '3';
+  });
+  document.querySelectorAll('.mantra-card').forEach(c => c.classList.remove('open'));
+  nameInput.value = ''; updateMantras();
+  if (breatheActive) startBreathe();
+}
+
+/* ─── INIT & DOM BINDINGS ─────────────────────────────────────── */
+function init() {
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>null);
+
+  // Mode Switcher Logic
+  const btnBody = document.getElementById('mode-body-btn');
+  const btnMind = document.getElementById('mode-mind-btn');
+  const viewBody = document.getElementById('view-body');
+  const viewMind = document.getElementById('view-mind');
+  const daySelector = document.getElementById('day-selector');
+
+  btnBody.onclick = () => {
+    btnBody.classList.add('active'); btnMind.classList.remove('active');
+    viewBody.classList.remove('hidden'); daySelector.classList.remove('hidden');
+    viewMind.classList.add('hidden');
+  };
+
+  btnMind.onclick = () => {
+    btnMind.classList.add('active'); btnBody.classList.remove('active');
+    viewMind.classList.remove('hidden');
+    viewBody.classList.add('hidden'); daySelector.classList.add('hidden');
+  };
+
+  // Workout Days
   ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
     const b = document.createElement('button');
     b.className = 'day-btn'; b.textContent = l;
@@ -248,59 +335,41 @@ function init() {
       document.querySelectorAll('.day-btn').forEach(x => x.classList.remove('active'));
       b.classList.add('active'); renderWorkout(i);
     };
-    nav.appendChild(b);
+    daySelector.appendChild(b);
   });
   
+  // Theme
   document.getElementById('theme-toggle-btn').onclick = () => {
     const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
     document.body.dataset.theme = next;
     localStorage.setItem('workoutSysTheme', next);
   };
+  if (localStorage.getItem('workoutSysTheme')) document.body.dataset.theme = localStorage.getItem('workoutSysTheme');
 
-  const savedTheme = localStorage.getItem('workoutSysTheme');
-  if (savedTheme) document.body.dataset.theme = savedTheme;
-
-  // Listeners de modal com verificação estrita de alvo para fechar ao tocar no overlay
+  // Modals
   const infoOverlay = document.getElementById('info-modal-overlay');
-  infoOverlay.addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('visible');
-  });
+  infoOverlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('visible'); });
   document.getElementById('info-modal-close-btn').onclick = () => infoOverlay.classList.remove('visible');
 
   const resetOverlay = document.getElementById('reset-modal-overlay');
-  resetOverlay.addEventListener('click', function(e) {
-    if (e.target === this) this.classList.remove('visible');
-  });
+  resetOverlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('visible'); });
   document.getElementById('reset-button').onclick = () => resetOverlay.classList.add('visible');
   
   document.getElementById('confirm-reset-btn').onclick = () => {
     localStorage.removeItem('workoutSysProgress');
     localStorage.removeItem('workoutSysCompletedDays');
     localStorage.removeItem('workoutSysLastTouched');
-    progress = {};
-    completedDays = [];
-    lastTouched = {};
+    progress = {}; completedDays = []; lastTouched = {};
     resetOverlay.classList.remove('visible');
-    
-    document.querySelectorAll('.day-btn').forEach(btn => {
-      btn.classList.remove('day-complete');
-    });
-    
-    const activeIdx = Array.from(document.getElementById('day-selector').children).findIndex(b => b.classList.contains('active'));
+    document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('day-complete'));
+    const activeIdx = Array.from(daySelector.children).findIndex(b => b.classList.contains('active'));
     renderWorkout(activeIdx !== -1 ? activeIdx : ((new Date().getDay() + 6) % 7));
   };
-  
   document.getElementById('cancel-reset-btn').onclick = () => resetOverlay.classList.remove('visible');
 
+  updateMantras();
   const today = (new Date().getDay() + 6) % 7;
-  nav.children[today].click();
-}
-
-function showCompletion(title) {
-  document.getElementById('completion-message').textContent = `${title} logged. Recover well.`;
-  const el = document.getElementById('completion-overlay');
-  el.classList.add('visible');
-  el.onclick = () => el.classList.remove('visible');
+  daySelector.children[today].click();
 }
 
 init();
