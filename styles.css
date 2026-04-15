@@ -46,6 +46,8 @@ body {
 .section-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin: 32px 0 16px; letter-spacing: 0.05em; }
 .relative { position: relative; }
 .z-10 { z-index: 10; position: relative; }
+.text-center { text-align: center; }
+.mx-auto { margin-left: auto; margin-right: auto; }
 
 /* ─── Typography ──────────────────────────────────────────────── */
 .title-light { font-family: 'Inter', sans-serif; font-weight: 300; letter-spacing: -0.02em; }
@@ -194,22 +196,18 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 
 /* Split Grid for Breathe & Ground */
 .mind-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.mind-grid-2 .mind-card { padding: 24px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.mind-grid-2 .mind-card { padding: 24px; display: flex; flex-direction: column; }
 .mind-grid-2 .mind-card-icon { margin-bottom: 16px; }
 
-/* Breathe Trigger Card */
-.breathe-trigger { cursor: pointer; transition: 0.3s cubic-bezier(0.34,1.56,0.64,1); border-color: var(--accent-dim); }
-.breathe-trigger:active { transform: scale(0.95); }
-.breathe-trigger .mind-card-icon { background: var(--accent-dim); color: var(--accent); border-color: transparent; }
-
-/* Grounding Grid Mini */
-.ground-grid-mini { display: flex; flex-direction: column; gap: 8px; width: 100%; }
-.ground-cell-mini {
+/* Symmetric Action Stack */
+.action-stack { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: auto; }
+.action-btn {
   background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
   padding: 12px; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted);
-  cursor: pointer; transition: 0.2s; text-transform: uppercase; user-select: none;
+  cursor: pointer; transition: 0.2s; text-transform: uppercase; user-select: none; width: 100%;
 }
-.ground-cell-mini.done { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); text-decoration: line-through; }
+.action-btn:active { transform: scale(0.95); }
+.action-btn.done { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); text-decoration: line-through; }
 
 /* ─── Breathe Fullscreen Modal ────────────────────────────────── */
 .breathe-modal-overlay { display: flex; align-items: center; justify-content: center; background: var(--bg); }
@@ -222,20 +220,12 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 #breathe-label-huge { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 40px; min-height: 24px; }
 #breathe-stop-btn { width: auto; padding: 12px 32px; border-radius: 100px; font-size: 0.75rem; background: var(--surface-2); border: 1px solid var(--border); }
 
-/* Hardware Accelerated Animation synced to JS (4s Inhale, 6s Exhale) */
+/* Hardware Accelerated Direct-Injected Animation Base */
 .breathe-circle {
   position: absolute; top: 50%; left: 50%; width: 80vw; height: 80vw; max-width: 500px; max-height: 500px; border-radius: 50%;
   background: var(--accent); opacity: 0; pointer-events: none;
   transform: translate(-50%, -50%) scale(0.2);
   will-change: transform, opacity;
-}
-.breathe-circle.anim-in {
-  transform: translate(-50%, -50%) scale(1.2); opacity: 0.15;
-  transition: transform 4s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 4s;
-}
-.breathe-circle.anim-out {
-  transform: translate(-50%, -50%) scale(0.2); opacity: 0.05;
-  transition: transform 6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 6s;
 }
 
 /* ─── Timer & Generic Modals ──────────────────────────────────── */
