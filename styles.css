@@ -153,9 +153,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   padding: 32px; position: relative; overflow: hidden;
 }
 
-.mind-card-header-flex {
-  display: flex; align-items: center; margin-bottom: 24px;
-}
+.mind-card-header-flex { display: flex; align-items: center; margin-bottom: 24px; }
 .mind-card-icon {
   width: 42px; height: 42px; background: var(--surface-2); border-radius: 14px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; color: var(--text);
@@ -168,18 +166,13 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); flex: 1;
 }
 .anchor-label { color: var(--text-muted); font-size: 0.65rem; font-family: 'DM Mono', monospace; flex-shrink: 0; }
-#name-input {
-  background: transparent; border: none; color: var(--accent); font-family: 'DM Mono', monospace;
-  font-size: 0.85rem; outline: none; width: 100%;
-}
+#name-input { background: transparent; border: none; color: var(--accent); font-family: 'DM Mono', monospace; font-size: 0.85rem; outline: none; width: 100%; }
 
 .mind-card-title { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 0.05em; }
 .mantra-text { font-size: 1.15rem; font-weight: 300; line-height: 1.5; color: var(--text); transition: 0.2s; }
 
 /* Tabs Layout */
-.mind-tabs {
-  display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px;
-}
+.mind-tabs { display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
 .mind-tab {
   background: transparent; border: 1px solid transparent; color: var(--text-muted);
   font-family: 'DM Mono', monospace; font-size: 0.7rem; padding: 6px 12px; border-radius: 100px;
@@ -188,11 +181,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 .mind-tab.active { background: var(--surface-2); color: var(--text); border-color: var(--border); }
 .mind-tab-content { display: none; }
 .mind-tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Split Grid for Breathe & Ground */
 .mind-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -216,14 +205,24 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   position: relative; overflow: hidden;
 }
 .breathe-ui { display: flex; flex-direction: column; align-items: center; }
-#breathe-display-huge { font-size: 6rem; font-weight: 300; color: var(--text); height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-#breathe-label-huge { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 40px; min-height: 24px; }
+
+/* Inverted Hierarchy: Action massive, Counter small */
+#breathe-label-huge { 
+  font-family: 'Inter', sans-serif; font-size: 3.5rem; font-weight: 300; 
+  color: var(--text); letter-spacing: -0.02em; margin-bottom: 4px; text-transform: uppercase;
+  will-change: transform, opacity; text-align: center;
+}
+#breathe-display-huge { 
+  font-family: 'DM Mono', monospace; font-size: 1.5rem; color: var(--text-muted); 
+  margin-bottom: 40px; text-align: center;
+}
 #breathe-stop-btn { width: auto; padding: 12px 32px; border-radius: 100px; font-size: 0.75rem; background: var(--surface-2); border: 1px solid var(--border); }
 
 /* Hardware Accelerated Direct-Injected Animation Base */
 .breathe-circle {
-  position: absolute; top: 50%; left: 50%; width: 80vw; height: 80vw; max-width: 500px; max-height: 500px; border-radius: 50%;
-  background: var(--accent); opacity: 0; pointer-events: none;
+  position: absolute; top: 50%; left: 50%; width: 80vw; height: 80vw; max-width: 440px; max-height: 440px; border-radius: 50%;
+  border: 3px solid var(--accent); background: transparent; 
+  opacity: 0; pointer-events: none;
   transform: translate(-50%, -50%) scale(0.2);
   will-change: transform, opacity;
 }
