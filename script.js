@@ -245,19 +245,19 @@ let currentBreathePhaseIndex = 0;
 
 const breatheModes = {
   vagus: [
-    { label: 'INHALE', time: 4, action: 'in' },
-    { label: 'EXHALE', time: 6, action: 'out' }
+    { label: 'Inhale', time: 4, action: 'in' },
+    { label: 'Exhale', time: 6, action: 'out' }
   ],
   box: [
-    { label: 'INHALE', time: 4, action: 'in' },
-    { label: 'HOLD', time: 4, action: 'hold' },
-    { label: 'EXHALE', time: 4, action: 'out' },
-    { label: 'HOLD', time: 4, action: 'hold' }
+    { label: 'Inhale', time: 4, action: 'in' },
+    { label: 'Hold', time: 4, action: 'hold' },
+    { label: 'Exhale', time: 4, action: 'out' },
+    { label: 'Hold', time: 4, action: 'hold' }
   ],
   relax: [
-    { label: 'INHALE', time: 4, action: 'in' },
-    { label: 'HOLD', time: 7, action: 'hold' },
-    { label: 'EXHALE', time: 8, action: 'out' }
+    { label: 'Inhale', time: 4, action: 'in' },
+    { label: 'Hold', time: 7, action: 'hold' },
+    { label: 'Exhale', time: 8, action: 'out' }
   ]
 };
 
@@ -292,7 +292,7 @@ function stopBreathe() {
   circle.style.opacity = '0';
   
   const label = document.getElementById('breathe-label-huge');
-  label.textContent = 'PREPARE';
+  label.textContent = 'Prepare';
   label.style.transition = 'none';
   label.style.transform = 'scale(1)';
   label.style.opacity = '1';
@@ -328,7 +328,6 @@ function runBreathePhase() {
       label.style.transform = 'scale(0.95)';
       label.style.opacity = '0.6';
     } else if (phase.action === 'hold') {
-      // Gentle opacity pulse during hold state
       circle.style.opacity = '0.5';
       label.style.opacity = '0.8';
     }
