@@ -21,6 +21,10 @@
       <div class="logo">
         <img src="logo.svg" alt="WORKOUT.SYS" class="logo-svg">
       </div>
+      <div class="mode-switcher">
+        <button id="mode-body-btn" class="active">BODY</button>
+        <button id="mode-mind-btn">MIND</button>
+      </div>
       <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle Theme">
         <svg viewBox="0 0 20 20" fill="none">
           <circle cx="10" cy="10" r="9" class="svg-bg-circle"/>
@@ -28,30 +32,109 @@
         </svg>
       </button>
     </div>
+    
     <nav id="day-selector" role="tablist"></nav>
   </div>
 </header>
 
 <main class="container">
-  <div id="workout-header">
-    <h2 id="workout-title"></h2>
-    <p id="workout-duration" class="data-readout"></p>
+  
+  <div id="view-body">
+    <div id="workout-header">
+      <h2 id="workout-title"></h2>
+      <p id="workout-duration" class="data-readout"></p>
+    </div>
+
+    <div id="progress-bar-wrap" class="hidden">
+      <div id="progress-bar-fill"></div>
+    </div>
+
+    <ul id="exercise-list" class="list-reset"></ul>
+
+    <div id="completed-section" class="hidden">
+      <h3 class="section-label">// COMPLETED</h3>
+      <ul id="completed-list" class="list-reset"></ul>
+    </div>
+
+    <footer>
+      <button id="reset-button" class="btn-secondary">PURGE WEEKLY PROGRESS</button>
+    </footer>
   </div>
 
-  <div id="progress-bar-wrap" class="hidden">
-    <div id="progress-bar-fill"></div>
+  <div id="view-mind" class="hidden">
+    <div class="protocol-header">
+      <h2 class="title-light" style="font-size: 2rem; margin-bottom: 8px;">The Shuffle Break</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 24px;">Loop · Physical tension · Future worry — on shuffle.</p>
+      
+      <div class="name-row">
+        <span style="color:var(--text-muted); font-size: 0.75rem;">Self-talk anchor →</span>
+        <input id="name-input" type="text" placeholder="Pedro" maxlength="20" />
+      </div>
+    </div>
+
+    <div class="protocol-section">
+      <h3 class="section-label">// MASTER MANTRA</h3>
+      <div class="mantra-card" onclick="this.classList.toggle('open')">
+        <div class="tag">ALL TRIGGERS</div>
+        <div class="mantra-text" id="master-mantra">"Right now your mind is telling a scary story about the future, and your body is trying to protect you from it. You are experiencing a feeling, not a fact."</div>
+        <div class="why">Uses distanced self-talk, reframes physical tension as protection, and grounds you in the present.</div>
+      </div>
+    </div>
+
+    <div class="protocol-section">
+      <h3 class="section-label">// TARGETED RESPONSE</h3>
+      <div class="mantra-card" onclick="this.classList.toggle('open')">
+        <div class="tag">MENTAL LOOP</div>
+        <div class="mantra-text" id="loop-mantra">"That's just an old loop playing again. I don't have to listen to it."</div>
+        <div class="why">Thought defusion — treats the loop like a radio in the background, not a command.</div>
+      </div>
+      <div class="mantra-card" onclick="this.classList.toggle('open')">
+        <div class="tag">PHYSICAL TENSION</div>
+        <div class="mantra-text" id="tension-mantra">"Your body is safe. This tension is just energy trying to help."</div>
+        <div class="why">Somatic reframing — reduces fear of the sensation itself.</div>
+      </div>
+      <div class="mantra-card" onclick="this.classList.toggle('open')">
+        <div class="tag">FUTURE WORRY</div>
+        <div class="mantra-text" id="future-mantra">"You don't need to solve the future today. You just need one slow breath right now."</div>
+        <div class="why">Time distancing — pulls focus back to the only moment you actually inhabit.</div>
+      </div>
+    </div>
+
+    <div class="protocol-section">
+      <h3 class="section-label">// VAGUS NERVE RESET</h3>
+      <div class="breathe-block relative">
+        <div id="breathe-circle" class="breathe-circle"></div>
+        <div class="breathe-ui">
+          <button id="breathe-btn" onclick="startBreathe()">START GUIDE</button>
+          <div id="breathe-display">·</div>
+          <div id="breathe-label"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="protocol-section">
+      <h3 class="section-label">// 3-3-3 GROUNDING</h3>
+      <div class="ground-grid">
+        <div class="ground-cell" onclick="toggleGround(this)">
+          <span class="ground-num">3</span>
+          <div class="ground-label">See</div>
+        </div>
+        <div class="ground-cell" onclick="toggleGround(this)">
+          <span class="ground-num">3</span>
+          <div class="ground-label">Hear</div>
+        </div>
+        <div class="ground-cell" onclick="toggleGround(this)">
+          <span class="ground-num">3</span>
+          <div class="ground-label">Move</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <button id="reset-mind-btn" class="btn-secondary" onclick="resetMind()">RESET PROTOCOL</button>
+    </footer>
   </div>
 
-  <ul id="exercise-list" class="list-reset"></ul>
-
-  <div id="completed-section" class="hidden">
-    <h3 class="section-label">// COMPLETED</h3>
-    <ul id="completed-list" class="list-reset"></ul>
-  </div>
-
-  <footer>
-    <button id="reset-button" class="btn-secondary">PURGE WEEKLY PROGRESS</button>
-  </footer>
 </main>
 
 <div id="timer-display">00:00</div>
