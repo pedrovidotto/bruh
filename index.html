@@ -6,10 +6,10 @@
   <title>WORKOUT.SYS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0e0d0c">
+  <meta name="theme-color" content="#0a0908">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
@@ -32,13 +32,12 @@
         </svg>
       </button>
     </div>
-    
     <nav id="day-selector" role="tablist"></nav>
   </div>
 </header>
 
 <main class="container">
-  
+
   <div id="view-body">
     <div id="workout-header">
       <h2 id="workout-title" class="page-title"></h2>
@@ -48,6 +47,7 @@
     <div id="progress-bar-wrap" class="hidden">
       <div id="progress-bar-fill"></div>
     </div>
+    <p id="progress-label" class="progress-label hidden"></p>
 
     <ul id="exercise-list" class="list-reset"></ul>
 
@@ -62,32 +62,32 @@
   </div>
 
   <div id="view-mind" class="hidden">
-    
+
     <div class="protocol-header">
       <div class="protocol-header-top">
-        <h2 class="page-title">Shuffle Break</h2>
+        <h2 class="page-title">Shuffle<br>Break</h2>
         <a href="https://open.spotify.com/playlist/0OMERBbxbRMrNvodfgFtxG?si=DR3xhEcOToKSsjRalctLwQ" target="_blank" class="spotify-btn">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.84-.12-.96-.54-.12-.42.12-.84.54-.96 4.56-1.08 8.52-.66 11.64 1.26.36.24.48.72.36 1.14zm1.44-3.3c-.3.48-.84.6-1.32.3-3.24-1.98-8.16-2.52-11.94-1.38-.54.18-1.14-.12-1.32-.66-.18-.54.12-1.14.66-1.32 4.32-1.26 9.72-.66 13.5 1.62.54.3.72.96.42 1.44zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.3c-.72.18-1.44-.24-1.62-.96-.18-.72.24-1.44.96-1.62 4.26-1.32 11.4-1.02 15.6 1.44.66.36.84 1.14.48 1.8-.36.66-1.14.84-1.8.48z"/></svg>
           Playlist
         </a>
       </div>
-      <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 24px;">Loop · Physical tension · Future worry.</p>
+      <p class="protocol-subtitle">Loop · Physical tension · Future worry.</p>
     </div>
 
     <div class="mind-cards-container">
-      
+
       <div class="mind-card">
         <div class="mind-card-header-flex">
           <div class="mind-card-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
           </div>
           <div class="anchor-input-wrap">
-            <span class="anchor-label">Anchor →</span>
+            <span class="anchor-label">ANCHOR →</span>
             <input id="name-input" type="text" placeholder="Pedro" maxlength="20" />
           </div>
         </div>
         <div class="mind-card-title">MASTER MANTRA</div>
-        <div class="mantra-text" id="master-mantra">"Right now your mind is telling a scary story about the future, and your body is trying to protect you from it. You are experiencing a feeling, not a fact."</div>
+        <div class="mantra-text" id="master-mantra"></div>
       </div>
 
       <div class="mind-card mind-tabs-card">
@@ -96,27 +96,24 @@
           <button class="mind-tab" onclick="switchMindTab('tension-tab')">Tension</button>
           <button class="mind-tab" onclick="switchMindTab('future-tab')">Future</button>
         </div>
-        
         <div id="loop-tab" class="mind-tab-content active">
           <div class="mind-card-title">TARGET: MENTAL LOOP</div>
-          <div class="mantra-text" id="loop-mantra">"That's just an old loop playing again. I don't have to listen to it."</div>
+          <div class="mantra-text" id="loop-mantra"></div>
         </div>
-        
         <div id="tension-tab" class="mind-tab-content">
           <div class="mind-card-title">TARGET: PHYSICAL TENSION</div>
-          <div class="mantra-text" id="tension-mantra">"Your body is safe. This tension is just energy trying to help."</div>
+          <div class="mantra-text" id="tension-mantra"></div>
         </div>
-        
         <div id="future-tab" class="mind-tab-content">
           <div class="mind-card-title">TARGET: FUTURE WORRY</div>
-          <div class="mantra-text" id="future-mantra">"You don't need to solve the future today. You just need one slow breath right now."</div>
+          <div class="mantra-text" id="future-mantra"></div>
         </div>
       </div>
 
       <div class="mind-grid-2">
         <div class="mind-card text-center">
           <div class="mind-card-icon mx-auto">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16z"/><path d="M12 16a4 4 0 100-8 4 4 0 000 8z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
           </div>
           <div class="mind-card-title">BREATHING</div>
           <div class="action-stack">
@@ -128,7 +125,7 @@
 
         <div class="mind-card text-center">
           <div class="mind-card-icon mx-auto">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 21v-8a1 1 0 00-1-1h-4a1 1 0 00-1 1v8"/><path d="M3 10V9a1 1 0 011-1h16a1 1 0 011 1v1"/><path d="M3 14h18"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
           </div>
           <div class="mind-card-title">GROUNDING</div>
           <div class="action-stack">
@@ -150,10 +147,11 @@
 
 <div id="timer-display">00:00</div>
 
+<!-- Info Modal -->
 <div id="info-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modal-header">
-      <h2 id="info-modal-title" class="title-light"></h2>
+      <h2 id="info-modal-title" class="title-light" style="font-size:1.1rem;line-height:1.3;"></h2>
       <button id="info-modal-close-btn" class="close-btn" aria-label="Close">✕</button>
     </div>
     <div class="divider"></div>
@@ -161,17 +159,19 @@
   </div>
 </div>
 
+<!-- Reset Modal -->
 <div id="reset-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal">
-    <h2 class="title-light">Reset Cycle?</h2>
+    <h2 class="title-light" style="font-size:1.3rem;margin-bottom:10px;">Reset Cycle?</h2>
     <p class="modal-body-text">This will permanently delete all logs for the current week.</p>
     <div class="modal-actions">
       <button id="confirm-reset-btn" class="btn-primary">Confirm</button>
-      <button id="cancel-reset-btn" class="btn-secondary">Cancel</button>
+      <button id="cancel-reset-btn" class="btn-secondary" style="margin-top:8px;">Cancel</button>
     </div>
   </div>
 </div>
 
+<!-- Completion overlay -->
 <div id="completion-overlay">
   <div class="completion-card">
     <h2 class="title-light" id="completion-title">Session Complete</h2>
@@ -180,6 +180,7 @@
   </div>
 </div>
 
+<!-- Breathe Modal -->
 <div id="breathe-modal-overlay" class="modal-overlay">
   <div class="breathe-modal-content">
     <div id="breathe-circle-huge" class="breathe-circle"></div>
