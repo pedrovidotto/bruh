@@ -50,7 +50,13 @@
       { "name": "Machine Hip Thrust", "details": "1 Activation + 4 Clusters · 90s rest", "rpe": "9–10", "instructions": "PROTOCOL: Final glute depletion. Use machine for stability so you can focus purely on the burn." },
       { "name": "Standing Calf Raise", "details": "4 × 15–20 reps · 45s rest", "rpe": "8–9", "instructions": "EXECUTION: High frequency volume. Pause at top, bounce-free reps. Full stretch at bottom." }
     ] },
-    { "day": 7, "title": "Standby", "subtitle": "Recovery", "duration": "—", "exercises": [] }
+    { "day": 7, "title": "Structural", "subtitle": "Weak Points + Base", "duration": "50–60m", "exercises": [
+      { "name": "Heels-Elevated DB Sissy Squat", "details": "4 × 10–12 reps · 90s rest", "rpe": "8–9", "instructions": "SETUP: Elevate heels on a wedge or plates. EXECUTION: Drive knees forward over toes, keeping torso perfectly upright to isolate the quads." },
+      { "name": "Single-Arm Iliac Lat Pulldown", "details": "3 × 10–12 reps · 90s rest", "rpe": "9", "instructions": "SETUP: Use a single D-handle. EXECUTION: Pull your elbow tight down to your hip to target the lower iliac lat fibers. Control the negative." },
+      { "name": "Incline DB Bicep Curl", "details": "4 × 10–12 reps · 60s rest", "rpe": "9", "instructions": "SETUP: Bench at 45–60°. EXECUTION: Let arms hang straight down for a full stretch. Supinate (turn palms up) as you curl." },
+      { "name": "Overhead Cable Triceps Ext.", "details": "4 × 12–15 reps · 60s rest", "rpe": "9", "instructions": "SETUP: Set cable low. EXECUTION: Keep elbows fixed in place pointing forward. Press up to full lockout to target the long head." },
+      { "name": "Cable Pallof Press", "details": "3 × 12–15 reps/side · 45s rest", "rpe": "8", "instructions": "EXECUTION: Stand perpendicular to cable. Press handle straight out in front of your chest and hold for 1s. Resist the rotational pull." }
+    ], "cardio": { "name": "Zone 2 Walk", "details": "1 × 30 mins", "instructions": "PACING: Maintain a brisk, steady pace. You should be able to hold a conversation without gasping for air." } }
   ];
 
   /* ─── State ───────────────────────────────────────────────────── */
