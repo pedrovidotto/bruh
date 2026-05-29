@@ -4,14 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>WORKOUT.SYS</title>
+  <meta name="description" content="A minimalist 7-day workout tracker.">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json">
+  
   <meta name="theme-color" content="#0a0908">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WORKOUT">
+  <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body data-theme="dark">
 
@@ -19,7 +25,7 @@
   <div class="container">
     <div class="header-top">
       <div class="logo">
-        <img src="logo.svg" alt="WORKOUT.SYS" class="logo-svg">
+        <img src="logo.svg" alt="WORKOUT.SYS" class="logo-svg" loading="eager" width="86" height="auto">
       </div>
       <div class="mode-switcher">
         <button id="mode-body-btn" class="active">BODY</button>
@@ -37,7 +43,6 @@
 </header>
 
 <main class="container">
-
   <div id="view-body">
     <div id="workout-header">
       <h2 id="workout-title" class="page-title"></h2>
@@ -62,11 +67,10 @@
   </div>
 
   <div id="view-mind" class="hidden">
-
     <div class="protocol-header">
       <div class="protocol-header-top">
         <h2 class="page-title">Shuffle<br>Break</h2>
-        <a href="https://open.spotify.com/playlist/0OMERBbxbRMrNvodfgFtxG?si=DR3xhEcOToKSsjRalctLwQ" target="_blank" class="spotify-btn">
+        <a href="https://open.spotify.com/playlist/0OMERBbxbRMrNvodfgFtxG?si=DR3xhEcOToKSsjRalctLwQ" target="_blank" rel="noopener noreferrer" class="spotify-btn">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.84-.12-.96-.54-.12-.42.12-.84.54-.96 4.56-1.08 8.52-.66 11.64 1.26.36.24.48.72.36 1.14zm1.44-3.3c-.3.48-.84.6-1.32.3-3.24-1.98-8.16-2.52-11.94-1.38-.54.18-1.14-.12-1.32-.66-.18-.54.12-1.14.66-1.32 4.32-1.26 9.72-.66 13.5 1.62.54.3.72.96.42 1.44zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.3c-.72.18-1.44-.24-1.62-.96-.18-.72.24-1.44.96-1.62 4.26-1.32 11.4-1.02 15.6 1.44.66.36.84 1.14.48 1.8-.36.66-1.14.84-1.8.48z"/></svg>
           Playlist
         </a>
@@ -75,7 +79,6 @@
     </div>
 
     <div class="mind-cards-container">
-
       <div class="mind-card">
         <div class="mind-card-header-flex">
           <div class="mind-card-icon">
@@ -92,9 +95,9 @@
 
       <div class="mind-card mind-tabs-card">
         <div class="mind-tabs">
-          <button class="mind-tab active" onclick="switchMindTab('loop-tab')">Loop</button>
-          <button class="mind-tab" onclick="switchMindTab('tension-tab')">Tension</button>
-          <button class="mind-tab" onclick="switchMindTab('future-tab')">Future</button>
+          <button class="mind-tab active" data-target="loop-tab">Loop</button>
+          <button class="mind-tab" data-target="tension-tab">Tension</button>
+          <button class="mind-tab" data-target="future-tab">Future</button>
         </div>
         <div id="loop-tab" class="mind-tab-content active">
           <div class="mind-card-title">TARGET: MENTAL LOOP</div>
@@ -117,9 +120,9 @@
           </div>
           <div class="mind-card-title">BREATHING</div>
           <div class="action-stack">
-            <button class="action-btn" onclick="openBreatheModal('vagus')">Vagus</button>
-            <button class="action-btn" onclick="openBreatheModal('box')">Box</button>
-            <button class="action-btn" onclick="openBreatheModal('relax')">Relax</button>
+            <button class="action-btn breathe-trigger" data-mode="vagus">Vagus</button>
+            <button class="action-btn breathe-trigger" data-mode="box">Box</button>
+            <button class="action-btn breathe-trigger" data-mode="relax">Relax</button>
           </div>
         </div>
 
@@ -129,25 +132,22 @@
           </div>
           <div class="mind-card-title">GROUNDING</div>
           <div class="action-stack">
-            <button class="action-btn" onclick="toggleGround(this)">See 3</button>
-            <button class="action-btn" onclick="toggleGround(this)">Hear 3</button>
-            <button class="action-btn" onclick="toggleGround(this)">Move 3</button>
+            <button class="action-btn ground-trigger">See 3</button>
+            <button class="action-btn ground-trigger">Hear 3</button>
+            <button class="action-btn ground-trigger">Move 3</button>
           </div>
         </div>
       </div>
-
     </div>
 
     <footer>
-      <button id="reset-mind-btn" class="btn-secondary" onclick="resetMind()">Reset protocol</button>
+      <button id="reset-mind-btn" class="btn-secondary">Reset protocol</button>
     </footer>
   </div>
-
 </main>
 
 <div id="timer-display">00:00</div>
 
-<!-- Info Modal -->
 <div id="info-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modal-header">
@@ -159,7 +159,6 @@
   </div>
 </div>
 
-<!-- Reset Modal -->
 <div id="reset-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="modal">
     <h2 class="title-light" style="font-size:1.3rem;margin-bottom:10px;">Reset Cycle?</h2>
@@ -171,7 +170,6 @@
   </div>
 </div>
 
-<!-- Completion overlay -->
 <div id="completion-overlay">
   <div class="completion-card">
     <h2 class="title-light" id="completion-title">Session Complete</h2>
@@ -180,7 +178,6 @@
   </div>
 </div>
 
-<!-- Breathe Modal -->
 <div id="breathe-modal-overlay" class="modal-overlay">
   <div class="breathe-modal-content">
     <div id="breathe-circle-huge" class="breathe-circle"></div>
@@ -188,10 +185,10 @@
       <div id="breathe-label-huge">Prepare</div>
       <div id="breathe-display-huge">·</div>
     </div>
-    <button id="breathe-stop-btn" class="btn-secondary" onclick="stopBreathe()">Close guide</button>
+    <button id="breathe-stop-btn" class="btn-secondary">Close guide</button>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>
