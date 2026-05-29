@@ -107,7 +107,8 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   position: relative;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
-  -webkit-touch-callout: none;
+  -webkit-user-select: none;         /* PRO EXTENDED: Hard block selection on webkit */
+  -webkit-touch-callout: none;       /* PRO EXTENDED: Hard block iOS magnifying glass / menu popup */
   touch-action: pan-y;
   transition: opacity 0.3s ease;
 }
