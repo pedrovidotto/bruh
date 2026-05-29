@@ -269,7 +269,6 @@ footer { margin-top: 48px; padding-bottom: calc(48px + var(--safe-bottom)); }
   border-radius: 0; border: none;
   padding: 0; max-width: 100%;
 }
-/* Override bottom-sheet animation for breathe overlay specifically */
 #breathe-modal-overlay .breathe-modal-content { transform: none !important; }
 .breathe-ui { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 10; }
 #breathe-label-huge { font-family: 'Inter', sans-serif; font-size: 3rem; font-weight: 200; color: var(--text); letter-spacing: -0.03em; margin-bottom: 6px; will-change: transform, opacity; text-align: center; }
