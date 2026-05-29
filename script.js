@@ -81,6 +81,14 @@
     localStorage.setItem('workoutSysLastTouched', JSON.stringify(lastTouched));
   };
 
+  // PRO EXTENDED: Automated Date calculation for Monday Purges
+  const getMondayOfCurrentWeek = () => {
+    const d = new Date();
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff)).toDateString();
+  };
+
   /* ─── WORKOUT SYSTEM ──────────────────────────────────────────── */
   function renderWorkout(idx) {
     const data = workoutData[idx];
@@ -174,6 +182,9 @@
       });
 
       li.addEventListener('pointercancel', () => clearTimeout(pressTimer));
+
+      // PRO EXTENDED: Blocks the context menu from firing on long press, saving the deletion timer
+      li.addEventListener('contextmenu', (e) => e.preventDefault());
 
       li.querySelector('.info-btn').addEventListener('click', (e) => {
         e.stopPropagation();
@@ -391,6 +402,19 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').catch(err => console.error('SW Error:', err));
       });
+    }
+
+    // PRO EXTENDED: Automated Monday Purge System
+    const savedWeek = localStorage.getItem('workoutSysCurrentWeek');
+    const currentWeek = getMondayOfCurrentWeek();
+    
+    if (savedWeek && savedWeek !== currentWeek) {
+      ['workoutSysProgress','workoutSysCompletedDays','workoutSysLastTouched'].forEach(k => localStorage.removeItem(k));
+      progress = {}; completedDays = []; lastTouched = {};
+      localStorage.setItem('workoutSysCurrentWeek', currentWeek);
+      console.log("New week cycle initiated. Logs purged.");
+    } else if (!savedWeek) {
+      localStorage.setItem('workoutSysCurrentWeek', currentWeek);
     }
 
     const btnBody = document.getElementById('mode-body-btn');
