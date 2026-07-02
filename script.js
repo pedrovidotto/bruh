@@ -288,7 +288,10 @@
   });
 
   document.getElementById('reset-mind-btn').addEventListener('click', () => {
-    document.querySelectorAll('.action-btn').forEach(c => c.classList.remove('done'));
+    document.querySelectorAll('.action-btn').forEach(c => {
+      c.classList.remove('done');
+      c.classList.remove('ready-active');
+    });
     nameInput.value = '';
     updateMantras();
     switchMindTab('loop-tab');
@@ -438,10 +441,10 @@
   }
 
   function getReadyBand(score) {
-    if (score >= 85) return { label: "PRIMED", class: "text-ready-green", note: "Full load cleared." };
-    if (score >= 70) return { label: "STEADY", class: "text-ready-lightgreen", note: "Normal training load." };
-    if (score >= 55) return { label: "MODERATE", class: "text-ready-amber", note: "Autoregulate volume." };
-    return { label: "COMPROMISED", class: "text-ready-red", note: "Prioritize recovery." };
+    if (score >= 85) return { label: "PRIMED", class: "score-primed", note: "Full load cleared. Push intensity." };
+    if (score >= 70) return { label: "STEADY", class: "score-steady", note: "Normal training load. Maintain progression." };
+    if (score >= 55) return { label: "MODERATE", class: "score-moderate", note: "Autoregulate volume. Watch fatigue." };
+    return { label: "COMPROMISED", class: "score-compromised", note: "Prioritize recovery. Consider active rest." };
   }
 
   function fmt1(n) { return Number.isFinite(n) ? n.toFixed(1) : "—"; }
@@ -463,7 +466,7 @@
       readyHistory.sort((a, b) => (a.date < b.date ? -1 : 1));
     } catch(e) {}
     
-    document.querySelectorAll('.ready-input').forEach(el => el.addEventListener('input', updateReadyUI));
+    document.querySelectorAll('.ready-num-input').forEach(el => el.addEventListener('input', updateReadyUI));
     document.getElementById('ready-log-btn').addEventListener('click', logReadiness);
     updateReadyUI();
   }
@@ -476,11 +479,9 @@
     
     const stats = computeStats(readyHistory);
     
-    // Update Sub-texts
     document.getElementById('ready-stats-info').textContent = stats.source === "rolling" 
-      ? `● personal stats · rolling n=${stats.n}` 
-      : `● provisional σ · seeded sample, logs ${stats.n}/${MIN_ENTRIES_FOR_ROLLING}`;
-    document.getElementById('ready-stats-info').className = `ready-stats-badge ${stats.source === "rolling" ? "text-ready-lightgreen" : "text-ready-amber"}`;
+      ? `// PERSONAL STATS · ROLLING N=${stats.n}` 
+      : `// PROVISIONAL σ · SEEDED SAMPLE ${stats.n}/${MIN_ENTRIES_FOR_ROLLING}`;
     
     document.getElementById('ready-hrv-stats').textContent = `μ ${fmt1(stats.hrv.mean)} · σ ${fmt1(stats.hrv.sd)}`;
     document.getElementById('ready-sleep-stats').textContent = `μ ${Math.floor(stats.sleep.mean / 60)}h${Math.round(stats.sleep.mean % 60)}m · σ ${Math.round(stats.sleep.sd)}m`;
@@ -488,25 +489,21 @@
 
     const valid = !isNaN(hrvVal) && !isNaN(rhrVal) && rhrVal > 0 && (sleepH > 0 || sleepM > 0);
     const logBtn = document.getElementById('ready-log-btn');
+    const scoreWrapper = document.getElementById('ready-score-wrapper');
 
     if (!valid) {
+      scoreWrapper.className = 'mind-card text-center';
       document.getElementById('ready-score-val').textContent = "—.—";
-      document.getElementById('ready-score-val').className = "ready-score-num text-ready-muted";
       document.getElementById('ready-band-label').textContent = "AWAITING INPUT";
-      document.getElementById('ready-band-label').className = "ready-score-band text-ready-muted";
-      document.getElementById('ready-band-note').textContent = "Enter HRV, sleep, and RHR to compute.";
-      
-      document.getElementById('ready-stack-hrv').style.width = '0%';
-      document.getElementById('ready-stack-sleep').style.width = '0%';
-      document.getElementById('ready-stack-rhr').style.width = '0%';
+      document.getElementById('ready-band-note').textContent = "Enter metrics below to compute readiness.";
 
       ['hrv', 'sleep', 'rhr'].forEach(k => {
         document.getElementById(`ready-bar-${k}-text`).textContent = "—";
-        document.getElementById(`ready-bar-${k}-fill`).style.width = '0%';
-        document.getElementById(`ready-bar-${k}-sub`).textContent = "";
+        document.getElementById(`ready-bar-${k}-sub`).textContent = "Awaiting input";
       });
 
       logBtn.disabled = true;
+      logBtn.classList.remove('ready-active');
       logBtn.textContent = "Log today's reading";
     } else {
       const sleepMins = sleepH * 60 + sleepM;
@@ -521,20 +518,14 @@
 
       const band = getReadyBand(total);
 
-      document.getElementById('ready-score-val').textContent = fmt1(total);
-      document.getElementById('ready-score-val').className = `ready-score-num ${band.class}`;
+      scoreWrapper.className = `mind-card text-center ${band.class}`;
+      document.getElementById('ready-score-val').textContent = `${fmt1(total)}%`;
       document.getElementById('ready-band-label').textContent = band.label;
-      document.getElementById('ready-band-label').className = `ready-score-band ${band.class}`;
       document.getElementById('ready-band-note').textContent = band.note;
-
-      document.getElementById('ready-stack-hrv').style.width = `${hrvC}%`;
-      document.getElementById('ready-stack-sleep').style.width = `${sleepC}%`;
-      document.getElementById('ready-stack-rhr').style.width = `${rhrC}%`;
 
       const setMetric = (id, comp, w, meanStr, sdStr, unit) => {
         const z = (comp - READY_CENTER) / READY_SCALE;
         document.getElementById(`ready-bar-${id}-text`).textContent = `${z >= 0 ? "+" : ""}${fmt1(z)}σ → ${fmt1(w)} pts`;
-        document.getElementById(`ready-bar-${id}-fill`).style.width = `${Math.min(100, comp)}%`;
         document.getElementById(`ready-bar-${id}-sub`).textContent = `μ ${meanStr}${unit} · σ ${sdStr}${unit}`;
       };
 
@@ -543,6 +534,7 @@
       setMetric('rhr', rhrC, rhrW, fmt1(stats.rhr.mean), fmt1(stats.rhr.sd), "bpm");
 
       logBtn.disabled = false;
+      logBtn.classList.add('ready-active');
       logBtn.textContent = "Log today's reading";
     }
 
@@ -557,15 +549,18 @@
     if (recent.length === 0) { section.classList.add('hidden'); return; }
     
     section.classList.remove('hidden');
-    document.getElementById('ready-history-label').textContent = `Last ${recent.length} logged`;
     container.innerHTML = '';
 
     recent.forEach(e => {
       const b = getReadyBand(e.score);
-      const bgClass = b.class.replace("text-", "bg-");
+      let barClass = 'history-steady';
+      if(b.class === 'score-primed') barClass = 'history-primed';
+      if(b.class === 'score-moderate') barClass = 'history-moderate';
+      if(b.class === 'score-compromised') barClass = 'history-compromised';
+      
       container.innerHTML += `
-        <div class="ready-history-bar-col" title="${e.date}: ${fmt1(e.score)}%">
-          <div class="ready-history-bar-fill ${bgClass}" style="height: ${Math.max(4, (e.score / 100) * 44)}px"></div>
+        <div class="ready-history-bar-col ${barClass}" title="${e.date}: ${fmt1(e.score)}%">
+          <div class="ready-history-bar-fill" style="height: ${Math.max(4, (e.score / 100) * 44)}px"></div>
           <span class="ready-history-date">${e.date.slice(5)}</span>
         </div>
       `;
@@ -632,7 +627,7 @@
 
     const btnBody = document.getElementById('mode-body-btn');
     const btnMind = document.getElementById('mode-mind-btn');
-    const btnReady = document.getElementById('mode-ready-btn'); // NEW TAb
+    const btnReady = document.getElementById('mode-ready-btn'); 
     const viewBody = document.getElementById('view-body');
     const viewMind = document.getElementById('view-mind');
     const viewReady = document.getElementById('view-ready');
@@ -697,7 +692,7 @@
     });
 
     updateMantras();
-    initReady(); // Initialize Readiness data
+    initReady(); 
 
     const today = (new Date().getDay() + 6) % 7;
     daySel.children[today].click();
