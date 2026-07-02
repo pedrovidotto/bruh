@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
   <title>WORKOUT.SYS</title>
-  <meta name="description" content="A minimalist 7-day workout tracker.">
+  <meta name="description" content="A minimalist 7-day workout tracker and readiness calculator.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=DM+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json">
@@ -30,6 +30,7 @@
       <div class="mode-switcher">
         <button id="mode-body-btn" class="active">BODY</button>
         <button id="mode-mind-btn">MIND</button>
+        <button id="mode-ready-btn">READY</button>
       </div>
       <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle Theme">
         <svg viewBox="0 0 20 20" fill="none">
@@ -43,6 +44,7 @@
 </header>
 
 <main class="container">
+  
   <div id="view-body">
     <div id="workout-header">
       <h2 id="workout-title" class="page-title"></h2>
@@ -143,6 +145,103 @@
     <footer>
       <button id="reset-mind-btn" class="btn-secondary">Reset protocol</button>
     </footer>
+  </div>
+
+  <div id="view-ready" class="hidden">
+    <div class="ready-container">
+      <div class="ready-header">
+        <div class="ready-eyebrow">Daily Instrument · 02</div>
+        <h1 class="ready-title">Readiness Calculator</h1>
+        <div id="ready-stats-info" class="ready-stats-badge"></div>
+      </div>
+
+      <div class="ready-inputs-grid">
+        <div>
+          <label class="ready-label">HRV (ms)</label>
+          <input id="ready-hrv-input" class="ready-input" type="number" inputmode="decimal" placeholder="—" />
+          <div id="ready-hrv-stats" class="ready-input-sub"></div>
+        </div>
+        <div>
+          <label class="ready-label">Sleep (h / m)</label>
+          <div class="ready-sleep-flex">
+            <input id="ready-sleep-h-input" class="ready-input" type="number" inputmode="numeric" placeholder="h" />
+            <input id="ready-sleep-m-input" class="ready-input" type="number" inputmode="numeric" placeholder="m" />
+          </div>
+          <div id="ready-sleep-stats" class="ready-input-sub"></div>
+        </div>
+        <div>
+          <label class="ready-label">RHR (bpm)</label>
+          <input id="ready-rhr-input" class="ready-input" type="number" inputmode="decimal" placeholder="—" />
+          <div id="ready-rhr-stats" class="ready-input-sub"></div>
+        </div>
+      </div>
+
+      <div class="ready-score-section">
+        <div class="ready-score-flex">
+          <span id="ready-score-val" class="ready-score-num">—.—</span>
+          <span class="ready-score-pct">%</span>
+        </div>
+        <div id="ready-band-label" class="ready-score-band">AWAITING INPUT</div>
+        <div id="ready-band-note" class="ready-score-note">Enter HRV, sleep, and RHR to compute.</div>
+      </div>
+
+      <div class="ready-stacked-bar">
+        <div id="ready-stack-hrv" class="ready-stack-segment bg-ready-green" style="width: 0%"></div>
+        <div class="ready-stack-divider"></div>
+        <div id="ready-stack-sleep" class="ready-stack-segment bg-ready-lightgreen" style="width: 0%"></div>
+        <div class="ready-stack-divider"></div>
+        <div id="ready-stack-rhr" class="ready-stack-segment bg-ready-amber" style="width: 0%"></div>
+      </div>
+
+      <div class="ready-metrics-list">
+        <div class="ready-metric-wrap">
+          <div class="ready-metric-header">
+            <span>HRV <span class="ready-opacity-50">· ×0.7</span></span>
+            <span id="ready-bar-hrv-text" class="ready-metric-text-val">—</span>
+          </div>
+          <div class="ready-metric-track">
+            <div class="ready-metric-centerline"></div>
+            <div id="ready-bar-hrv-fill" class="ready-metric-fill bg-ready-green" style="width: 0%"></div>
+          </div>
+          <div id="ready-bar-hrv-sub" class="ready-metric-sub"></div>
+        </div>
+        <div class="ready-metric-wrap">
+          <div class="ready-metric-header">
+            <span>Sleep <span class="ready-opacity-50">· ×0.2</span></span>
+            <span id="ready-bar-sleep-text" class="ready-metric-text-val">—</span>
+          </div>
+          <div class="ready-metric-track">
+            <div class="ready-metric-centerline"></div>
+            <div id="ready-bar-sleep-fill" class="ready-metric-fill bg-ready-lightgreen" style="width: 0%"></div>
+          </div>
+          <div id="ready-bar-sleep-sub" class="ready-metric-sub"></div>
+        </div>
+        <div class="ready-metric-wrap">
+          <div class="ready-metric-header">
+            <span>RHR <span class="ready-opacity-50">· ×0.1</span></span>
+            <span id="ready-bar-rhr-text" class="ready-metric-text-val">—</span>
+          </div>
+          <div class="ready-metric-track">
+            <div class="ready-metric-centerline"></div>
+            <div id="ready-bar-rhr-fill" class="ready-metric-fill bg-ready-amber" style="width: 0%"></div>
+          </div>
+          <div id="ready-bar-rhr-sub" class="ready-metric-sub"></div>
+        </div>
+      </div>
+
+      <button id="ready-log-btn" class="ready-btn" disabled>Log today's reading</button>
+
+      <div id="ready-history-section" class="ready-history-wrapper hidden">
+        <div id="ready-history-label" class="ready-history-label">Last 7 logged</div>
+        <div id="ready-history-chart" class="ready-history-chart"></div>
+      </div>
+
+      <div class="ready-math-footer">
+        Readiness = 0.7·CLAMP(58.74 + 25·(HRV−μ)/σ, 0,100) + 0.2·CLAMP(58.74 + 25·(Sleep−μ)/σ, 0,100) + 0.1·CLAMP(58.74 + 25·(μ−RHR)/σ, 0,100)
+        <br><br>
+        Each term centers at 58.74 — your true 21-day average, not an assumed 50 — and moves ±25 points per standard deviation. σ starts as a 21-day provisional estimate and switches to your own rolling stats once 5+ days are logged.
+      </div>
+    </div>
   </div>
 </main>
 
