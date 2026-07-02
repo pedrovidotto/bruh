@@ -45,6 +45,7 @@
 
 <main class="container">
   
+  <!-- BODY TAB -->
   <div id="view-body">
     <div id="workout-header">
       <h2 id="workout-title" class="page-title"></h2>
@@ -68,6 +69,7 @@
     </footer>
   </div>
 
+  <!-- MIND TAB -->
   <div id="view-mind" class="hidden">
     <div class="protocol-header">
       <div class="protocol-header-top">
@@ -147,49 +149,49 @@
     </footer>
   </div>
 
+  <!-- READY TAB -->
   <div id="view-ready" class="hidden">
     <div class="protocol-header" style="margin-bottom: 24px;">
       <div class="protocol-header-top">
         <h2 class="page-title">System<br>Status</h2>
       </div>
-      <p class="protocol-subtitle">Bio-feedback baseline analysis.</p>
+      <p class="protocol-subtitle">Bio-feedback baseline calculator.</p>
     </div>
 
-    <div class="dash-grid">
+    <!-- 3-Column Grid Layout for Data Entry -->
+    <div class="dash-grid-3">
+      <!-- HRV CARD -->
       <div id="card-hrv" class="dash-card input-card" onclick="document.getElementById('ready-hrv-input').focus()">
         <div class="dash-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           HRV
         </div>
         <input id="ready-hrv-input" class="dash-input" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="—" />
         <div class="dash-sub" id="ready-hrv-stats">ms</div>
       </div>
 
+      <!-- SLEEP CARD -->
       <div id="card-sleep" class="dash-card input-card" onclick="document.getElementById('ready-sleep-input').focus()">
         <div class="dash-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
           Sleep
         </div>
         <input id="ready-sleep-input" class="dash-input" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="—" />
-        <div class="dash-sub" id="ready-sleep-stats">Decimal hrs (e.g. 7.5)</div>
+        <div class="dash-sub" id="ready-sleep-stats">hrs</div>
       </div>
 
+      <!-- RHR CARD -->
       <div id="card-rhr" class="dash-card input-card" onclick="document.getElementById('ready-rhr-input').focus()">
         <div class="dash-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
           RHR
         </div>
         <input id="ready-rhr-input" class="dash-input" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="—" />
         <div class="dash-sub" id="ready-rhr-stats">bpm</div>
       </div>
-
-      <button id="ready-log-btn" class="dash-card action-card" disabled>
-        <div class="dash-label" style="justify-content: center; width: 100%;">ACTION</div>
-        <div class="dash-input log-text">LOG</div>
-        <div class="dash-sub" id="log-status">Awaiting data</div>
-      </button>
     </div>
 
+    <!-- SCORE CARD -->
     <div id="ready-score-wrapper" class="mind-card text-center" style="padding: 40px 24px;">
       <div id="ready-score-val" class="ready-score-mega">—.—</div>
       <div id="ready-band-label" class="ready-band-mono">AWAITING INPUT</div>
@@ -199,8 +201,7 @@
     <footer>
       <div id="ready-stats-info" class="section-label text-center" style="margin-top:0">// AWAITING DATA</div>
       <div class="ready-math-footer">
-        Readiness evaluates HRV (0.7), Sleep (0.2), and RHR (0.1) against a 21-day rolling standard deviation. 
-        σ begins as a provisional estimate and shifts to personal variance post 5 logs.
+        Readiness evaluates HRV (0.7), Sleep (0.2), and RHR (0.1) against internal bio-feedback baselines to compute your daily score.
       </div>
     </footer>
   </div>
