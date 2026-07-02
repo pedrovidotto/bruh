@@ -81,7 +81,6 @@
     localStorage.setItem('workoutSysLastTouched', JSON.stringify(lastTouched));
   };
 
-  // PRO EXTENDED: Automated Date calculation for Monday Purges
   const getMondayOfCurrentWeek = () => {
     const d = new Date();
     const day = d.getDay();
@@ -182,8 +181,6 @@
       });
 
       li.addEventListener('pointercancel', () => clearTimeout(pressTimer));
-
-      // PRO EXTENDED: Blocks the context menu from firing on long press, saving the deletion timer
       li.addEventListener('contextmenu', (e) => e.preventDefault());
 
       li.querySelector('.info-btn').addEventListener('click', (e) => {
@@ -219,7 +216,6 @@
     }
   }
 
-  /* ─── Timer ───────────────────────────────────────────────────── */
   function startTimer(sec) {
     if (activeTimer) { clearInterval(activeTimer); activeTimer = null; }
     const end = Date.now() + sec * 1000;
@@ -241,7 +237,6 @@
     activeTimer = setInterval(tick, 500);
   }
 
-  /* ─── Overlays ────────────────────────────────────────────────── */
   function showInfo(title, text) {
     document.getElementById('info-modal-title').textContent = title;
     document.getElementById('info-modal-instructions').innerHTML = text
@@ -396,6 +391,225 @@
     }, 1000);
   }
 
+  /* ─── READINESS SYSTEM ────────────────────────────────────────── */
+  const READY_SEED = { hrv: { mean: 81.48, sd: 8.13 }, sleep: { mean: 438.10, sd: 53.92 }, rhr: { mean: 60.33, sd: 1.80 } };
+  const READY_WEIGHTS = { hrv: 0.7, sleep: 0.2, rhr: 0.1 };
+  const READY_SCALE = 25;
+  const READY_CENTER = 58.74;
+  const MIN_ENTRIES_FOR_ROLLING = 5;
+
+  let readyHistory = [];
+
+  function mathMean(arr) { return arr.reduce((a, b) => a + b, 0) / arr.length; }
+  function mathSd(arr, m) {
+    if (arr.length < 2) return 0;
+    const v = arr.reduce((a, b) => a + (b - m) ** 2, 0) / (arr.length - 1);
+    return Math.sqrt(v);
+  }
+
+  function computeStats(entries) {
+    if (!entries || entries.length < MIN_ENTRIES_FOR_ROLLING) return { ...READY_SEED, source: "seed", n: entries ? entries.length : 0 };
+    
+    const hrvs = entries.map(e => e.hrv);
+    const sleeps = entries.map(e => e.sleepMins);
+    const rhrs = entries.map(e => e.rhr);
+
+    const hrvMean = mathMean(hrvs);
+    const sleepMean = mathMean(sleeps);
+    const rhrMean = mathMean(rhrs);
+
+    const hrvSd = mathSd(hrvs, hrvMean);
+    const sleepSd = mathSd(sleeps, sleepMean);
+    const rhrSd = mathSd(rhrs, rhrMean);
+
+    return {
+      hrv: { mean: hrvMean, sd: hrvSd > 0.5 ? hrvSd : READY_SEED.hrv.sd },
+      sleep: { mean: sleepMean, sd: sleepSd > 5 ? sleepSd : READY_SEED.sleep.sd },
+      rhr: { mean: rhrMean, sd: rhrSd > 0.3 ? rhrSd : READY_SEED.rhr.sd },
+      source: "rolling",
+      n: entries.length,
+    };
+  }
+
+  function zComponent(value, m, s, invert = false) {
+    let z = (value - m) / s;
+    if (invert) z = -z;
+    return Math.min(100, Math.max(0, READY_CENTER + READY_SCALE * z));
+  }
+
+  function getReadyBand(score) {
+    if (score >= 85) return { label: "PRIMED", class: "text-ready-green", note: "Full load cleared." };
+    if (score >= 70) return { label: "STEADY", class: "text-ready-lightgreen", note: "Normal training load." };
+    if (score >= 55) return { label: "MODERATE", class: "text-ready-amber", note: "Autoregulate volume." };
+    return { label: "COMPROMISED", class: "text-ready-red", note: "Prioritize recovery." };
+  }
+
+  function fmt1(n) { return Number.isFinite(n) ? n.toFixed(1) : "—"; }
+
+  function getTodayKey() {
+    const d = new Date();
+    return `readiness:${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  function initReady() {
+    try {
+      const idxStr = localStorage.getItem("readiness:index");
+      const keys = idxStr ? JSON.parse(idxStr) : [];
+      readyHistory = [];
+      keys.slice(-30).forEach(k => {
+        const item = localStorage.getItem(k);
+        if (item) readyHistory.push(JSON.parse(item));
+      });
+      readyHistory.sort((a, b) => (a.date < b.date ? -1 : 1));
+    } catch(e) {}
+    
+    document.querySelectorAll('.ready-input').forEach(el => el.addEventListener('input', updateReadyUI));
+    document.getElementById('ready-log-btn').addEventListener('click', logReadiness);
+    updateReadyUI();
+  }
+
+  function updateReadyUI() {
+    const hrvVal = parseFloat(document.getElementById('ready-hrv-input').value);
+    const sleepH = parseFloat(document.getElementById('ready-sleep-h-input').value) || 0;
+    const sleepM = parseFloat(document.getElementById('ready-sleep-m-input').value) || 0;
+    const rhrVal = parseFloat(document.getElementById('ready-rhr-input').value);
+    
+    const stats = computeStats(readyHistory);
+    
+    // Update Sub-texts
+    document.getElementById('ready-stats-info').textContent = stats.source === "rolling" 
+      ? `● personal stats · rolling n=${stats.n}` 
+      : `● provisional σ · seeded sample, logs ${stats.n}/${MIN_ENTRIES_FOR_ROLLING}`;
+    document.getElementById('ready-stats-info').className = `ready-stats-badge ${stats.source === "rolling" ? "text-ready-lightgreen" : "text-ready-amber"}`;
+    
+    document.getElementById('ready-hrv-stats').textContent = `μ ${fmt1(stats.hrv.mean)} · σ ${fmt1(stats.hrv.sd)}`;
+    document.getElementById('ready-sleep-stats').textContent = `μ ${Math.floor(stats.sleep.mean / 60)}h${Math.round(stats.sleep.mean % 60)}m · σ ${Math.round(stats.sleep.sd)}m`;
+    document.getElementById('ready-rhr-stats').textContent = `μ ${fmt1(stats.rhr.mean)} · σ ${fmt1(stats.rhr.sd)}`;
+
+    const valid = !isNaN(hrvVal) && !isNaN(rhrVal) && rhrVal > 0 && (sleepH > 0 || sleepM > 0);
+    const logBtn = document.getElementById('ready-log-btn');
+
+    if (!valid) {
+      document.getElementById('ready-score-val').textContent = "—.—";
+      document.getElementById('ready-score-val').className = "ready-score-num text-ready-muted";
+      document.getElementById('ready-band-label').textContent = "AWAITING INPUT";
+      document.getElementById('ready-band-label').className = "ready-score-band text-ready-muted";
+      document.getElementById('ready-band-note').textContent = "Enter HRV, sleep, and RHR to compute.";
+      
+      document.getElementById('ready-stack-hrv').style.width = '0%';
+      document.getElementById('ready-stack-sleep').style.width = '0%';
+      document.getElementById('ready-stack-rhr').style.width = '0%';
+
+      ['hrv', 'sleep', 'rhr'].forEach(k => {
+        document.getElementById(`ready-bar-${k}-text`).textContent = "—";
+        document.getElementById(`ready-bar-${k}-fill`).style.width = '0%';
+        document.getElementById(`ready-bar-${k}-sub`).textContent = "";
+      });
+
+      logBtn.disabled = true;
+      logBtn.textContent = "Log today's reading";
+    } else {
+      const sleepMins = sleepH * 60 + sleepM;
+      const hrvC = zComponent(hrvVal, stats.hrv.mean, stats.hrv.sd);
+      const sleepC = zComponent(sleepMins, stats.sleep.mean, stats.sleep.sd);
+      const rhrC = zComponent(rhrVal, stats.rhr.mean, stats.rhr.sd, true);
+
+      const hrvW = READY_WEIGHTS.hrv * hrvC;
+      const sleepW = READY_WEIGHTS.sleep * sleepC;
+      const rhrW = READY_WEIGHTS.rhr * rhrC;
+      const total = hrvW + sleepW + rhrW;
+
+      const band = getReadyBand(total);
+
+      document.getElementById('ready-score-val').textContent = fmt1(total);
+      document.getElementById('ready-score-val').className = `ready-score-num ${band.class}`;
+      document.getElementById('ready-band-label').textContent = band.label;
+      document.getElementById('ready-band-label').className = `ready-score-band ${band.class}`;
+      document.getElementById('ready-band-note').textContent = band.note;
+
+      document.getElementById('ready-stack-hrv').style.width = `${hrvC}%`;
+      document.getElementById('ready-stack-sleep').style.width = `${sleepC}%`;
+      document.getElementById('ready-stack-rhr').style.width = `${rhrC}%`;
+
+      const setMetric = (id, comp, w, meanStr, sdStr, unit) => {
+        const z = (comp - READY_CENTER) / READY_SCALE;
+        document.getElementById(`ready-bar-${id}-text`).textContent = `${z >= 0 ? "+" : ""}${fmt1(z)}σ → ${fmt1(w)} pts`;
+        document.getElementById(`ready-bar-${id}-fill`).style.width = `${Math.min(100, comp)}%`;
+        document.getElementById(`ready-bar-${id}-sub`).textContent = `μ ${meanStr}${unit} · σ ${sdStr}${unit}`;
+      };
+
+      setMetric('hrv', hrvC, hrvW, fmt1(stats.hrv.mean), fmt1(stats.hrv.sd), "ms");
+      setMetric('sleep', sleepC, sleepW, Math.round(stats.sleep.mean), Math.round(stats.sleep.sd), "m");
+      setMetric('rhr', rhrC, rhrW, fmt1(stats.rhr.mean), fmt1(stats.rhr.sd), "bpm");
+
+      logBtn.disabled = false;
+      logBtn.textContent = "Log today's reading";
+    }
+
+    renderReadyHistory();
+  }
+
+  function renderReadyHistory() {
+    const section = document.getElementById('ready-history-section');
+    const container = document.getElementById('ready-history-chart');
+    const recent = readyHistory.slice(-7);
+    
+    if (recent.length === 0) { section.classList.add('hidden'); return; }
+    
+    section.classList.remove('hidden');
+    document.getElementById('ready-history-label').textContent = `Last ${recent.length} logged`;
+    container.innerHTML = '';
+
+    recent.forEach(e => {
+      const b = getReadyBand(e.score);
+      const bgClass = b.class.replace("text-", "bg-");
+      container.innerHTML += `
+        <div class="ready-history-bar-col" title="${e.date}: ${fmt1(e.score)}%">
+          <div class="ready-history-bar-fill ${bgClass}" style="height: ${Math.max(4, (e.score / 100) * 44)}px"></div>
+          <span class="ready-history-date">${e.date.slice(5)}</span>
+        </div>
+      `;
+    });
+  }
+
+  function logReadiness() {
+    const hrvVal = parseFloat(document.getElementById('ready-hrv-input').value);
+    const sleepH = parseFloat(document.getElementById('ready-sleep-h-input').value) || 0;
+    const sleepM = parseFloat(document.getElementById('ready-sleep-m-input').value) || 0;
+    const rhrVal = parseFloat(document.getElementById('ready-rhr-input').value);
+    const logBtn = document.getElementById('ready-log-btn');
+
+    const stats = computeStats(readyHistory);
+    const sleepMins = sleepH * 60 + sleepM;
+    const total = READY_WEIGHTS.hrv * zComponent(hrvVal, stats.hrv.mean, stats.hrv.sd) +
+                  READY_WEIGHTS.sleep * zComponent(sleepMins, stats.sleep.mean, stats.sleep.sd) +
+                  READY_WEIGHTS.rhr * zComponent(rhrVal, stats.rhr.mean, stats.rhr.sd, true);
+
+    const key = getTodayKey();
+    const entry = {
+      date: key.replace("readiness:", ""),
+      hrv: hrvVal,
+      sleepMins: sleepMins,
+      rhr: rhrVal,
+      score: total
+    };
+
+    try {
+      localStorage.setItem(key, JSON.stringify(entry));
+      const idxStr = localStorage.getItem("readiness:index");
+      let keys = idxStr ? JSON.parse(idxStr) : [];
+      if (!keys.includes(key)) keys.push(key);
+      localStorage.setItem("readiness:index", JSON.stringify(keys));
+
+      logBtn.textContent = "Logged ✓";
+      initReady(); // Refresh history
+      setTimeout(() => { if(!logBtn.disabled) logBtn.textContent = "Log today's reading"; }, 2000);
+    } catch(e) {
+      logBtn.textContent = "Save failed";
+    }
+  }
+
+
   /* ─── INIT ────────────────────────────────────────────────────── */
   function init() {
     if ('serviceWorker' in navigator) {
@@ -404,7 +618,6 @@
       });
     }
 
-    // PRO EXTENDED: Automated Monday Purge System
     const savedWeek = localStorage.getItem('workoutSysCurrentWeek');
     const currentWeek = getMondayOfCurrentWeek();
     
@@ -419,21 +632,23 @@
 
     const btnBody = document.getElementById('mode-body-btn');
     const btnMind = document.getElementById('mode-mind-btn');
+    const btnReady = document.getElementById('mode-ready-btn'); // NEW TAb
     const viewBody = document.getElementById('view-body');
     const viewMind = document.getElementById('view-mind');
+    const viewReady = document.getElementById('view-ready');
     const daySel = document.getElementById('day-selector');
 
-    btnBody.addEventListener('click', () => {
-      btnBody.classList.add('active'); btnMind.classList.remove('active');
-      viewBody.classList.remove('hidden'); viewMind.classList.add('hidden');
-      daySel.classList.remove('hidden');
-    });
+    const switchTab = (activeBtn, activeView, showDays) => {
+      [btnBody, btnMind, btnReady].forEach(b => b.classList.remove('active'));
+      [viewBody, viewMind, viewReady].forEach(v => v.classList.add('hidden'));
+      activeBtn.classList.add('active');
+      activeView.classList.remove('hidden');
+      daySel.classList.toggle('hidden', !showDays);
+    };
 
-    btnMind.addEventListener('click', () => {
-      btnMind.classList.add('active'); btnBody.classList.remove('active');
-      viewMind.classList.remove('hidden'); viewBody.classList.add('hidden');
-      daySel.classList.add('hidden');
-    });
+    btnBody.addEventListener('click', () => switchTab(btnBody, viewBody, true));
+    btnMind.addEventListener('click', () => switchTab(btnMind, viewMind, false));
+    btnReady.addEventListener('click', () => switchTab(btnReady, viewReady, false));
 
     ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
       const b = document.createElement('button');
@@ -482,6 +697,8 @@
     });
 
     updateMantras();
+    initReady(); // Initialize Readiness data
+
     const today = (new Date().getDay() + 6) % 7;
     daySel.children[today].click();
   }
