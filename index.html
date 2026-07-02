@@ -166,49 +166,40 @@
       </div>
 
       <div class="mind-card">
-        <div class="mind-card-title" style="margin-bottom: 24px;">DATA ENTRY</div>
+        <div class="mind-card-title" style="margin-bottom: 20px;">DATA ENTRY</div>
         
-        <div class="ready-form-group">
-          <div class="ready-form-label-wrap">
-            <label class="ready-form-label" for="ready-hrv-input">HEART RATE VARIABILITY</label>
-            <div id="ready-hrv-stats" class="ready-sub-stat">μ — · σ —</div>
+        <div class="ready-input-group">
+          <div id="wrap-hrv" class="anchor-input-wrap">
+            <span class="anchor-label">HRV (ms)</span>
+            <input id="ready-hrv-input" class="ready-num-input" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="—" />
           </div>
-          <div class="ready-input-wrapper">
-            <input id="ready-hrv-input" class="ready-giant-input" type="text" inputmode="decimal" placeholder="0" />
-            <span class="ready-input-unit">ms</span>
-          </div>
+          <div id="error-hrv" class="input-error-text">Invalid HRV value</div>
+          <div id="ready-hrv-stats" class="ready-sub-stat">μ — · σ —</div>
         </div>
         
-        <div class="ready-form-group">
-          <div class="ready-form-label-wrap">
-            <label class="ready-form-label" for="ready-sleep-h-input">SLEEP DURATION</label>
-            <div id="ready-sleep-stats" class="ready-sub-stat">μ — · σ —</div>
-          </div>
-          <div class="ready-input-wrapper ready-sleep-split">
-            <div class="ready-sleep-part">
-              <input id="ready-sleep-h-input" class="ready-giant-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="0" />
-              <span class="ready-input-unit">h</span>
-            </div>
-            <div class="ready-sleep-divider">:</div>
-            <div class="ready-sleep-part">
-              <input id="ready-sleep-m-input" class="ready-giant-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="00" />
-              <span class="ready-input-unit">m</span>
+        <div class="ready-input-group">
+          <div id="wrap-sleep" class="anchor-input-wrap">
+            <span class="anchor-label">SLEEP (h:m)</span>
+            <div style="display:flex; gap:8px; width:100%; height:100%; align-items:center;">
+              <input id="ready-sleep-h-input" class="ready-num-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="h" style="padding: 10px 0;" />
+              <span style="color:var(--border-mid); font-family:'DM Mono', monospace;">:</span>
+              <input id="ready-sleep-m-input" class="ready-num-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="m" style="text-align:left; padding: 10px 0;" />
             </div>
           </div>
+          <div id="error-sleep" class="input-error-text">Check hours (0-24) or minutes (0-59)</div>
+          <div id="ready-sleep-stats" class="ready-sub-stat">μ — · σ —</div>
         </div>
         
-        <div class="ready-form-group" style="margin-bottom: 32px;">
-          <div class="ready-form-label-wrap">
-            <label class="ready-form-label" for="ready-rhr-input">RESTING HEART RATE</label>
-            <div id="ready-rhr-stats" class="ready-sub-stat">μ — · σ —</div>
+        <div class="ready-input-group" style="margin-bottom: 24px;">
+          <div id="wrap-rhr" class="anchor-input-wrap">
+            <span class="anchor-label">RHR (bpm)</span>
+            <input id="ready-rhr-input" class="ready-num-input" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="—" />
           </div>
-          <div class="ready-input-wrapper">
-            <input id="ready-rhr-input" class="ready-giant-input" type="text" inputmode="decimal" placeholder="0" />
-            <span class="ready-input-unit">bpm</span>
-          </div>
+          <div id="error-rhr" class="input-error-text">Invalid RHR value</div>
+          <div id="ready-rhr-stats" class="ready-sub-stat">μ — · σ —</div>
         </div>
 
-        <button id="ready-log-btn" class="action-btn" style="padding: 14px; font-size: 0.8rem; border-radius: 10px;" disabled>Log today's reading</button>
+        <button id="ready-log-btn" class="action-btn" style="padding: 16px; font-size: 0.8rem; border-radius: 10px;" disabled>Log today's reading</button>
       </div>
 
       <div class="mind-card">
