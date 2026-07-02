@@ -466,28 +466,27 @@
       readyHistory.sort((a, b) => (a.date < b.date ? -1 : 1));
     } catch(e) {}
     
-    document.querySelectorAll('.ready-num-input').forEach(el => el.addEventListener('input', updateReadyUI));
+    document.querySelectorAll('.dash-input').forEach(el => el.addEventListener('input', updateReadyUI));
     document.getElementById('ready-log-btn').addEventListener('click', logReadiness);
     updateReadyUI();
   }
 
   function safelyParseNum(val) {
     if (!val) return NaN;
-    return parseFloat(val.replace(',', '.')); // Handle EU comma decimals
+    return parseFloat(val.replace(',', '.'));
   }
 
-  function checkInputValidations(rawHrv, rawH, rawM, rawRhr) {
+  function checkInputValidations(rawHrv, rawSleep, rawRhr) {
     const validations = {
       hrv: { valid: true, val: NaN },
-      sleep: { valid: true, h: 0, m: 0 },
+      sleep: { valid: true, val: NaN },
       rhr: { valid: true, val: NaN },
-      allValid: false,
-      anyInput: rawHrv || rawH || rawM || rawRhr
+      allValid: false
     };
 
-    const wrapHrv = document.getElementById('wrap-hrv');
-    const wrapSleep = document.getElementById('wrap-sleep');
-    const wrapRhr = document.getElementById('wrap-rhr');
+    const wrapHrv = document.getElementById('card-hrv');
+    const wrapSleep = document.getElementById('card-sleep');
+    const wrapRhr = document.getElementById('card-rhr');
 
     // HRV Check
     if (rawHrv) {
@@ -498,13 +497,12 @@
     wrapHrv.classList.toggle('error', rawHrv && !validations.hrv.valid);
 
     // Sleep Check
-    if (rawH || rawM) {
-      const h = rawH ? safelyParseNum(rawH) : 0;
-      const m = rawM ? safelyParseNum(rawM) : 0;
-      if (isNaN(h) || h < 0 || h > 24 || isNaN(m) || m < 0 || m >= 60 || (h === 0 && m === 0)) validations.sleep.valid = false;
-      else { validations.sleep.h = h; validations.sleep.m = m; }
+    if (rawSleep) {
+      const v = safelyParseNum(rawSleep);
+      if (isNaN(v) || v < 0 || v > 24) validations.sleep.valid = false;
+      else validations.sleep.val = v * 60; // Convert straight to minutes
     } else { validations.sleep.valid = false; }
-    wrapSleep.classList.toggle('error', (rawH || rawM) && !validations.sleep.valid);
+    wrapSleep.classList.toggle('error', rawSleep && !validations.sleep.valid);
 
     // RHR Check
     if (rawRhr) {
@@ -520,42 +518,36 @@
 
   function updateReadyUI() {
     const rawHrv = document.getElementById('ready-hrv-input').value;
-    const rawH = document.getElementById('ready-sleep-h-input').value;
-    const rawM = document.getElementById('ready-sleep-m-input').value;
+    const rawSleep = document.getElementById('ready-sleep-input').value;
     const rawRhr = document.getElementById('ready-rhr-input').value;
 
-    const data = checkInputValidations(rawHrv, rawH, rawM, rawRhr);
+    const data = checkInputValidations(rawHrv, rawSleep, rawRhr);
     const stats = computeStats(readyHistory);
     
     document.getElementById('ready-stats-info').textContent = stats.source === "rolling" 
       ? `// PERSONAL STATS · ROLLING N=${stats.n}` 
       : `// PROVISIONAL σ · SEEDED SAMPLE ${stats.n}/${MIN_ENTRIES_FOR_ROLLING}`;
     
-    document.getElementById('ready-hrv-stats').textContent = `μ ${fmt1(stats.hrv.mean)} · σ ${fmt1(stats.hrv.sd)}`;
-    document.getElementById('ready-sleep-stats').textContent = `μ ${Math.floor(stats.sleep.mean / 60)}h${Math.round(stats.sleep.mean % 60)}m · σ ${Math.round(stats.sleep.sd)}m`;
-    document.getElementById('ready-rhr-stats').textContent = `μ ${fmt1(stats.rhr.mean)} · σ ${fmt1(stats.rhr.sd)}`;
+    // Update individual card stats or show errors natively
+    document.getElementById('ready-hrv-stats').textContent = (rawHrv && !data.hrv.valid) ? 'Invalid Input' : `μ ${fmt1(stats.hrv.mean)}`;
+    document.getElementById('ready-sleep-stats').textContent = (rawSleep && !data.sleep.valid) ? 'Invalid Input' : `μ ${fmt1(stats.sleep.mean / 60)}h`;
+    document.getElementById('ready-rhr-stats').textContent = (rawRhr && !data.rhr.valid) ? 'Invalid Input' : `μ ${fmt1(stats.rhr.mean)}`;
 
     const logBtn = document.getElementById('ready-log-btn');
+    const logStatus = document.getElementById('log-status');
     const scoreWrapper = document.getElementById('ready-score-wrapper');
 
     if (!data.allValid) {
       scoreWrapper.className = 'mind-card text-center';
       document.getElementById('ready-score-val').textContent = "—.—";
       document.getElementById('ready-band-label').textContent = "AWAITING INPUT";
-      document.getElementById('ready-band-note').textContent = "Enter metrics below to compute readiness.";
-
-      ['hrv', 'sleep', 'rhr'].forEach(k => {
-        document.getElementById(`ready-bar-${k}-text`).textContent = "—";
-        document.getElementById(`ready-bar-${k}-sub`).textContent = "Awaiting input";
-      });
+      document.getElementById('ready-band-note').textContent = "Complete metrics grid above.";
 
       logBtn.disabled = true;
-      logBtn.classList.remove('ready-active');
-      logBtn.textContent = "Log today's reading";
+      logStatus.textContent = "Awaiting data";
     } else {
-      const sleepMins = data.sleep.h * 60 + data.sleep.m;
       const hrvC = zComponent(data.hrv.val, stats.hrv.mean, stats.hrv.sd);
-      const sleepC = zComponent(sleepMins, stats.sleep.mean, stats.sleep.sd);
+      const sleepC = zComponent(data.sleep.val, stats.sleep.mean, stats.sleep.sd);
       const rhrC = zComponent(data.rhr.val, stats.rhr.mean, stats.rhr.sd, true);
 
       const hrvW = READY_WEIGHTS.hrv * hrvC;
@@ -570,71 +562,30 @@
       document.getElementById('ready-band-label').textContent = band.label;
       document.getElementById('ready-band-note').textContent = band.note;
 
-      const setMetric = (id, comp, w, meanStr, sdStr, unit) => {
-        const z = (comp - READY_CENTER) / READY_SCALE;
-        document.getElementById(`ready-bar-${id}-text`).textContent = `${z >= 0 ? "+" : ""}${fmt1(z)}σ → ${fmt1(w)} pts`;
-        document.getElementById(`ready-bar-${id}-sub`).textContent = `μ ${meanStr}${unit} · σ ${sdStr}${unit}`;
-      };
-
-      setMetric('hrv', hrvC, hrvW, fmt1(stats.hrv.mean), fmt1(stats.hrv.sd), "ms");
-      setMetric('sleep', sleepC, sleepW, Math.round(stats.sleep.mean), Math.round(stats.sleep.sd), "m");
-      setMetric('rhr', rhrC, rhrW, fmt1(stats.rhr.mean), fmt1(stats.rhr.sd), "bpm");
-
       logBtn.disabled = false;
-      logBtn.classList.add('ready-active');
-      logBtn.textContent = "Log today's reading";
+      logStatus.textContent = "Ready to log";
     }
-
-    renderReadyHistory();
-  }
-
-  function renderReadyHistory() {
-    const section = document.getElementById('ready-history-section');
-    const container = document.getElementById('ready-history-chart');
-    const recent = readyHistory.slice(-7);
-    
-    if (recent.length === 0) { section.classList.add('hidden'); return; }
-    
-    section.classList.remove('hidden');
-    container.innerHTML = '';
-
-    recent.forEach(e => {
-      const b = getReadyBand(e.score);
-      let barClass = 'history-steady';
-      if(b.class === 'score-primed') barClass = 'history-primed';
-      if(b.class === 'score-moderate') barClass = 'history-moderate';
-      if(b.class === 'score-compromised') barClass = 'history-compromised';
-      
-      container.innerHTML += `
-        <div class="ready-history-bar-col ${barClass}" title="${e.date}: ${fmt1(e.score)}%">
-          <div class="ready-history-bar-fill" style="height: ${Math.max(4, (e.score / 100) * 44)}px"></div>
-          <span class="ready-history-date">${e.date.slice(5)}</span>
-        </div>
-      `;
-    });
   }
 
   function logReadiness() {
     const rawHrv = document.getElementById('ready-hrv-input').value;
-    const rawH = document.getElementById('ready-sleep-h-input').value;
-    const rawM = document.getElementById('ready-sleep-m-input').value;
+    const rawSleep = document.getElementById('ready-sleep-input').value;
     const rawRhr = document.getElementById('ready-rhr-input').value;
-    const logBtn = document.getElementById('ready-log-btn');
+    const logStatus = document.getElementById('log-status');
 
-    const data = checkInputValidations(rawHrv, rawH, rawM, rawRhr);
-    if (!data.allValid) return; // Failsafe
+    const data = checkInputValidations(rawHrv, rawSleep, rawRhr);
+    if (!data.allValid) return;
 
     const stats = computeStats(readyHistory);
-    const sleepMins = data.sleep.h * 60 + data.sleep.m;
     const total = READY_WEIGHTS.hrv * zComponent(data.hrv.val, stats.hrv.mean, stats.hrv.sd) +
-                  READY_WEIGHTS.sleep * zComponent(sleepMins, stats.sleep.mean, stats.sleep.sd) +
+                  READY_WEIGHTS.sleep * zComponent(data.sleep.val, stats.sleep.mean, stats.sleep.sd) +
                   READY_WEIGHTS.rhr * zComponent(data.rhr.val, stats.rhr.mean, stats.rhr.sd, true);
 
     const key = getTodayKey();
     const entry = {
       date: key.replace("readiness:", ""),
       hrv: data.hrv.val,
-      sleepMins: sleepMins,
+      sleepMins: data.sleep.val,
       rhr: data.rhr.val,
       score: total
     };
@@ -646,11 +597,11 @@
       if (!keys.includes(key)) keys.push(key);
       localStorage.setItem("readiness:index", JSON.stringify(keys));
 
-      logBtn.textContent = "Logged ✓";
+      logStatus.textContent = "Logged ✓";
       initReady(); // Refresh history
-      setTimeout(() => { if(!logBtn.disabled) logBtn.textContent = "Log today's reading"; }, 2000);
+      setTimeout(() => { if(!document.getElementById('ready-log-btn').disabled) logStatus.textContent = "Ready to log"; }, 2000);
     } catch(e) {
-      logBtn.textContent = "Save failed";
+      logStatus.textContent = "Save failed";
     }
   }
 
