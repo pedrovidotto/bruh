@@ -466,7 +466,7 @@
       readyHistory.sort((a, b) => (a.date < b.date ? -1 : 1));
     } catch(e) {}
     
-    document.querySelectorAll('.ready-num-input').forEach(el => el.addEventListener('input', updateReadyUI));
+    document.querySelectorAll('.ready-giant-input').forEach(el => el.addEventListener('input', updateReadyUI));
     document.getElementById('ready-log-btn').addEventListener('click', logReadiness);
     updateReadyUI();
   }
@@ -643,7 +643,15 @@
 
     btnBody.addEventListener('click', () => switchTab(btnBody, viewBody, true));
     btnMind.addEventListener('click', () => switchTab(btnMind, viewMind, false));
-    btnReady.addEventListener('click', () => switchTab(btnReady, viewReady, false));
+    btnReady.addEventListener('click', () => {
+      switchTab(btnReady, viewReady, false);
+      
+      // Explicitly pull focus to the HRV input immediately to trigger mobile numpad
+      setTimeout(() => {
+        const hrvInput = document.getElementById('ready-hrv-input');
+        if (hrvInput) hrvInput.focus();
+      }, 100); 
+    });
 
     ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
       const b = document.createElement('button');
