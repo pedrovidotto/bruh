@@ -394,7 +394,7 @@
     }, 1000);
   }
 
-  /* ─── READINESS SYSTEM ────────────────────────────────────────── */
+  /* ─── READINESS SYSTEM (CALCULATOR ONLY) ──────────────────────── */
   const READY_SEED = { hrv: { mean: 81.48, sd: 8.13 }, sleep: { mean: 438.10, sd: 53.92 }, rhr: { mean: 60.33, sd: 1.80 } };
   const READY_WEIGHTS = { hrv: 0.7, sleep: 0.2, rhr: 0.1 };
   const READY_SCALE = 25;
@@ -449,11 +449,6 @@
 
   function fmt1(n) { return Number.isFinite(n) ? n.toFixed(1) : "—"; }
 
-  function getTodayKey() {
-    const d = new Date();
-    return `readiness:${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  }
-
   function initReady() {
     try {
       const idxStr = localStorage.getItem("readiness:index");
@@ -467,7 +462,6 @@
     } catch(e) {}
     
     document.querySelectorAll('.dash-input').forEach(el => el.addEventListener('input', updateReadyUI));
-    document.getElementById('ready-log-btn').addEventListener('click', logReadiness);
     updateReadyUI();
   }
 
@@ -526,25 +520,19 @@
     
     document.getElementById('ready-stats-info').textContent = stats.source === "rolling" 
       ? `// PERSONAL STATS · ROLLING N=${stats.n}` 
-      : `// PROVISIONAL σ · SEEDED SAMPLE ${stats.n}/${MIN_ENTRIES_FOR_ROLLING}`;
+      : `// PROVISIONAL σ · SEEDED SAMPLE`;
     
-    // Update individual card stats or show errors natively
-    document.getElementById('ready-hrv-stats').textContent = (rawHrv && !data.hrv.valid) ? 'Invalid Input' : `μ ${fmt1(stats.hrv.mean)}`;
-    document.getElementById('ready-sleep-stats').textContent = (rawSleep && !data.sleep.valid) ? 'Invalid Input' : `μ ${fmt1(stats.sleep.mean / 60)}h`;
-    document.getElementById('ready-rhr-stats').textContent = (rawRhr && !data.rhr.valid) ? 'Invalid Input' : `μ ${fmt1(stats.rhr.mean)}`;
+    document.getElementById('ready-hrv-stats').textContent = (rawHrv && !data.hrv.valid) ? 'Error' : `μ ${fmt1(stats.hrv.mean)}`;
+    document.getElementById('ready-sleep-stats').textContent = (rawSleep && !data.sleep.valid) ? 'Error' : `μ ${fmt1(stats.sleep.mean / 60)}h`;
+    document.getElementById('ready-rhr-stats').textContent = (rawRhr && !data.rhr.valid) ? 'Error' : `μ ${fmt1(stats.rhr.mean)}`;
 
-    const logBtn = document.getElementById('ready-log-btn');
-    const logStatus = document.getElementById('log-status');
     const scoreWrapper = document.getElementById('ready-score-wrapper');
 
     if (!data.allValid) {
       scoreWrapper.className = 'mind-card text-center';
       document.getElementById('ready-score-val').textContent = "—.—";
       document.getElementById('ready-band-label').textContent = "AWAITING INPUT";
-      document.getElementById('ready-band-note').textContent = "Complete metrics grid above.";
-
-      logBtn.disabled = true;
-      logStatus.textContent = "Awaiting data";
+      document.getElementById('ready-band-note').textContent = "Enter metrics above.";
     } else {
       const hrvC = zComponent(data.hrv.val, stats.hrv.mean, stats.hrv.sd);
       const sleepC = zComponent(data.sleep.val, stats.sleep.mean, stats.sleep.sd);
@@ -561,47 +549,6 @@
       document.getElementById('ready-score-val').textContent = `${fmt1(total)}%`;
       document.getElementById('ready-band-label').textContent = band.label;
       document.getElementById('ready-band-note').textContent = band.note;
-
-      logBtn.disabled = false;
-      logStatus.textContent = "Ready to log";
-    }
-  }
-
-  function logReadiness() {
-    const rawHrv = document.getElementById('ready-hrv-input').value;
-    const rawSleep = document.getElementById('ready-sleep-input').value;
-    const rawRhr = document.getElementById('ready-rhr-input').value;
-    const logStatus = document.getElementById('log-status');
-
-    const data = checkInputValidations(rawHrv, rawSleep, rawRhr);
-    if (!data.allValid) return;
-
-    const stats = computeStats(readyHistory);
-    const total = READY_WEIGHTS.hrv * zComponent(data.hrv.val, stats.hrv.mean, stats.hrv.sd) +
-                  READY_WEIGHTS.sleep * zComponent(data.sleep.val, stats.sleep.mean, stats.sleep.sd) +
-                  READY_WEIGHTS.rhr * zComponent(data.rhr.val, stats.rhr.mean, stats.rhr.sd, true);
-
-    const key = getTodayKey();
-    const entry = {
-      date: key.replace("readiness:", ""),
-      hrv: data.hrv.val,
-      sleepMins: data.sleep.val,
-      rhr: data.rhr.val,
-      score: total
-    };
-
-    try {
-      localStorage.setItem(key, JSON.stringify(entry));
-      const idxStr = localStorage.getItem("readiness:index");
-      let keys = idxStr ? JSON.parse(idxStr) : [];
-      if (!keys.includes(key)) keys.push(key);
-      localStorage.setItem("readiness:index", JSON.stringify(keys));
-
-      logStatus.textContent = "Logged ✓";
-      initReady(); // Refresh history
-      setTimeout(() => { if(!document.getElementById('ready-log-btn').disabled) logStatus.textContent = "Ready to log"; }, 2000);
-    } catch(e) {
-      logStatus.textContent = "Save failed";
     }
   }
 
