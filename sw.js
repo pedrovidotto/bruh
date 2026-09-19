@@ -1,4 +1,4 @@
-const CACHE_NAME = 'workout-sys-pro-extended-v1.0';
+const CACHE_NAME = 'workout-sys-ulter-v2.0';
 const ASSETS = [
   './',
   './index.html',
@@ -26,7 +26,6 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-// Stale-While-Revalidate Strategy
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
@@ -37,7 +36,7 @@ self.addEventListener('fetch', (e) => {
             cache.put(e.request, networkResponse.clone());
           }
           return networkResponse;
-        }).catch(() => { /* Offline fallback logic */ });
+        }).catch(() => { /* Offline fallback handled seamlessly by cached assets */ });
         return cachedResponse || fetchPromise;
       });
     })
