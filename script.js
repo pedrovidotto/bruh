@@ -106,17 +106,18 @@
     list.innerHTML = '';
     compList.innerHTML = '';
 
-    if (data.exercises.length === 0) {
+    // BUGFIX: Correctly gather all items first before checking if the day is completely empty.
+    const items = [...(data.exercises || [])];
+    if (data.abFinisher) items.push({ ...data.abFinisher, idType: 'ab' });
+    if (data.cardio)     items.push({ ...data.cardio, idType: 'cardio' });
+
+    if (items.length === 0) {
       compSection.classList.add('hidden');
       fill.parentElement.classList.add('hidden');
       progressLabel.classList.add('hidden');
       list.innerHTML = `<li class="rest-day-message"><h3>System Standby</h3><p>Focus on metabolic recovery and protein synthesis.</p></li>`;
       return;
     }
-
-    const items = [...data.exercises];
-    if (data.abFinisher) items.push({ ...data.abFinisher, idType: 'ab' });
-    if (data.cardio)     items.push({ ...data.cardio, idType: 'cardio' });
 
     let total = 0, done = 0;
     const activeNodesData = [];
@@ -256,7 +257,16 @@
     document.getElementById('completion-message').textContent = `${title} logged. Recover well.`;
     const el = document.getElementById('completion-overlay');
     el.classList.add('visible');
-    el.onclick = () => el.classList.remove('visible');
+    
+    // BUGFIX: Ghost Click Neutralizer. 
+    // Small timeout ensures the browser's synthetic 'click' from the pointerup event 
+    // doesn't instantly trigger the close handler.
+    setTimeout(() => {
+      el.onclick = () => {
+        el.classList.remove('visible');
+        el.onclick = null; // Clean up
+      };
+    }, 150);
   }
 
   /* ─── MIND SYSTEM ─────────────────────────────────────────────── */
