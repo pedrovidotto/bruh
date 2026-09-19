@@ -3,7 +3,7 @@
 
   /* ─── Workout Data v7.0 (ULTER System - High Intensity 3-Set Bias) ─── */
   const workoutData = [
-    { "day": 1, "title": "ULTER Upper 1", "subtitle": "Clavicular & Lateral Bias", "duration": "60–70m", "exercises": [
+    { "day": 1, "title": "Upper 1", "subtitle": "Clavicular & Lateral Bias", "duration": "60–70m", "exercises": [
       { "name": "Converging Incline Machine Press", "details": "3 × 6–8 reps · 150s rest", "rpe": "9–10", "instructions": "SETUP: Prime/Arsenal machine. EXECUTION: Drive hands up and inward. 2s pause in the deep stretch. Push to absolute failure on the final set." },
       { "name": "30° Incline Cable Fly", "details": "3 × 10–12 reps · 90s rest", "rpe": "10", "instructions": "EXECUTION: Focus entirely on the bottom half of the movement. Maximize the clavicular pec stretch until you can no longer move the cables." },
       { "name": "Cuffed Cross-Body Lateral Raise", "details": "3 × 10–12 reps · 90s rest", "rpe": "10", "instructions": "SETUP: Cable set to wrist height with cuffs. EXECUTION: Pull from across the body. The last 2 reps should be agonizingly slow." },
@@ -12,7 +12,7 @@
       { "name": "Cross-Body Cable Hammer Curl", "details": "3 × 12–15 reps · 60s rest", "rpe": "10", "instructions": "EXECUTION: Pull rope attachment across your torso to target the brachialis and push the bicep up." }
     ], "abFinisher": { "name": "Cable Crunches", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: Flex spine, ribs to pelvis. Heavy load focus, do not pivot at hips." } },
     
-    { "day": 2, "title": "ULTER Lower 1", "subtitle": "Quad Sweep & Upper Glute", "duration": "70–80m", "exercises": [
+    { "day": 2, "title": "Lower 1", "subtitle": "Quad Sweep & Upper Glute", "duration": "70–80m", "exercises": [
       { "name": "Quad-Biased Hack Squat", "details": "3 × 8–10 reps · 150s rest", "rpe": "9–10", "instructions": "SETUP: Feet placed very low and close together. EXECUTION: Maximize forward knee travel. 2s pause at the absolute bottom stretch. Survive the burn." },
       { "name": "Deficit Bulgarian Split Squat", "details": "3 × 8–10 reps · 120s rest", "rpe": "9–10", "instructions": "SETUP: Front foot elevated on a 2-inch plate. EXECUTION: Focus on the glute-ham tie-in and quad stretch at the bottom." },
       { "name": "Forward-Leaning Hip Abduction", "details": "3 × 12–15 reps · 90s rest", "rpe": "10", "instructions": "SETUP: Hinge torso 45° forward off the back pad. EXECUTION: Push out hard, pause for 1s at maximum contraction." },
@@ -21,7 +21,7 @@
       { "name": "Standing Calf Raise", "details": "3 × 10–12 reps · 60s rest", "rpe": "10", "instructions": "EXECUTION: 3s negative. 2s pause in the deep stretch to dissipate the Achilles reflex." }
     ] },
     
-    { "day": 3, "title": "ULTER Upper 2", "subtitle": "Costal Pec & Mid-Back", "duration": "65–75m", "exercises": [
+    { "day": 3, "title": "Upper 2", "subtitle": "Costal Pec & Mid-Back", "duration": "65–75m", "exercises": [
       { "name": "High-to-Low Cuffed Cable Fly", "details": "3 × 10–12 reps · 120s rest", "rpe": "10", "instructions": "SETUP: Use wrist cuffs. Pulleys set high. EXECUTION: Drive down and slightly across the body to isolate the costal pec fibers." },
       { "name": "Deficit Weighted Dips", "details": "3 × 8–10 reps · 120s rest", "rpe": "9–10", "instructions": "EXECUTION: Torso angled 30° forward. Lower until shoulders are below elbows. 2s pause in the stretch." },
       { "name": "Machine Lateral Raise", "details": "3 × 12–15 reps · 90s rest", "rpe": "10", "instructions": "EXECUTION: Shift the resistance profile to the top. Hard 1s pause at the fully shortened (top) position on every rep." },
@@ -30,7 +30,7 @@
       { "name": "Incline DB Bicep Curl", "details": "3 × 10–12 reps · 60s rest", "rpe": "10", "instructions": "SETUP: Bench at 45°. EXECUTION: Let arms hang straight down for a full stretch before curling." }
     ] },
     
-    { "day": 4, "title": "ULTER Lower 2", "subtitle": "Glute Overload & Rectus Femoris", "duration": "70–80m", "exercises": [
+    { "day": 4, "title": "Lower 2", "subtitle": "Glute Overload & Rectus Femoris", "duration": "70–80m", "exercises": [
       { "name": "Leg Press (Glute Stance)", "details": "3 × 10–12 reps · 120s rest", "rpe": "9–10", "instructions": "SETUP: Feet high and wide on platform. EXECUTION: Drive through heels to bias glutes over quads. No lockout." },
       { "name": "Smith Machine RDL", "details": "3 × 8–10 reps · 120s rest", "rpe": "9–10", "instructions": "EXECUTION: Utilize the fixed track to safely push deeper into the hamstring stretch without lower back stability failure." },
       { "name": "Seated Leg Extension", "details": "3 × 10–12 reps · 90s rest", "rpe": "10", "instructions": "SETUP: Lean torso as far back against the pad as possible. EXECUTION: Opens the hip angle to put the rectus femoris under maximum stretch tension." },
@@ -39,7 +39,7 @@
       { "name": "Seated Calf Raise", "details": "3 × 12–15 reps · 60s rest", "rpe": "10", "instructions": "EXECUTION: 4s negative count. Constant slow rhythm targeting the soleus." }
     ] },
     
-    { "day": 5, "title": "ULTER Upper 3", "subtitle": "Structural Polish", "duration": "65–75m", "exercises": [
+    { "day": 5, "title": "Upper 3", "subtitle": "Structural Polish", "duration": "65–75m", "exercises": [
       { "name": "Seated Machine Shoulder Press", "details": "3 × 8–10 reps · 120s rest", "rpe": "9–10", "instructions": "EXECUTION: Neutral grip. Push hard into the back pad for stability. Control the negative for 3 seconds." },
       { "name": "Cuffed Cable Y-Raise", "details": "3 × 12–15 reps · 90s rest", "rpe": "10", "instructions": "SETUP: Cables crossed at bottom. EXECUTION: Pull up and out. Maximum tension is at the bottom stretch." },
       { "name": "Flat Machine Chest Press", "details": "3 × 8–10 reps · 120s rest", "rpe": "9–10", "instructions": "EXECUTION: Target the mid/sternal pec. 2s pause in the maximum stretched position." },
@@ -48,7 +48,7 @@
       { "name": "Machine Preacher Curl", "details": "3 × 10–12 reps · 60s rest", "rpe": "10", "instructions": "EXECUTION: Overloads the shortened position of the bicep. Squeeze hard at the peak." }
     ], "abFinisher": { "name": "Decline Bench Reverse Crunches", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: Focus on lifting the pelvis. Slow 4s eccentric back to the bench." } },
     
-    { "day": 6, "title": "ULTER Lower 3", "subtitle": "Posterior Chain & Flush", "duration": "55–65m", "exercises": [
+    { "day": 6, "title": "Lower 3", "subtitle": "Posterior Chain & Flush", "duration": "55–65m", "exercises": [
       { "name": "Machine Hip Thrust", "details": "3 × 10–12 reps · 120s rest", "rpe": "10", "instructions": "EXECUTION: Lock the pelvis in. Drive through the heels for a hard 1s contraction at the peak." },
       { "name": "Standing Cable Hip Abduction", "details": "3 × 15–20 reps · 60s rest", "rpe": "10", "instructions": "PROTOCOL: Pull the working leg directly across the body's midline under load to hit the glute medius from a new vector." },
       { "name": "Seated Leg Curl", "details": "3 × 10–12 reps · 90s rest", "rpe": "10", "instructions": "EXECUTION: Lengthened partials. Perform reps only in the top 50% of the range of motion where the hamstring is stretched." },
@@ -57,7 +57,7 @@
       { "name": "Standing Calf Raise", "details": "3 × 15–20 reps · 45s rest", "rpe": "10", "instructions": "EXECUTION: Higher rep range today. Explosive concentric, controlled eccentric." }
     ], "abFinisher": { "name": "Cable Pallof Press", "details": "3 × 12–15 reps/side · 45s rest", "instructions": "EXECUTION: Stand perpendicular to cable. Press handle straight out in front of your chest and hold for 1s." } },
     
-    { "day": 7, "title": "ULTER Standby", "subtitle": "System Recovery", "duration": "—", "exercises": [], "cardio": { "name": "Zone 2 Output", "details": "1 × 30 mins", "instructions": "PACING: Maintain a brisk, steady pace. You should be able to hold a conversation without gasping for air." } }
+    { "day": 7, "title": "Standby", "subtitle": "System Recovery", "duration": "—", "exercises": [], "cardio": { "name": "Zone 2 Output", "details": "1 × 30 mins", "instructions": "PACING: Maintain a brisk, steady pace. You should be able to hold a conversation without gasping for air." } }
   ];
 
   /* ─── State ───────────────────────────────────────────────────── */
