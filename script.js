@@ -1,13 +1,10 @@
 (function() {
   'use strict';
 
-  /* ─── Workout Data: Performance Hypertrophy PPL (Glute/Chest/Shoulder Bias) ─── */
+  /* ─── Workout Data: Performance Hypertrophy PPL (SYS.Nomenclature) ─── */
   const workoutData = [
     {
-      "day": 1,
-      "title": "Push 1",
-      "subtitle": "Heavy Chest & Shoulder Width",
-      "duration": "55m",
+      "day": 1, "title": "P1", "subtitle": "Anterior Load / Clavicular", "duration": "55m",
       "exercises": [
         { "name": "Flat DB Bench Press", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: Heavy dumbbells. EXECUTION: 3s eccentric, 1s dead-stop pause in deep stretch, explosive concentric drive. Velocity over load." },
         { "name": "Incline DB Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: 30° bench angle. EXECUTION: Isolate the clavicular pec fibers. Full stretch at the bottom." },
@@ -17,12 +14,8 @@
       ],
       "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Kneel at cable station. Lock hips in place and flex spine downward. Use heavy weight to build blocky abs." }
     },
-    
     {
-      "day": 2,
-      "title": "Pull 1",
-      "subtitle": "Back Width, Rear Delts & Forearms",
-      "duration": "50m",
+      "day": 2, "title": "PL1", "subtitle": "Scapular Retraction / Width", "duration": "50m",
       "exercises": [
         { "name": "Machine/Cable Lat Pulldown", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Neutral or D-handle. EXECUTION: Pull elbows straight down into hips. 2s negative letting scapulae fully protract." },
         { "name": "Chest-Supported Machine Row", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Overload upper back thickness without spinal fatigue. 2s stretch at bottom of each repetition." },
@@ -32,12 +25,8 @@
       ],
       "abFinisher": { "name": "Cable Woodchoppers", "details": "3 × 12 reps/side · 60s rest", "instructions": "EXECUTION: Set pulley to high or mid level. Rotate through the core to target obliques. Keep hips stable." }
     },
-    
     {
-      "day": 3,
-      "title": "Legs 1",
-      "subtitle": "Glute Squeeze & Inner Thighs",
-      "duration": "55m",
+      "day": 3, "title": "L1", "subtitle": "Peak Contraction / Inner Thigh", "duration": "55m",
       "exercises": [
         { "name": "Barbell Hip Thrusts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Standard heavy setup. Drive through heels, lock pelvis in at the top. Hard 1s squeeze on every single rep." },
         { "name": "Hack Machine Squats", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: 85–90kg target. EXECUTION: Deep forward knee travel, 3s eccentric, 1s pause in full hole. Explosive ascent." },
@@ -47,12 +36,8 @@
       ],
       "cardio": { "name": "Incline Walk (LISS)", "details": "1 × 15 mins", "instructions": "PACING: Maintain heart rate strictly <130 BPM on steep incline to flush metabolites without joint shear." }
     },
-    
     {
-      "day": 4,
-      "title": "Push 2",
-      "subtitle": "Shoulder Heavy & Upper Chest",
-      "duration": "50m",
+      "day": 4, "title": "P2", "subtitle": "Vertical Axis / Upper Pectoral", "duration": "50m",
       "exercises": [
         { "name": "Machine Shoulder Press", "details": "3 × 6–8 reps · 120s rest", "instructions": "EXECUTION: Neutral grip if possible. 3s negative, explosive push. Prioritize heavy load over volume." },
         { "name": "Incline Cable Flyes", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Bench at 30°. Focus entirely on the clavicular pec stretch. Hold peak contraction for 1s." },
@@ -61,12 +46,8 @@
         { "name": "Tricep Rope Pushdowns", "details": "3 × 12 reps · 60s rest", "instructions": "EXECUTION: Pinned elbows, lateral head focus. Keep chest up and push straight down." }
       ]
     },
-    
     {
-      "day": 5,
-      "title": "Pull 2",
-      "subtitle": "Back Thickness & Biceps",
-      "duration": "50m",
+      "day": 5, "title": "PL2", "subtitle": "Posterior Density / Brachialis", "duration": "50m",
       "exercises": [
         { "name": "Seated Cable Rows (Wide Grip)", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Protract scapulae in stretch, drive elbows wide and back, squeeze mid-traps and rhomboids." },
         { "name": "Single-Arm Iliac Lat Pulldown", "details": "3 × 8–10 reps/arm · 90s rest", "instructions": "SETUP: Single D-handle. EXECUTION: Pull elbow tight down to the hip to isolate the lower lats." },
@@ -76,12 +57,8 @@
       ],
       "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Heavy load. Flex spine, ribs to pelvis. Do not pivot at hips." }
     },
-    
     {
-      "day": 6,
-      "title": "Legs 2",
-      "subtitle": "Glute Stretch, Quads & Calves",
-      "duration": "55m",
+      "day": 6, "title": "L2", "subtitle": "Lengthened Tension", "duration": "55m",
       "exercises": [
         { "name": "DB Romanian Deadlifts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Push hips completely back, soft knees. Deep hamstring/glute stretch without lumbar compensation." },
         { "name": "Deficit Reverse DB Lunges", "details": "3 × 10 reps/leg · 120s rest", "instructions": "SETUP: Front foot elevated on 2-inch plate. EXECUTION: Deep stretch on glute-ham tie-in, torso angled 20° forward." },
@@ -91,12 +68,8 @@
         { "name": "Seated Calf Raises", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: High rep, slow tempo to burn out the soleus muscle under the main calf." }
       ]
     },
-    
     {
-      "day": 7,
-      "title": "Standby",
-      "subtitle": "Growth & Recovery",
-      "duration": "—",
+      "day": 7, "title": "SYS", "subtitle": "Metabolic Clearance", "duration": "—",
       "exercises": [],
       "cardio": {
         "name": "Dynamic Mobility & Walk",
@@ -113,51 +86,24 @@
   let activeTimer   = null;
   let wakeLock      = null;
 
-  /* ─── Helpers ─────────────────────────────────────────────────── */
-  const parseSets = (details) => {
-    const m = details.match(/^(\d+)\s*[×x]/) || details.match(/^(\d+)\s+Activation/i);
-    return m ? parseInt(m[1], 10) : 1;
-  };
+  const parseSets = (details) => { const m = details.match(/^(\d+)\s*[×x]/); return m ? parseInt(m[1], 10) : 1; };
+  const getRestSeconds = (details) => { const m = details.match(/(\d+)s\s*rest/i); return m ? parseInt(m[1], 10) : 90; };
+  const save = () => { localStorage.setItem('workoutSysProgress', JSON.stringify(progress)); localStorage.setItem('workoutSysLastTouched', JSON.stringify(lastTouched)); };
+  const getMondayOfCurrentWeek = () => { const d = new Date(); const day = d.getDay(); const diff = d.getDate() - day + (day === 0 ? -6 : 1); return new Date(d.setDate(diff)).toDateString(); };
 
-  const getRestSeconds = (details) => {
-    const m = details.match(/(\d+)s\s*rest/i);
-    return m ? parseInt(m[1], 10) : 90;
-  };
-
-  const save = () => {
-    localStorage.setItem('workoutSysProgress', JSON.stringify(progress));
-    localStorage.setItem('workoutSysLastTouched', JSON.stringify(lastTouched));
-  };
-
-  const getMondayOfCurrentWeek = () => {
-    const d = new Date();
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(d.setDate(diff)).toDateString();
-  };
-
-  /* ─── Wake Lock (Screen Dim & Sleep Throttling Shield) ────────── */
   async function toggleWakeLock(shouldLock) {
     if (!('wakeLock' in navigator)) return;
     try {
-      if (shouldLock && !wakeLock) {
-        wakeLock = await navigator.wakeLock.request('screen');
-      } else if (!shouldLock && wakeLock) {
-        await wakeLock.release();
-        wakeLock = null;
-      }
-    } catch (err) {
-      // Wake Lock failures fail gracefully
-    }
+      if (shouldLock && !wakeLock) wakeLock = await navigator.wakeLock.request('screen');
+      else if (!shouldLock && wakeLock) { await wakeLock.release(); wakeLock = null; }
+    } catch (err) {}
   }
 
   document.addEventListener('visibilitychange', async () => {
-    if (wakeLock !== null && document.visibilityState === 'visible') {
-      try { wakeLock = await navigator.wakeLock.request('screen'); } catch (_) {}
-    }
+    if (wakeLock !== null && document.visibilityState === 'visible') { try { wakeLock = await navigator.wakeLock.request('screen'); } catch (_) {} }
   });
 
-  /* ─── WORKOUT SYSTEM (FLIP Animation & DOM Rendering) ─────────── */
+  /* ─── WORKOUT SYSTEM (FLIP Animation) ─────────────────────────── */
   function renderWorkout(idx) {
     const data = workoutData[idx];
     const list = document.getElementById('exercise-list');
@@ -166,21 +112,15 @@
     const fill = document.getElementById('progress-bar-fill');
     const progressLabel = document.getElementById('progress-label');
 
-    // 1. FLIP: Snapshot coordinates before DOM destruction
     const oldPositions = new Map();
     document.querySelectorAll('.exercise-item').forEach(node => {
-      if (node.dataset.id) {
-        oldPositions.set(node.dataset.id, node.getBoundingClientRect());
-      }
+      if (node.dataset.id) oldPositions.set(node.dataset.id, node.getBoundingClientRect());
     });
 
-    document.getElementById('workout-title').innerHTML =
-      `${data.title}<br><span style="font-weight:200;font-size:0.5em;opacity:0.4;letter-spacing:0.02em;">${data.subtitle}</span>`;
-    document.getElementById('workout-duration').textContent =
-      data.duration === '—' ? '' : `EST. ${data.duration}`;
+    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.45em;color:var(--text-muted);">${data.subtitle}</span>`;
+    document.getElementById('workout-duration').textContent = data.duration === '—' ? '' : `EST. ${data.duration}`;
 
-    list.innerHTML = '';
-    compList.innerHTML = '';
+    list.innerHTML = ''; compList.innerHTML = '';
 
     const items = [...(data.exercises || [])];
     if (data.abFinisher) items.push({ ...data.abFinisher, idType: 'ab' });
@@ -190,34 +130,27 @@
       compSection.classList.add('hidden');
       fill.parentElement.classList.add('hidden');
       progressLabel.classList.add('hidden');
-      list.innerHTML = `<li class="rest-day-message"><h3>System Standby</h3><p>Focus on metabolic recovery and protein synthesis.</p></li>`;
+      list.innerHTML = `<li class="rest-day-message"><h3>SYS_STANDBY</h3><p>Focus on metabolic recovery.</p></li>`;
       return;
     }
 
     let total = 0, done = 0;
-    const activeNodesData = [];
-    const pendingNodes    = [];
-    const completedNodes  = [];
-    const fragmentActive  = document.createDocumentFragment();
-    const fragmentComp    = document.createDocumentFragment();
+    const activeNodesData = [], pendingNodes = [], completedNodes = [];
+    const fragmentActive = document.createDocumentFragment(), fragmentComp = document.createDocumentFragment();
 
     items.forEach((ex, i) => {
       const id = `d${idx}-${ex.idType || 'e'}${i}`;
       const sTotal = parseSets(ex.details);
       const sCurrent = Math.min(progress[id] || 0, sTotal);
-
-      total += sTotal;
-      done  += sCurrent;
+      total += sTotal; done += sCurrent;
 
       const li = document.createElement('li');
       li.className = 'exercise-item';
-      li.dataset.id = id; // Required for FLIP tracking
+      li.dataset.id = id;
       li.innerHTML = `
         <div class="set-counter ${sCurrent >= sTotal ? 'sets-complete' : ''}">${sCurrent}<span class="slash">/</span>${sTotal}</div>
         <span class="exercise-name">${ex.name}</span>
-        <div class="exercise-meta">
-          <span class="exercise-details-text">${ex.details}</span>
-        </div>
+        <div class="exercise-meta"><span class="exercise-details-text">${ex.details}</span></div>
         <button class="info-btn" aria-label="Instructions"></button>
       `;
 
@@ -225,56 +158,40 @@
 
       li.addEventListener('pointerdown', (e) => {
         if (e.target.closest('.info-btn')) return;
-        isLongPress = false;
-        startX = e.clientX; startY = e.clientY;
+        isLongPress = false; startX = e.clientX; startY = e.clientY;
         li.setPointerCapture(e.pointerId);
         pressTimer = setTimeout(() => {
           isLongPress = true;
           if (navigator.vibrate) navigator.vibrate(40);
-          const newVal = Math.max(0, (progress[id] || 0) - 1);
-          progress[id] = newVal;
+          progress[id] = Math.max(0, (progress[id] || 0) - 1);
           lastTouched[id] = Date.now();
-          if (newVal < sTotal && activeTimer) {
-            clearInterval(activeTimer);
-            document.getElementById('timer-display').classList.remove('visible');
-            activeTimer = null;
-            toggleWakeLock(false);
+          if (progress[id] < sTotal && activeTimer) {
+            clearInterval(activeTimer); document.getElementById('timer-display').classList.remove('visible');
+            activeTimer = null; toggleWakeLock(false);
           }
-          save();
-          renderWorkout(idx);
+          save(); renderWorkout(idx);
         }, 450);
       });
 
-      li.addEventListener('pointermove', (e) => {
-        if (Math.abs(e.clientY - startY) > 12 || Math.abs(e.clientX - startX) > 12) clearTimeout(pressTimer);
-      });
-
+      li.addEventListener('pointermove', (e) => { if (Math.abs(e.clientY - startY) > 12 || Math.abs(e.clientX - startX) > 12) clearTimeout(pressTimer); });
       li.addEventListener('pointerup', (e) => {
         clearTimeout(pressTimer);
         if (isLongPress || e.target.closest('.info-btn')) return;
-        const newVal = Math.min(sTotal, (progress[id] || 0) + 1);
-        progress[id] = newVal;
+        progress[id] = Math.min(sTotal, (progress[id] || 0) + 1);
         lastTouched[id] = Date.now();
-        if (newVal < sTotal) startTimer(getRestSeconds(ex.details));
-        save();
-        renderWorkout(idx);
+        if (progress[id] < sTotal) startTimer(getRestSeconds(ex.details));
+        save(); renderWorkout(idx);
       });
-
       li.addEventListener('pointercancel', () => clearTimeout(pressTimer));
       li.addEventListener('contextmenu', (e) => e.preventDefault());
-
-      li.querySelector('.info-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        showInfo(ex.name, ex.instructions || '');
-      });
+      li.querySelector('.info-btn').addEventListener('click', (e) => { e.stopPropagation(); showInfo(ex.name, ex.instructions || ''); });
 
       if (sCurrent >= sTotal) completedNodes.push(li);
       else if (sCurrent > 0) activeNodesData.push({ node: li, ts: lastTouched[id] || 0 });
       else pendingNodes.push(li);
     });
 
-    activeNodesData.sort((a, b) => b.ts - a.ts);
-    activeNodesData.forEach((item, index) => {
+    activeNodesData.sort((a, b) => b.ts - a.ts).forEach((item, index) => {
       item.node.classList.add(index === 0 ? 'primary-active' : 'secondary-active');
       fragmentActive.appendChild(item.node);
     });
@@ -298,23 +215,16 @@
       showCompletion(data.title);
     }
 
-    // 2. FLIP: Calculate delta and execute reorder animation
     document.querySelectorAll('.exercise-item').forEach(node => {
       const oldPos = oldPositions.get(node.dataset.id);
       if (oldPos) {
         const newPos = node.getBoundingClientRect();
         const deltaY = oldPos.top - newPos.top;
-        
         if (deltaY !== 0) {
-          node.style.transition = 'none';
-          node.style.transform = `translateY(${deltaY}px)`;
-          node.style.zIndex = '10'; 
-          
-          node.offsetHeight; // Force browser layout recalculation
-          
+          node.style.transition = 'none'; node.style.transform = `translateY(${deltaY}px)`; node.style.zIndex = '10'; 
+          node.offsetHeight; 
           requestAnimationFrame(() => {
-            node.style.transition = '';
-            node.style.transform = '';
+            node.style.transition = ''; node.style.transform = '';
             setTimeout(() => { node.style.zIndex = ''; }, 400); 
           });
         }
@@ -328,425 +238,221 @@
     const end = Date.now() + sec * 1000;
     const el = document.getElementById('timer-display');
     el.classList.add('visible');
-
     function tick() {
       const rem = Math.ceil((end - Date.now()) / 1000);
       if (rem <= 0) {
-        clearInterval(activeTimer);
-        activeTimer = null;
-        el.classList.remove('visible');
+        clearInterval(activeTimer); activeTimer = null;
+        el.classList.remove('visible'); toggleWakeLock(false);
         if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
-        toggleWakeLock(false);
-      } else {
-        el.textContent = `${Math.floor(rem / 60)}:${(rem % 60).toString().padStart(2, '0')}`;
-      }
+      } else el.textContent = `${Math.floor(rem / 60)}:${(rem % 60).toString().padStart(2, '0')}`;
     }
-    tick();
-    activeTimer = setInterval(tick, 500);
+    tick(); activeTimer = setInterval(tick, 500);
   }
 
   function showInfo(title, text) {
     document.getElementById('info-modal-title').textContent = title;
-    document.getElementById('info-modal-instructions').innerHTML = text
-      .split(/(SETUP:|EXECUTION:|PROTOCOL:|PACING:|METRIC CHECK:)/g)
-      .filter(Boolean)
-      .map(l => {
-        l = l.trim();
-        return /^(SETUP:|EXECUTION:|PROTOCOL:|PACING:|METRIC CHECK:)$/.test(l)
-          ? `<span class="instruction-label">${l.replace(':', '')}</span>`
-          : `<p>${l}</p>`;
-      }).join('');
+    document.getElementById('info-modal-instructions').innerHTML = text.split(/(SETUP:|EXECUTION:|PROTOCOL:|PACING:|METRIC CHECK:)/g).filter(Boolean)
+      .map(l => /^(SETUP:|EXECUTION:|PROTOCOL:|PACING:|METRIC CHECK:)$/.test(l.trim()) ? `<span class="instruction-label">${l.replace(':', '').trim()}</span>` : `<p>${l.trim()}</p>`).join('');
     document.getElementById('info-modal-overlay').classList.add('visible');
   }
 
   function showCompletion(title) {
-    document.getElementById('completion-message').textContent = `${title} logged. Recover well.`;
+    document.getElementById('completion-message').textContent = `${title} logged.`;
     const el = document.getElementById('completion-overlay');
     el.classList.add('visible');
-    
     const showTime = Date.now();
-    el.onclick = () => {
-      if (Date.now() - showTime > 350) {
-        el.classList.remove('visible');
-        el.onclick = null;
-      }
-    };
+    el.onclick = () => { if (Date.now() - showTime > 350) { el.classList.remove('visible'); el.onclick = null; } };
   }
 
-  /* ─── MIND SYSTEM ─────────────────────────────────────────────── */
+  /* ─── MIND & READY INIT ───────────────────────────────────────── */
   const nameInput = document.getElementById('name-input');
-  
   function updateMantras() {
-    const n = nameInput.value.trim() || 'Pedro';
+    const n = nameInput.value.trim() || 'USER';
     document.getElementById('master-mantra').textContent = `"${n}, right now your mind is telling a scary story about the future, and your body is trying to protect you from it. You are experiencing a feeling, not a fact."`;
     document.getElementById('loop-mantra').textContent = `"That's just an old loop playing again. I don't have to listen to it."`;
     document.getElementById('tension-mantra').textContent = `"${n}, your body is safe. This tension is just energy trying to help."`;
     document.getElementById('future-mantra').textContent = `"${n}, you don't need to solve the future today. You just need one slow breath right now."`;
   }
-
-  nameInput.addEventListener('input', () => {
-    localStorage.setItem('workoutSysName', nameInput.value);
-    updateMantras();
-  });
+  nameInput.addEventListener('input', () => { localStorage.setItem('workoutSysName', nameInput.value); updateMantras(); });
 
   function switchMindTab(targetId) {
     if (navigator.vibrate) navigator.vibrate(20);
-    document.querySelectorAll('.mind-tab').forEach(btn => {
-      const active = btn.dataset.target === targetId;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-selected', active);
-    });
-    document.querySelectorAll('.mind-tab-content').forEach(content => {
-      content.classList.toggle('active', content.id === targetId);
-    });
+    document.querySelectorAll('.mind-tab').forEach(btn => { const active = btn.dataset.target === targetId; btn.classList.toggle('active', active); btn.setAttribute('aria-selected', active); });
+    document.querySelectorAll('.mind-tab-content').forEach(content => content.classList.toggle('active', content.id === targetId));
   }
+  document.querySelectorAll('.mind-tab').forEach(tab => tab.addEventListener('click', () => switchMindTab(tab.dataset.target)));
+  document.querySelectorAll('.ground-trigger').forEach(btn => btn.addEventListener('click', function() { if (navigator.vibrate) navigator.vibrate(20); this.classList.toggle('done'); }));
+  document.getElementById('reset-mind-btn').addEventListener('click', () => { document.querySelectorAll('.action-btn').forEach(c => c.classList.remove('done')); nameInput.value = ''; localStorage.removeItem('workoutSysName'); updateMantras(); switchMindTab('loop-tab'); stopBreathe(); });
 
-  document.querySelectorAll('.mind-tab').forEach(tab => {
-    tab.addEventListener('click', () => switchMindTab(tab.dataset.target));
-  });
-
-  document.querySelectorAll('.ground-trigger').forEach(btn => {
-    btn.addEventListener('click', function() { 
-      if (navigator.vibrate) navigator.vibrate(20);
-      this.classList.toggle('done'); 
-    });
-  });
-
-  document.getElementById('reset-mind-btn').addEventListener('click', () => {
-    document.querySelectorAll('.action-btn').forEach(c => c.classList.remove('done'));
-    nameInput.value = '';
-    localStorage.removeItem('workoutSysName');
-    updateMantras();
-    switchMindTab('loop-tab');
-    stopBreathe();
-  });
-
-  /* ─── Breathing Engine ────────────────────────────────────────── */
-  let breatheActive = false;
-  let currentBreatheMode = [];
-  let currentPhaseIndex = 0;
-  let countdownInterval = null;
-
-  const breatheModes = {
-    vagus: [ { label: 'Inhale', time: 4, action: 'in' }, { label: 'Exhale', time: 6, action: 'out' } ],
-    box: [ { label: 'Inhale', time: 4, action: 'in' }, { label: 'Hold', time: 4, action: 'hold' }, { label: 'Exhale', time: 4, action: 'out' }, { label: 'Hold', time: 4, action: 'hold' } ],
-    relax: [ { label: 'Inhale', time: 4, action: 'in' }, { label: 'Hold', time: 7, action: 'hold' }, { label: 'Exhale', time: 8, action: 'out' } ]
+  /* Engineered Breathing Engine */
+  let breatheActive = false, currentBreatheMode = [], currentPhaseIndex = 0, countdownInterval = null;
+  const breatheModes = { 
+    vagus: [ { label: 'IN', time: 4, action: 'in' }, { label: 'OUT', time: 6, action: 'out' } ], 
+    box: [ { label: 'IN', time: 4, action: 'in' }, { label: 'HOLD', time: 4, action: 'hold' }, { label: 'OUT', time: 4, action: 'out' }, { label: 'HOLD', time: 4, action: 'hold' } ], 
+    relax: [ { label: 'IN', time: 4, action: 'in' }, { label: 'HOLD', time: 7, action: 'hold' }, { label: 'OUT', time: 8, action: 'out' } ] 
   };
-
-  document.querySelectorAll('.breathe-trigger').forEach(btn => {
-    btn.addEventListener('click', () => openBreatheModal(btn.dataset.mode));
-  });
+  
+  document.querySelectorAll('.breathe-trigger').forEach(btn => btn.addEventListener('click', () => openBreatheModal(btn.dataset.mode)));
 
   function openBreatheModal(modeKey) {
-    currentBreatheMode = breatheModes[modeKey];
-    currentPhaseIndex = 0;
-    breatheActive = true;
-
-    const circle = document.getElementById('breathe-circle-huge');
-    const label = document.getElementById('breathe-label-huge');
-    const display = document.getElementById('breathe-display-huge');
-
-    circle.style.transition = 'none';
-    circle.style.transform = 'translate(-50%, -50%) scale(0.15)';
-    circle.style.opacity = '0';
-    label.textContent = 'Prepare';
-    display.textContent = '·';
-
+    currentBreatheMode = breatheModes[modeKey]; currentPhaseIndex = 0; breatheActive = true;
+    const shape = document.getElementById('breathe-shape-huge'), label = document.getElementById('breathe-label-huge'), display = document.getElementById('breathe-display-huge');
+    
+    shape.style.transition = 'none'; 
+    shape.style.transform = 'translate(-50%, -50%) scale(0.1)'; 
+    shape.style.opacity = '0'; 
+    shape.style.borderColor = 'var(--border-mid)';
+    
+    label.textContent = 'PREP'; display.textContent = '·';
     document.getElementById('breathe-modal-overlay').classList.add('visible');
     setTimeout(runBreathePhase, 600);
   }
-
+  
   function stopBreathe() {
-    breatheActive = false;
-    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    breatheActive = false; if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
     document.getElementById('breathe-modal-overlay').classList.remove('visible');
-
-    const circle = document.getElementById('breathe-circle-huge');
-    setTimeout(() => {
-      circle.style.transition = 'none';
-      circle.style.transform = 'translate(-50%, -50%) scale(0.15)';
-      circle.style.opacity = '0';
-      document.getElementById('breathe-label-huge').textContent = 'Prepare';
-      document.getElementById('breathe-display-huge').textContent = '·';
+    const shape = document.getElementById('breathe-shape-huge');
+    setTimeout(() => { 
+      shape.style.transition = 'none'; 
+      shape.style.transform = 'translate(-50%, -50%) scale(0.1)'; 
+      shape.style.opacity = '0'; 
+      document.getElementById('breathe-label-huge').textContent = 'PREP'; 
+      document.getElementById('breathe-display-huge').textContent = '·'; 
     }, 300);
   }
-
   document.getElementById('breathe-stop-btn').addEventListener('click', stopBreathe);
 
   function runBreathePhase() {
-    if (!breatheActive) return;
-    if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
-
-    const phase = currentBreatheMode[currentPhaseIndex];
-    const display = document.getElementById('breathe-display-huge');
-    const label = document.getElementById('breathe-label-huge');
-    const circle = document.getElementById('breathe-circle-huge');
-
-    label.textContent = phase.label;
-    let count = phase.time;
-    display.textContent = count;
-
-    circle.style.transition = `transform ${phase.time}s cubic-bezier(0.45,0,0.55,1), opacity ${phase.time}s ease`;
-    label.style.transition = `opacity ${phase.time * 0.5}s ease`;
-
+    if (!breatheActive) return; if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+    const phase = currentBreatheMode[currentPhaseIndex], display = document.getElementById('breathe-display-huge'), label = document.getElementById('breathe-label-huge'), shape = document.getElementById('breathe-shape-huge');
+    label.textContent = phase.label; let count = phase.time; display.textContent = count;
+    
+    // Scale shape mathematically based on inhale vs exhale. Hold locks scale and shifts border color.
+    shape.style.transition = `transform ${phase.time}s linear, opacity ${phase.time}s ease, border-color 0.4s ease`;
+    
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      if (phase.action === 'in') {
-        circle.style.transform = 'translate(-50%, -50%) scale(1)';
-        circle.style.opacity = '0.9';
-        label.style.opacity = '1';
-      } else if (phase.action === 'out') {
-        circle.style.transform = 'translate(-50%, -50%) scale(0.25)';
-        circle.style.opacity = '0.15';
-        label.style.opacity = '0.55';
-      } else {
-        label.style.opacity = '0.7';
+      if (phase.action === 'in') { 
+        shape.style.transform = 'translate(-50%, -50%) scale(1)'; 
+        shape.style.opacity = '1'; 
+        shape.style.borderColor = 'var(--text)';
+      }
+      else if (phase.action === 'out') { 
+        shape.style.transform = 'translate(-50%, -50%) scale(0.1)'; 
+        shape.style.opacity = '0.3'; 
+        shape.style.borderColor = 'var(--border-mid)';
+      }
+      else if (phase.action === 'hold') {
+        shape.style.borderColor = 'var(--accent)';
       }
     }));
-
+    
     countdownInterval = setInterval(() => {
       if (!breatheActive) { clearInterval(countdownInterval); return; }
       count--;
-      if (count > 0) {
-        display.textContent = count;
-      } else {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-        currentPhaseIndex = (currentPhaseIndex + 1) % currentBreatheMode.length;
-        runBreathePhase();
-      }
+      if (count > 0) display.textContent = count;
+      else { clearInterval(countdownInterval); countdownInterval = null; currentPhaseIndex = (currentPhaseIndex + 1) % currentBreatheMode.length; runBreathePhase(); }
     }, 1000);
   }
 
-  /* ─── READINESS SYSTEM (Persistent State & Math Validation) ──── */
-  const READY_SEED = { 
-    hrv: { mean: 76.62, sd: 8.45 }, 
-    sleep: { mean: 435.05, sd: 99.72 }, 
-    rhr: { mean: 60.86, sd: 1.35 } 
-  };
-  
-  const READY_WEIGHTS = { hrv: 0.7, sleep: 0.2, rhr: 0.1 };
-  const READY_SCALE = 25;
-  const READY_CENTER = 58.74;
-
-  function zComponent(value, m, s, invert = false) {
-    let z = (value - m) / s;
-    if (invert) z = -z;
-    return Math.min(100, Math.max(0, READY_CENTER + READY_SCALE * z));
-  }
-
-  function getReadyBand(score) {
-    if (score >= 85) return { label: "PRIMED", class: "score-primed", note: "Full load cleared. Push intensity." };
-    if (score >= 70) return { label: "STEADY", class: "score-steady", note: "Normal training load. Maintain progression." };
-    if (score >= 55) return { label: "MODERATE", class: "score-moderate", note: "Autoregulate volume. Watch fatigue." };
-    return { label: "COMPROMISED", class: "score-compromised", note: "Prioritize recovery. Consider active rest." };
-  }
-
-  function fmt1(n) { return Number.isFinite(n) ? n.toFixed(1) : "—"; }
-
-  function safelyParseNum(val) {
-    if (!val) return NaN;
-    return parseFloat(val.replace(',', '.'));
-  }
-
-  function checkInputValidations(rawHrv, rawSleep, rawRhr) {
-    const validations = {
-      hrv: { valid: true, val: NaN },
-      sleep: { valid: true, val: NaN },
-      rhr: { valid: true, val: NaN },
-      allValid: false
-    };
-
-    const wrapHrv = document.getElementById('card-hrv');
-    const wrapSleep = document.getElementById('card-sleep');
-    const wrapRhr = document.getElementById('card-rhr');
-
-    if (rawHrv) {
-      const v = safelyParseNum(rawHrv);
-      if (isNaN(v) || v <= 0 || v > 300) validations.hrv.valid = false;
-      else validations.hrv.val = v;
-    } else { validations.hrv.valid = false; }
-    wrapHrv.classList.toggle('error', rawHrv && !validations.hrv.valid);
-
-    if (rawSleep) {
-      const v = safelyParseNum(rawSleep);
-      if (isNaN(v) || v <= 0 || v > 24) validations.sleep.valid = false;
-      else validations.sleep.val = v * 60;
-    } else { validations.sleep.valid = false; }
-    wrapSleep.classList.toggle('error', rawSleep && !validations.sleep.valid);
-
-    if (rawRhr) {
-      const v = safelyParseNum(rawRhr);
-      if (isNaN(v) || v < 20 || v > 200) validations.rhr.valid = false;
-      else validations.rhr.val = v;
-    } else { validations.rhr.valid = false; }
-    wrapRhr.classList.toggle('error', rawRhr && !validations.rhr.valid);
-
-    validations.allValid = validations.hrv.valid && validations.sleep.valid && validations.rhr.valid;
-    return validations;
-  }
+  /* Readiness System */
+  const READY_SEED = { hrv: { mean: 76.62, sd: 8.45 }, sleep: { mean: 435.05, sd: 99.72 }, rhr: { mean: 60.86, sd: 1.35 } };
+  const zComponent = (val, m, s, inv = false) => Math.min(100, Math.max(0, 58.74 + 25 * ((val - m) / s) * (inv ? -1 : 1)));
+  const getReadyBand = (score) => score >= 85 ? { label: "PRIMED", class: "score-primed" } : score >= 70 ? { label: "STEADY", class: "score-steady" } : score >= 55 ? { label: "MODERATE", class: "score-moderate" } : { label: "COMPROMISED", class: "score-compromised" };
 
   function initReady() {
     ['hrv', 'sleep', 'rhr'].forEach(key => {
       const el = document.getElementById(`ready-${key}-input`);
       const saved = localStorage.getItem(`workoutSysReady_${key}`);
       if (saved) el.value = saved;
-      el.addEventListener('input', (e) => {
-        localStorage.setItem(`workoutSysReady_${key}`, e.target.value);
-        updateReadyUI();
-      });
+      el.addEventListener('input', (e) => { localStorage.setItem(`workoutSysReady_${key}`, e.target.value); updateReadyUI(); });
     });
     updateReadyUI();
   }
 
   function updateReadyUI() {
-    const rawHrv = document.getElementById('ready-hrv-input').value;
-    const rawSleep = document.getElementById('ready-sleep-input').value;
-    const rawRhr = document.getElementById('ready-rhr-input').value;
+    const rawHrv = document.getElementById('ready-hrv-input').value, rawSleep = document.getElementById('ready-sleep-input').value, rawRhr = document.getElementById('ready-rhr-input').value;
+    const vHrv = parseFloat(rawHrv?.replace(',', '.')), vSleep = parseFloat(rawSleep?.replace(',', '.')), vRhr = parseFloat(rawRhr?.replace(',', '.'));
+    const valid = { hrv: !isNaN(vHrv) && vHrv > 0 && vHrv <= 300, sleep: !isNaN(vSleep) && vSleep > 0 && vSleep <= 24, rhr: !isNaN(vRhr) && vRhr >= 20 && vRhr <= 200 };
 
-    const data = checkInputValidations(rawHrv, rawSleep, rawRhr);
-    const stats = READY_SEED;
-    
-    document.getElementById('ready-hrv-stats').textContent = (rawHrv && !data.hrv.valid) ? 'Error' : `μ ${fmt1(stats.hrv.mean)}`;
-    document.getElementById('ready-sleep-stats').textContent = (rawSleep && !data.sleep.valid) ? 'Error' : `μ ${fmt1(stats.sleep.mean / 60)}h`;
-    document.getElementById('ready-rhr-stats').textContent = (rawRhr && !data.rhr.valid) ? 'Error' : `μ ${fmt1(stats.rhr.mean)}`;
+    document.getElementById('card-hrv').classList.toggle('error', rawHrv && !valid.hrv);
+    document.getElementById('card-sleep').classList.toggle('error', rawSleep && !valid.sleep);
+    document.getElementById('card-rhr').classList.toggle('error', rawRhr && !valid.rhr);
+    document.getElementById('ready-hrv-stats').textContent = (rawHrv && !valid.hrv) ? 'ERR' : `μ ${(READY_SEED.hrv.mean).toFixed(1)}`;
+    document.getElementById('ready-sleep-stats').textContent = (rawSleep && !valid.sleep) ? 'ERR' : `μ ${(READY_SEED.sleep.mean / 60).toFixed(1)}h`;
+    document.getElementById('ready-rhr-stats').textContent = (rawRhr && !valid.rhr) ? 'ERR' : `μ ${(READY_SEED.rhr.mean).toFixed(1)}`;
 
-    const scoreWrapper = document.getElementById('ready-score-wrapper');
-
-    if (!data.allValid) {
-      scoreWrapper.className = 'mind-card text-center';
-      document.getElementById('ready-score-val').textContent = "—.—";
-      document.getElementById('ready-band-label').textContent = "AWAITING INPUT";
-      document.getElementById('ready-band-note').textContent = "Complete metrics grid above.";
-    } else {
-      const hrvC = zComponent(data.hrv.val, stats.hrv.mean, stats.hrv.sd);
-      const sleepC = zComponent(data.sleep.val, stats.sleep.mean, stats.sleep.sd);
-      const rhrC = zComponent(data.rhr.val, stats.rhr.mean, stats.rhr.sd, true);
-
-      const hrvW = READY_WEIGHTS.hrv * hrvC;
-      const sleepW = READY_WEIGHTS.sleep * sleepC;
-      const rhrW = READY_WEIGHTS.rhr * rhrC;
-      const total = hrvW + sleepW + rhrW;
-
+    if (valid.hrv && valid.sleep && valid.rhr) {
+      const total = (0.7 * zComponent(vHrv, READY_SEED.hrv.mean, READY_SEED.hrv.sd)) + (0.2 * zComponent(vSleep * 60, READY_SEED.sleep.mean, READY_SEED.sleep.sd)) + (0.1 * zComponent(vRhr, READY_SEED.rhr.mean, READY_SEED.rhr.sd, true));
       const band = getReadyBand(total);
-
-      scoreWrapper.className = `mind-card text-center ${band.class}`;
-      document.getElementById('ready-score-val').textContent = `${fmt1(total)}%`;
+      document.getElementById('ready-score-wrapper').className = `mind-card text-center ${band.class}`;
+      document.getElementById('ready-score-val').textContent = `${total.toFixed(1)}%`;
       document.getElementById('ready-band-label').textContent = band.label;
-      document.getElementById('ready-band-note').textContent = band.note;
+    } else {
+      document.getElementById('ready-score-wrapper').className = 'mind-card text-center';
+      document.getElementById('ready-score-val').textContent = "—.—";
+      document.getElementById('ready-band-label').textContent = "AWAITING_INPUT";
     }
   }
 
-  /* ─── INIT ────────────────────────────────────────────────────── */
   function init() {
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
-      });
-    }
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 
-    const savedWeek = localStorage.getItem('workoutSysCurrentWeek');
     const currentWeek = getMondayOfCurrentWeek();
-    
-    if (savedWeek && savedWeek !== currentWeek) {
+    if (localStorage.getItem('workoutSysCurrentWeek') !== currentWeek) {
       ['workoutSysProgress','workoutSysCompletedDays','workoutSysLastTouched'].forEach(k => localStorage.removeItem(k));
       progress = {}; completedDays = []; lastTouched = {};
       localStorage.setItem('workoutSysCurrentWeek', currentWeek);
-    } else if (!savedWeek) {
-      localStorage.setItem('workoutSysCurrentWeek', currentWeek);
     }
 
-    const btnBody = document.getElementById('mode-body-btn');
-    const btnMind = document.getElementById('mode-mind-btn');
-    const btnReady = document.getElementById('mode-ready-btn'); 
-    const viewBody = document.getElementById('view-body');
-    const viewMind = document.getElementById('view-mind');
-    const viewReady = document.getElementById('view-ready');
     const daySel = document.getElementById('day-selector');
-
     const switchTab = (activeBtn, activeView, showDays) => {
       if (navigator.vibrate) navigator.vibrate(15);
-      [btnBody, btnMind, btnReady].forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      [viewBody, viewMind, viewReady].forEach(v => v.classList.add('hidden'));
-      activeBtn.classList.add('active');
-      activeBtn.setAttribute('aria-selected', 'true');
-      activeView.classList.remove('hidden');
+      ['mode-body-btn','mode-mind-btn','mode-ready-btn'].forEach(id => { const b = document.getElementById(id); b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
+      ['view-body','view-mind','view-ready'].forEach(id => document.getElementById(id).classList.add('hidden'));
+      activeBtn.classList.add('active'); activeBtn.setAttribute('aria-selected', 'true'); activeView.classList.remove('hidden');
       daySel.classList.toggle('hidden', !showDays);
     };
 
-    btnBody.addEventListener('click', () => switchTab(btnBody, viewBody, true));
-    btnMind.addEventListener('click', () => switchTab(btnMind, viewMind, false));
-    btnReady.addEventListener('click', () => switchTab(btnReady, viewReady, false));
+    document.getElementById('mode-body-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-body'), true); });
+    document.getElementById('mode-mind-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-mind'), false); });
+    document.getElementById('mode-ready-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-ready'), false); });
 
     ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
       const b = document.createElement('button');
-      b.className = 'day-btn';
-      b.setAttribute('role', 'tab');
-      b.setAttribute('aria-selected', 'false');
-      b.textContent = l;
+      b.className = 'day-btn'; b.textContent = l;
       if (completedDays.includes(`day-${i}`)) b.classList.add('day-complete');
       b.addEventListener('click', () => {
         if (navigator.vibrate) navigator.vibrate(15);
-        document.querySelectorAll('.day-btn').forEach(x => {
-          x.classList.remove('active');
-          x.setAttribute('aria-selected', 'false');
-        });
-        b.classList.add('active');
-        b.setAttribute('aria-selected', 'true');
-        renderWorkout(i);
+        document.querySelectorAll('.day-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active'); renderWorkout(i);
       });
       daySel.appendChild(b);
     });
 
-    const savedTheme = localStorage.getItem('workoutSysTheme');
-    if (savedTheme) document.body.dataset.theme = savedTheme;
-    
+    if (localStorage.getItem('workoutSysTheme')) document.body.dataset.theme = localStorage.getItem('workoutSysTheme');
     document.getElementById('theme-toggle-btn').addEventListener('click', () => {
       if (navigator.vibrate) navigator.vibrate(15);
       const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.body.dataset.theme = next;
-      localStorage.setItem('workoutSysTheme', next);
+      document.body.dataset.theme = next; localStorage.setItem('workoutSysTheme', next);
     });
 
-    const infoOverlay = document.getElementById('info-modal-overlay');
-    infoOverlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('visible'); });
-    document.getElementById('info-modal-close-btn').addEventListener('click', () => infoOverlay.classList.remove('visible'));
-
-    const resetOverlay = document.getElementById('reset-modal-overlay');
-    resetOverlay.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('visible'); });
-    document.getElementById('reset-button').addEventListener('click', () => resetOverlay.classList.add('visible'));
-
+    document.querySelectorAll('.modal-overlay').forEach(el => el.addEventListener('click', function(e) { if(e.target===this) this.classList.remove('visible'); }));
+    document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', function() { this.closest('.modal-overlay').classList.remove('visible'); }));
+    document.getElementById('reset-button').addEventListener('click', () => document.getElementById('reset-modal-overlay').classList.add('visible'));
+    document.getElementById('cancel-reset-btn').addEventListener('click', () => document.getElementById('reset-modal-overlay').classList.remove('visible'));
     document.getElementById('confirm-reset-btn').addEventListener('click', () => {
       ['workoutSysProgress','workoutSysCompletedDays','workoutSysLastTouched'].forEach(k => localStorage.removeItem(k));
       progress = {}; completedDays = []; lastTouched = {};
-      resetOverlay.classList.remove('visible');
+      document.getElementById('reset-modal-overlay').classList.remove('visible');
       document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('day-complete'));
       const activeIdx = Array.from(daySel.children).findIndex(b => b.classList.contains('active'));
       renderWorkout(activeIdx !== -1 ? activeIdx : ((new Date().getDay() + 6) % 7));
     });
-    
-    document.getElementById('cancel-reset-btn').addEventListener('click', () => resetOverlay.classList.remove('visible'));
 
-    document.getElementById('breathe-modal-overlay').addEventListener('click', function(e) {
-      if (e.target === this) stopBreathe();
-    });
-
-    const savedName = localStorage.getItem('workoutSysName');
-    if (savedName) nameInput.value = savedName;
-
-    updateMantras();
-    initReady(); 
-
-    const today = (new Date().getDay() + 6) % 7;
-    daySel.children[today].click();
+    if (localStorage.getItem('workoutSysName')) nameInput.value = localStorage.getItem('workoutSysName');
+    updateMantras(); initReady(); 
+    daySel.children[(new Date().getDay() + 6) % 7].click();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
