@@ -117,8 +117,7 @@
       if (node.dataset.id) oldPositions.set(node.dataset.id, node.getBoundingClientRect());
     });
 
-    // Subtitle injected with text-transform: none to break CSS inheritance and preserve strict Title Case
-    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.45em;color:var(--text-muted);text-transform:none;">${data.subtitle}</span>`;
+    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.45em;color:var(--text-muted);text-transform:none;letter-spacing:0.04em;">${data.subtitle}</span>`;
     document.getElementById('workout-duration').textContent = data.duration === '—' ? '' : `EST. ${data.duration}`;
 
     list.innerHTML = ''; compList.innerHTML = '';
