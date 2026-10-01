@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
   <title>WORKOUT.SYS</title>
-  <meta name="description" content="A minimalist 7-day workout tracker and bio-feedback calculator.">
+  <meta name="description" content="Minimalist bio-feedback performance tracker and 6-day split engine.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=DM+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json">
@@ -27,10 +27,10 @@
       <div class="logo">
         <img src="logo.svg" alt="WORKOUT.SYS" class="logo-svg" loading="eager" width="86" height="auto" onerror="this.style.display='none'">
       </div>
-      <div class="mode-switcher">
-        <button id="mode-body-btn" class="active">BODY</button>
-        <button id="mode-mind-btn">MIND</button>
-        <button id="mode-ready-btn">READY</button>
+      <div class="mode-switcher" role="tablist" aria-label="Mode Selection">
+        <button id="mode-body-btn" class="active" role="tab" aria-selected="true" aria-controls="view-body">BODY</button>
+        <button id="mode-mind-btn" role="tab" aria-selected="false" aria-controls="view-mind">MIND</button>
+        <button id="mode-ready-btn" role="tab" aria-selected="false" aria-controls="view-ready">READY</button>
       </div>
       <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle Theme">
         <svg viewBox="0 0 20 20" fill="none">
@@ -39,14 +39,13 @@
         </svg>
       </button>
     </div>
-    <nav id="day-selector" role="tablist"></nav>
+    <nav id="day-selector" role="tablist" aria-label="Weekly Routine Days"></nav>
   </div>
 </header>
 
 <main class="container">
-  
   <!-- BODY TAB -->
-  <div id="view-body">
+  <section id="view-body" role="tabpanel" aria-labelledby="mode-body-btn">
     <div id="workout-header">
       <h2 id="workout-title" class="page-title"></h2>
       <p id="workout-duration" class="data-readout"></p>
@@ -67,10 +66,10 @@
     <footer>
       <button id="reset-button" class="btn-secondary">Purge weekly progress</button>
     </footer>
-  </div>
+  </section>
 
   <!-- MIND TAB -->
-  <div id="view-mind" class="hidden">
+  <section id="view-mind" class="hidden" role="tabpanel" aria-labelledby="mode-mind-btn">
     <div class="protocol-header">
       <div class="protocol-header-top">
         <h2 class="page-title">Shuffle<br>Break</h2>
@@ -98,20 +97,20 @@
       </div>
 
       <div class="mind-card mind-tabs-card">
-        <div class="mind-tabs">
-          <button class="mind-tab active" data-target="loop-tab">Loop</button>
-          <button class="mind-tab" data-target="tension-tab">Tension</button>
-          <button class="mind-tab" data-target="future-tab">Future</button>
+        <div class="mind-tabs" role="tablist">
+          <button class="mind-tab active" data-target="loop-tab" role="tab" aria-selected="true">Loop</button>
+          <button class="mind-tab" data-target="tension-tab" role="tab" aria-selected="false">Tension</button>
+          <button class="mind-tab" data-target="future-tab" role="tab" aria-selected="false">Future</button>
         </div>
-        <div id="loop-tab" class="mind-tab-content active">
+        <div id="loop-tab" class="mind-tab-content active" role="tabpanel">
           <div class="mind-card-title">TARGET: MENTAL LOOP</div>
           <div class="mantra-text" id="loop-mantra"></div>
         </div>
-        <div id="tension-tab" class="mind-tab-content">
+        <div id="tension-tab" class="mind-tab-content" role="tabpanel">
           <div class="mind-card-title">TARGET: PHYSICAL TENSION</div>
           <div class="mantra-text" id="tension-mantra"></div>
         </div>
-        <div id="future-tab" class="mind-tab-content">
+        <div id="future-tab" class="mind-tab-content" role="tabpanel">
           <div class="mind-card-title">TARGET: FUTURE WORRY</div>
           <div class="mantra-text" id="future-mantra"></div>
         </div>
@@ -147,10 +146,10 @@
     <footer>
       <button id="reset-mind-btn" class="btn-secondary">Reset protocol</button>
     </footer>
-  </div>
+  </section>
 
   <!-- READY TAB -->
-  <div id="view-ready" class="hidden">
+  <section id="view-ready" class="hidden" role="tabpanel" aria-labelledby="mode-ready-btn">
     <div class="protocol-header" style="margin-bottom: 24px;">
       <div class="protocol-header-top">
         <h2 class="page-title">System<br>Status</h2>
@@ -158,7 +157,6 @@
       <p class="protocol-subtitle">Bio-feedback baseline calculator.</p>
     </div>
 
-    <!-- 3-Column Grid Layout for Data Entry -->
     <div class="dash-grid-3">
       <!-- HRV CARD -->
       <div id="card-hrv" class="dash-card input-card" onclick="document.getElementById('ready-hrv-input').focus()">
@@ -201,10 +199,10 @@
     <footer>
       <div id="ready-stats-info" class="section-label text-center" style="margin-top:0">// PERSONALIZED BASELINE ACTIVE</div>
       <div class="ready-math-footer">
-        Readiness evaluates HRV (0.7), Sleep (0.2), and RHR (0.1) directly against your hardcoded 21-day physiological baseline.
+        Readiness evaluates HRV (0.7), Sleep (0.2), and RHR (0.1) directly against your rolling physiological baseline.
       </div>
     </footer>
-  </div>
+  </section>
 </main>
 
 <div id="timer-display">00:00</div>
@@ -239,7 +237,7 @@
   </div>
 </div>
 
-<div id="breathe-modal-overlay" class="modal-overlay">
+<div id="breathe-modal-overlay" class="modal-overlay" role="dialog" aria-modal="true">
   <div class="breathe-modal-content">
     <div id="breathe-circle-huge" class="breathe-circle"></div>
     <div class="breathe-ui relative z-10">
