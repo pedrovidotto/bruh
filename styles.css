@@ -158,7 +158,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 
 .exercise-details-text { 
   font-size: 0.7rem; font-weight: 300; color: var(--text-muted); 
-  border: 1px solid var(--border); padding: 4px 8px; 
+  border: 1px solid var(--border); padding: 4px 8px; letter-spacing: 0.02em;
 }
 
 .info-btn {
@@ -196,7 +196,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 .protocol-header { padding: 24px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 24px; position: relative; }
 .protocol-header::before { content: '+'; position: absolute; top: 8px; right: 0; font-size: 10px; color: var(--text-faint); }
 .protocol-header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-.protocol-subtitle { color: var(--text-muted); font-size: 0.85rem; font-weight: 300; }
+.protocol-subtitle { color: var(--text-muted); font-size: 0.85rem; font-weight: 300; letter-spacing: 0.03em; }
 
 .spotify-btn {
   display: inline-flex; align-items: center; gap: 8px;
@@ -215,7 +215,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 .mind-card-icon { width: 44px; height: 44px; background: transparent; border: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-weight: 300; }
 
 .anchor-input-wrap { display: flex; align-items: center; gap: 8px; background: transparent; padding: 8px 16px; border: 1px solid var(--border); flex: 1; min-height: 44px; }
-.anchor-label { color: var(--text-muted); font-size: 0.7rem; font-weight: 400; flex-shrink: 0; }
+.anchor-label { color: var(--text-muted); font-size: 0.7rem; font-weight: 400; flex-shrink: 0; letter-spacing: 0.04em; }
 #name-input { background: transparent; border: none; color: var(--text); font-family: inherit; font-size: 0.9rem; font-weight: 400; outline: none; width: 100%; text-transform: uppercase; }
 
 .mind-card-title { font-size: 0.7rem; font-weight: 400; color: var(--text-muted); margin-bottom: 14px; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -242,13 +242,13 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 .dash-label { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
 .dash-label svg { width: 14px; height: 14px; flex-shrink: 0; }
 .dash-input { background: transparent; border: none; outline: none; font-family: inherit; font-weight: 300; font-size: clamp(1.4rem, 6vw, 2rem); color: var(--text); width: 100%; min-width: 0; }
-.dash-sub { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); margin-top: 12px; }
+.dash-sub { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); margin-top: 12px; letter-spacing: 0.03em; }
 .input-card.error .dash-sub { color: var(--accent); }
 
 .ready-score-mega { font-size: clamp(4rem, 15vw, 6rem); font-weight: 300; line-height: 1; margin-bottom: 20px; color: var(--text-muted); letter-spacing: -0.05em; }
 .ready-band-mono { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.1em; color: var(--text-muted); border: 1px solid var(--border-mid); display: inline-block; padding: 10px 20px; margin-bottom: 16px; text-transform: uppercase; }
-.ready-note-text { font-size: 0.85rem; font-weight: 300; color: var(--text-muted); }
-.ready-math-footer { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); text-align: center; }
+.ready-note-text { font-size: 0.85rem; font-weight: 300; color: var(--text-muted); letter-spacing: 0.02em; }
+.ready-math-footer { font-size: 0.65rem; font-weight: 400; color: var(--text-muted); text-align: center; letter-spacing: 0.02em; }
 
 .score-primed .ready-score-mega { color: var(--text); }
 .score-primed .ready-band-mono { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 500; }
@@ -322,5 +322,5 @@ input.dash-input[type=number] { -moz-appearance: textfield; }
   opacity: 0; 
   transform: translate(-50%, -50%) scale(0.1); 
   will-change: transform, opacity, border-color; 
-  border-radius: 0 !important; /* Brutalist sharp edges */
+  border-radius: 0 !important;
 }
