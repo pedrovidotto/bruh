@@ -2,7 +2,7 @@
   "id": "/workout-sys-app",
   "name": "WORKOUT.SYS",
   "short_name": "WORKOUT",
-  "description": "Minimalist bio-feedback performance tracker and 6-day split engine.",
+  "description": "Minimalist bio-feedback performance tracker and PPL split engine.",
   "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
