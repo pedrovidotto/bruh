@@ -158,7 +158,7 @@
   });
 
   /* ─── WORKOUT SYSTEM (DOM Fragment High-Performance Rendering) ─ */
-  function renderWorkout(idx) {
+function renderWorkout(idx) {
     const data = workoutData[idx];
     const list = document.getElementById('exercise-list');
     const compList = document.getElementById('completed-list');
@@ -166,8 +166,16 @@
     const fill = document.getElementById('progress-bar-fill');
     const progressLabel = document.getElementById('progress-label');
 
+    // 1. FLIP (First): Snapshot coordinates before DOM destruction
+    const oldPositions = new Map();
+    document.querySelectorAll('.exercise-item').forEach(node => {
+      if (node.dataset.id) {
+        oldPositions.set(node.dataset.id, node.getBoundingClientRect());
+      }
+    });
+
     document.getElementById('workout-title').innerHTML =
-      `${data.title}<br><span style="font-weight:200;font-size:0.5em;opacity:0.4;letter-spacing:0.02em;">${data.subtitle}</span>`;
+      `${data.title}<br><span style="font-weight:400;font-size:0.5em;opacity:0.6;letter-spacing:0.02em;">${data.subtitle}</span>`;
     document.getElementById('workout-duration').textContent =
       data.duration === '—' ? '' : `EST. ${data.duration}`;
 
@@ -203,6 +211,7 @@
 
       const li = document.createElement('li');
       li.className = 'exercise-item';
+      li.dataset.id = id; // Required for FLIP tracking
       li.innerHTML = `
         <div class="set-counter ${sCurrent >= sTotal ? 'sets-complete' : ''}">${sCurrent}<span class="slash">/</span>${sTotal}</div>
         <span class="exercise-name">${ex.name}</span>
@@ -288,57 +297,30 @@
       document.querySelectorAll('.day-btn')[idx].classList.add('day-complete');
       showCompletion(data.title);
     }
-  }
 
-  function startTimer(sec) {
-    if (activeTimer) { clearInterval(activeTimer); activeTimer = null; }
-    toggleWakeLock(true);
-    const end = Date.now() + sec * 1000;
-    const el = document.getElementById('timer-display');
-    el.classList.add('visible');
-
-    function tick() {
-      const rem = Math.ceil((end - Date.now()) / 1000);
-      if (rem <= 0) {
-        clearInterval(activeTimer);
-        activeTimer = null;
-        el.classList.remove('visible');
-        if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
-        toggleWakeLock(false);
-      } else {
-        el.textContent = `${Math.floor(rem / 60)}:${(rem % 60).toString().padStart(2, '0')}`;
+    // 2. FLIP (Last, Invert, Play): Execute reorder animation
+    document.querySelectorAll('.exercise-item').forEach(node => {
+      const oldPos = oldPositions.get(node.dataset.id);
+      if (oldPos) {
+        const newPos = node.getBoundingClientRect();
+        const deltaY = oldPos.top - newPos.top;
+        
+        // If position changed, animate the slide
+        if (deltaY !== 0) {
+          node.style.transition = 'none';
+          node.style.transform = `translateY(${deltaY}px)`;
+          node.style.zIndex = '10'; // Keep card floating above static list
+          
+          node.offsetHeight; // Force browser layout recalculation
+          
+          requestAnimationFrame(() => {
+            node.style.transition = '';
+            node.style.transform = '';
+            setTimeout(() => { node.style.zIndex = ''; }, 400); // Drop z-index after transition
+          });
+        }
       }
-    }
-    tick();
-    activeTimer = setInterval(tick, 500);
-  }
-
-  function showInfo(title, text) {
-    document.getElementById('info-modal-title').textContent = title;
-    document.getElementById('info-modal-instructions').innerHTML = text
-      .split(/(SETUP:|EXECUTION:|PROTOCOL:|PACING:|METRIC CHECK:)/g)
-      .filter(Boolean)
-      .map(l => {
-        l = l.trim();
-        return /^(SETUP:|EXECUTION:|PROTOCOL:|PACING:|METRIC CHECK:)$/.test(l)
-          ? `<span class="instruction-label">${l.replace(':', '')}</span>`
-          : `<p>${l}</p>`;
-      }).join('');
-    document.getElementById('info-modal-overlay').classList.add('visible');
-  }
-
-  function showCompletion(title) {
-    document.getElementById('completion-message').textContent = `${title} logged. Recover well.`;
-    const el = document.getElementById('completion-overlay');
-    el.classList.add('visible');
-    
-    const showTime = Date.now();
-    el.onclick = () => {
-      if (Date.now() - showTime > 350) {
-        el.classList.remove('visible');
-        el.onclick = null;
-      }
-    };
+    });
   }
 
   /* ─── MIND SYSTEM ─────────────────────────────────────────────── */
