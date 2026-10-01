@@ -1,106 +1,101 @@
 (function() {
   'use strict';
 
-  /* ─── Workout Data: 75kg Peak Phase (Balanced 6-Exercise Max) ─── */
+  /* ─── Workout Data: Performance Hypertrophy PPL (Glute/Chest/Shoulder Bias) ─── */
   const workoutData = [
     {
       "day": 1,
-      "title": "Upper A",
-      "subtitle": "Chest Heavy, Side Delt & Arms",
-      "duration": "50m",
-      "exercises": [
-        { "name": "Flat DB Bench Press", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: 34–36kg dumbbells. EXECUTION: 3s eccentric, 1s dead-stop pause in deep stretch, explosive concentric drive." },
-        { "name": "Machine/Cable Lat Pulldown", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Neutral or D-handle. EXECUTION: Pull elbows straight down into hips. 2s negative letting scapulae fully protract." },
-        { "name": "Seated DB Shoulder Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: 26–28kg dumbbells, bench at 75–80°. EXECUTION: 3s lowering, zero bounce, press to full extension." },
-        { "name": "DB Lateral Raises", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Continuous side delt tension. Add 5 lengthened partial reps out of the bottom stretch on final set." },
-        { "name": "Overhead Cable Triceps Ext.", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Keep elbows tucked. Pushing from overhead prioritizes the long head of the tricep." },
-        { "name": "Cross-Body DB Hammer Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Curl across your torso to target the brachialis and push the bicep peak up." }
-      ],
-      "cardio": { "name": "Incline Walk (LISS)", "details": "1 × 15 mins", "instructions": "PACING: Maintain heart rate strictly <130 BPM on steep incline to flush metabolites without joint shear." }
-    },
-    
-    {
-      "day": 2,
-      "title": "Lower A",
-      "subtitle": "Anterior Focus & Inner Thighs",
+      "title": "Push 1",
+      "subtitle": "Heavy Chest & Shoulder Width",
       "duration": "55m",
       "exercises": [
-        { "name": "Barbell / Hack Machine Squats", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: 85–90kg target. EXECUTION: Deep forward knee travel, 3s eccentric, 1s pause in full hole. Explosive ascent." },
-        { "name": "Barbell Hip Thrusts", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Standard setup. Drive through heels, lock pelvis in at the top. Hard 1s squeeze on every single rep." },
-        { "name": "Seated Leg Extensions", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Lean torso back against pad. EXECUTION: Pure quad isolation. 1s hard squeeze at full extension." },
-        { "name": "Seated Adductor Machine", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Deep stretch on the negative. This tightens the inner thigh tissue underneath as your calorie deficit drops the fat." },
-        { "name": "Standing Calf Raises", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: 3s negative. 2s dead-stop stretch at the absolute bottom to kill the Achilles stretch reflex." },
-        { "name": "Tibialis Raises", "details": "3 × 15–20 reps · 60s rest", "instructions": "EXECUTION: Lean against wall or use machine. Pull toes up hard to balance lower leg mechanics." }
-      ],
-      "abFinisher": { "name": "Knee Raises & Woodchoppers", "details": "3 × 12 reps · 60s rest", "instructions": "EXECUTION: Superset strict Hanging Knee Raises directly into Cable Woodchoppers (12 reps/side) for oblique development." }
-    },
-    
-    {
-      "day": 3,
-      "title": "Upper B",
-      "subtitle": "Upper Chest, Side Delt & Arms",
-      "duration": "50m",
-      "exercises": [
-        { "name": "Incline DB Press", "details": "3 × 8–10 reps · 150s rest", "instructions": "SETUP: 30° incline to isolate clavicular pec fibers. EXECUTION: 3s eccentric, dead stop at bottom stretch, explode up." },
-        { "name": "Chest-Supported Machine Row", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Overload upper back thickness without spinal fatigue. 2s stretch at bottom of each repetition." },
-        { "name": "Lean-Away Cable Lateral Raises", "details": "3 × 10–12 reps/arm · 90s rest", "instructions": "SETUP: Wrist cuffs or D-handle. EXECUTION: Maintain constant cable profile resistance across side delts." },
-        { "name": "Cable Face Pulls", "details": "3 × 15 reps · 90s rest", "instructions": "EXECUTION: Pull rope apart horizontally toward forehead, engaging rear delts and external rotators cleanly." },
-        { "name": "DB Skullcrushers", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Lower dumbbells beside your ears for maximum stretch. Keep elbows pointing to the ceiling." },
-        { "name": "Cable EZ-Bar Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Constant tension. Squeeze hard at the top peak for 1 second." }
-      ],
-      "cardio": { "name": "Stationary Bike (LISS)", "details": "1 × 15 mins", "instructions": "PACING: Steady cadence. Heart rate locked <130 BPM." }
-    },
-    
-    {
-      "day": 4,
-      "title": "Lower B",
-      "subtitle": "Posterior Chain Overload",
-      "duration": "55m",
-      "exercises": [
-        { "name": "DB Romanian Deadlifts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Push hips completely back, soft knees. Deep hamstring/glute stretch without lumbar compensation." },
-        { "name": "Deficit Reverse DB Lunges", "details": "3 × 10 reps/leg · 120s rest", "instructions": "SETUP: Front foot elevated on 2-inch plate. EXECUTION: Deep stretch on glute-ham tie-in, torso angled 20° forward." },
-        { "name": "Seated Leg Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Seated position places hamstrings in a more lengthened state than lying. Squeeze hard at the bottom." },
-        { "name": "Standing Cable Hip Abduction", "details": "3 × 12–15 reps/leg · 90s rest", "instructions": "SETUP: Ankle cuff on low pulley. EXECUTION: Kick back and out at 45° to isolate upper gluteus medius." },
-        { "name": "Seated Calf Raises", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: High rep, slow tempo to burn out the soleus muscle under the main calf." }
-      ],
-      "cardio": { "name": "Incline Walk (LISS)", "details": "1 × 15 mins", "instructions": "PACING: Low-impact posterior chain flush. <130 BPM." }
-    },
-    
-    {
-      "day": 5,
-      "title": "Upper C",
-      "subtitle": "Hypertrophy & Forearms",
-      "duration": "50m",
-      "exercises": [
-        { "name": "Weighted Chest Dips / Decline Press", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Torso angled 30° forward. Lower shoulders below elbows for deep stretch before pressing." },
-        { "name": "Seated Cable Rows (Wide Grip)", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Protract scapulae in stretch, drive elbows wide and back, squeeze mid-traps and rhomboids." },
-        { "name": "DB Lateral Raises", "details": "3 × 12 reps · 90s rest", "instructions": "EXECUTION: Strict form. On set 3, immediately drop weight 30% and perform an extended drop-set to failure." },
-        { "name": "Tricep Rope Pushdowns", "details": "3 × 12 reps · 0s rest", "instructions": "EXECUTION: Pinned elbows, lateral head focus. Superset directly into bicep curls without resting." },
-        { "name": "Incline DB Bicep Curls", "details": "3 × 12 reps · 90s rest", "instructions": "SETUP: 45° incline bench. EXECUTION: Let arms hang completely straight for max long-head stretch before curling." },
-        { "name": "DB Reverse Curls", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: Palms facing down. Focus entirely on the forearms and grip strength burn." }
+        { "name": "Flat DB Bench Press", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: Heavy dumbbells. EXECUTION: 3s eccentric, 1s dead-stop pause in deep stretch, explosive concentric drive. Velocity over load." },
+        { "name": "Incline DB Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: 30° bench angle. EXECUTION: Isolate the clavicular pec fibers. Full stretch at the bottom." },
+        { "name": "Seated DB Shoulder Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Bench at 75–80°. EXECUTION: 3s lowering, zero bounce, press to full extension without locking elbows." },
+        { "name": "DB Lateral Raises", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Continuous side delt tension. Add 5 lengthened partial reps directly out of the bottom stretch on final set." },
+        { "name": "Overhead Cable Triceps Ext.", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Keep elbows tucked. Pushing from overhead prioritizes the long head of the triceps." }
       ],
       "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Kneel at cable station. Lock hips in place and flex spine downward. Use heavy weight to build blocky abs." }
     },
     
     {
-      "day": 6,
-      "title": "Lower C",
-      "subtitle": "Posterior Machine & Calves",
+      "day": 2,
+      "title": "Pull 1",
+      "subtitle": "Back Width, Rear Delts & Forearms",
       "duration": "50m",
       "exercises": [
-        { "name": "Hex-Bar Deadlifts", "details": "3 × 5 reps · 180s rest", "instructions": "EXECUTION: Neutral grip, explosive neural drive off floor. Reset fully between reps; no touch-and-go." },
-        { "name": "DB Bulgarian Split Squats", "details": "3 × 8–10 reps/leg · 120s rest", "instructions": "SETUP: Torso locked forward at 30° angle. EXECUTION: Load stays purely on working glute and quad." },
-        { "name": "Seated Leg Press (Glute Stance)", "details": "3 × 12 reps · 120s rest", "instructions": "SETUP: Feet placed high and wide on platform. EXECUTION: Drive through heels, no knee lockout." },
-        { "name": "45° Glute Hyperextensions", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Round your upper back slightly. Use ONLY your glutes and hamstrings to pull your torso up." },
-        { "name": "Leg Press Calf Raises", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: Lock knees softly. Push through the big toe. 2s pause at the bottom stretch." }
+        { "name": "Machine/Cable Lat Pulldown", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Neutral or D-handle. EXECUTION: Pull elbows straight down into hips. 2s negative letting scapulae fully protract." },
+        { "name": "Chest-Supported Machine Row", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Overload upper back thickness without spinal fatigue. 2s stretch at bottom of each repetition." },
+        { "name": "Cable Face Pulls", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Pull rope apart horizontally toward forehead, engaging rear delts and external rotators cleanly." },
+        { "name": "Incline DB Bicep Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: 45° incline bench. EXECUTION: Let arms hang completely straight for max long-head stretch before curling." },
+        { "name": "DB Reverse Curls", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: Palms facing down. Focus entirely on the forearms and grip strength burn." }
       ],
-      "cardio": { "name": "Incline Walk (Recovery)", "details": "1 × 15 mins", "instructions": "PACING: Steady LISS flush to clear metabolic accumulation. Zero HIIT to preserve CNS integrity." }
+      "abFinisher": { "name": "Cable Woodchoppers", "details": "3 × 12 reps/side · 60s rest", "instructions": "EXECUTION: Set pulley to high or mid level. Rotate through the core to target obliques. Keep hips stable." }
+    },
+    
+    {
+      "day": 3,
+      "title": "Legs 1",
+      "subtitle": "Glute Squeeze & Inner Thighs",
+      "duration": "55m",
+      "exercises": [
+        { "name": "Barbell Hip Thrusts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Standard heavy setup. Drive through heels, lock pelvis in at the top. Hard 1s squeeze on every single rep." },
+        { "name": "Hack Machine Squats", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: 85–90kg target. EXECUTION: Deep forward knee travel, 3s eccentric, 1s pause in full hole. Explosive ascent." },
+        { "name": "Seated Leg Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Seated position places hamstrings in a more lengthened state than lying. Squeeze hard at the bottom." },
+        { "name": "Seated Adductor Machine", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Deep stretch on the negative. Tightens the inner thigh musculature." },
+        { "name": "Standing Calf Raises", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: 3s negative. 2s dead-stop stretch at the absolute bottom to kill the Achilles stretch reflex." }
+      ],
+      "cardio": { "name": "Incline Walk (LISS)", "details": "1 × 15 mins", "instructions": "PACING: Maintain heart rate strictly <130 BPM on steep incline to flush metabolites without joint shear." }
+    },
+    
+    {
+      "day": 4,
+      "title": "Push 2",
+      "subtitle": "Shoulder Heavy & Upper Chest",
+      "duration": "50m",
+      "exercises": [
+        { "name": "Machine Shoulder Press", "details": "3 × 6–8 reps · 120s rest", "instructions": "EXECUTION: Neutral grip if possible. 3s negative, explosive push. Prioritize heavy load over volume." },
+        { "name": "Incline Cable Flyes", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Bench at 30°. Focus entirely on the clavicular pec stretch. Hold peak contraction for 1s." },
+        { "name": "Weighted Dips / Decline Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Torso angled 30° forward. Lower shoulders below elbows for deep stretch before pressing." },
+        { "name": "Lean-Away Cable Lateral Raises", "details": "3 × 10–12 reps/arm · 90s rest", "instructions": "SETUP: Wrist cuffs or D-handle. EXECUTION: Maintain constant cable profile resistance across side delts." },
+        { "name": "Tricep Rope Pushdowns", "details": "3 × 12 reps · 60s rest", "instructions": "EXECUTION: Pinned elbows, lateral head focus. Keep chest up and push straight down." }
+      ]
+    },
+    
+    {
+      "day": 5,
+      "title": "Pull 2",
+      "subtitle": "Back Thickness & Biceps",
+      "duration": "50m",
+      "exercises": [
+        { "name": "Seated Cable Rows (Wide Grip)", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Protract scapulae in stretch, drive elbows wide and back, squeeze mid-traps and rhomboids." },
+        { "name": "Single-Arm Iliac Lat Pulldown", "details": "3 × 8–10 reps/arm · 90s rest", "instructions": "SETUP: Single D-handle. EXECUTION: Pull elbow tight down to the hip to isolate the lower lats." },
+        { "name": "Reverse Pec-Deck", "details": "3 × 12–15 reps · 60s rest", "instructions": "SETUP: Protract scapulae. EXECUTION: Wide arc using only rear delts. Do not squeeze shoulder blades together." },
+        { "name": "Cable EZ-Bar Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Constant tension. Squeeze hard at the top peak for 1 second." },
+        { "name": "DB Wrist Curls", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: Palms facing up. Focus on flexing the forearm to failure." }
+      ],
+      "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Heavy load. Flex spine, ribs to pelvis. Do not pivot at hips." }
+    },
+    
+    {
+      "day": 6,
+      "title": "Legs 2",
+      "subtitle": "Glute Stretch, Quads & Calves",
+      "duration": "55m",
+      "exercises": [
+        { "name": "DB Romanian Deadlifts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Push hips completely back, soft knees. Deep hamstring/glute stretch without lumbar compensation." },
+        { "name": "Deficit Reverse DB Lunges", "details": "3 × 10 reps/leg · 120s rest", "instructions": "SETUP: Front foot elevated on 2-inch plate. EXECUTION: Deep stretch on glute-ham tie-in, torso angled 20° forward." },
+        { "name": "Seated Leg Extensions", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Lean torso back against pad. EXECUTION: Pure quad isolation. 1s hard squeeze at full extension." },
+        { "name": "45° Glute Hyperextensions", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Round your upper back slightly. Use ONLY your glutes and hamstrings to pull your torso up." },
+        { "name": "Leg Press Calf Raises", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: Lock knees softly. Push through the big toe. 2s pause at the bottom stretch." },
+        { "name": "Seated Calf Raises", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: High rep, slow tempo to burn out the soleus muscle under the main calf." }
+      ]
     },
     
     {
       "day": 7,
       "title": "Standby",
-      "subtitle": "Strategic Recovery",
+      "subtitle": "Growth & Recovery",
       "duration": "—",
       "exercises": [],
       "cardio": {
@@ -152,7 +147,7 @@
         wakeLock = null;
       }
     } catch (err) {
-      // Wake Lock failures fail gracefully without breaking execution
+      // Wake Lock failures fail gracefully
     }
   }
 
