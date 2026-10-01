@@ -1,13 +1,13 @@
 {
-  "id": "/workout-sys-app",
-  "name": "WORKOUT.SYS",
-  "short_name": "WORKOUT",
+  "id": "/esntl-app",
+  "name": "ESNTL",
+  "short_name": "ESNTL",
   "description": "Minimalist bio-feedback performance tracker and PPL split engine.",
   "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0a0908",
-  "theme_color": "#0a0908",
+  "background_color": "#0c0b0a",
+  "theme_color": "#0c0b0a",
   "icons": [
     {
       "src": "icon-192.png",
