@@ -1,11 +1,10 @@
-const CACHE_NAME = 'workout-sys-v3.0';
+const CACHE_NAME = 'esntl-v1.0';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './script.js',
   './manifest.json',
-  './logo.svg',
   './icon-192.png',
   './icon-512.png'
 ];
