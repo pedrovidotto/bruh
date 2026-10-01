@@ -30,7 +30,7 @@ body[data-theme="light"] {
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
 
 body {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
   background: var(--bg);
   color: var(--text);
@@ -322,4 +322,5 @@ input.dash-input[type=number] { -moz-appearance: textfield; }
   opacity: 0; 
   transform: translate(-50%, -50%) scale(0.1); 
   will-change: transform, opacity, border-color; 
+  border-radius: 0 !important; /* Brutalist sharp edges */
 }
