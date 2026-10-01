@@ -7,7 +7,7 @@
   <meta name="description" content="Minimalist bio-feedback performance tracker and PPL split engine.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
@@ -40,7 +40,6 @@
   <section id="view-body" role="tabpanel">
     <div id="workout-header">
       <h2 id="workout-title" class="page-title"></h2>
-      <p id="workout-duration" class="data-readout"></p>
     </div>
     <div id="progress-bar-wrap" class="hidden"><div id="progress-bar-fill"></div></div>
     <p id="progress-label" class="progress-label hidden"></p>
@@ -52,7 +51,7 @@
       <ul id="completed-list" class="list-reset"></ul>
     </div>
 
-    <footer><button id="reset-button" class="btn-secondary">PURGE SYS DATA</button></footer>
+    <footer><button id="reset-button" class="btn-negative">PURGE SYS DATA</button></footer>
   </section>
 
   <!-- MIND TAB -->
@@ -152,7 +151,7 @@
 <div id="timer-display">00:00</div>
 
 <div id="info-modal-overlay" class="modal-overlay" role="dialog"><div class="modal"><div class="modal-header"><h2 id="info-modal-title" class="title-light"></h2><button id="info-modal-close-btn" class="close-btn"></button></div><div id="info-modal-instructions" class="modal-body"></div></div></div>
-<div id="reset-modal-overlay" class="modal-overlay" role="dialog"><div class="modal"><h2 class="title-light" style="margin-bottom:10px;">PURGE CYCLE?</h2><p class="modal-body">Logs will be permanently deleted.</p><div class="modal-actions"><button id="confirm-reset-btn" class="btn-primary">CONFIRM</button><button id="cancel-reset-btn" class="btn-secondary">CANCEL</button></div></div></div>
+<div id="reset-modal-overlay" class="modal-overlay" role="dialog"><div class="modal"><h2 class="title-light" style="margin-bottom:10px;">PURGE CYCLE?</h2><p class="modal-body">Logs will be permanently deleted.</p><div class="modal-actions"><button id="confirm-reset-btn" class="btn-negative">CONFIRM PURGE</button><button id="cancel-reset-btn" class="btn-secondary">CANCEL</button></div></div></div>
 <div id="completion-overlay"><div class="completion-card"><h2 class="title-light" id="completion-title">LOG COMPLETE</h2><p id="completion-message"></p></div></div>
 
 <!-- Engineered Breathing Modal -->
