@@ -117,7 +117,7 @@
       if (node.dataset.id) oldPositions.set(node.dataset.id, node.getBoundingClientRect());
     });
 
-    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.45em;color:var(--text-muted);text-transform:none;letter-spacing:0.04em;">${data.subtitle}</span>`;
+    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.5em;color:var(--text-muted);text-transform:none;letter-spacing:0.02em;">${data.subtitle}</span>`;
     document.getElementById('workout-duration').textContent = data.duration === '—' ? '' : `EST. ${data.duration}`;
 
     list.innerHTML = ''; compList.innerHTML = '';
@@ -149,8 +149,10 @@
       li.dataset.id = id;
       li.innerHTML = `
         <div class="set-counter ${sCurrent >= sTotal ? 'sets-complete' : ''}">${sCurrent}<span class="slash">/</span>${sTotal}</div>
-        <span class="exercise-name">${ex.name}</span>
-        <div class="exercise-meta"><span class="exercise-details-text">${ex.details}</span></div>
+        <div class="exercise-info-wrapper">
+          <span class="exercise-name">${ex.name}</span>
+          <span class="exercise-details-text">${ex.details}</span>
+        </div>
         <button class="info-btn" aria-label="Instructions"></button>
       `;
 
@@ -383,13 +385,13 @@
     if (valid.hrv && valid.sleep && valid.rhr) {
       const total = (0.7 * zComponent(vHrv, READY_SEED.hrv.mean, READY_SEED.hrv.sd)) + (0.2 * zComponent(vSleep * 60, READY_SEED.sleep.mean, READY_SEED.sleep.sd)) + (0.1 * zComponent(vRhr, READY_SEED.rhr.mean, READY_SEED.rhr.sd, true));
       const band = getReadyBand(total);
-      document.getElementById('ready-score-wrapper').className = `mind-card text-center ${band.class}`;
+      document.getElementById('ready-score-wrapper').className = `editorial-block text-center ${band.class}`;
       document.getElementById('ready-score-val').textContent = `${total.toFixed(1)}%`;
       document.getElementById('ready-band-label').textContent = band.label;
     } else {
-      document.getElementById('ready-score-wrapper').className = 'mind-card text-center';
+      document.getElementById('ready-score-wrapper').className = 'editorial-block text-center';
       document.getElementById('ready-score-val').textContent = "—.—";
-      document.getElementById('ready-band-label').textContent = "AWAITING_INPUT";
+      document.getElementById('ready-band-label').textContent = "AWAITING INPUT";
     }
   }
 
@@ -409,7 +411,7 @@
       ['mode-body-btn','mode-mind-btn','mode-ready-btn'].forEach(id => { const b = document.getElementById(id); b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
       ['view-body','view-mind','view-ready'].forEach(id => document.getElementById(id).classList.add('hidden'));
       activeBtn.classList.add('active'); activeBtn.setAttribute('aria-selected', 'true'); activeView.classList.remove('hidden');
-      daySel.classList.toggle('hidden', !showDays);
+      daySel.parentElement.style.display = showDays ? 'block' : 'none';
     };
 
     document.getElementById('mode-body-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-body'), true); });
