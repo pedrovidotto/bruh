@@ -4,7 +4,7 @@
   /* ─── Workout Data: Performance Hypertrophy PPL (SYS.Nomenclature) ─── */
   const workoutData = [
     {
-      "day": 1, "title": "P1", "subtitle": "Anterior Load / Clavicular", "duration": "55m",
+      "day": 1, "title": "P1", "subtitle": "Anterior Load / Clavicular",
       "exercises": [
         { "name": "Flat DB Bench Press", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: Heavy dumbbells. EXECUTION: 3s eccentric, 1s dead-stop pause in deep stretch, explosive concentric drive. Velocity over load." },
         { "name": "Incline DB Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: 30° bench angle. EXECUTION: Isolate the clavicular pec fibers. Full stretch at the bottom." },
@@ -15,7 +15,7 @@
       "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Kneel at cable station. Lock hips in place and flex spine downward. Use heavy weight to build blocky abs." }
     },
     {
-      "day": 2, "title": "PL1", "subtitle": "Scapular Retraction / Width", "duration": "50m",
+      "day": 2, "title": "PL1", "subtitle": "Scapular Retraction / Width",
       "exercises": [
         { "name": "Machine/Cable Lat Pulldown", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Neutral or D-handle. EXECUTION: Pull elbows straight down into hips. 2s negative letting scapulae fully protract." },
         { "name": "Chest-Supported Machine Row", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Overload upper back thickness without spinal fatigue. 2s stretch at bottom of each repetition." },
@@ -26,7 +26,7 @@
       "abFinisher": { "name": "Cable Woodchoppers", "details": "3 × 12 reps/side · 60s rest", "instructions": "EXECUTION: Set pulley to high or mid level. Rotate through the core to target obliques. Keep hips stable." }
     },
     {
-      "day": 3, "title": "L1", "subtitle": "Peak Contraction / Inner Thigh", "duration": "55m",
+      "day": 3, "title": "L1", "subtitle": "Peak Contraction / Inner Thigh",
       "exercises": [
         { "name": "Barbell Hip Thrusts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Standard heavy setup. Drive through heels, lock pelvis in at the top. Hard 1s squeeze on every single rep." },
         { "name": "Hack Machine Squats", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: 85–90kg target. EXECUTION: Deep forward knee travel, 3s eccentric, 1s pause in full hole. Explosive ascent." },
@@ -37,7 +37,7 @@
       "cardio": { "name": "Incline Walk (LISS)", "details": "1 × 15 mins", "instructions": "PACING: Maintain heart rate strictly <130 BPM on steep incline to flush metabolites without joint shear." }
     },
     {
-      "day": 4, "title": "P2", "subtitle": "Vertical Axis / Upper Pectoral", "duration": "50m",
+      "day": 4, "title": "P2", "subtitle": "Vertical Axis / Upper Pectoral",
       "exercises": [
         { "name": "Machine Shoulder Press", "details": "3 × 6–8 reps · 120s rest", "instructions": "EXECUTION: Neutral grip if possible. 3s negative, explosive push. Prioritize heavy load over volume." },
         { "name": "Incline Cable Flyes", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Bench at 30°. Focus entirely on the clavicular pec stretch. Hold peak contraction for 1s." },
@@ -47,7 +47,7 @@
       ]
     },
     {
-      "day": 5, "title": "PL2", "subtitle": "Posterior Density / Brachialis", "duration": "50m",
+      "day": 5, "title": "PL2", "subtitle": "Posterior Density / Brachialis",
       "exercises": [
         { "name": "Seated Cable Rows (Wide Grip)", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Protract scapulae in stretch, drive elbows wide and back, squeeze mid-traps and rhomboids." },
         { "name": "Single-Arm Iliac Lat Pulldown", "details": "3 × 8–10 reps/arm · 90s rest", "instructions": "SETUP: Single D-handle. EXECUTION: Pull elbow tight down to the hip to isolate the lower lats." },
@@ -58,7 +58,7 @@
       "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Heavy load. Flex spine, ribs to pelvis. Do not pivot at hips." }
     },
     {
-      "day": 6, "title": "L2", "subtitle": "Lengthened Tension", "duration": "55m",
+      "day": 6, "title": "L2", "subtitle": "Lengthened Tension",
       "exercises": [
         { "name": "DB Romanian Deadlifts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Push hips completely back, soft knees. Deep hamstring/glute stretch without lumbar compensation." },
         { "name": "Deficit Reverse DB Lunges", "details": "3 × 10 reps/leg · 120s rest", "instructions": "SETUP: Front foot elevated on 2-inch plate. EXECUTION: Deep stretch on glute-ham tie-in, torso angled 20° forward." },
@@ -69,7 +69,7 @@
       ]
     },
     {
-      "day": 7, "title": "SYS", "subtitle": "Metabolic Clearance", "duration": "—",
+      "day": 7, "title": "SYS", "subtitle": "Metabolic Clearance",
       "exercises": [],
       "cardio": {
         "name": "Dynamic Mobility & Walk",
@@ -117,8 +117,8 @@
       if (node.dataset.id) oldPositions.set(node.dataset.id, node.getBoundingClientRect());
     });
 
-    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.5em;color:var(--text-muted);text-transform:none;letter-spacing:0.02em;">${data.subtitle}</span>`;
-    document.getElementById('workout-duration').textContent = data.duration === '—' ? '' : `EST. ${data.duration}`;
+    // High contrast, identical sizing for Title and Subtitle.
+    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-weight:200;color:var(--text-muted);text-transform:none;letter-spacing:0.02em;">${data.subtitle}</span>`;
 
     list.innerHTML = ''; compList.innerHTML = '';
 
@@ -411,7 +411,7 @@
       ['mode-body-btn','mode-mind-btn','mode-ready-btn'].forEach(id => { const b = document.getElementById(id); b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
       ['view-body','view-mind','view-ready'].forEach(id => document.getElementById(id).classList.add('hidden'));
       activeBtn.classList.add('active'); activeBtn.setAttribute('aria-selected', 'true'); activeView.classList.remove('hidden');
-      daySel.parentElement.style.display = showDays ? 'block' : 'none';
+      daySel.classList.toggle('hidden', !showDays);
     };
 
     document.getElementById('mode-body-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-body'), true); });
@@ -437,10 +437,13 @@
       document.body.dataset.theme = next; localStorage.setItem('workoutSysTheme', next);
     });
 
+    // Close Modals by clicking anywhere on the overlay
     document.querySelectorAll('.modal-overlay').forEach(el => el.addEventListener('click', function(e) { if(e.target===this) this.classList.remove('visible'); }));
     document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', function() { this.closest('.modal-overlay').classList.remove('visible'); }));
+    
     document.getElementById('reset-button').addEventListener('click', () => document.getElementById('reset-modal-overlay').classList.add('visible'));
     document.getElementById('cancel-reset-btn').addEventListener('click', () => document.getElementById('reset-modal-overlay').classList.remove('visible'));
+    
     document.getElementById('confirm-reset-btn').addEventListener('click', () => {
       ['workoutSysProgress','workoutSysCompletedDays','workoutSysLastTouched'].forEach(k => localStorage.removeItem(k));
       progress = {}; completedDays = []; lastTouched = {};
