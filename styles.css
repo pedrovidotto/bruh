@@ -105,7 +105,7 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   column-gap: 16px;
   padding: 16px;
   background: var(--surface);
-  border-radius: 24px; /* Heavy roundness from reference */
+  border-radius: 24px;
   border: 1px solid var(--border);
   cursor: pointer;
   position: relative;
@@ -113,7 +113,14 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
-  transition: all 0.25s cubic-bezier(0.32,0.72,0,1);
+  
+  /* FLIP specific transition curve */
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), 
+              background-color 0.25s, 
+              border-color 0.25s, 
+              box-shadow 0.25s, 
+              opacity 0.25s;
+              
   will-change: transform, opacity, background-color;
   box-shadow: 0 4px 16px rgba(0,0,0,0.03);
 }
