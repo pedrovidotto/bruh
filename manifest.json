@@ -1,8 +1,8 @@
 {
   "id": "/workout-sys-app",
   "name": "WORKOUT.SYS",
-  "short_name": "WORKOUT.SYS",
-  "description": "A minimalist 7-day workout tracker and bio-feedback readiness calculator.",
+  "short_name": "WORKOUT",
+  "description": "Minimalist bio-feedback performance tracker and 6-day split engine.",
   "start_url": "./",
   "display": "standalone",
   "orientation": "portrait",
