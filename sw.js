@@ -33,7 +33,6 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
 
-  // Network-first policy for HTML navigation to prevent stale application state
   if (e.request.mode === 'navigate' || e.request.destination === 'document') {
     e.respondWith(
       fetch(e.request)
@@ -49,7 +48,6 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // Cache-first falling back to network for versioned static assets
   e.respondWith(
     caches.match(e.request).then((cached) => {
       if (cached) return cached;
