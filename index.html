@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
-  <title>WORKOUT.SYS</title>
+  <title>ESNTL</title>
   <meta name="description" content="Minimalist bio-feedback performance tracker and PPL split engine.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
   <div class="container">
     <div class="header-top">
       <div class="logo">
-        <div style="font-family:'Hanken Grotesk', sans-serif; font-size:1.2rem; font-weight: 500; letter-spacing:-0.05em;">WORKOUT<span style="color:var(--text-muted); font-weight: 300;">.SYS</span></div>
+        <div style="font-family:'Hanken Grotesk', sans-serif; font-size:1.2rem; font-weight: 500; letter-spacing:-0.05em;">ESNTL<span style="color:var(--accent);">.</span></div>
       </div>
       <div class="mode-switcher" role="tablist">
         <button id="mode-body-btn" class="active" role="tab" aria-selected="true">BODY</button>
@@ -54,7 +54,7 @@
     <footer><button id="reset-button" class="btn-negative">PURGE SYS DATA</button></footer>
   </section>
 
-  <!-- MIND TAB -->
+  <!-- MIND TAB (Unified Editorial Architecture) -->
   <section id="view-mind" class="hidden" role="tabpanel">
     <div class="protocol-header">
       <div class="protocol-header-top">
@@ -88,22 +88,21 @@
         <div id="future-tab" class="mind-tab-content" role="tabpanel"><div class="mantra-text" id="future-mantra"></div></div>
       </div>
 
-      <div class="mind-grid-2">
-        <div class="editorial-block text-center">
-          <div class="mind-card-title">BREATHE PROTOCOL</div>
-          <div class="action-stack">
-            <button class="action-btn breathe-trigger" data-mode="vagus">VAGUS</button>
-            <button class="action-btn breathe-trigger" data-mode="box">BOX</button>
-            <button class="action-btn breathe-trigger" data-mode="relax">RELAX</button>
-          </div>
+      <div class="editorial-block">
+        <div class="mind-card-title">BREATHE PROTOCOL</div>
+        <div class="action-stack">
+          <button class="action-btn breathe-trigger" data-mode="vagus">VAGUS (4S / 6S)</button>
+          <button class="action-btn breathe-trigger" data-mode="box">BOX (4S / 4S / 4S / 4S)</button>
+          <button class="action-btn breathe-trigger" data-mode="relax">RELAX (4S / 7S / 8S)</button>
         </div>
-        <div class="editorial-block text-center">
-          <div class="mind-card-title">GROUND PROTOCOL</div>
-          <div class="action-stack">
-            <button class="action-btn ground-trigger">VISUAL: 3</button>
-            <button class="action-btn ground-trigger">AUDIO: 3</button>
-            <button class="action-btn ground-trigger">KINETIC: 3</button>
-          </div>
+      </div>
+
+      <div class="editorial-block">
+        <div class="mind-card-title">GROUND PROTOCOL</div>
+        <div class="action-stack">
+          <button class="action-btn ground-trigger">VISUAL: SEE 3 OBJECTS</button>
+          <button class="action-btn ground-trigger">AUDIO: HEAR 3 SOUNDS</button>
+          <button class="action-btn ground-trigger">KINETIC: MOVE 3 JOINTS</button>
         </div>
       </div>
     </div>
@@ -117,7 +116,6 @@
       <p class="protocol-subtitle">Bio-Feedback Baseline Calculator.</p>
     </div>
 
-    <!-- Restored 3-Column Grid -->
     <div class="dash-grid-3">
       <div id="card-hrv" class="editorial-block input-card" onclick="document.getElementById('ready-hrv-input').focus()">
         <div class="dash-label">HRV</div>
