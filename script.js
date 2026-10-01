@@ -117,7 +117,8 @@
       if (node.dataset.id) oldPositions.set(node.dataset.id, node.getBoundingClientRect());
     });
 
-    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.45em;color:var(--text-muted);">${data.subtitle}</span>`;
+    // Subtitle injected with text-transform: none to break CSS inheritance and preserve strict Title Case
+    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-size:0.45em;color:var(--text-muted);text-transform:none;">${data.subtitle}</span>`;
     document.getElementById('workout-duration').textContent = data.duration === '—' ? '' : `EST. ${data.duration}`;
 
     list.innerHTML = ''; compList.innerHTML = '';
@@ -327,7 +328,6 @@
     const phase = currentBreatheMode[currentPhaseIndex], display = document.getElementById('breathe-display-huge'), label = document.getElementById('breathe-label-huge'), shape = document.getElementById('breathe-shape-huge');
     label.textContent = phase.label; let count = phase.time; display.textContent = count;
     
-    // Scale shape mathematically based on inhale vs exhale. Hold locks scale and shifts border color.
     shape.style.transition = `transform ${phase.time}s linear, opacity ${phase.time}s ease, border-color 0.4s ease`;
     
     requestAnimationFrame(() => requestAnimationFrame(() => {
