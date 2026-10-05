@@ -1,9 +1,9 @@
 (function() {
   'use strict';
 
-  /* ─── Workout Data: ULTER Classic & Stable (Source: gemini-code-1791227642186) ─── */
+  /* ─── Workout Data (Upper/Lower Split structure) ─── */
   const workoutData = [
-    { "day": 1, "title": "Monday", "exercises": [
+    { "day": 1, "title": "UPPER 1", "subtitle": "ANTERIOR LOAD", "exercises": [
       { "name": "Converging Incline Machine Press", "details": "3 × 6–8 reps · 120s rest", "instructions": "SETUP: Prime/Arsenal machine. EXECUTION: Drive hands up and inward. 2s pause in the deep stretch. Push to absolute failure on the final set." },
       { "name": "30° Incline Cable Fly", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Focus entirely on the bottom half of the movement. Maximize the clavicular pec stretch until you can no longer move the cables." },
       { "name": "Cable Cross-Body Lateral Raise", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: Cable set to wrist height. EXECUTION: Pull from across the body. The last 2 reps should be agonizingly slow." },
@@ -12,7 +12,7 @@
       { "name": "Cross-Body Cable Hammer Curl", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Pull rope attachment across your torso to target the brachialis and push the bicep up." },
       { "name": "Cable Crunches", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Flex spine, ribs to pelvis. Heavy load focus, do not pivot at hips." }
     ]},
-    { "day": 2, "title": "Tuesday", "exercises": [
+    { "day": 2, "title": "LOWER 1", "subtitle": "BASE FOUNDATION", "exercises": [
       { "name": "Quad-Biased Hack Squat", "details": "3 × 8–10 reps · 150s rest", "instructions": "SETUP: Feet placed very low and close together. EXECUTION: Maximize forward knee travel. 2s pause at the absolute bottom stretch. Survive the burn." },
       { "name": "Deficit Bulgarian Split Squat", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Front foot elevated on a plate. EXECUTION: Focus on the glute-ham tie-in and quad stretch at the bottom." },
       { "name": "Forward-Leaning Hip Abduction", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Hinge torso 45° forward off the back pad. EXECUTION: Push out hard, pause for 1s at maximum contraction." },
@@ -20,7 +20,7 @@
       { "name": "Lying Leg Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Technical failure on full ROM, immediately followed by 5-6 partials in the fully stretched position." },
       { "name": "Standing Calf Raise", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: 3s negative. 2s pause in the deep stretch to dissipate the Achilles reflex." }
     ]},
-    { "day": 3, "title": "Wednesday", "exercises": [
+    { "day": 3, "title": "UPPER 2", "subtitle": "SCAPULAR WIDTH", "exercises": [
       { "name": "Decline Dumbbell Press", "details": "3 × 10–12 reps · 120s rest", "instructions": "SETUP: Slight decline bench. EXECUTION: The definitive classic movement for costal (lower) pec mass. Strict control." },
       { "name": "Deficit Weighted Dips", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Torso angled 30° forward. Lower until shoulders are below elbows. 2s pause in the stretch." },
       { "name": "Machine Lateral Raise", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Shift the resistance profile to the top. Hard 1s pause at the fully shortened (top) position on every rep." },
@@ -28,7 +28,7 @@
       { "name": "Chest-Supported DB Rear Delt Fly", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Eliminates machine lock-in. Strict, honest rear-delt isolation without cheating." },
       { "name": "Incline DB Bicep Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: Bench at 45°. EXECUTION: Let arms hang straight down for a full stretch before curling." }
     ]},
-    { "day": 4, "title": "Thursday", "exercises": [
+    { "day": 4, "title": "LOWER 2", "subtitle": "POSTERIOR CHAIN", "exercises": [
       { "name": "Leg Press (Glute Stance)", "details": "3 × 10–12 reps · 150s rest", "instructions": "SETUP: Feet high and wide on platform. EXECUTION: Drive through heels to bias glutes over quads. No lockout." },
       { "name": "Barbell Romanian Deadlift (RDL)", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: The absolute gold standard for glute and hamstring tension. Push the hips back to maximize the stretch." },
       { "name": "Seated Leg Extension", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: Lean torso as far back against the pad as possible. EXECUTION: Opens the hip angle to put the rectus femoris under maximum stretch tension." },
@@ -36,7 +36,7 @@
       { "name": "45° Back Extension", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Round upper back. Use ONLY glutes to pull torso up. Keep chin tucked to spine." },
       { "name": "Seated Calf Raise", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: 4s negative count. Constant slow rhythm targeting the soleus." }
     ]},
-    { "day": 5, "title": "Friday", "exercises": [
+    { "day": 5, "title": "UPPER 3", "subtitle": "DELTOID DENSITY", "exercises": [
       { "name": "Seated Machine Shoulder Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Neutral grip. Push hard into the back pad for stability. Control the negative for 3 seconds." },
       { "name": "Seated Dumbbell Lateral Raise", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Strict, heavy isolation to cap the lateral deltoids. No momentum from the legs." },
       { "name": "Flat Machine Chest Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Target the mid/sternal pec. 2s pause in the maximum stretched position." },
@@ -45,7 +45,7 @@
       { "name": "Machine Preacher Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Overloads the shortened position of the bicep. Squeeze hard at the peak." },
       { "name": "Decline Bench Reverse Crunches", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Focus on lifting the pelvis. Slow 4s eccentric back to the bench." }
     ]},
-    { "day": 6, "title": "Saturday", "exercises": [
+    { "day": 6, "title": "LOWER 3", "subtitle": "METABOLIC FLUSH", "exercises": [
       { "name": "Machine Hip Thrust", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Lock the pelvis in. Drive through the heels for a hard 1s contraction at the peak." },
       { "name": "Cable Pull-Through", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Rope attachment on low pulley. EXECUTION: Highly stable, deep-stretch hip hinge. Squeeze glutes aggressively at lockout." },
       { "name": "Seated Leg Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Lengthened partials. Perform reps only in the top 50% of the range of motion where the hamstring is stretched." },
@@ -54,7 +54,7 @@
       { "name": "Standing Calf Raise", "details": "3 × 15–20 reps · 60s rest", "instructions": "EXECUTION: Higher rep range today. Explosive concentric, controlled eccentric." },
       { "name": "Cable Pallof Press", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: Stand perpendicular to cable. Press handle straight out in front of your chest and hold for 1s." }
     ]},
-    { "day": 7, "title": "Sunday", "exercises": [] }
+    { "day": 7, "title": "SYS", "subtitle": "RECOVERY PROTOCOL", "exercises": [] }
   ];
 
   /* ─── State ───────────────────────────────────────────────────── */
@@ -267,10 +267,12 @@
 
   /* Engineered Breathing Engine (Zen Blueprint) */
   let breatheActive = false, currentBreatheMode = [], currentPhaseIndex = 0, countdownInterval = null;
+  
+  // Differentiating top hold vs flat bottom hold
   const breatheModes = { 
     vagus: [ { label: 'IN', time: 4, action: 'in' }, { label: 'OUT', time: 6, action: 'out' } ], 
-    box: [ { label: 'IN', time: 4, action: 'in' }, { label: 'HOLD', time: 4, action: 'hold' }, { label: 'OUT', time: 4, action: 'out' }, { label: 'HOLD', time: 4, action: 'hold' } ], 
-    relax: [ { label: 'IN', time: 4, action: 'in' }, { label: 'HOLD', time: 7, action: 'hold' }, { label: 'OUT', time: 8, action: 'out' } ] 
+    box: [ { label: 'IN', time: 4, action: 'in' }, { label: 'HOLD', time: 4, action: 'hold-in' }, { label: 'OUT', time: 4, action: 'out' }, { label: 'HOLD', time: 4, action: 'hold-out' } ], 
+    relax: [ { label: 'IN', time: 4, action: 'in' }, { label: 'HOLD', time: 7, action: 'hold-in' }, { label: 'OUT', time: 8, action: 'out' } ] 
   };
   
   document.querySelectorAll('.breathe-trigger').forEach(btn => btn.addEventListener('click', () => openBreatheModal(btn.dataset.mode)));
@@ -325,9 +327,13 @@
         shape.setAttribute('d', 'M 10 80 C 35 80, 65 80, 90 80');
         shape.style.stroke = 'var(--border-mid)';
       }
-      else if (phase.action === 'hold') {
+      else if (phase.action === 'hold-in') {
         shape.style.stroke = 'var(--accent)';
         shape.style.animation = `zenRipple 2s ease-in-out infinite alternate`;
+      }
+      else if (phase.action === 'hold-out') {
+        shape.style.stroke = 'var(--accent)';
+        shape.style.animation = `zenRippleFlat 2s ease-in-out infinite alternate`;
       }
     });
     
