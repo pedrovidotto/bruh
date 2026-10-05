@@ -174,7 +174,12 @@ body[data-theme="light"] .logo-svg { filter: brightness(0); }
 .btn-primary:active { opacity: 0.85; transform: scale(0.98); }
 .btn-secondary { background: transparent; color: var(--text); margin-top: 16px; }
 .btn-secondary:active { background: var(--surface-2); }
-.btn-negative { background: transparent; color: var(--accent); border-color: var(--accent); margin-top: 32px;}
+.btn-negative { 
+  background: transparent; 
+  color: var(--accent); 
+  border-color: var(--accent); 
+  margin: 48px 0; /* Increased top and bottom margin */
+}
 .btn-negative:active { background: var(--accent-dim); }
 
 /* ─── Protocols Shared ────────────────────────────────────────── */
