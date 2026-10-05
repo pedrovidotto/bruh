@@ -1,82 +1,60 @@
 (function() {
   'use strict';
 
-  /* ─── Workout Data: Performance Hypertrophy PPL (Stacked Subtitles) ─── */
+  /* ─── Workout Data: ULTER Classic & Stable (Source: gemini-code-1791227642186) ─── */
   const workoutData = [
-    {
-      "day": 1, "title": "P1", "subtitle": "ANTERIOR<br>LOAD",
-      "exercises": [
-        { "name": "Flat DB Bench Press", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: Heavy dumbbells. EXECUTION: 3s eccentric, 1s dead-stop pause in deep stretch, explosive concentric drive. Velocity over load." },
-        { "name": "Incline DB Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: 30° bench angle. EXECUTION: Isolate the clavicular pec fibers. Full stretch at the bottom." },
-        { "name": "Seated DB Shoulder Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Bench at 75–80°. EXECUTION: 3s lowering, zero bounce, press to full extension without locking elbows." },
-        { "name": "DB Lateral Raises", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Continuous side delt tension. Add 5 lengthened partial reps directly out of the bottom stretch on final set." },
-        { "name": "Overhead Cable Triceps Ext.", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Keep elbows tucked. Pushing from overhead prioritizes the long head of the triceps." }
-      ],
-      "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Kneel at cable station. Lock hips in place and flex spine downward. Use heavy weight to build blocky abs." }
-    },
-    {
-      "day": 2, "title": "PL1", "subtitle": "SCAPULAR<br>WIDTH",
-      "exercises": [
-        { "name": "Machine/Cable Lat Pulldown", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Neutral or D-handle. EXECUTION: Pull elbows straight down into hips. 2s negative letting scapulae fully protract." },
-        { "name": "Chest-Supported Machine Row", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Overload upper back thickness without spinal fatigue. 2s stretch at bottom of each repetition." },
-        { "name": "Cable Face Pulls", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Pull rope apart horizontally toward forehead, engaging rear delts and external rotators cleanly." },
-        { "name": "Incline DB Bicep Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: 45° incline bench. EXECUTION: Let arms hang completely straight for max long-head stretch before curling." },
-        { "name": "DB Reverse Curls", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: Palms facing down. Focus entirely on the forearms and grip strength burn." }
-      ],
-      "abFinisher": { "name": "Cable Woodchoppers", "details": "3 × 12 reps/side · 60s rest", "instructions": "EXECUTION: Set pulley to high or mid level. Rotate through the core to target obliques. Keep hips stable." }
-    },
-    {
-      "day": 3, "title": "L1", "subtitle": "PEAK<br>FLEX",
-      "exercises": [
-        { "name": "Barbell Hip Thrusts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Standard heavy setup. Drive through heels, lock pelvis in at the top. Hard 1s squeeze on every single rep." },
-        { "name": "Hack Machine Squats", "details": "3 × 6–8 reps · 150s rest", "instructions": "SETUP: 85–90kg target. EXECUTION: Deep forward knee travel, 3s eccentric, 1s pause in full hole. Explosive ascent." },
-        { "name": "Seated Leg Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Seated position places hamstrings in a more lengthened state than lying. Squeeze hard at the bottom." },
-        { "name": "Seated Adductor Machine", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Deep stretch on the negative. Tightens the inner thigh musculature." },
-        { "name": "Standing Calf Raises", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: 3s negative. 2s dead-stop stretch at the absolute bottom to kill the Achilles stretch reflex." }
-      ],
-      "cardio": { "name": "Incline Walk (LISS)", "details": "1 × 15 mins", "instructions": "PACING: Maintain heart rate strictly <130 BPM on steep incline to flush metabolites without joint shear." }
-    },
-    {
-      "day": 4, "title": "P2", "subtitle": "UPPER<br>PECTORAL",
-      "exercises": [
-        { "name": "Machine Shoulder Press", "details": "3 × 6–8 reps · 120s rest", "instructions": "EXECUTION: Neutral grip if possible. 3s negative, explosive push. Prioritize heavy load over volume." },
-        { "name": "Incline Cable Flyes", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Bench at 30°. Focus entirely on the clavicular pec stretch. Hold peak contraction for 1s." },
-        { "name": "Weighted Dips / Decline Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Torso angled 30° forward. Lower shoulders below elbows for deep stretch before pressing." },
-        { "name": "Lean-Away Cable Lateral Raises", "details": "3 × 10–12 reps/arm · 90s rest", "instructions": "SETUP: Wrist cuffs or D-handle. EXECUTION: Maintain constant cable profile resistance across side delts." },
-        { "name": "Tricep Rope Pushdowns", "details": "3 × 12 reps · 60s rest", "instructions": "EXECUTION: Pinned elbows, lateral head focus. Keep chest up and push straight down." }
-      ]
-    },
-    {
-      "day": 5, "title": "PL2", "subtitle": "POSTERIOR<br>DENSITY",
-      "exercises": [
-        { "name": "Seated Cable Rows (Wide Grip)", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Protract scapulae in stretch, drive elbows wide and back, squeeze mid-traps and rhomboids." },
-        { "name": "Single-Arm Iliac Lat Pulldown", "details": "3 × 8–10 reps/arm · 90s rest", "instructions": "SETUP: Single D-handle. EXECUTION: Pull elbow tight down to the hip to isolate the lower lats." },
-        { "name": "Reverse Pec-Deck", "details": "3 × 12–15 reps · 60s rest", "instructions": "SETUP: Protract scapulae. EXECUTION: Wide arc using only rear delts. Do not squeeze shoulder blades together." },
-        { "name": "Cable EZ-Bar Curls", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Constant tension. Squeeze hard at the top peak for 1 second." },
-        { "name": "DB Wrist Curls", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: Palms facing up. Focus on flexing the forearm to failure." }
-      ],
-      "abFinisher": { "name": "Heavy Cable Crunches", "details": "3 × 10–12 reps · 60s rest", "instructions": "EXECUTION: Heavy load. Flex spine, ribs to pelvis. Do not pivot at hips." }
-    },
-    {
-      "day": 6, "title": "L2", "subtitle": "LENGTHENED<br>TENSION",
-      "exercises": [
-        { "name": "DB Romanian Deadlifts", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: Push hips completely back, soft knees. Deep hamstring/glute stretch without lumbar compensation." },
-        { "name": "Deficit Reverse DB Lunges", "details": "3 × 10 reps/leg · 120s rest", "instructions": "SETUP: Front foot elevated on 2-inch plate. EXECUTION: Deep stretch on glute-ham tie-in, torso angled 20° forward." },
-        { "name": "Seated Leg Extensions", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Lean torso back against pad. EXECUTION: Pure quad isolation. 1s hard squeeze at full extension." },
-        { "name": "45° Glute Hyperextensions", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Round your upper back slightly. Use ONLY your glutes and hamstrings to pull your torso up." },
-        { "name": "Leg Press Calf Raises", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: Lock knees softly. Push through the big toe. 2s pause at the bottom stretch." },
-        { "name": "Seated Calf Raises", "details": "3 × 15 reps · 60s rest", "instructions": "EXECUTION: High rep, slow tempo to burn out the soleus muscle under the main calf." }
-      ]
-    },
-    {
-      "day": 7, "title": "SYS", "subtitle": "SYSTEM<br>RECOVERY",
-      "exercises": [],
-      "cardio": {
-        "name": "Dynamic Mobility & Walk",
-        "details": "1 × 20 mins",
-        "instructions": "PACING: Gentle joint decompression. METRIC CHECK: If waking HRV drops <65ms for 2 consecutive days, drop all working sets by 1 set for the upcoming week."
-      }
-    }
+    { "day": 1, "title": "Monday", "exercises": [
+      { "name": "Converging Incline Machine Press", "details": "3 × 6–8 reps · 120s rest", "instructions": "SETUP: Prime/Arsenal machine. EXECUTION: Drive hands up and inward. 2s pause in the deep stretch. Push to absolute failure on the final set." },
+      { "name": "30° Incline Cable Fly", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Focus entirely on the bottom half of the movement. Maximize the clavicular pec stretch until you can no longer move the cables." },
+      { "name": "Cable Cross-Body Lateral Raise", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: Cable set to wrist height. EXECUTION: Pull from across the body. The last 2 reps should be agonizingly slow." },
+      { "name": "Single-Arm Iliac Lat Pulldown", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Single D-handle. EXECUTION: Pull elbow tight down to the hip. Control the negative allowing the scapula to fully open." },
+      { "name": "Overhead Cable Triceps Ext.", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Keep elbows pinned pointing forward. Full lockout at the top to target the long head." },
+      { "name": "Cross-Body Cable Hammer Curl", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Pull rope attachment across your torso to target the brachialis and push the bicep up." },
+      { "name": "Cable Crunches", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Flex spine, ribs to pelvis. Heavy load focus, do not pivot at hips." }
+    ]},
+    { "day": 2, "title": "Tuesday", "exercises": [
+      { "name": "Quad-Biased Hack Squat", "details": "3 × 8–10 reps · 150s rest", "instructions": "SETUP: Feet placed very low and close together. EXECUTION: Maximize forward knee travel. 2s pause at the absolute bottom stretch. Survive the burn." },
+      { "name": "Deficit Bulgarian Split Squat", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Front foot elevated on a plate. EXECUTION: Focus on the glute-ham tie-in and quad stretch at the bottom." },
+      { "name": "Forward-Leaning Hip Abduction", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Hinge torso 45° forward off the back pad. EXECUTION: Push out hard, pause for 1s at maximum contraction." },
+      { "name": "Barbell Hip Thrust", "details": "3 × 8–10 reps · 120s rest", "instructions": "SETUP: Heavy barbell overload. EXECUTION: Drive through heels, chin tucked. Lockout hard at the top without overextending the lumbar spine." },
+      { "name": "Lying Leg Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Technical failure on full ROM, immediately followed by 5-6 partials in the fully stretched position." },
+      { "name": "Standing Calf Raise", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: 3s negative. 2s pause in the deep stretch to dissipate the Achilles reflex." }
+    ]},
+    { "day": 3, "title": "Wednesday", "exercises": [
+      { "name": "Decline Dumbbell Press", "details": "3 × 10–12 reps · 120s rest", "instructions": "SETUP: Slight decline bench. EXECUTION: The definitive classic movement for costal (lower) pec mass. Strict control." },
+      { "name": "Deficit Weighted Dips", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Torso angled 30° forward. Lower until shoulders are below elbows. 2s pause in the stretch." },
+      { "name": "Machine Lateral Raise", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Shift the resistance profile to the top. Hard 1s pause at the fully shortened (top) position on every rep." },
+      { "name": "Chest-Supported T-Bar Row", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: 3s negative count. 2s dead-hang stretch at the bottom before initiating the next rep." },
+      { "name": "Chest-Supported DB Rear Delt Fly", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Eliminates machine lock-in. Strict, honest rear-delt isolation without cheating." },
+      { "name": "Incline DB Bicep Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: Bench at 45°. EXECUTION: Let arms hang straight down for a full stretch before curling." }
+    ]},
+    { "day": 4, "title": "Thursday", "exercises": [
+      { "name": "Leg Press (Glute Stance)", "details": "3 × 10–12 reps · 150s rest", "instructions": "SETUP: Feet high and wide on platform. EXECUTION: Drive through heels to bias glutes over quads. No lockout." },
+      { "name": "Barbell Romanian Deadlift (RDL)", "details": "3 × 8–10 reps · 150s rest", "instructions": "EXECUTION: The absolute gold standard for glute and hamstring tension. Push the hips back to maximize the stretch." },
+      { "name": "Seated Leg Extension", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: Lean torso as far back against the pad as possible. EXECUTION: Opens the hip angle to put the rectus femoris under maximum stretch tension." },
+      { "name": "45° Cable Kickback", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Ankle strap on low pulley. EXECUTION: Kick diagonally UP and OUT (45°). Aligns directly with upper glute medius fibers." },
+      { "name": "45° Back Extension", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Round upper back. Use ONLY glutes to pull torso up. Keep chin tucked to spine." },
+      { "name": "Seated Calf Raise", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: 4s negative count. Constant slow rhythm targeting the soleus." }
+    ]},
+    { "day": 5, "title": "Friday", "exercises": [
+      { "name": "Seated Machine Shoulder Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Neutral grip. Push hard into the back pad for stability. Control the negative for 3 seconds." },
+      { "name": "Seated Dumbbell Lateral Raise", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Strict, heavy isolation to cap the lateral deltoids. No momentum from the legs." },
+      { "name": "Flat Machine Chest Press", "details": "3 × 8–10 reps · 120s rest", "instructions": "EXECUTION: Target the mid/sternal pec. 2s pause in the maximum stretched position." },
+      { "name": "Neutral-Grip Cable Row", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Keep elbows tucked tight to the torso to target the lat sweep. Pull to true failure." },
+      { "name": "Cable Triceps Pushdown", "details": "3 × 10–12 reps · 90s rest", "instructions": "SETUP: Straight bar. EXECUTION: Keep elbows pinned. Lateral head focus." },
+      { "name": "Machine Preacher Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Overloads the shortened position of the bicep. Squeeze hard at the peak." },
+      { "name": "Decline Bench Reverse Crunches", "details": "3 × 12–15 reps · 90s rest", "instructions": "EXECUTION: Focus on lifting the pelvis. Slow 4s eccentric back to the bench." }
+    ]},
+    { "day": 6, "title": "Saturday", "exercises": [
+      { "name": "Machine Hip Thrust", "details": "3 × 10–12 reps · 120s rest", "instructions": "EXECUTION: Lock the pelvis in. Drive through the heels for a hard 1s contraction at the peak." },
+      { "name": "Cable Pull-Through", "details": "3 × 12–15 reps · 90s rest", "instructions": "SETUP: Rope attachment on low pulley. EXECUTION: Highly stable, deep-stretch hip hinge. Squeeze glutes aggressively at lockout." },
+      { "name": "Seated Leg Curl", "details": "3 × 10–12 reps · 90s rest", "instructions": "EXECUTION: Lengthened partials. Perform reps only in the top 50% of the range of motion where the hamstring is stretched." },
+      { "name": "Leg Extension (Metabolic Flush)", "details": "3 × 15–20 reps · 90s rest", "instructions": "EXECUTION: High rep burnout to flush the quads with blood. Constant tension, no pausing." },
+      { "name": "Tibialis Raise", "details": "3 × 15–20 reps · 60s rest", "instructions": "EXECUTION: Dorsiflex hard against the resistance to build lower leg balance against the calves." },
+      { "name": "Standing Calf Raise", "details": "3 × 15–20 reps · 60s rest", "instructions": "EXECUTION: Higher rep range today. Explosive concentric, controlled eccentric." },
+      { "name": "Cable Pallof Press", "details": "3 × 12–15 reps · 60s rest", "instructions": "EXECUTION: Stand perpendicular to cable. Press handle straight out in front of your chest and hold for 1s." }
+    ]},
+    { "day": 7, "title": "Sunday", "exercises": [] }
   ];
 
   /* ─── State ───────────────────────────────────────────────────── */
@@ -117,8 +95,9 @@
       if (node.dataset.id) oldPositions.set(node.dataset.id, node.getBoundingClientRect());
     });
 
-    // Subtitle formatted for stacked layout
-    document.getElementById('workout-title').innerHTML = `${data.title}<br><span style="font-weight:200;color:var(--text-muted);text-transform:uppercase;">${data.subtitle}</span>`;
+    document.getElementById('workout-title').innerHTML = data.subtitle 
+      ? `${data.title}<br><span style="font-weight:200;color:var(--text-muted);text-transform:uppercase;">${data.subtitle}</span>`
+      : data.title;
 
     list.innerHTML = ''; compList.innerHTML = '';
 
@@ -286,7 +265,7 @@
   document.querySelectorAll('.ground-trigger').forEach(btn => btn.addEventListener('click', function() { if (navigator.vibrate) navigator.vibrate(20); this.classList.toggle('done'); }));
   document.getElementById('reset-mind-btn').addEventListener('click', () => { document.querySelectorAll('.action-btn').forEach(c => c.classList.remove('done')); nameInput.value = ''; localStorage.removeItem('workoutSysName'); updateMantras(); switchMindTab('loop-tab'); stopBreathe(); });
 
-  /* Engineered Breathing Engine */
+  /* Engineered Breathing Engine (Zen Blueprint) */
   let breatheActive = false, currentBreatheMode = [], currentPhaseIndex = 0, countdownInterval = null;
   const breatheModes = { 
     vagus: [ { label: 'IN', time: 4, action: 'in' }, { label: 'OUT', time: 6, action: 'out' } ], 
@@ -298,12 +277,13 @@
 
   function openBreatheModal(modeKey) {
     currentBreatheMode = breatheModes[modeKey]; currentPhaseIndex = 0; breatheActive = true;
-    const shape = document.getElementById('breathe-shape-huge'), label = document.getElementById('breathe-label-huge'), display = document.getElementById('breathe-display-huge');
+    const shape = document.getElementById('zen-path'), label = document.getElementById('breathe-label-huge'), display = document.getElementById('breathe-display-huge');
     
-    shape.style.transition = 'none'; 
-    shape.style.transform = 'translate(-50%, -50%) scale(0.1)'; 
-    shape.style.opacity = '0'; 
-    shape.style.borderColor = 'var(--border-mid)';
+    // Reset shape to baseline flat
+    shape.style.transition = 'none';
+    shape.style.animation = 'none';
+    shape.setAttribute('d', 'M 10 80 C 35 80, 65 80, 90 80');
+    shape.style.stroke = 'var(--border-mid)';
     
     label.textContent = 'PREP'; display.textContent = '·';
     document.getElementById('breathe-modal-overlay').classList.add('visible');
@@ -313,11 +293,12 @@
   function stopBreathe() {
     breatheActive = false; if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
     document.getElementById('breathe-modal-overlay').classList.remove('visible');
-    const shape = document.getElementById('breathe-shape-huge');
+    const shape = document.getElementById('zen-path');
     setTimeout(() => { 
       shape.style.transition = 'none'; 
-      shape.style.transform = 'translate(-50%, -50%) scale(0.1)'; 
-      shape.style.opacity = '0'; 
+      shape.style.animation = 'none'; 
+      shape.setAttribute('d', 'M 10 80 C 35 80, 65 80, 90 80');
+      shape.style.stroke = 'var(--border-mid)';
       document.getElementById('breathe-label-huge').textContent = 'PREP'; 
       document.getElementById('breathe-display-huge').textContent = '·'; 
     }, 300);
@@ -326,26 +307,29 @@
 
   function runBreathePhase() {
     if (!breatheActive) return; if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
-    const phase = currentBreatheMode[currentPhaseIndex], display = document.getElementById('breathe-display-huge'), label = document.getElementById('breathe-label-huge'), shape = document.getElementById('breathe-shape-huge');
+    const phase = currentBreatheMode[currentPhaseIndex], display = document.getElementById('breathe-display-huge'), label = document.getElementById('breathe-label-huge'), shape = document.getElementById('zen-path');
+    
     label.textContent = phase.label; let count = phase.time; display.textContent = count;
     
-    shape.style.transition = `transform ${phase.time}s linear, opacity ${phase.time}s ease, border-color 0.4s ease`;
+    shape.style.animation = 'none';
+    void shape.offsetWidth; // force reflow for clean CSS transitions
     
-    requestAnimationFrame(() => requestAnimationFrame(() => {
+    shape.style.transition = `d ${phase.time}s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.4s ease`;
+    
+    requestAnimationFrame(() => {
       if (phase.action === 'in') { 
-        shape.style.transform = 'translate(-50%, -50%) scale(1)'; 
-        shape.style.opacity = '1'; 
-        shape.style.borderColor = 'var(--text)';
+        shape.setAttribute('d', 'M 10 80 C 10 10, 90 10, 90 80');
+        shape.style.stroke = 'var(--text)';
       }
       else if (phase.action === 'out') { 
-        shape.style.transform = 'translate(-50%, -50%) scale(0.1)'; 
-        shape.style.opacity = '0.3'; 
-        shape.style.borderColor = 'var(--border-mid)';
+        shape.setAttribute('d', 'M 10 80 C 35 80, 65 80, 90 80');
+        shape.style.stroke = 'var(--border-mid)';
       }
       else if (phase.action === 'hold') {
-        shape.style.borderColor = 'var(--accent)';
+        shape.style.stroke = 'var(--accent)';
+        shape.style.animation = `zenRipple 2s ease-in-out infinite alternate`;
       }
-    }));
+    });
     
     countdownInterval = setInterval(() => {
       if (!breatheActive) { clearInterval(countdownInterval); return; }
