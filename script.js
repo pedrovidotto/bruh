@@ -272,7 +272,7 @@
   document.querySelectorAll('.ground-trigger').forEach(btn => btn.addEventListener('click', function() { if (navigator.vibrate) navigator.vibrate(20); this.classList.toggle('done'); }));
   document.getElementById('reset-mind-btn').addEventListener('click', () => { document.querySelectorAll('.action-btn').forEach(c => c.classList.remove('done')); nameInput.value = ''; localStorage.removeItem('workoutSysName'); updateMantras(); switchMindTab('loop-tab'); stopBreathe(); });
 
-  /* Edge Glow Breathing Engine (Tuned Blur & Speed) */
+  /* Edge Glow Breathing Engine (Tuned Blur & Fixed Transition) */
   let breatheActive = false, currentBreatheMode = [], currentPhaseIndex = 0, countdownInterval = null;
   
   const breatheModes = { 
@@ -302,9 +302,13 @@
     breatheActive = false; if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
     const overlay = document.getElementById('breathe-modal-overlay');
     overlay.classList.remove('visible', 'edge-pulsing');
+    
+    // Clear animation instantly
+    overlay.style.transition = 'box-shadow 0.3s ease';
+    void overlay.offsetWidth;
+    overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
+    
     setTimeout(() => { 
-      overlay.style.transition = 'none'; 
-      overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
       document.getElementById('breathe-label-huge').textContent = 'PREP'; 
       document.getElementById('breathe-display-huge').textContent = '·'; 
     }, 300);
@@ -320,15 +324,18 @@
     overlay.classList.remove('edge-pulsing');
     overlay.style.transition = `box-shadow ${phase.time}s cubic-bezier(0.4, 0, 0.2, 1)`;
     
+    // Crucial fix: Force reflow before applying new box-shadow to prevent snapping
+    void overlay.offsetWidth;
+    
     requestAnimationFrame(() => {
       if (phase.action === 'in') { 
-        overlay.style.boxShadow = 'inset 0 0 70px 10px var(--accent)';
+        overlay.style.boxShadow = 'inset 0 0 140px 20px var(--accent)';
       }
       else if (phase.action === 'out') { 
         overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
       }
       else if (phase.action === 'hold-in') {
-        overlay.style.boxShadow = 'inset 0 0 70px 10px var(--accent)';
+        overlay.style.boxShadow = 'inset 0 0 140px 20px var(--accent)';
         overlay.classList.add('edge-pulsing');
       }
       else if (phase.action === 'hold-out') {
