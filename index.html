@@ -19,16 +19,15 @@
 <header id="main-header">
   <div class="container">
     <div class="header-top">
-      <div class="logo">
-        <div style="font-family:'Hanken Grotesk', sans-serif; font-size:1.2rem; font-weight: 900; letter-spacing:-0.05em;">ESNTL</div>
+      <div class="logo" style="display: flex; align-items: center;">
+        <div style="font-family:'Hanken Grotesk', sans-serif; font-size:1.2rem; font-weight: 900; letter-spacing:-0.05em; line-height: 1;">ESNTL</div>
       </div>
       <div class="mode-switcher" role="tablist">
         <button id="mode-body-btn" class="active" role="tab" aria-selected="true">BODY</button>
         <button id="mode-mind-btn" role="tab" aria-selected="false">MIND</button>
         <button id="mode-ready-btn" role="tab" aria-selected="false">READY</button>
       </div>
-      <div style="display: flex; gap: 8px;">
-        <button id="help-toggle-btn" class="theme-toggle" aria-label="Help Guide">?</button>
+      <div class="header-controls">
         <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle Theme">
           <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" class="svg-bg-circle"/><path d="M10 1a9 9 0 0 1 0 18V1z" class="svg-fg-circle"/></svg>
         </button>
@@ -153,24 +152,6 @@
 </main>
 
 <div id="timer-display">00:00</div>
-
-<!-- User Guide Modal -->
-<div id="help-modal-overlay" class="modal-overlay" role="dialog">
-  <div class="modal">
-    <div class="modal-header">
-      <h2 class="title-light">SYS GUIDE</h2>
-      <button class="close-btn"></button>
-    </div>
-    <div class="modal-body">
-      <span class="instruction-label">LOGGING SETS</span>
-      <p style="margin-bottom: 24px;">Tap anywhere on an active exercise row to log one completed set and automatically trigger the rest timer.</p>
-      <span class="instruction-label">UNDO A SET</span>
-      <p style="margin-bottom: 24px;">Long-press (hold your finger down) on an exercise row for half a second to undo a mistaken set.</p>
-      <span class="instruction-label">READY METRICS</span>
-      <p>Manually input your morning waking metrics to instantly calculate your daily physical readiness variance against your rolling baseline.</p>
-    </div>
-  </div>
-</div>
 
 <div id="info-modal-overlay" class="modal-overlay" role="dialog"><div class="modal"><div class="modal-header"><h2 id="info-modal-title" class="title-light"></h2><button id="info-modal-close-btn" class="close-btn"></button></div><div id="info-modal-instructions" class="modal-body"></div></div></div>
 <div id="reset-modal-overlay" class="modal-overlay" role="dialog"><div class="modal"><h2 class="title-light" style="margin-bottom:10px;">RESET CYCLE?</h2><p class="modal-body">Weekly logs will be permanently deleted.</p><div class="modal-actions"><button id="confirm-reset-btn" class="btn-negative" style="margin-top:0;">CONFIRM RESET</button><button id="cancel-reset-btn" class="btn-secondary">CANCEL</button></div></div></div>
