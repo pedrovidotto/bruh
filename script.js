@@ -77,8 +77,15 @@
     } catch (err) {}
   }
 
+  /* Suspend Timers & Background Processing */
   document.addEventListener('visibilitychange', async () => {
-    if (wakeLock !== null && document.visibilityState === 'visible') { try { wakeLock = await navigator.wakeLock.request('screen'); } catch (_) {} }
+    if (document.hidden && breatheActive) {
+      // Prevent infinite interval draining battery in background
+      stopBreathe();
+    }
+    if (wakeLock !== null && document.visibilityState === 'visible') { 
+      try { wakeLock = await navigator.wakeLock.request('screen'); } catch (_) {} 
+    }
   });
 
   /* ─── WORKOUT SYSTEM (FLIP Animation) ─────────────────────────── */
@@ -265,10 +272,9 @@
   document.querySelectorAll('.ground-trigger').forEach(btn => btn.addEventListener('click', function() { if (navigator.vibrate) navigator.vibrate(20); this.classList.toggle('done'); }));
   document.getElementById('reset-mind-btn').addEventListener('click', () => { document.querySelectorAll('.action-btn').forEach(c => c.classList.remove('done')); nameInput.value = ''; localStorage.removeItem('workoutSysName'); updateMantras(); switchMindTab('loop-tab'); stopBreathe(); });
 
-  /* Engineered Breathing Engine (Zen Blueprint) */
+  /* Edge Glow Breathing Engine (Tuned Blur & Speed) */
   let breatheActive = false, currentBreatheMode = [], currentPhaseIndex = 0, countdownInterval = null;
   
-  // Differentiating top hold vs flat bottom hold
   const breatheModes = { 
     vagus: [ { label: 'IN', time: 4, action: 'in' }, { label: 'OUT', time: 6, action: 'out' } ], 
     box: [ { label: 'IN', time: 4, action: 'in' }, { label: 'HOLD', time: 4, action: 'hold-in' }, { label: 'OUT', time: 4, action: 'out' }, { label: 'HOLD', time: 4, action: 'hold-out' } ], 
@@ -279,28 +285,26 @@
 
   function openBreatheModal(modeKey) {
     currentBreatheMode = breatheModes[modeKey]; currentPhaseIndex = 0; breatheActive = true;
-    const shape = document.getElementById('zen-path'), label = document.getElementById('breathe-label-huge'), display = document.getElementById('breathe-display-huge');
+    const overlay = document.getElementById('breathe-modal-overlay');
+    const label = document.getElementById('breathe-label-huge');
+    const display = document.getElementById('breathe-display-huge');
     
-    // Reset shape to baseline flat
-    shape.style.transition = 'none';
-    shape.style.animation = 'none';
-    shape.setAttribute('d', 'M 10 80 C 35 80, 65 80, 90 80');
-    shape.style.stroke = 'var(--border-mid)';
+    overlay.style.transition = 'none';
+    overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
+    overlay.classList.remove('edge-pulsing');
     
     label.textContent = 'PREP'; display.textContent = '·';
-    document.getElementById('breathe-modal-overlay').classList.add('visible');
+    overlay.classList.add('visible');
     setTimeout(runBreathePhase, 600);
   }
   
   function stopBreathe() {
     breatheActive = false; if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
-    document.getElementById('breathe-modal-overlay').classList.remove('visible');
-    const shape = document.getElementById('zen-path');
+    const overlay = document.getElementById('breathe-modal-overlay');
+    overlay.classList.remove('visible', 'edge-pulsing');
     setTimeout(() => { 
-      shape.style.transition = 'none'; 
-      shape.style.animation = 'none'; 
-      shape.setAttribute('d', 'M 10 80 C 35 80, 65 80, 90 80');
-      shape.style.stroke = 'var(--border-mid)';
+      overlay.style.transition = 'none'; 
+      overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
       document.getElementById('breathe-label-huge').textContent = 'PREP'; 
       document.getElementById('breathe-display-huge').textContent = '·'; 
     }, 300);
@@ -309,31 +313,27 @@
 
   function runBreathePhase() {
     if (!breatheActive) return; if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
-    const phase = currentBreatheMode[currentPhaseIndex], display = document.getElementById('breathe-display-huge'), label = document.getElementById('breathe-label-huge'), shape = document.getElementById('zen-path');
+    const phase = currentBreatheMode[currentPhaseIndex], display = document.getElementById('breathe-display-huge'), label = document.getElementById('breathe-label-huge'), overlay = document.getElementById('breathe-modal-overlay');
     
     label.textContent = phase.label; let count = phase.time; display.textContent = count;
     
-    shape.style.animation = 'none';
-    void shape.offsetWidth; // force reflow for clean CSS transitions
-    
-    shape.style.transition = `d ${phase.time}s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.4s ease`;
+    overlay.classList.remove('edge-pulsing');
+    overlay.style.transition = `box-shadow ${phase.time}s cubic-bezier(0.4, 0, 0.2, 1)`;
     
     requestAnimationFrame(() => {
       if (phase.action === 'in') { 
-        shape.setAttribute('d', 'M 10 80 C 10 10, 90 10, 90 80');
-        shape.style.stroke = 'var(--text)';
+        overlay.style.boxShadow = 'inset 0 0 70px 10px var(--accent)';
       }
       else if (phase.action === 'out') { 
-        shape.setAttribute('d', 'M 10 80 C 35 80, 65 80, 90 80');
-        shape.style.stroke = 'var(--border-mid)';
+        overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
       }
       else if (phase.action === 'hold-in') {
-        shape.style.stroke = 'var(--accent)';
-        shape.style.animation = `zenRipple 2s ease-in-out infinite alternate`;
+        overlay.style.boxShadow = 'inset 0 0 70px 10px var(--accent)';
+        overlay.classList.add('edge-pulsing');
       }
       else if (phase.action === 'hold-out') {
-        shape.style.stroke = 'var(--accent)';
-        shape.style.animation = `zenRippleFlat 2s ease-in-out infinite alternate`;
+        overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
+        overlay.classList.add('edge-pulsing');
       }
     });
     
@@ -407,6 +407,11 @@
     document.getElementById('mode-body-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-body'), true); });
     document.getElementById('mode-mind-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-mind'), false); });
     document.getElementById('mode-ready-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-ready'), false); });
+
+    /* UI Toggles & Help Wiring */
+    document.getElementById('help-toggle-btn').addEventListener('click', () => {
+      document.getElementById('help-modal-overlay').classList.add('visible');
+    });
 
     ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
       const b = document.createElement('button');
