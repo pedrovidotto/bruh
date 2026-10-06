@@ -80,7 +80,6 @@
   /* Suspend Timers & Background Processing */
   document.addEventListener('visibilitychange', async () => {
     if (document.hidden && breatheActive) {
-      // Prevent infinite interval draining battery in background
       stopBreathe();
     }
     if (wakeLock !== null && document.visibilityState === 'visible') { 
@@ -272,7 +271,7 @@
   document.querySelectorAll('.ground-trigger').forEach(btn => btn.addEventListener('click', function() { if (navigator.vibrate) navigator.vibrate(20); this.classList.toggle('done'); }));
   document.getElementById('reset-mind-btn').addEventListener('click', () => { document.querySelectorAll('.action-btn').forEach(c => c.classList.remove('done')); nameInput.value = ''; localStorage.removeItem('workoutSysName'); updateMantras(); switchMindTab('loop-tab'); stopBreathe(); });
 
-  /* Edge Glow Breathing Engine (Tuned Blur & Fixed Transition) */
+  /* Edge Glow Breathing Engine */
   let breatheActive = false, currentBreatheMode = [], currentPhaseIndex = 0, countdownInterval = null;
   
   const breatheModes = { 
@@ -303,7 +302,6 @@
     const overlay = document.getElementById('breathe-modal-overlay');
     overlay.classList.remove('visible', 'edge-pulsing');
     
-    // Clear animation instantly
     overlay.style.transition = 'box-shadow 0.3s ease';
     void overlay.offsetWidth;
     overlay.style.boxShadow = 'inset 0 0 0px 0px var(--accent)';
@@ -324,7 +322,6 @@
     overlay.classList.remove('edge-pulsing');
     overlay.style.transition = `box-shadow ${phase.time}s cubic-bezier(0.4, 0, 0.2, 1)`;
     
-    // Crucial fix: Force reflow before applying new box-shadow to prevent snapping
     void overlay.offsetWidth;
     
     requestAnimationFrame(() => {
@@ -414,11 +411,6 @@
     document.getElementById('mode-body-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-body'), true); });
     document.getElementById('mode-mind-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-mind'), false); });
     document.getElementById('mode-ready-btn').addEventListener('click', function() { switchTab(this, document.getElementById('view-ready'), false); });
-
-    /* UI Toggles & Help Wiring */
-    document.getElementById('help-toggle-btn').addEventListener('click', () => {
-      document.getElementById('help-modal-overlay').classList.add('visible');
-    });
 
     ['MO','TU','WE','TH','FR','SA','SU'].forEach((l, i) => {
       const b = document.createElement('button');
